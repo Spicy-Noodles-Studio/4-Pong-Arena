@@ -1,21 +1,21 @@
 {
     "ObjectType": "GAMEOBJECT",
-    "ObjectName": "Suelo",
-    "Tag": "suelo",
+    "ObjectName": "Player",
+    "Tag": "player",
     "Components":
     [
         {
             "ComponentName": "Transform",
             "ComponentProperties": {
                 "position": "0 0 0",
-                "scale": "5 0.5 5",
-                "rotation": "0 45 0"
+                "scale": "1 0.3 0.3",
+                "rotation": "0 0 0"
             }
         },
         {
             "ComponentName": "MeshRenderer",
             "ComponentProperties": {
-                "mesh": "suelo cube.mesh"
+                "mesh": "player cube.mesh"
             }
         },
         {
@@ -29,7 +29,7 @@
                 "angularDamping": "0",
                 "gravity": "0 0 0",
                 "offset": "0 0 0",
-                "scale": "5 0.5 5",
+                "scale": "1 0.3 0.3",
                 "kinematic": "0",
                 "trigger": "0"
             }

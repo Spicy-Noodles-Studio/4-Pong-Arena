@@ -14,7 +14,11 @@
                     }
                 },
                 {
-                    "ComponentName": "Transform"
+                    "ComponentName": "Transform",
+                    "ComponentProperties": {
+                        "position": "0 900 0",
+                        "rotation": "-90 0 0"
+                    }
                 },
                 {
                     "ComponentName": "Light",
@@ -25,78 +29,111 @@
                 },
                 {
                     "ComponentName": "SoundListener"
-                },
-                {
-                    "ComponentName": "Reverb",
-                    "ComponentProperties": {
-                        "preset" : "mountains",
-                        "maxDistance" : "100000"
-                    }
                 }
             ]
         },
-         {
+        {
             "ObjectType": "BLUEPRINT",
             "ObjectName": "Suelo",
-            "Tag": "suelo1",
+            "Tag": "suelo",
             "BlueprintPath": "Suelo"
         },
         {
             "ObjectType": "BLUEPRINT",
-            "ObjectName": "Nudo 1",
-            "Tag": "nudo1",
-            "BlueprintPath": "Nudo",
-            "Children": [
+            "ObjectName": "Player1",
+            "Tag": "p1",
+            "BlueprintPath": "Player",
+            "Components" : [
                 {
-                    "ObjectType": "BLUEPRINT",
-                    "ObjectName": "Nudo 2",
-                    "Tag": "nudo2",
-                    "BlueprintPath": "Nudo",
-                    "ComponentModifications": [
-                        {
-                            "ComponentName": "RigidBody",
-                            "ComponentProperties":{
-                                "kinematic" : "0"
-                            }
-                        },
-                        {
-                            "ComponentName": "Transform",
-                            "ComponentProperties":{
-                                "position" : "-150 0 -400",
-                                "scale" : "1 1 1",
-                                "rotation" : " 45 0 45"
-                            }
-                        }
-                    ]
+                    "ComponentName": "PlayerController",
+                    "ComponentProperties": {
+                        "force": "100",
+                        "keyboard": "0",
+                        "index": "0"
+                    }
                 }
-            ]
-            
-        },
-        {
-            "ObjectType": "BLUEPRINT",
-            "ObjectName": "Nudo 3",
-            "Tag": "nudo3",
-            "BlueprintPath": "Nudo",
+            ],
             "ComponentModifications": [
                 {
                     "ComponentName": "Transform",
                     "ComponentProperties": {
-                        "position" : "200 0 -400"
+                        "position" : "120 50 120",
+                        "rotation": "0 45 0"
                     }
                 }
             ]
         },
         {
             "ObjectType": "BLUEPRINT",
-            "ObjectName": "Sinbad",
-            "Tag": "sinbad",
-            "BlueprintPath": "Sinbad",
+            "ObjectName": "Player2",
+            "Tag": "p2",
+            "BlueprintPath": "Player",
             "Components" : [
                 {
-                    "ComponentName": "ParticleEmitter",
+                    "ComponentName": "PlayerController",
                     "ComponentProperties": {
-                        "emitter":"Smoke",
-                        "start":"true"
+                        "force": "100",
+                        "keyboard": "0",
+                        "index": "1"
+                    }
+                }
+            ],
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": {
+                        "position" : "-120 50 120",
+                        "rotation": "0 -45 0"
+                    }
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Player3",
+            "Tag": "p3",
+            "BlueprintPath": "Player",
+            "Components" : [
+                {
+                    "ComponentName": "PlayerController",
+                    "ComponentProperties": {
+                        "force": "100",
+                        "keyboard": "0",
+                        "index": "2"
+                    }
+                }
+            ],
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": {
+                        "position" : "-120 50 -120",
+                        "rotation": "0 45 0"
+                    }
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Player4",
+            "Tag": "p4",
+            "BlueprintPath": "Player",
+            "Components" : [
+                {
+                    "ComponentName": "PlayerController",
+                    "ComponentProperties": {
+                        "force": "100",
+                        "keyboard": "0",
+                        "index": "3"
+                    }
+                }
+            ],
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": {
+                        "position" : "120 50 -120",
+                        "rotation": "0 -45 0"
                     }
                 }
             ]
