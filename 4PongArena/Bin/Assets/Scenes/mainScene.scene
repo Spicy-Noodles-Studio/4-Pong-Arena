@@ -1,0 +1,142 @@
+{
+    "SceneName": "MainScene",
+    "SceneObjects": [
+        {
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "MainCamera",
+            "Tag": "MainCamera",
+            "Components":
+            [
+                {
+                    "ComponentName": "Camera",
+                    "ComponentProperties": [
+                        ["main", "true"]
+                    ]
+                },
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "0 8 0"],
+                        ["rotation", "-90 0 0"]
+                    ]
+                },
+                {
+                    "ComponentName": "Light",
+                    "ComponentProperties": [
+                        ["type", "Point"],
+                        ["colour", "1 1 1"]
+                    ]
+                },
+                {
+                    "ComponentName": "SoundListener"
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Suelo",
+            "Tag": "suelo",
+            "BlueprintPath": "Suelo"
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Player1",
+            "Tag": "p1",
+            "BlueprintPath": "Player",
+            "Components" : [
+                {
+                    "ComponentName": "PlayerController",
+                    "ComponentProperties": [
+                        ["force", "5"],
+                        ["id", "1"],
+                        ["index", "-1"]
+                    ]
+                }
+            ],
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "0 1 2"],
+                        ["rotation", "0 0 0"]
+                    ]
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Player2",
+            "Tag": "p2",
+            "BlueprintPath": "Player",
+            "Components" : [
+                {
+                    "ComponentName": "PlayerController",
+                    "ComponentProperties": [
+                        ["force", "5"],
+                        ["id", "2"],
+                        ["index", "0"]
+                    ]
+                }
+            ],
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "2 1 0"],
+                        ["rotation", "0 90 0"]
+                    ]
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Player3",
+            "Tag": "p3",
+            "BlueprintPath": "Player",
+            "Components" : [
+                {
+                    "ComponentName": "PlayerController",
+                    "ComponentProperties": [
+                        ["force", "5"],
+                        ["id", "3"],
+                        ["index", "1"]
+                    ]
+                }
+            ],
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "0 1 -2"],
+                        ["rotation", "0 0 0"]
+                    ]
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Player4",
+            "Tag": "p4",
+            "BlueprintPath": "Player",
+            "Components" : [
+                {
+                    "ComponentName": "PlayerController",
+                    "ComponentProperties": [
+                        ["force", "5"],
+                        ["id", "4"],
+                        ["index", "2"]
+                    ]
+                }
+            ],
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "-2 1 0"],
+                        ["rotation", "0 90 0"]
+                    ]
+                }
+            ]
+        }
+    ]
+}
