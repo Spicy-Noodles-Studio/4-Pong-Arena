@@ -8,7 +8,7 @@
             "ComponentName": "Transform",
             "ComponentProperties": {
                 "position": "0 0 0",
-                "scale": "1 0.3 0.3",
+                "scale": "0.75 0.25 0.25",
                 "rotation": "0 0 0"
             }
         },
@@ -29,7 +29,7 @@
                 "angularDamping": "0",
                 "gravity": "0 0 0",
                 "offset": "0 0 0",
-                "scale": "1 0.3 0.3",
+                "scale": "50 50 50",
                 "kinematic": "0",
                 "trigger": "0"
             }

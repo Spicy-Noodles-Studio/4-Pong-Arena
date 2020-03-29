@@ -48,8 +48,8 @@
                     "ComponentName": "PlayerController",
                     "ComponentProperties": {
                         "force": "100",
-                        "keyboard": "0",
-                        "index": "0"
+                        "id": "1",
+                        "index": "-1"
                     }
                 }
             ],
@@ -57,8 +57,8 @@
                 {
                     "ComponentName": "Transform",
                     "ComponentProperties": {
-                        "position" : "120 50 120",
-                        "rotation": "0 45 0"
+                        "position" : "0 50 240",
+                        "rotation": "0 0 0"
                     }
                 }
             ]
@@ -73,8 +73,8 @@
                     "ComponentName": "PlayerController",
                     "ComponentProperties": {
                         "force": "100",
-                        "keyboard": "0",
-                        "index": "1"
+                        "id": "2",
+                        "index": "0"
                     }
                 }
             ],
@@ -82,8 +82,8 @@
                 {
                     "ComponentName": "Transform",
                     "ComponentProperties": {
-                        "position" : "-120 50 120",
-                        "rotation": "0 -45 0"
+                        "position" : "-240 50 0",
+                        "rotation": "0 90 0"
                     }
                 }
             ]
@@ -98,8 +98,8 @@
                     "ComponentName": "PlayerController",
                     "ComponentProperties": {
                         "force": "100",
-                        "keyboard": "0",
-                        "index": "2"
+                        "id": "3",
+                        "index": "1"
                     }
                 }
             ],
@@ -107,8 +107,8 @@
                 {
                     "ComponentName": "Transform",
                     "ComponentProperties": {
-                        "position" : "-120 50 -120",
-                        "rotation": "0 45 0"
+                        "position" : "0 50 -240",
+                        "rotation": "0 0 0"
                     }
                 }
             ]
@@ -123,8 +123,8 @@
                     "ComponentName": "PlayerController",
                     "ComponentProperties": {
                         "force": "100",
-                        "keyboard": "0",
-                        "index": "3"
+                        "id": "4",
+                        "index": "2"
                     }
                 }
             ],
@@ -132,8 +132,8 @@
                 {
                     "ComponentName": "Transform",
                     "ComponentProperties": {
-                        "position" : "120 50 -120",
-                        "rotation": "0 -45 0"
+                        "position" : "240 50 0",
+                        "rotation": "0 90 0"
                     }
                 }
             ]

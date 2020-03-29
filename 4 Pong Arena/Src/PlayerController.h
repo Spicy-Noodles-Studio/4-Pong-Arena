@@ -6,11 +6,16 @@
 #include <GameObject.h>
 #include <RigidBody.h>
 
+struct Player
+{
+	int id; // Jugador, de 1 a 4
+	int index; // Teclado = -1, mandos de 0 a 3
+};
+
 class PlayerController : public UserComponent
 {
 private:
-	int playerIndex;
-	bool usingKeyboard;
+	Player player;
 
 	RigidBody* rigidBody;
 	int force;

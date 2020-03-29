@@ -18,22 +18,39 @@ void PlayerController::update(float deltaTime)
 
 	Vector3 dir = Vector3(0, 0, 0);
 
-	if (usingKeyboard)
+	if (player.index == -1)
 	{
-		if (InputSystem::GetInstance()->isKeyPressed("A"))
-			dir = Vector3(-1, 0, 1);
-		else if (InputSystem::GetInstance()->isKeyPressed("D"))
-			dir = Vector3(1, 0, -1);
+		if (player.id == 1 || player.id == 3)
+		{
+			if (InputSystem::GetInstance()->isKeyPressed("A"))
+				dir = Vector3(-1, 0, 0);
+			else if (InputSystem::GetInstance()->isKeyPressed("D"))
+				dir = Vector3(1, 0, 0);
+		}
+		else
+		{
+			if (InputSystem::GetInstance()->isKeyPressed("W"))
+				dir = Vector3(0, 0, -1);
+			else if (InputSystem::GetInstance()->isKeyPressed("S"))
+				dir = Vector3(0, 0, 1);
+		}
 	}
 	else
 	{
-		if (InputSystem::GetInstance()->getLeftJoystick(playerIndex).first < 0 || InputSystem::GetInstance()->isButtonPressed(playerIndex, "Left"))
-			dir = Vector3(-1, 0, 1);
-		else if (InputSystem::GetInstance()->getLeftJoystick(playerIndex).first > 0 || InputSystem::GetInstance()->isButtonPressed(playerIndex, "Right"))
-			dir = Vector3(1, 0, -1);
-
-		if (playerIndex == 1 || playerIndex == 3) // Jugadores 2 y 4
-			dir.z *= -1;
+		if (player.id == 1 || player.id == 4)
+		{
+			if (InputSystem::GetInstance()->getLeftJoystick(player.index).first < 0 || InputSystem::GetInstance()->isButtonPressed(player.index, "Left"))
+				dir = Vector3(-1, 0, 0);
+			else if (InputSystem::GetInstance()->getLeftJoystick(player.index).first > 0 || InputSystem::GetInstance()->isButtonPressed(player.index, "Right"))
+				dir = Vector3(1, 0, 0);
+		}
+		else
+		{
+			if (InputSystem::GetInstance()->getLeftJoystick(player.index).second > 0 || InputSystem::GetInstance()->isButtonPressed(player.index, "Up"))
+				dir = Vector3(0, 0, -1);
+			else if (InputSystem::GetInstance()->getLeftJoystick(player.index).second < 0 || InputSystem::GetInstance()->isButtonPressed(player.index, "Down"))
+				dir = Vector3(0, 0, 1);
+		}
 	}
 
 	rigidBody->addForce(dir * force);
@@ -49,13 +66,13 @@ void PlayerController::handleData(ComponentData* data)
 		{
 			ss >> force;
 		}
-		if (prop.first == "keyboard")
+		if (prop.first == "id")
 		{
-			ss >> usingKeyboard;
+			ss >> player.id;
 		}
 		if (prop.first == "index")
 		{
-			ss >> playerIndex;
+			ss >> player.index;
 		}
 	}
 }
