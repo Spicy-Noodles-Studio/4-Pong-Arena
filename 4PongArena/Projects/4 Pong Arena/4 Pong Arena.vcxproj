@@ -23,6 +23,7 @@
     <ProjectGuid>{96D6FBEF-005E-477B-AA4D-76BB0842B942}</ProjectGuid>
     <RootNamespace>My4PongArena</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>4PongArena</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
