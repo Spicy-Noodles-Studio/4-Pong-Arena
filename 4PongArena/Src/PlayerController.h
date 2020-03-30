@@ -5,6 +5,7 @@
 #include <UserComponent.h>
 #include <GameObject.h>
 #include <RigidBody.h>
+#include "Health.h"
 
 struct Player
 {
@@ -19,6 +20,9 @@ private:
 
 	RigidBody* rigidBody;
 	int force;
+	Vector3 OriginalPosition;
+	Health* health;
+	bool wall;
 
 public:
 	PlayerController(GameObject* gameObject);
@@ -26,6 +30,8 @@ public:
 	virtual void start();
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
+
+	void changeShapeToWall();
 };
 
 #endif
