@@ -11,10 +11,6 @@ PlayerController::PlayerController(GameObject* gameObject) : UserComponent(gameO
 void PlayerController::start()
 {
 	rigidBody = gameObject->getComponent<RigidBody>();
-
-	//gameObject->getScene().
-	
-	
 }
 
 void PlayerController::update(float deltaTime)
@@ -33,9 +29,11 @@ void PlayerController::update(float deltaTime)
 
 		GameObject* sensor=instantiate("Sensor", pos);
 		if (player.id == 1 || player.id == 3)
-			sensor->transform->setScale(Vector3(gameObject->transform->getScale().x * 10, gameObject->transform->getScale().y, gameObject->transform->getScale().z));
+			sensor->getComponent<RigidBody>()->multiplyScale(Vector3( 5, 1,1));
 		else
-			sensor->transform->setScale(Vector3(gameObject->transform->getScale().x , gameObject->transform->getScale().y, gameObject->transform->getScale().z*10));
+			sensor->getComponent<RigidBody>()->multiplyScale(Vector3(1, 1, 5));
+
+		OriginalPosition = gameObject->transform->getPosition();
 
 		health = sensor->getComponent<Health>();
 	}
@@ -54,7 +52,6 @@ void PlayerController::update(float deltaTime)
 					dir = Vector3(-1, 0, 0);
 				else if (InputSystem::GetInstance()->isKeyPressed("D"))
 					dir = Vector3(1, 0, 0);
-				std::cout << health->getHealth() << std::endl;
 			}
 			else
 			{
@@ -88,7 +85,11 @@ void PlayerController::update(float deltaTime)
 	{
 		wall = true;
 		changeShapeToWall();
+		rigidBody->setLinearVelocity(Vector3(0,0,0));
+		gameObject->transform->setPosition(OriginalPosition);
 	}
+	else
+		rigidBody->setStatic(true);
 
 }
 
@@ -119,10 +120,12 @@ void PlayerController::changeShapeToWall()
 {
 	if (player.id == 1 || player.id == 3) 
 	{
-		gameObject->transform->setScale(Vector3(gameObject->transform->getScale().x * 10, gameObject->transform->getScale().y, gameObject->transform->getScale().z));
+		gameObject->transform->setScale(Vector3(gameObject->transform->getScale().x * 5, gameObject->transform->getScale().y, gameObject->transform->getScale().z));
+		rigidBody->multiplyScale(Vector3(5, 1, 1));
 	}
 	else
 	{
-		gameObject->transform->setScale(Vector3(gameObject->transform->getScale().x , gameObject->transform->getScale().y, gameObject->transform->getScale().z*10));
+		rigidBody->multiplyScale(Vector3(1, 1, 5));
+		gameObject->transform->setScale(Vector3(gameObject->transform->getScale().x , gameObject->transform->getScale().y, gameObject->transform->getScale().z*5));
 	}
 }

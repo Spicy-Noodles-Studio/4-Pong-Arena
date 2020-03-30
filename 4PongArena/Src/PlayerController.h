@@ -20,7 +20,7 @@ private:
 
 	RigidBody* rigidBody;
 	int force;
-
+	Vector3 OriginalPosition;
 	Health* health;
 	bool wall;
 
