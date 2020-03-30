@@ -29,6 +29,10 @@ void Health::handleData(ComponentData* data)
 			if (!(ss >> health))
 				LOG("HEALTH: Invalid property with name \"%s\"", prop.first.c_str());
 		}
+		else if (prop.first == "size") {
+			if (!(ss >> size))
+				LOG("HEALTH: Invalid property with name \"%s\"", prop.first.c_str());
+		}
 		else
 			LOG("HEALTH: Invalid property name \"%s\"", prop.first.c_str());
 	}
@@ -66,6 +70,17 @@ int Health::getHealth()
 int Health::getMaxHealth()
 {
 	return maxHealth;
+}
+
+
+double Health::getTriggerSize()
+{
+	return size;
+}
+
+void Health::setTriggerSize(double _size)
+{
+	this->size = _size;
 }
 
 void Health::setHealth(int health)

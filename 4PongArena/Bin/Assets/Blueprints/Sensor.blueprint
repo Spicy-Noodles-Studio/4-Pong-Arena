@@ -26,7 +26,8 @@
         {
             "ComponentName": "Health",
             "ComponentProperties":[
-                ["health", "15"]
+                ["health", "15"],
+                ["size", "5"]
             ]
         }
     ]

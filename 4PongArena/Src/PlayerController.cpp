@@ -28,24 +28,31 @@ void PlayerController::update(float deltaTime)
 			pos = gameObject->transform->getPosition() + Vector3(-1, 0, 0);
 
 		GameObject* sensor=instantiate("Sensor", pos);
-		if (player.id == 1 || player.id == 3)
-			sensor->getComponent<RigidBody>()->multiplyScale(Vector3( 5, 1,1));
-		else
-			sensor->getComponent<RigidBody>()->multiplyScale(Vector3(1, 1, 5));
+
+		health = sensor->getComponent<Health>();
+		if (player.id == 1 || player.id == 3) {
+			if (health != nullptr)
+				sensor->getComponent<RigidBody>()->multiplyScale(Vector3(health->getTriggerSize(), 1, 1));
+		}
+		else {
+			if (health != nullptr)
+				sensor->getComponent<RigidBody>()->multiplyScale(Vector3(1, 1, health->getTriggerSize()));
+		}
 
 		OriginalPosition = gameObject->transform->getPosition();
 
-		health = sensor->getComponent<Health>();
+		//health = sensor->getComponent<Health>();
 	}
 	UserComponent::update(deltaTime);
 
-	if (health->isAlive()&&!wall)
+	if (health!=nullptr&&health->isAlive()&&!wall)
 	{
 
 		Vector3 dir = Vector3(0, 0, 0);
 
 		if (player.index == -1)
 		{
+			rigidBody->setStatic(false);
 			if (player.id == 1 || player.id == 3)
 			{
 				if (InputSystem::GetInstance()->isKeyPressed("A"))
@@ -120,12 +127,18 @@ void PlayerController::changeShapeToWall()
 {
 	if (player.id == 1 || player.id == 3) 
 	{
-		gameObject->transform->setScale(Vector3(gameObject->transform->getScale().x * 5, gameObject->transform->getScale().y, gameObject->transform->getScale().z));
-		rigidBody->multiplyScale(Vector3(5, 1, 1));
+		if (health != nullptr)
+		{
+			gameObject->transform->setScale(Vector3(gameObject->transform->getScale().x * health->getTriggerSize(), gameObject->transform->getScale().y, gameObject->transform->getScale().z));
+			rigidBody->multiplyScale(Vector3(health->getTriggerSize(), 1, 1));
+		}
 	}
 	else
 	{
-		rigidBody->multiplyScale(Vector3(1, 1, 5));
-		gameObject->transform->setScale(Vector3(gameObject->transform->getScale().x , gameObject->transform->getScale().y, gameObject->transform->getScale().z*5));
+		if (health != nullptr)
+		{
+			rigidBody->multiplyScale(Vector3(1, 1, health->getTriggerSize()));
+			gameObject->transform->setScale(Vector3(gameObject->transform->getScale().x, gameObject->transform->getScale().y, gameObject->transform->getScale().z * health->getTriggerSize()));
+		}
 	}
 }
