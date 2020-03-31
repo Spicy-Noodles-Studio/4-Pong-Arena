@@ -147,7 +147,7 @@
                 {
                     "ComponentName": "ForceField",
                     "ComponentProperties": [
-                        ["force", "0.5"],
+                        ["force", "1"],
                         ["stateTime", "15"],
                         ["random", "0"]
                     ]

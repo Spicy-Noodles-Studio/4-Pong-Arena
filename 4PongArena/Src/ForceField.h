@@ -19,11 +19,11 @@ private:
 
 	enum state {DISABLED, FORWARDS, BACKWARDS};
 
-	state currentState;
+	state currentState = FORWARDS;
 	float currentTime;
 
 	//virtual void onTriggerEnter(GameObject* other);
-	virtual void onObjectStay(GameObject* other);
+	virtual void onTriggerStay(GameObject* other);
 
 public:
 	ForceField(GameObject* gameObject);
@@ -36,6 +36,7 @@ public:
 	void setForce(float _force) { force = _force; }
 	void setTime(float time) { stateTime = time; }
 	void setRandom(bool _random) { random = _random; }
+
 };
 
 #endif

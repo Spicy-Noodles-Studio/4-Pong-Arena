@@ -14,11 +14,10 @@ void ForceField::start()
 	currentState == FORWARDS;
 	currentTime = 0;
 }
-
+	
 void ForceField::update(float deltaTime)
 {
 	UserComponent::update(deltaTime);
-
 	currentTime += deltaTime;
 
 	if (currentTime > stateTime) {
@@ -91,7 +90,7 @@ void ForceField::setState(std::string state)
 	else currentState = DISABLED;
 }
 
-void ForceField::onObjectStay(GameObject* other)
+void ForceField::onTriggerStay(GameObject* other)
 {
 	if (currentState == DISABLED) return;
 
@@ -102,7 +101,8 @@ void ForceField::onObjectStay(GameObject* other)
 	Vector3 forceDirection = {0,0,0};
 
 	if (currentState == FORWARDS) {
-		forceDirection = ball->getLinearVelocity();
+		//forceDirection = ball->getLinearVelocity()
+		forceDirection = gameObject->transform->getPosition() - other->transform->getPosition();
 	}
 	else {
 		forceDirection = other->transform->getPosition() - gameObject->transform->getPosition();	
