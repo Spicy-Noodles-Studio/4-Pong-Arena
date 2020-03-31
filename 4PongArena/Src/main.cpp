@@ -4,6 +4,7 @@
 
 #include <ComponentManager.h>
 #include "PlayerController.h"
+#include "ForceField.h"
 
 #ifdef _DEBUG
 int main()
@@ -14,6 +15,7 @@ WinMain(HINSTANCE hinstance, HINSTANCE prevInstance, LPSTR lpCmdLine, int nCmdSh
 #endif
 {
 	ComponentManager::GetInstance()->registerComponent<PlayerController>("PlayerController");
+	ComponentManager::GetInstance()->registerComponent<ForceField>("ForceField");
 	ComponentManager::GetInstance()->registerComponent<Health>("Health");
 
 	GaiaCore* g = new GaiaCore();
