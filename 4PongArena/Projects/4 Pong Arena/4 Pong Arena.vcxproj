@@ -165,12 +165,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Src\ForceField.cpp" />
     <ClCompile Include="..\..\Src\Health.cpp" />
     <ClCompile Include="..\..\Src\main.cpp" />
     <ClCompile Include="..\..\Src\PlayerController.cpp" />
     <ClCompile Include="..\..\Src\WallManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Src\ForceField.h" />
     <ClInclude Include="..\..\Src\Health.h" />
     <ClInclude Include="..\..\Src\PlayerController.h" />
     <ClInclude Include="..\..\Src\WallManager.h" />

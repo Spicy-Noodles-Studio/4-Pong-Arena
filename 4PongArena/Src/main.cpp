@@ -18,7 +18,7 @@ WinMain(HINSTANCE hinstance, HINSTANCE prevInstance, LPSTR lpCmdLine, int nCmdSh
 	ComponentManager::GetInstance()->registerComponent<PlayerController>("PlayerController");
 	ComponentManager::GetInstance()->registerComponent<Health>("Health");
 	ComponentManager::GetInstance()->registerComponent<WallManager>("WallManager");
-
+	ComponentManager::GetInstance()->registerComponent<ForceField>("ForceField");
 	GaiaCore* g = new GaiaCore();
 	g->init();
 	g->run();
