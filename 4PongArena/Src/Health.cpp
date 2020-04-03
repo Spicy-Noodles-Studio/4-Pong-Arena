@@ -96,7 +96,7 @@ bool Health::isAlive()
 
 void Health::onObjectEnter(GameObject* other)
 {
-	if (other->getTag() == "ball") {
+	if (other->getTag() == "p1") {
 		receiveDamage(1);
 	}
 }

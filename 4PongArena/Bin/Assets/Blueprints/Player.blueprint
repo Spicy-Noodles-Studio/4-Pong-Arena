@@ -33,6 +33,9 @@
                 ["kinematic", "0"],
                 ["trigger", "0"]
             ]
+        },
+        {
+            "ComponentName": "WallManager"
         }
     ]
 }

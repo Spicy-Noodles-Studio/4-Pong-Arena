@@ -4,6 +4,7 @@
 
 #include <ComponentManager.h>
 #include "PlayerController.h"
+#include "WallManager.h"
 
 #ifdef _DEBUG
 int main()
@@ -15,6 +16,7 @@ WinMain(HINSTANCE hinstance, HINSTANCE prevInstance, LPSTR lpCmdLine, int nCmdSh
 {
 	ComponentManager::GetInstance()->registerComponent<PlayerController>("PlayerController");
 	ComponentManager::GetInstance()->registerComponent<Health>("Health");
+	ComponentManager::GetInstance()->registerComponent<WallManager>("WallManager");
 
 	GaiaCore* g = new GaiaCore();
 	g->init();

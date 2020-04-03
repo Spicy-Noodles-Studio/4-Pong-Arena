@@ -3,9 +3,11 @@
 #define PLAYER_CONTROLLER_H
 
 #include <UserComponent.h>
-#include <GameObject.h>
-#include <RigidBody.h>
-#include "Health.h"
+
+
+class WallManager;
+class GameObject;
+class RigidBody;
 
 struct Player
 {
@@ -20,9 +22,8 @@ private:
 
 	RigidBody* rigidBody;
 	int force;
-	Vector3 OriginalPosition;
-	Health* health;
-	bool wall;
+
+	WallManager* wall;
 
 public:
 	PlayerController(GameObject* gameObject);
@@ -31,7 +32,6 @@ public:
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
 
-	void changeShapeToWall();
 };
 
 #endif
