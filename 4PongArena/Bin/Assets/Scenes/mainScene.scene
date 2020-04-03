@@ -108,7 +108,7 @@
                     "ComponentName": "Transform",
                     "ComponentProperties": [
                         ["position", "0 1 -2"],
-                        ["rotation", "0 0 0"]
+                        ["rotation", "0 180 0"]
                     ]
                 }
             ]
@@ -133,7 +133,23 @@
                     "ComponentName": "Transform",
                     "ComponentProperties": [
                         ["position", "-2 1 0"],
-                        ["rotation", "0 90 0"]
+                        ["rotation", "0 -90 0"]
+                    ]
+                }
+            ]
+        },
+		{
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "ForceField",
+            "Tag": "forceField",
+            "BlueprintPath": "ForceField",
+			"Components" : [
+                {
+                    "ComponentName": "ForceField",
+                    "ComponentProperties": [
+                        ["force", "1"],
+                        ["stateTime", "15"],
+                        ["random", "0"]
                     ]
                 }
             ]
