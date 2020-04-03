@@ -4,6 +4,7 @@
 
 #include <ComponentManager.h>
 #include "PlayerController.h"
+#include "ForceField.h"
 #include "WallManager.h"
 
 #ifdef _DEBUG

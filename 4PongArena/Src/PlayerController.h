@@ -25,6 +25,8 @@ private:
 
 	WallManager* wall;
 
+	WallManager* wall;
+
 public:
 	PlayerController(GameObject* gameObject);
 
