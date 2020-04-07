@@ -3,39 +3,43 @@
 #define FORCE_FIELD_H
 
 #include <UserComponent.h>
-#include <GameObject.h>
-#include <RigidBody.h>
+
+class RigidBody;
 
 class ForceField : public UserComponent
 {
+public:
+	enum class State { DISABLED, FORWARDS, BACKWARDS };
+
 private:
-
-	RigidBody* rigidBody;
-
+	// Impulse given to the ball
 	float force;
+	// Time to change state
 	float stateTime;
-
+	// Timer
+	float stateTimer;
+	// Boolean so State change is or is not random
 	bool random;
-
-	enum state {DISABLED, FORWARDS, BACKWARDS};
-
-	state currentState = FORWARDS;
-	float currentTime;
-
-	//virtual void onTriggerEnter(GameObject* other);
-	virtual void onTriggerStay(GameObject* other);
+	// Current ForceField state
+	State currentState;
 
 public:
 	ForceField(GameObject* gameObject);
+	virtual ~ForceField();
 
 	virtual void start();
 	virtual void update(float deltaTime);
+	virtual void onTriggerStay(GameObject* other);
 	virtual void handleData(ComponentData* data);
 
-	void setState(std::string state);
-	void setForce(float _force) { force = _force; }
-	void setTime(float time) { stateTime = time; }
-	void setRandom(bool _random) { random = _random; }
+	void setState(const std::string& state);
+	void setState(State state);
+	void setForce(float force);
+	void setTime(float time);
+	void setRandom(bool random);
+
+private:
+	void changeState();
 
 };
 

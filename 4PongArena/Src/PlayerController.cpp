@@ -28,19 +28,6 @@ void PlayerController::start()
 
 void PlayerController::update(float deltaTime)
 {
-	if (health == nullptr)
-	{
-		Vector3 pos = Vector3(0, 0, 1);
-		if (player.id == 1)
-			pos = gameObject->transform->getPosition() + Vector3(0, 0, 1);
-		else if (player.id == 2)
-			pos = gameObject->transform->getPosition() + Vector3(1, 0, 0);
-		else if (player.id == 3)
-			pos = gameObject->transform->getPosition() + Vector3(0, 0, -1);
-		else if (player.id == 4)
-			pos = gameObject->transform->getPosition() + Vector3(-1, 0, 0);
-	}
-
 	if (wall->GetHealth()!=nullptr&& wall->GetHealth()->isAlive()&& ! wall->IsWall())
 	{
 
@@ -84,10 +71,6 @@ void PlayerController::update(float deltaTime)
 
 		rigidBody->addForce(dir * force);
 	}
-	
-
-		
-
 }
 
 void PlayerController::handleData(ComponentData* data)
