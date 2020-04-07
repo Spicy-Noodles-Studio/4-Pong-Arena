@@ -4,6 +4,10 @@
 #include <math.h>
 
 
+#include "ComponentRegister.h"
+
+REGISTER_FACTORY(ForceField);
+
 ForceField::ForceField(GameObject* gameObject) : UserComponent(gameObject)
 {
 }

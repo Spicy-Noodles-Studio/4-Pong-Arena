@@ -1,36 +1,12 @@
 {
     "SceneName": "MainScene",
     "SceneObjects": [
+        
         {
-            "ObjectType": "GAMEOBJECT",
+            "ObjectType": "BLUEPRINT",
             "ObjectName": "MainCamera",
-            "Tag": "MainCamera",
-            "Components":
-            [
-                {
-                    "ComponentName": "Camera",
-                    "ComponentProperties": [
-                        ["main", "true"]
-                    ]
-                },
-                {
-                    "ComponentName": "Transform",
-                    "ComponentProperties": [
-                        ["position", "0 8 0"],
-                        ["rotation", "-90 0 0"]
-                    ]
-                },
-                {
-                    "ComponentName": "Light",
-                    "ComponentProperties": [
-                        ["type", "Point"],
-                        ["colour", "1 1 1"]
-                    ]
-                },
-                {
-                    "ComponentName": "SoundListener"
-                }
-            ]
+            "Tag": "mainCamera",
+            "BlueprintPath": "Camera"
         },
         {
             "ObjectType": "BLUEPRINT",

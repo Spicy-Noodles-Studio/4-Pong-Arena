@@ -7,6 +7,12 @@
 #include "Health.h"
 #include <RigidBody.h>
 
+
+#include "ComponentRegister.h"
+
+REGISTER_FACTORY(WallManager);
+
+
 WallManager::WallManager(GameObject* gameObject) : UserComponent(gameObject)
 {
 }

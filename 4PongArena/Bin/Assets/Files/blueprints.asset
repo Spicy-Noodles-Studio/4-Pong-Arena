@@ -2,3 +2,4 @@
 ./Assets/Blueprints/Player.blueprint
 ./Assets/Blueprints/ForceField.blueprint
 ./Assets/Blueprints/Sensor.blueprint
+./Assets/Blueprints/Camera.blueprint

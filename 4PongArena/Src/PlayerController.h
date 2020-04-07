@@ -8,6 +8,7 @@
 class WallManager;
 class GameObject;
 class RigidBody;
+class Health;
 
 struct Player
 {
@@ -24,9 +25,6 @@ private:
 	int force;
 	Vector3 OriginalPosition;
 	Health* health;
-	bool wall;
-
-	WallManager* wall;
 
 	WallManager* wall;
 

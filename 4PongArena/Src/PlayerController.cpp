@@ -8,6 +8,11 @@
 #include "Health.h"
 #include "WallManager.h"
 
+#include "ComponentRegister.h"
+
+REGISTER_FACTORY(PlayerController);
+
+
 PlayerController::PlayerController(GameObject* gameObject) : UserComponent(gameObject)
 {
 
@@ -23,7 +28,7 @@ void PlayerController::start()
 
 void PlayerController::update(float deltaTime)
 {
-	if (health==nullptr)
+	if (health == nullptr)
 	{
 		Vector3 pos = Vector3(0, 0, 1);
 		if (player.id == 1)
@@ -34,6 +39,7 @@ void PlayerController::update(float deltaTime)
 			pos = gameObject->transform->getPosition() + Vector3(0, 0, -1);
 		else if (player.id == 4)
 			pos = gameObject->transform->getPosition() + Vector3(-1, 0, 0);
+	}
 
 	if (wall->GetHealth()!=nullptr&& wall->GetHealth()->isAlive()&& ! wall->IsWall())
 	{
