@@ -35,7 +35,7 @@
             ]
         },
         {
-            "ComponentName": "WallManager"
+            "ComponentName": "Movement"
         }
     ]
 }

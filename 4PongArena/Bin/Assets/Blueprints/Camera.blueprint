@@ -13,8 +13,8 @@
         {
             "ComponentName": "Transform",
             "ComponentProperties": [
-                ["position", "0 10 50"], 
-                ["rotation", "0 0 0"]
+                ["position", "0 8 0"], 
+                ["rotation", "-90 0 0"]
             ]
         },
         {

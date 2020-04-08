@@ -14,10 +14,10 @@ public:
 	virtual void onObjectEnter(GameObject* other);
 	virtual void handleData(ComponentData* data);
 
-	int getHealth();
+	int getHealth() const;
 	void setHealth(int health);
-	bool isAlive();
-	bool isDead();
+	bool isAlive() const;
+	bool isDead() const;
 
 	void receiveDamage(int damage);
 

@@ -18,14 +18,14 @@
             "ObjectType": "BLUEPRINT",
             "ObjectName": "Player1",
             "Tag": "p1",
-            "BlueprintPath": "Player",
+            "BlueprintPath": "Paddle",
             "Components" : [
                 {
                     "ComponentName": "PlayerController",
                     "ComponentProperties": [
                         ["force", "5"],
                         ["id", "1"],
-                        ["index", "-1"]
+                        ["index", "0"]
                     ]
                 }
             ],
@@ -43,7 +43,7 @@
             "ObjectType": "BLUEPRINT",
             "ObjectName": "Player2",
             "Tag": "p2",
-            "BlueprintPath": "Player",
+            "BlueprintPath": "Paddle",
             "Components" : [
                 {
                     "ComponentName": "PlayerController",
@@ -68,14 +68,14 @@
             "ObjectType": "BLUEPRINT",
             "ObjectName": "Player3",
             "Tag": "p3",
-            "BlueprintPath": "Player",
+            "BlueprintPath": "Paddle",
             "Components" : [
                 {
                     "ComponentName": "PlayerController",
                     "ComponentProperties": [
                         ["force", "5"],
                         ["id", "3"],
-                        ["index", "1"]
+                        ["index", "0"]
                     ]
                 }
             ],
@@ -93,14 +93,14 @@
             "ObjectType": "BLUEPRINT",
             "ObjectName": "Player4",
             "Tag": "p4",
-            "BlueprintPath": "Player",
+            "BlueprintPath": "Paddle",
             "Components" : [
                 {
                     "ComponentName": "PlayerController",
                     "ComponentProperties": [
                         ["force", "5"],
                         ["id", "4"],
-                        ["index", "2"]
+                        ["index", "0"]
                     ]
                 }
             ],
@@ -110,38 +110,6 @@
                     "ComponentProperties": [
                         ["position", "-2 1 0"],
                         ["rotation", "0 -90 0"]
-                    ]
-                }
-            ]
-        },
-		{
-            "ObjectType": "BLUEPRINT",
-            "ObjectName": "ForceField",
-            "Tag": "forceField",
-            "BlueprintPath": "ForceField",
-			"Components" : [
-                {
-                    "ComponentName": "ForceField",
-                    "ComponentProperties": [
-                        ["force", "1"],
-                        ["stateTime", "15"],
-                        ["random", "0"]
-                    ]
-                }
-            ]
-        },
-		{
-            "ObjectType": "BLUEPRINT",
-            "ObjectName": "ForceField",
-            "Tag": "forceField",
-            "BlueprintPath": "ForceField",
-			"Components" : [
-                {
-                    "ComponentName": "ForceField",
-                    "ComponentProperties": [
-                        ["force", "1"],
-                        ["stateTime", "15"],
-                        ["random", "0"]
                     ]
                 }
             ]

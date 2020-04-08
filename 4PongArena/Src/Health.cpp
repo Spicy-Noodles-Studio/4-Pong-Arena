@@ -37,7 +37,7 @@ void Health::handleData(ComponentData* data)
 	}
 }
 
-int Health::getHealth()
+int Health::getHealth() const
 {
 	return health;
 }
@@ -47,12 +47,12 @@ void Health::setHealth(int health)
 	this->health = health;
 }
 
-bool Health::isAlive()
+bool Health::isAlive() const
 {
 	return health > 0;
 }
 
-bool Health::isDead()
+bool Health::isDead() const
 {
 	return !isAlive();
 }

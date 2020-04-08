@@ -1,7 +1,7 @@
 {
     "ObjectType": "GAMEOBJECT",
-    "ObjectName": "Sensor",
-    "Tag": "sensor",
+    "ObjectName": "Goal",
+    "Tag": "goal",
     "Components":
     [
         {
@@ -24,11 +24,7 @@
             ]
         },
         {
-            "ComponentName": "Health",
-            "ComponentProperties":[
-                ["health", "15"],
-                ["size", "5"]
-            ]
+            "ComponentName": "Score"
         }
     ]
 }
