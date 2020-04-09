@@ -21,11 +21,11 @@
             "BlueprintPath": "Paddle",
             "Components" : [
                 {
-                    "ComponentName": "PlayerController",
+                    "ComponentName": "IAPaddle",
                     "ComponentProperties": [
                         ["force", "5"],
                         ["id", "1"],
-                        ["index", "0"]
+                        ["index", "4"]
                     ]
                 }
             ],
@@ -46,11 +46,11 @@
             "BlueprintPath": "Paddle",
             "Components" : [
                 {
-                    "ComponentName": "PlayerController",
+                    "ComponentName": "IAPaddle",
                     "ComponentProperties": [
                         ["force", "5"],
                         ["id", "2"],
-                        ["index", "0"]
+                        ["index", "4"]
                     ]
                 }
             ],
@@ -71,11 +71,11 @@
             "BlueprintPath": "Paddle",
             "Components" : [
                 {
-                    "ComponentName": "PlayerController",
+                    "ComponentName": "IAPaddle",
                     "ComponentProperties": [
                         ["force", "5"],
                         ["id", "3"],
-                        ["index", "0"]
+                        ["index", "4"]
                     ]
                 }
             ],
@@ -96,11 +96,11 @@
             "BlueprintPath": "Paddle",
             "Components" : [
                 {
-                    "ComponentName": "PlayerController",
+                    "ComponentName": "IAPaddle",
                     "ComponentProperties": [
                         ["force", "5"],
                         ["id", "4"],
-                        ["index", "0"]
+                        ["index", "4"]
                     ]
                 }
             ],

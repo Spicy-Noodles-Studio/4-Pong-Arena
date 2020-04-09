@@ -167,6 +167,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Src\ForceField.cpp" />
     <ClCompile Include="..\..\Src\Health.cpp" />
+    <ClCompile Include="..\..\Src\IAPaddle.cpp" />
     <ClCompile Include="..\..\Src\main.cpp" />
     <ClCompile Include="..\..\Src\Movement.cpp" />
     <ClCompile Include="..\..\Src\PlayerController.cpp" />
@@ -176,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Src\ForceField.h" />
     <ClInclude Include="..\..\Src\Health.h" />
+    <ClInclude Include="..\..\Src\IAPaddle.h" />
     <ClInclude Include="..\..\Src\Movement.h" />
     <ClInclude Include="..\..\Src\PlayerController.h" />
     <ClInclude Include="..\..\Src\Score.h" />
