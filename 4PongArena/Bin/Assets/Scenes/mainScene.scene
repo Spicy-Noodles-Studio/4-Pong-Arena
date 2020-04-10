@@ -21,10 +21,18 @@
             "BlueprintPath": "Paddle",
             "Components" : [
                 {
-                    "ComponentName": "IAPaddle",
+                    "ComponentName": "PlayerController",
                     "ComponentProperties": [
                         ["force", "5"],
                         ["id", "1"],
+                        ["index", "4"]
+                    ]
+                }, 
+                {
+                    "ComponentName": "IAPaddle",
+                    "ComponentProperties": [
+                        ["force", "5"],
+                        ["id", "2"],
                         ["index", "4"]
                     ]
                 }
@@ -110,6 +118,62 @@
                     "ComponentProperties": [
                         ["position", "-2 1 0"],
                         ["rotation", "0 -90 0"]
+                    ]
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Pillar1",
+            "Tag": "pillar",
+            "BlueprintPath": "Pillar",
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "-2 1 -2"]
+                    ]
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Pillar2",
+            "Tag": "pillar",
+            "BlueprintPath": "Pillar",
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "-2 1 2"]
+                    ]
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Pillar3",
+            "Tag": "pillar",
+            "BlueprintPath": "Pillar",
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "2 1 2"]
+                    ]
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Pillar4",
+            "Tag": "pillar",
+            "BlueprintPath": "Pillar",
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "2 1 -2"]
                     ]
                 }
             ]

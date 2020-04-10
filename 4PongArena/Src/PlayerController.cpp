@@ -3,6 +3,7 @@
 #include <InputSystem.h>
 #include <ComponentRegister.h>
 #include <GameObject.h>
+#include <RigidBody.h>
 
 #include "Movement.h"
 
@@ -26,6 +27,12 @@ void PlayerController::start()
 void PlayerController::update(float deltaTime)
 {
 	checkInput();
+
+	// DEBUG PURPOSES TODO: quitar
+	if (InputSystem::GetInstance()->getKeyPress("Space")) {
+		GameObject* ball = instantiate("Ball");
+		ball->getComponent<RigidBody>()->setLinearVelocity(Vector3(0.5, 0.0, 0.75).normalized() * 4.0);
+	}
 }
 
 void PlayerController::handleData(ComponentData* data)

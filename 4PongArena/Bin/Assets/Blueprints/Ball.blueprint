@@ -22,11 +22,10 @@
                 ["shape", "Sphere"],
                 ["mass", "1"],
                 ["friction", "0"],
-                ["restitution", "0"],
+                ["restitution", "1"],
                 ["damping", "0"],
                 ["angularDamping", "0"],
-                ["scale", "1 1 1"],
-                ["trigger", "0"]
+                ["scale", "1 1 1"]
             ]
         }
     ]

@@ -9,7 +9,7 @@ class Movement;
 class IAPaddle : public UserComponent
 {
 private:
-	enum class State { IDLE, CHOOSE_TARGET, MOVE };
+	enum class State { CHOOSE_TARGET, MOVE };
 	State currentState;
 	GameObject* targetBall;
 	Movement* movement;
@@ -26,10 +26,13 @@ public:
 	virtual void update(float deltaTime);
 
 private:
-	void processIdleState(float deltaTime);
-	void processChooseTargetState(float deltaTime);
-	void processMoveState(float deltaTime);
+	void processChooseTargetState();
+	void processMoveState();
 
+	void takeDecision();
+	bool canReachToTarget();
+	bool isBallBehind(const Vector3& ballPosition);
+	bool isBallHeadingToMe(const Vector3& ballDirection);
 };
 
 #endif

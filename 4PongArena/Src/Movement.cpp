@@ -24,7 +24,7 @@ void Movement::start()
 	normal.normalize();
 	// Cancel rotations and translations through normal vector
 	rigidBody->setRotationConstraints(Vector3::ZERO);
-	rigidBody->setMovementConstraints(Vector3(abs(normal.x), 1.0, abs(normal.z)));
+	rigidBody->setMovementConstraints(Vector3(abs(normal.z), 0.0, abs(normal.x)));
 }
 
 void Movement::update(float deltaTime)
