@@ -131,7 +131,7 @@
                 {
                     "ComponentName": "Transform",
                     "ComponentProperties": [
-                        ["position", "-2 1 -2"]
+                        ["position", "-2 0.75 -2"]
                     ]
                 }
             ]
@@ -145,7 +145,7 @@
                 {
                     "ComponentName": "Transform",
                     "ComponentProperties": [
-                        ["position", "-2 1 2"]
+                        ["position", "-2 0.75 2"]
                     ]
                 }
             ]
@@ -159,7 +159,7 @@
                 {
                     "ComponentName": "Transform",
                     "ComponentProperties": [
-                        ["position", "2 1 2"]
+                        ["position", "2 0.75 2"]
                     ]
                 }
             ]
@@ -173,7 +173,7 @@
                 {
                     "ComponentName": "Transform",
                     "ComponentProperties": [
-                        ["position", "2 1 -2"]
+                        ["position", "2 0.75 -2"]
                     ]
                 }
             ]

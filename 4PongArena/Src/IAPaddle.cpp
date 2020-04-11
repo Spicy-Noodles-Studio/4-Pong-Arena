@@ -1,11 +1,10 @@
 #include "IAPaddle.h"
 #include <ComponentRegister.h>
 #include <GameObject.h>
+#include <RigidBody.h>
 #include <MathUtils.h>
 
 #include "Movement.h"
-// TODO: quitar
-#include <RigidBody.h>
 
 REGISTER_FACTORY(IAPaddle);
 
@@ -29,7 +28,10 @@ void IAPaddle::start()
 void IAPaddle::update(float deltaTime)
 {
 	timerToChange += deltaTime;
-	if (timerToChange >= timeToChange) { timerToChange = 0.0f; takeDecision(); }
+	if (timerToChange >= timeToChange) { 
+		timerToChange = 0.0f; 
+		takeDecision(); 
+	}
 
 	// Simple State Machine Logic
 	switch (currentState)
@@ -47,16 +49,18 @@ void IAPaddle::processChooseTargetState()
 {
 	targetBall = nullptr;
 	balls = findGameObjectsWithTag("ball");
-	if (!balls.size()) return;
 
-	//Escogemos la primera bola que venga hacia nosotros
+	//Escogemos una bola que venga hacia nosotros aleatoria
+	std::vector<GameObject*> validBalls;
 	for (GameObject* ball : balls) {
 		Vector3 direction = ball->getComponent<RigidBody>()->getLinearVelocity().normalized();
-		if (!isBallBehind(ball->transform->getPosition()) && isBallHeadingToMe(direction)) {
-			targetBall = ball;
-			break;
-		}
+		if (!isBallBehind(ball->transform->getPosition()) && isBallHeadingToMe(direction))
+			validBalls.push_back(ball);
 	}
+	if (!validBalls.size()) return;
+
+	//De todas las que se dirigen a mi, elijo una random
+	targetBall = validBalls[rand() % validBalls.size()];
 	currentState = State::MOVE;
 }
 
@@ -96,55 +100,23 @@ void IAPaddle::takeDecision()
 	if (targetBall == nullptr) { processChooseTargetState(); return; }
 
 	//If it has, then see if its posible or choose another one
-	if (rand()) 
+	if (!canReachToTarget())
 		processChooseTargetState();
-	else 
+	else
 		currentState = State::MOVE;
+
 	/*if (!canReachToTarget()) {
 		//Segun inteligencia
-		float intelligence = 0.8f;
-		if(random() < intelligence)
+		float intelligence = 1.0f;
+		if(random() <= intelligence)
 			processChooseTargetState();
 	}*/
 }
 
 bool IAPaddle::canReachToTarget()
 {
-	if (targetBall == nullptr) return false;
-	
-	Vector3 paddlePosition = gameObject->transform->getPosition();
-	Vector3 paddleNormal = movement->getNormal();
-	Vector3 ballPosition = targetBall->transform->getPosition();
-	Vector3 ballVelocity = targetBall->getComponent<RigidBody>()->getLinearVelocity();
-	float ballTime = 1e9f;
-	float paddleTime = 1e9f;
-	
-	if (isBallBehind(ballPosition)) return false;
-	return false;
-
-	/*if (paddleNormal == Vector3::FORWARD || paddleNormal == Vector3::NEGATIVE_FORWARD) {
-		Vector3 aux = Vector3::ZERO; aux.z = paddlePosition.z - ballPosition.z; aux.normalize();
-		Vector3 ballFuturePosition = ballVelocity;
-		if (aux == paddleNormal) {
-			ballTime = abs(paddlePosition.z - ballPosition.z) / ballVelocity.z;
-			ballFuturePosition *= ballTime;
-			paddleTime = abs(paddlePosition.x - ballPosition.x) / movement->getVelocity();
-		}
-		else
-			return false;
-	}
-	else if (paddleNormal == Vector3::RIGHT || paddleNormal == Vector3::NEGATIVE_RIGHT) {
-		Vector3 aux = Vector3::ZERO; aux.x = paddlePosition.x - ballPosition.x; aux.normalize();
-		Vector3 ballFuturePosition = ballVelocity;
-		if (aux == paddleNormal) {
-			ballTime = abs(paddlePosition.z - ballPosition.z) / ballVelocity.z;
-			ballFuturePosition *= ballTime;
-			paddleTime = abs(paddlePosition.x - ballPosition.x) / movement->getVelocity();
-		}
-		else
-			return false;
-	}*/
-	return ballTime < paddleTime;
+	// De momento random, he probado otras formas no funcionan mejor que un random (lo cual es raro)
+	return !rand();
 }
 
 bool IAPaddle::isBallBehind(const Vector3& ballPosition)
@@ -164,5 +136,6 @@ bool IAPaddle::isBallHeadingToMe(const Vector3& ballDirection)
 	Vector3 ballNormal = rawDirection.normalized();
 	if (inverseNormal + ballNormal == Vector3::ZERO) return false;
 
-	return rawDirection.magnitude() > 0.5f; //TODO: quitar magic number
+	float tolerance = 0.1f;
+	return rawDirection.magnitude() > tolerance;
 }

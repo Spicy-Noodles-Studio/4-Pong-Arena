@@ -173,6 +173,7 @@
     <ClCompile Include="..\..\Src\PlayerController.cpp" />
     <ClCompile Include="..\..\Src\Score.cpp" />
     <ClCompile Include="..\..\Src\WallManager.cpp" />
+    <ClCompile Include="Ball.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\ForceField.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="..\..\Src\PlayerController.h" />
     <ClInclude Include="..\..\Src\Score.h" />
     <ClInclude Include="..\..\Src\WallManager.h" />
+    <ClInclude Include="Ball.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

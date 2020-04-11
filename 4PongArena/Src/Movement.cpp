@@ -5,7 +5,8 @@
 
 REGISTER_FACTORY(Movement)
 
-Movement::Movement(GameObject* gameObject) : UserComponent(gameObject), rigidBody(nullptr), velocity(0.0f), direction(Vector3::ZERO), normal(Vector3::FORWARD)
+Movement::Movement(GameObject* gameObject) :	UserComponent(gameObject), rigidBody(nullptr), velocity(0.0f),
+												direction(Vector3::ZERO), normal(Vector3::FORWARD)
 {
 
 }
@@ -74,14 +75,16 @@ float Movement::getVelocity() const
 
 const Vector3 Movement::getRight() const
 {
-	Vector3 right = normal;
-	right.rotateAroundAxis(Vector3::UP, -90);
+	Vector3 right = normal.normalized();
+	right.x = -normal.z;
+	right.z = normal.x;
 	return right;
 }
 
 const Vector3 Movement::getLeft() const
 {
-	Vector3 left = normal;
-	left.rotateAroundAxis(Vector3::UP, 90);
+	Vector3 left = normal.normalized();
+	left.x = normal.z;
+	left.z = -normal.x;
 	return left;
 }

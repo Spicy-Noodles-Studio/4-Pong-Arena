@@ -5,7 +5,10 @@
     "Components":
     [
         {
-            "ComponentName": "Transform"
+            "ComponentName": "Transform",
+            "ComponentProperties": [
+                ["scale", "1 0.5 1"]
+            ]
         },
         {
             "ComponentName": "MeshRenderer",
@@ -23,6 +26,39 @@
                 ["damping", "0"],
                 ["angularDamping", "0"],
                 ["scale", "1 1 1"]
+            ]
+        }
+    ],
+    "Children" : [
+        {
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "PillarLimit",
+            "Tag": "pillar",
+            "Components" : [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "0 1 0"]
+                    ]
+                },
+                {
+                    "ComponentName": "MeshRenderer",
+                    "ComponentProperties": [
+                        ["mesh", "Cube Cube.mesh"]
+                    ]
+                },
+                {
+                    "ComponentName": "RigidBody",
+                    "ComponentProperties": [
+                        ["shape", "Box"],
+                        ["mass", "0"],
+                        ["friction", "0"],
+                        ["restitution", "0"],
+                        ["damping", "0"],
+                        ["angularDamping", "0"],
+                        ["scale", "1.1 1 1.1"]
+                    ]
+                }
             ]
         }
     ]

@@ -22,7 +22,7 @@
             "ComponentName": "RigidBody",
             "ComponentProperties": [
                 ["shape", "Box"],
-                ["mass", "1000000"],
+                ["mass", "1"],
                 ["friction", "0"],
                 ["restitution", "1"],
                 ["damping", "0"],
