@@ -1,7 +1,8 @@
 #pragma once
+#ifndef HEALTH_H
+#define HEALTH_H
 
-#include "UserComponent.h"
-
+#include <UserComponent.h>
 
 class Health : public UserComponent
 {
@@ -15,18 +16,17 @@ public:
 
 	int getHealth();
 	int getMaxHealth();
-	void setHealth(int health);
-	bool isAlive();
 
-	double getTriggerSize();
-	void setTriggerSize(double _size);
+	void setHealth(int health);
 	void receiveDamage(int damage);
-	void die();
+
+	bool isAlive();
 
 private:
 	int maxHealth;
-	int health; // 1 life = 2 health points
-	double size = 5;
-	bool alive; // player alive
+	int health;
 
+	bool alive;
 };
+
+#endif

@@ -1,85 +1,78 @@
 #include "WallManager.h"
-#include <sstream>
-#include "MeshRenderer.h"
-#include <math.h>
-#include <MathUtils.h>
 #include <GameObject.h>
-#include "Health.h"
 #include <RigidBody.h>
+#include <MeshRenderer.h>
+#include <sstream>
 
-
+#include "Health.h"
+#include "PlayerController.h"
 #include "ComponentRegister.h"
 
 REGISTER_FACTORY(WallManager);
 
-
 WallManager::WallManager(GameObject* gameObject) : UserComponent(gameObject)
 {
+
+}
+
+WallManager::~WallManager()
+{
+
 }
 
 void WallManager::start()
 {
+	initialPosition = gameObject->transform->getPosition();
+
+	sensor = instantiate("Sensor", initialPosition);
+	sensor->transform->setRotation(gameObject->transform->getRotation());
+
+	int id = gameObject->getComponent<PlayerController>()->getPlayerId();
+
+	if (id == 1)
+		sensor->transform->setPosition(initialPosition + Vector3(0, 0, sensorOffset));
+	else if (id == 2)
+		sensor->transform->setPosition(initialPosition + Vector3(sensorOffset, 0, 0));
+	else if (id == 3)
+		sensor->transform->setPosition(initialPosition + Vector3(0, 0, -sensorOffset));
+	else if (id == 4)
+		sensor->transform->setPosition(initialPosition + Vector3(-sensorOffset, 0, 0));
 
 	rigidBody = gameObject->getComponent<RigidBody>();
-	
+	health = gameObject->getComponent<Health>();
+
 	aliveMeshId = gameObject->getComponent<MeshRenderer>()->getMeshId();
 	aliveMeshName = gameObject->getComponent<MeshRenderer>()->getMeshName();
+
 	aliveScale = gameObject->transform->getScale();
+
+	wall = false;
 }
 
 void WallManager::update(float deltaTime)
 {
-	if (health == nullptr)
-	{
-		Vector3 pos = Vector3(0, 0, 1);
-		//double x = cos(gameObject->transform->getRotation().y * DEG_TO_RAD);
-		pos = gameObject->transform->getPosition() + Vector3(sin(gameObject->transform->getRotation().y* DEG_TO_RAD), 0, cos(gameObject->transform->getRotation().y* DEG_TO_RAD));
-		
-
-		GameObject* sensor = instantiate("Sensor", pos);
-
-		health = sensor->getComponent<Health>();
-		if (cos(gameObject->transform->getRotation().y * DEG_TO_RAD) ==1 || cos(gameObject->transform->getRotation().y * DEG_TO_RAD) == -1) {
-			if (health != nullptr)
-				sensor->getComponent<RigidBody>()->multiplyScale(Vector3(health->getTriggerSize(), 1, 1));
-		}
-		else {
-			if (health != nullptr)
-				sensor->getComponent<RigidBody>()->multiplyScale(Vector3(1, 1, health->getTriggerSize()));
-		}
-
-		OriginalPosition = gameObject->transform->getPosition();
-
-	}
-	UserComponent::update(deltaTime);
-
-	if (!health->isAlive() && !wall)
-	{
-		wall = true;
+	if (health != nullptr && !health->isAlive() && !wall)
 		changeShapeToWall();
-		rigidBody->setLinearVelocity(Vector3(0, 0, 0));
-		gameObject->transform->setPosition(OriginalPosition);
-	}
-	else if (wall)
-	{
-		rigidBody->setRotationConstraints(Vector3(0, 0, 0));
-		rigidBody->setMovementConstraints(Vector3(0, 0, 0));
-		rigidBody->setStatic(true);
-		
-		//rigidBody->clearForces();
-	}
 }
 
 void WallManager::handleData(ComponentData* data)
 {
-	for (auto prop : data->getProperties()) {
+	for (auto prop : data->getProperties())
+	{
 		std::stringstream ss(prop.second);
 
-		 if (prop.first == "wallMesh") {
+		if (prop.first == "sensorOffset")
+		{
+			if (!(ss >> sensorOffset))
+				LOG("HEALTH: Invalid property with name \"%s\"", prop.first.c_str());
+		}
+		else if (prop.first == "wallMesh")
+		{
 			if (!(ss >> wallMeshId >> wallMeshName))
 				LOG("HEALTH: Invalid property with name \"%s\"", prop.first.c_str());
 		}
-		else if (prop.first == "wallScale") {
+		else if (prop.first == "wallScale")
+		{
 			double x, y, z;
 			if (!(ss >> x >> y >> z))
 				LOG("HEALTH: Invalid property with name \"%s\"", prop.first.c_str());
@@ -93,52 +86,17 @@ void WallManager::handleData(ComponentData* data)
 
 void WallManager::changeShapeToWall()
 {
-	if(wallMeshId!="" || wallMeshName!="")
-	gameObject->getComponent<MeshRenderer>()->changeMesh(wallMeshId, wallMeshName);
-	
-	if (sin(gameObject->transform->getRotation().y) != 0)
-	{
-		if (health != nullptr)
-		{
-			if (wallScale == Vector3(1, 1, 1))
-			{
-				double  size = health->getTriggerSize() / gameObject->transform->getScale().x;
-				gameObject->transform->setScale(Vector3(health->getTriggerSize(), gameObject->transform->getScale().y, gameObject->transform->getScale().z));
-				rigidBody->multiplyScale(Vector3(size, 1, 1));
-			}
-			else
-			{
-				
-				gameObject->transform->setScale(wallScale);
-				rigidBody->multiplyScale(wallScale/aliveScale);
-			}
-		}
-	}
-	else
-	{
-		if (health != nullptr)
-		{
-			if (wallScale == Vector3(1, 1, 1))
-			{
-				double  size = health->getTriggerSize() / gameObject->transform->getScale().x;
-				rigidBody->multiplyScale(Vector3(1, 1, size));
-				gameObject->transform->setScale(Vector3(gameObject->transform->getScale().x, gameObject->transform->getScale().y, health->getTriggerSize()));
-			}
-			else
-			{
-				gameObject->transform->setScale(wallScale);
-				rigidBody->multiplyScale(wallScale / aliveScale);
-			}
-		}
-	}
-}
+	wall = true;
 
-bool WallManager::IsWall()
-{
-	return wall;
-}
+	rigidBody->setMovementConstraints(Vector3(0, 0, 0));
+	rigidBody->setRotationConstraints(Vector3(0, 0, 0));
+	rigidBody->setStatic(true);
 
-Health* WallManager::GetHealth()
-{
-	return health;
+	gameObject->transform->setPosition(initialPosition);
+
+	if (wallMeshId != "" || wallMeshName != "")
+	{
+		gameObject->getComponent<MeshRenderer>()->changeMesh(wallMeshId, wallMeshName);
+		rigidBody->multiplyScale(wallScale);
+	}
 }

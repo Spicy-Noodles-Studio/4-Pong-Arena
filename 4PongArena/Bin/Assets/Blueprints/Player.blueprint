@@ -35,7 +35,18 @@
             ]
         },
         {
-            "ComponentName": "WallManager"
+            "ComponentName": "Health",
+            "ComponentProperties": [
+                ["health", "15"]
+            ]
+        },
+        {
+            "ComponentName": "WallManager",
+            "ComponentProperties": [
+                ["sensorOffset", "0.5"],
+                ["wallMesh", "wall Cube.mesh"],
+                ["wallScale", "1 1 1"]
+            ]
         }
     ]
 }

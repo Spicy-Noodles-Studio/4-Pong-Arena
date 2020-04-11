@@ -9,7 +9,6 @@
 class ForceField : public UserComponent
 {
 private:
-
 	RigidBody* rigidBody;
 
 	float force;
@@ -19,10 +18,9 @@ private:
 
 	enum state {DISABLED, FORWARDS, BACKWARDS};
 
-	state currentState = FORWARDS;
+	state currentState;
 	float currentTime;
 
-	//virtual void onTriggerEnter(GameObject* other);
 	virtual void onTriggerStay(GameObject* other);
 
 public:
@@ -33,10 +31,9 @@ public:
 	virtual void handleData(ComponentData* data);
 
 	void setState(std::string state);
-	void setForce(float _force) { force = _force; }
-	void setTime(float time) { stateTime = time; }
-	void setRandom(bool _random) { random = _random; }
-
+	void setForce(float force);
+	void setTime(float time);
+	void setRandom(bool random);
 };
 
 #endif

@@ -3,13 +3,31 @@
 #include <sstream>
 #include <math.h>
 
-
 #include "ComponentRegister.h"
 
 REGISTER_FACTORY(ForceField);
 
 ForceField::ForceField(GameObject* gameObject) : UserComponent(gameObject)
 {
+
+}
+
+void ForceField::onTriggerStay(GameObject* other)
+{
+	if (currentState == DISABLED) return;
+
+	RigidBody* ball = other->getComponent<RigidBody>();
+
+	if (ball == nullptr) return;
+
+	Vector3 forceDirection = { 0,0,0 };
+
+	if (currentState == FORWARDS)
+		forceDirection = gameObject->transform->getPosition() - other->transform->getPosition();
+	else
+		forceDirection = other->transform->getPosition() - gameObject->transform->getPosition();
+
+	ball->addForce(forceDirection.normalized() * force);
 }
 
 void ForceField::start()
@@ -24,11 +42,14 @@ void ForceField::update(float deltaTime)
 	UserComponent::update(deltaTime);
 	currentTime += deltaTime;
 
-	if (currentTime > stateTime) {
+	if (currentTime > stateTime)
+	{
 
-		if (random) {
+		if (random)
+		{
 			int rnd = rand() % 3;
-			switch (rnd) {
+			switch (rnd)
+			{
 			case 0:
 				currentState = FORWARDS;
 				break;
@@ -43,8 +64,10 @@ void ForceField::update(float deltaTime)
 				break;
 			}
 		}
-		else {
-			switch (currentState) {
+		else
+		{
+			switch (currentState)
+			{
 			case DISABLED:
 				currentState = FORWARDS;
 				break;
@@ -56,7 +79,6 @@ void ForceField::update(float deltaTime)
 				break;
 			}
 		}
-
 		currentTime = 0;
 	}
 }
@@ -72,20 +94,22 @@ void ForceField::handleData(ComponentData* data)
 			if(!(ss >> force))
 				LOG("FORCE FIELD: Invalid property with name \"%s\"", prop.first.c_str());
 		}
-		if (prop.first == "stateTime")
+		else if (prop.first == "stateTime")
 		{
 			if(!(ss >> stateTime))
 				LOG("FORCE FIELD: Invalid property with name \"%s\"", prop.first.c_str());
 		}
-		if (prop.first == "random")
+		else if (prop.first == "random")
 		{
 			if (!(ss >> random))
 				LOG("FORCE FIELD: Invalid property with name \"%s\"", prop.first.c_str());
 		}
+		else
+			LOG("FORCE FIELD: Invalid property name \"%s\"", prop.first.c_str());
 	}
 }
 
-/// States: "DISABLED" | "FORWARDS" | "BACKWARDS"
+// States: "DISABLED" | "FORWARDS" | "BACKWARDS"
 void ForceField::setState(std::string state)
 {
 	if (state == "DISABLED") currentState = DISABLED;
@@ -94,22 +118,17 @@ void ForceField::setState(std::string state)
 	else currentState = DISABLED;
 }
 
-void ForceField::onTriggerStay(GameObject* other)
+void ForceField::setForce(float force)
 {
-	if (currentState == DISABLED) return;
+	this->force = force;
+}
 
-	RigidBody* ball = other->getComponent<RigidBody>();
+void ForceField::setTime(float time)
+{
+	stateTime = time;
+}
 
-	if (ball == nullptr) return;
-
-	Vector3 forceDirection = {0,0,0};
-
-	if (currentState == FORWARDS) {
-		//forceDirection = ball->getLinearVelocity()
-		forceDirection = gameObject->transform->getPosition() - other->transform->getPosition();
-	}
-	else {
-		forceDirection = other->transform->getPosition() - gameObject->transform->getPosition();	
-	}
-	ball->addForce(forceDirection.normalized() * force);
+void ForceField::setRandom(bool random)
+{
+	this->random = random;
 }

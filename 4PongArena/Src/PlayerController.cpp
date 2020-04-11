@@ -1,19 +1,20 @@
 #include "PlayerController.h"
 #include <InputSystem.h>
-#include <sstream>
-#include <Scene.h>
-#include <SceneManager.h>
 #include <GameObject.h>
 #include <RigidBody.h>
-#include "Health.h"
-#include "WallManager.h"
+#include <sstream>
 
+#include "Health.h"
 #include "ComponentRegister.h"
 
 REGISTER_FACTORY(PlayerController);
 
-
 PlayerController::PlayerController(GameObject* gameObject) : UserComponent(gameObject)
+{
+
+}
+
+PlayerController::~PlayerController()
 {
 
 }
@@ -21,34 +22,20 @@ PlayerController::PlayerController(GameObject* gameObject) : UserComponent(gameO
 void PlayerController::start()
 {
 	rigidBody = gameObject->getComponent<RigidBody>();
-	wall = gameObject->getComponent<WallManager>();
-	rigidBody->setRotationConstraints(Vector3(0, 0, 0));
 	rigidBody->setMovementConstraints(Vector3(1, 0, 1));
+	rigidBody->setRotationConstraints(Vector3(0, 0, 0));
+
+	health = gameObject->getComponent<Health>();
 }
 
 void PlayerController::update(float deltaTime)
 {
-	if (health == nullptr)
+	if (health != nullptr && health->isAlive())
 	{
-		Vector3 pos = Vector3(0, 0, 1);
-		if (player.id == 1)
-			pos = gameObject->transform->getPosition() + Vector3(0, 0, 1);
-		else if (player.id == 2)
-			pos = gameObject->transform->getPosition() + Vector3(1, 0, 0);
-		else if (player.id == 3)
-			pos = gameObject->transform->getPosition() + Vector3(0, 0, -1);
-		else if (player.id == 4)
-			pos = gameObject->transform->getPosition() + Vector3(-1, 0, 0);
-	}
-
-	if (wall->GetHealth()!=nullptr&& wall->GetHealth()->isAlive()&& ! wall->IsWall())
-	{
-
 		Vector3 dir = Vector3(0, 0, 0);
 
 		if (player.index == -1)
 		{
-			rigidBody->setStatic(false);
 			if (player.id == 1 || player.id == 3)
 			{
 				if (InputSystem::GetInstance()->isKeyPressed("A"))
@@ -81,13 +68,8 @@ void PlayerController::update(float deltaTime)
 					dir = Vector3(0, 0, 1);
 			}
 		}
-
 		rigidBody->addForce(dir * force);
 	}
-	
-
-		
-
 }
 
 void PlayerController::handleData(ComponentData* data)
@@ -98,18 +80,25 @@ void PlayerController::handleData(ComponentData* data)
 
 		if (prop.first == "force")
 		{
-			ss >> force;
+			if (!(ss >> force))
+				LOG("PLAYER CONTROLLER: Invalid property with name \"%s\"", prop.first.c_str());
 		}
 		else if (prop.first == "id")
 		{
-			ss >> player.id;
+			if (!(ss >> player.id))
+				LOG("PLAYER CONTROLLER: Invalid property with name \"%s\"", prop.first.c_str());
 		}
 		else if (prop.first == "index")
 		{
-			ss >> player.index;
+			if (!(ss >> player.index))
+				LOG("PLAYER CONTROLLER: Invalid property with name \"%s\"", prop.first.c_str());
 		}
 		else
-			LOG("PlayerController: Invalid property name \"%s\"", prop.first.c_str());
+			LOG("PLAYER CONTROLLER: Invalid property name \"%s\"", prop.first.c_str());
 	}
 }
 
+int PlayerController::getPlayerId()
+{
+	return player.id;
+}

@@ -4,8 +4,6 @@
 
 #include <UserComponent.h>
 
-
-class WallManager;
 class GameObject;
 class RigidBody;
 class Health;
@@ -19,22 +17,21 @@ struct Player
 class PlayerController : public UserComponent
 {
 private:
-	Player player;
-
 	RigidBody* rigidBody;
-	int force;
-	Vector3 OriginalPosition;
 	Health* health;
 
-	WallManager* wall;
+	Player player;
+	int force;
 
 public:
 	PlayerController(GameObject* gameObject);
+	virtual ~PlayerController();
 
 	virtual void start();
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
 
+	int getPlayerId();
 };
 
 #endif
