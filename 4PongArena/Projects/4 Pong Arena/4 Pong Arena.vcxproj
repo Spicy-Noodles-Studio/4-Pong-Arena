@@ -166,6 +166,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\ForceField.cpp" />
+    <ClCompile Include="..\..\Src\GameManager.cpp" />
     <ClCompile Include="..\..\Src\Health.cpp" />
     <ClCompile Include="..\..\Src\IAPaddle.cpp" />
     <ClCompile Include="..\..\Src\main.cpp" />
@@ -173,17 +174,16 @@
     <ClCompile Include="..\..\Src\PlayerController.cpp" />
     <ClCompile Include="..\..\Src\Score.cpp" />
     <ClCompile Include="..\..\Src\WallManager.cpp" />
-    <ClCompile Include="Ball.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\ForceField.h" />
+    <ClInclude Include="..\..\Src\GameManager.h" />
     <ClInclude Include="..\..\Src\Health.h" />
     <ClInclude Include="..\..\Src\IAPaddle.h" />
     <ClInclude Include="..\..\Src\Movement.h" />
     <ClInclude Include="..\..\Src\PlayerController.h" />
     <ClInclude Include="..\..\Src\Score.h" />
     <ClInclude Include="..\..\Src\WallManager.h" />
-    <ClInclude Include="Ball.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

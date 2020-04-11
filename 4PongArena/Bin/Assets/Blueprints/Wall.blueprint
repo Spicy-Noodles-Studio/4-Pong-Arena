@@ -1,31 +1,33 @@
 {
     "ObjectType": "GAMEOBJECT",
-    "ObjectName": "ForceField",
-    "Tag": "forceField",
+    "ObjectName": "Wall",
+    "Tag": "wall",
     "Components":
     [
         {
             "ComponentName": "Transform",
             "ComponentProperties": [
                 ["position", "0 1 0"],
-                ["scale", "1 1 1"],
+                ["scale", "1 1 0.25"],
                 ["rotation", "0 0 0"]
+            ]
+        },
+        {
+            "ComponentName": "MeshRenderer",
+            "ComponentProperties": [
+                ["mesh", "wall Cube.mesh"]
             ]
         },
         {
             "ComponentName": "RigidBody",
             "ComponentProperties": [
-                ["shape", "Sphere"],
-                ["mass", "3"],
+                ["shape", "Box"],
+                ["mass", "1"],
                 ["friction", "0"],
-                ["restitution", "0"],
+                ["restitution", "1"],
                 ["damping", "0"],
                 ["angularDamping", "0"],
-                ["gravity", "0 0 0"],
-                ["offset", "0 0 0"],
-                ["scale", "2 2 2"],
-                ["kinematic", "1"],
-                ["trigger", "1"]
+                ["scale", "1 1 1"]
             ]
         }
     ]

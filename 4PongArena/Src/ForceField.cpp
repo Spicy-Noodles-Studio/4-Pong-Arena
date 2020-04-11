@@ -15,6 +15,7 @@ ForceField::ForceField(GameObject* gameObject) :	UserComponent(gameObject), forc
 
 ForceField::~ForceField()
 {
+
 }
 
 void ForceField::start()
@@ -33,6 +34,24 @@ void ForceField::update(float deltaTime)
 	}
 }
 
+void ForceField::onTriggerStay(GameObject* other)
+{
+	if (currentState == State::DISABLED) return;
+
+	RigidBody* ball = other->getComponent<RigidBody>();
+
+	if (ball == nullptr) return;
+
+	Vector3 forceDirection = { 0,0,0 };
+
+	if (currentState == State::FORWARDS)
+		forceDirection = gameObject->transform->getPosition() - other->transform->getPosition();
+	else
+		forceDirection = other->transform->getPosition() - gameObject->transform->getPosition();
+
+	ball->addForce(forceDirection.normalized() * force);
+}
+
 void ForceField::handleData(ComponentData* data)
 {
 	for (auto prop : data->getProperties())
@@ -44,12 +63,12 @@ void ForceField::handleData(ComponentData* data)
 			if(!(ss >> force))
 				LOG("FORCE FIELD: Invalid value for property with name \"%s\"", prop.first.c_str());
 		}
-		if (prop.first == "stateTime")
+		else if (prop.first == "stateTime")
 		{
 			if(!(ss >> stateTime))
 				LOG("FORCE FIELD: Invalid value for property with name \"%s\"", prop.first.c_str());
 		}
-		if (prop.first == "random")
+		else if (prop.first == "random")
 		{
 			if (!(ss >> random))
 				LOG("FORCE FIELD: Invalid value for property with name \"%s\"", prop.first.c_str());
@@ -120,24 +139,4 @@ void ForceField::changeState()
 			break;
 		}
 	}
-}
-
-void ForceField::onTriggerStay(GameObject* other)
-{
-	if (currentState == State::DISABLED) return;
-
-	RigidBody* ball = other->getComponent<RigidBody>();
-
-	if (ball == nullptr) return;
-
-	Vector3 forceDirection = {0,0,0};
-
-	if (currentState == State::FORWARDS) {
-		//forceDirection = ball->getLinearVelocity()
-		forceDirection = gameObject->transform->getPosition() - other->transform->getPosition();
-	}
-	else {
-		forceDirection = other->transform->getPosition() - gameObject->transform->getPosition();	
-	}
-	ball->addForce(forceDirection.normalized() * force);
 }

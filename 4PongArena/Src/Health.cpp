@@ -16,19 +16,14 @@ Health::~Health()
 
 }
 
-void Health::onObjectEnter(GameObject* other)
-{
-	if (other->getTag() == "p1") { // TODO: quitar este tag
-		receiveDamage(1);
-	}
-}
-
 void Health::handleData(ComponentData* data)
 {
-	for (auto prop : data->getProperties()) {
+	for (auto prop : data->getProperties())
+	{
 		std::stringstream ss(prop.second);
 
-		if (prop.first == "health") {
+		if (prop.first == "health")
+		{
 			if (!(ss >> health))
 				LOG("HEALTH: Invalid value for property with name \"%s\"", prop.first.c_str());
 		}

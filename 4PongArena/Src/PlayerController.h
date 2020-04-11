@@ -29,6 +29,8 @@ public:
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
 
+	int getPlayerId();
+
 private:
 	void checkInput() const;
 	void checkKeyboard(bool& left, bool& right) const;

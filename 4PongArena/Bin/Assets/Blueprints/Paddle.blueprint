@@ -27,12 +27,25 @@
                 ["restitution", "1"],
                 ["damping", "0"],
                 ["angularDamping", "0"],
-                ["scale", "1 1 1"],
-                ["kinematic", "0"]
+                ["scale", "1 1 1"]
             ]
         },
         {
             "ComponentName": "Movement"
+        },
+        {
+            "ComponentName": "Health",
+            "ComponentProperties": [
+                ["health", "5"]
+            ]
+        },
+        {
+            "ComponentName": "WallManager",
+            "ComponentProperties": [
+                ["sensorOffset", "0.5"],
+                ["wallMesh", "wall Cube.mesh"],
+                ["wallScale", "3 1 0.25"]
+            ]
         }
     ]
 }

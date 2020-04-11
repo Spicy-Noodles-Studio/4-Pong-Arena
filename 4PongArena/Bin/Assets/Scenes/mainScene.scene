@@ -1,7 +1,6 @@
 {
     "SceneName": "MainScene",
     "SceneObjects": [
-        
         {
             "ObjectType": "BLUEPRINT",
             "ObjectName": "MainCamera",

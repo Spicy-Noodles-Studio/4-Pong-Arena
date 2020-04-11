@@ -4,14 +4,12 @@
 
 #include <UserComponent.h>
 
-
 class Health : public UserComponent
 {
 public:
 	Health(GameObject* gameObject);
 	virtual ~Health();
 
-	virtual void onObjectEnter(GameObject* other);
 	virtual void handleData(ComponentData* data);
 
 	int getHealth() const;

@@ -1,9 +1,9 @@
 #include "PlayerController.h"
-#include <sstream>
-#include <InputSystem.h>
 #include <ComponentRegister.h>
+#include <InputSystem.h>
 #include <GameObject.h>
 #include <RigidBody.h>
+#include <sstream>
 
 #include "Movement.h"
 
@@ -16,6 +16,7 @@ PlayerController::PlayerController(GameObject* gameObject) : UserComponent(gameO
 
 PlayerController::~PlayerController()
 {
+	
 }
 
 void PlayerController::start()
@@ -43,14 +44,16 @@ void PlayerController::handleData(ComponentData* data)
 
 		if (prop.first == "id")
 		{
-			ss >> player.id;
+			if (!(ss >> player.id))
+				LOG("PLAYER CONTROLLER: Invalid property with name \"%s\"", prop.first.c_str());
 		}
 		else if (prop.first == "index")
 		{
-			ss >> player.index;
+			if (!(ss >> player.index))
+				LOG("PLAYER CONTROLLER: Invalid property with name \"%s\"", prop.first.c_str());
 		}
 		else
-			LOG("PlayerController: Invalid property name \"%s\"", prop.first.c_str());
+			LOG("PLAYER CONTROLLER: Invalid property name \"%s\"", prop.first.c_str());
 	}
 }
 
@@ -104,4 +107,9 @@ void PlayerController::checkController(bool& left, bool& right) const
 									leftJoystick.first < 0 || inputSystem->isButtonPressed(player.index, "Left") :
 			player.id / 2 == 1 ?	leftJoystick.second < 0 || inputSystem->isButtonPressed(player.index, "Up") :
 									leftJoystick.second > 0 || inputSystem->isButtonPressed(player.index, "Down");
+}
+
+int PlayerController::getPlayerId()
+{
+	return player.id;
 }
