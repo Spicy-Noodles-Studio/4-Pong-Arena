@@ -64,23 +64,23 @@ void WallManager::handleData(ComponentData* data)
 		if (prop.first == "sensorOffset")
 		{
 			if (!(ss >> sensorOffset))
-				LOG("HEALTH: Invalid property with name \"%s\"", prop.first.c_str());
+				LOG("WALL MANAGER: Invalid property with name \"%s\"", prop.first.c_str());
 		}
 		else if (prop.first == "wallMesh")
 		{
 			if (!(ss >> wallMeshId >> wallMeshName))
-				LOG("HEALTH: Invalid property with name \"%s\"", prop.first.c_str());
+				LOG("WALL MANAGER: Invalid property with name \"%s\"", prop.first.c_str());
 		}
 		else if (prop.first == "wallScale")
 		{
 			double x, y, z;
 			if (!(ss >> x >> y >> z))
-				LOG("HEALTH: Invalid property with name \"%s\"", prop.first.c_str());
+				LOG("WALL MANAGER: Invalid property with name \"%s\"", prop.first.c_str());
 			else
 				wallScale = { x,y,z };
 		}
 		else
-			LOG("GHOST MANAGER: Invalid property name \"%s\"", prop.first.c_str());
+			LOG("WALL MANAGER: Invalid property name \"%s\"", prop.first.c_str());
 	}
 }
 
