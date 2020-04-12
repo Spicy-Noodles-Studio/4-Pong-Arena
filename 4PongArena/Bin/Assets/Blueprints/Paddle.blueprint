@@ -40,7 +40,7 @@
             ]
         },
         {
-            "ComponentName": "WallManager",
+            "ComponentName": "Death",
             "ComponentProperties": [
                 ["sensorOffset", "0.5"],
                 ["wallMesh", "wall Cube.mesh"],

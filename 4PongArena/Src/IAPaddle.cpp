@@ -3,13 +3,14 @@
 #include <GameObject.h>
 #include <RigidBody.h>
 #include <MathUtils.h>
+#include <sstream>
 
 #include "Movement.h"
 
 REGISTER_FACTORY(IAPaddle);
 
 IAPaddle::IAPaddle(GameObject* gameObject) :	UserComponent(gameObject), currentState(State::MOVE), targetBall(nullptr), movement(nullptr), 
-												timeToChange(0.0f), timerToChange(0.0f)
+												decisionTime(1.0f), decisionTimer(0.0f)
 {
 
 }
@@ -22,14 +23,13 @@ IAPaddle::~IAPaddle()
 void IAPaddle::start()
 {
 	movement = gameObject->getComponent<Movement>();
-	timeToChange = 1.0f;
 }
 
 void IAPaddle::update(float deltaTime)
 {
-	timerToChange += deltaTime;
-	if (timerToChange >= timeToChange) { 
-		timerToChange = 0.0f; 
+	decisionTimer += deltaTime;
+	if (decisionTimer >= decisionTime) { 
+		decisionTimer = 0.0f; 
 		takeDecision(); 
 	}
 
@@ -45,10 +45,23 @@ void IAPaddle::update(float deltaTime)
 	}
 }
 
+void IAPaddle::handleData(ComponentData* data)
+{
+	for (auto prop : data->getProperties()) {
+		std::stringstream ss(prop.second);
+		if (prop.first == "decisionTime") {
+			if (!(ss >> decisionTime))
+				LOG_ERROR("IA PADDLE", "Invalid value for property with name \"%s\"", prop.first.c_str());
+		}
+		else
+			LOG_ERROR("IA PADDLE", "Invalid property with name \"%s\"", prop.first.c_str());
+	}
+}
+
 void IAPaddle::processChooseTargetState()
 {
 	targetBall = nullptr;
-	balls = findGameObjectsWithTag("ball");
+	balls = findGameObjectsWithTag("ball"); // TODO: el vector deberia de ser una referencia a un vector ya creado (mas eficiente)
 
 	//Escogemos una bola que venga hacia nosotros aleatoria
 	std::vector<GameObject*> validBalls;
@@ -71,52 +84,26 @@ void IAPaddle::processMoveState()
 		currentState = State::CHOOSE_TARGET;
 		return; 
 	}
-	// TODO: mejorar esto (si averiguo como)
+
 	Vector3 normal = movement->getNormal();
-	Vector3 diff = targetBall->transform->getPosition() - gameObject->transform->getPosition();
+	Vector3 motionDirection(-normal.z, 0.0, normal.x); // Perpendicular vector
+	Vector3 directionMask = Vector3(abs(-normal.z), 0.0, abs(normal.x)).normalized();
+	Vector3 diff = (targetBall->transform->getPosition() - gameObject->transform->getPosition()) * directionMask; //Extract raw differnce (no signe modification)
 	float tolerance = 0.2f;
 
-	if (normal == Vector3::RIGHT || normal == Vector3::NEGATIVE_RIGHT) // mira la z
-	{
-		if (abs(diff.z) < tolerance) { movement->stop(); return; }
-		if (diff.z < 0.0f)
-			normal == Vector3::RIGHT ? movement->moveLeft() : movement->moveRight();
-		else if (diff.z > 0.0f)
-			normal == Vector3::RIGHT ? movement->moveRight() : movement->moveLeft();
-	}
-	else if (normal == Vector3::FORWARD || normal == Vector3::NEGATIVE_FORWARD) // mira la x
-	{
-		if (abs(diff.x) < tolerance) { movement->stop(); return; }
-		if (diff.x < tolerance)
-			normal == Vector3::FORWARD ? movement->moveRight() : movement->moveLeft();
-		else if(diff.x > tolerance)
-			normal == Vector3::FORWARD ? movement->moveLeft() : movement->moveRight();
-	}
+	if(diff.magnitude() < tolerance) // We have arrived
+		movement->stop();
+	else if (diff.normalized() + motionDirection.normalized() == Vector3::ZERO) // Different direction, go to my left
+		movement->moveLeft();
+	else
+		movement->moveRight();
 }
 
 void IAPaddle::takeDecision()
 {
-	//If it has not target, then choose one
-	if (targetBall == nullptr) { processChooseTargetState(); return; }
-
-	//If it has, then see if its posible or choose another one
-	if (!canReachToTarget())
+	// Choose randomly if it should choose another target or if it has not target, then choose one
+	if (rand() || targetBall == nullptr)
 		processChooseTargetState();
-	else
-		currentState = State::MOVE;
-
-	/*if (!canReachToTarget()) {
-		//Segun inteligencia
-		float intelligence = 1.0f;
-		if(random() <= intelligence)
-			processChooseTargetState();
-	}*/
-}
-
-bool IAPaddle::canReachToTarget()
-{
-	// De momento random, he probado otras formas no funcionan mejor que un random (lo cual es raro)
-	return !rand();
 }
 
 bool IAPaddle::isBallBehind(const Vector3& ballPosition)
@@ -125,12 +112,11 @@ bool IAPaddle::isBallBehind(const Vector3& ballPosition)
 	Vector3 direction = (ballPosition - gameObject->transform->getPosition()) * Vector3(abs(normal.x), 0.0, abs(normal.z));
 	direction.normalize();
 
-	return normal != direction && ballPosition.y < 0.0;
+	return normal != direction && ballPosition.y < 0.0; // TODO: quitar segunda condicion
 }
 
 bool IAPaddle::isBallHeadingToMe(const Vector3& ballDirection)
 {
-	//Cambiar a Raycast mejor cuando se pueda
 	Vector3 inverseNormal = movement->getNormal() * Vector3::NEGATIVE_IDENTITY;
 	Vector3 rawDirection = (ballDirection * Vector3(abs(inverseNormal.x), abs(inverseNormal.y), abs(inverseNormal.z)));
 	Vector3 ballNormal = rawDirection.normalized();

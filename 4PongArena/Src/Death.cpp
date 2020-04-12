@@ -1,4 +1,4 @@
-#include "WallManager.h"
+#include "Death.h"
 #include <ComponentRegister.h>
 #include <GameObject.h>
 #include <RigidBody.h>
@@ -9,23 +9,23 @@
 #include "Health.h"
 #include "Score.h"
 
-REGISTER_FACTORY(WallManager);
+REGISTER_FACTORY(Death);
 
-WallManager::WallManager(GameObject* gameObject) : UserComponent(gameObject), rigidBody(nullptr), health(nullptr), goal(nullptr), goalOffset(0.0f)
+Death::Death(GameObject* gameObject) : UserComponent(gameObject), rigidBody(nullptr), health(nullptr), goal(nullptr), goalOffset(0.0f)
 {
 
 }
 
-WallManager::~WallManager()
+Death::~Death()
 {
 
 }
 
-void WallManager::start()
+void Death::start()
 {
 	initialPosition = gameObject->transform->getPosition();
 
-	goal = instantiate("Goal", initialPosition);
+	goal = instantiate("Goal", initialPosition); // TODO: HACER EN UN COMPONENTE KEEPER (Portero)
 	goal->transform->setRotation(gameObject->transform->getRotation());
 
 	Vector3 normal = gameObject->getComponent<Movement>()->getNormal();
@@ -41,32 +41,27 @@ void WallManager::start()
 	aliveScale = gameObject->transform->getScale();
 }
 
-void WallManager::update(float deltaTime)
+void Death::update(float deltaTime)
 {
 	if (health != nullptr && health->isDead()) {
-		changeShapeToWall();
+		die();
 		setActive(false);
 	}
 }
 
-void WallManager::handleData(ComponentData* data)
+void Death::handleData(ComponentData* data)
 {
-	for (auto prop : data->getProperties())
-	{
+	for (auto prop : data->getProperties())	{
 		std::stringstream ss(prop.second);
-
-		if (prop.first == "sensorOffset")
-		{
+		if (prop.first == "sensorOffset") {
 			if (!(ss >> goalOffset))
 				LOG("WALL MANAGER: Invalid property with name \"%s\"", prop.first.c_str());
 		}
-		else if (prop.first == "wallMesh")
-		{
+		else if (prop.first == "wallMesh") {
 			if (!(ss >> wallMeshId >> wallMeshName))
 				LOG("WALL MANAGER: Invalid property with name \"%s\"", prop.first.c_str());
 		}
-		else if (prop.first == "wallScale")
-		{
+		else if (prop.first == "wallScale")	{
 			double x, y, z;
 			if (!(ss >> x >> y >> z))
 				LOG("WALL MANAGER: Invalid property with name \"%s\"", prop.first.c_str());
@@ -78,7 +73,7 @@ void WallManager::handleData(ComponentData* data)
 	}
 }
 
-void WallManager::changeShapeToWall()
+void Death::die()
 {
 	gameObject->transform->setPosition(initialPosition);
 	rigidBody->setStatic(true);

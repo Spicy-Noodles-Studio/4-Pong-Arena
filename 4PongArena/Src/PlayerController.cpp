@@ -5,6 +5,9 @@
 #include <RigidBody.h>
 #include <sstream>
 
+//TODO: QUITAR
+#include "Ball.h"
+
 #include "Movement.h"
 
 REGISTER_FACTORY(PlayerController);
@@ -32,7 +35,8 @@ void PlayerController::update(float deltaTime)
 	// DEBUG PURPOSES TODO: quitar
 	if (InputSystem::GetInstance()->getKeyPress("Space")) {
 		GameObject* ball = instantiate("Ball");
-		ball->getComponent<RigidBody>()->setLinearVelocity(Vector3(0.5, 0.0, 0.75).normalized() * 4.0);
+		ball->getComponent<RigidBody>()->setLinearVelocity(Vector3(0.75, 0.0, 1.0));
+		ball->getComponent<Ball>()->setVelocity(4);
 	}
 }
 

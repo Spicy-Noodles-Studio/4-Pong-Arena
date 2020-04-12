@@ -11,7 +11,6 @@ class Ball : public UserComponent
 private:
 	RigidBody* rigidBody;
 	float velocity;
-	Vector3 direction;
 
 public:
 	Ball(GameObject* gameObject);
@@ -22,8 +21,6 @@ public:
 
 	float getVelocity();
 	void setVelocity(float velocity);
-	Vector3 getDirection();
-	void setDirection(const Vector3& direction);
 
 };
 
