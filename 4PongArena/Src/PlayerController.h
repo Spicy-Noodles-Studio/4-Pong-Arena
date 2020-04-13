@@ -23,18 +23,17 @@ private:
 
 public:
 	PlayerController(GameObject* gameObject);
-	~PlayerController();
+	virtual ~PlayerController();
 
 	virtual void start();
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
 
-	int getPlayerId();
-
 private:
 	void checkInput() const;
-	void checkKeyboard(bool& left, bool& right) const;
-	void checkController(bool& left, bool& right) const;
+	Vector3 getInputAxis() const;
+	Vector3 getKeyboardAxis() const;
+	Vector3 getControllerAxis() const;
 };
 
 #endif

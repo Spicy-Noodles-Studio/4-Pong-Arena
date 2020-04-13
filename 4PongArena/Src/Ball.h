@@ -14,7 +14,7 @@ private:
 
 public:
 	Ball(GameObject* gameObject);
-	~Ball();
+	virtual ~Ball();
 
 	virtual void start();
 	virtual void update(float deltaTime);

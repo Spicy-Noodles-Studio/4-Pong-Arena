@@ -23,6 +23,7 @@ void Movement::start()
 	normal = Vector3::ZERO - gameObject->transform->getPosition();
 	normal *= Vector3(1.0, 0.0, 1.0);
 	normal.normalize();
+
 	// Cancel rotations and translations through normal vector
 	rigidBody->setRotationConstraints(Vector3::ZERO);
 	rigidBody->setMovementConstraints(Vector3(abs(normal.z), 0.0, abs(normal.x)));

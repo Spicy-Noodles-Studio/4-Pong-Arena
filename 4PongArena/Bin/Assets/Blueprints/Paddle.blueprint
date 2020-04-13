@@ -15,7 +15,7 @@
         {
             "ComponentName": "MeshRenderer",
             "ComponentProperties": [
-                ["mesh", "player Cube.mesh"]
+                ["mesh", "paddle Cube.mesh"]
             ]
         },
         {
@@ -42,7 +42,7 @@
         {
             "ComponentName": "Death",
             "ComponentProperties": [
-                ["sensorOffset", "0.5"],
+                ["sensorOffset", "0.75"],
                 ["wallMesh", "wall Cube.mesh"],
                 ["wallScale", "3 1 0.25"]
             ]

@@ -18,20 +18,11 @@
             "ObjectName": "Player1",
             "Tag": "p1",
             "BlueprintPath": "Paddle",
-            "Components" : [
+            "Components" : [ 
                 {
                     "ComponentName": "PlayerController",
                     "ComponentProperties": [
-                        ["force", "5"],
                         ["id", "1"],
-                        ["index", "4"]
-                    ]
-                }, 
-                {
-                    "ComponentName": "IAPaddle",
-                    "ComponentProperties": [
-                        ["force", "5"],
-                        ["id", "2"],
                         ["index", "4"]
                     ]
                 }
@@ -53,12 +44,7 @@
             "BlueprintPath": "Paddle",
             "Components" : [
                 {
-                    "ComponentName": "IAPaddle",
-                    "ComponentProperties": [
-                        ["force", "5"],
-                        ["id", "2"],
-                        ["index", "4"]
-                    ]
+                    "ComponentName": "IAPaddle"
                 }
             ],
             "ComponentModifications": [
@@ -78,12 +64,7 @@
             "BlueprintPath": "Paddle",
             "Components" : [
                 {
-                    "ComponentName": "IAPaddle",
-                    "ComponentProperties": [
-                        ["force", "5"],
-                        ["id", "3"],
-                        ["index", "4"]
-                    ]
+                    "ComponentName": "IAPaddle"
                 }
             ],
             "ComponentModifications": [
@@ -103,12 +84,7 @@
             "BlueprintPath": "Paddle",
             "Components" : [
                 {
-                    "ComponentName": "IAPaddle",
-                    "ComponentProperties": [
-                        ["force", "5"],
-                        ["id", "4"],
-                        ["index", "4"]
-                    ]
+                    "ComponentName": "IAPaddle"
                 }
             ],
             "ComponentModifications": [
@@ -130,7 +106,7 @@
                 {
                     "ComponentName": "Transform",
                     "ComponentProperties": [
-                        ["position", "-2 0.75 -2"]
+                        ["position", "-2 1 -2"]
                     ]
                 }
             ]
@@ -144,7 +120,7 @@
                 {
                     "ComponentName": "Transform",
                     "ComponentProperties": [
-                        ["position", "-2 0.75 2"]
+                        ["position", "-2 1 2"]
                     ]
                 }
             ]
@@ -158,7 +134,7 @@
                 {
                     "ComponentName": "Transform",
                     "ComponentProperties": [
-                        ["position", "2 0.75 2"]
+                        ["position", "2 1 2"]
                     ]
                 }
             ]
@@ -172,7 +148,7 @@
                 {
                     "ComponentName": "Transform",
                     "ComponentProperties": [
-                        ["position", "2 0.75 -2"]
+                        ["position", "2 1 -2"]
                     ]
                 }
             ]

@@ -10,7 +10,7 @@ class Score : public UserComponent
 {
 public:
 	Score(GameObject* gameObject);
-	~Score();
+	virtual ~Score();
 
 	virtual void onObjectEnter(GameObject* other);
 
