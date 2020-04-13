@@ -196,13 +196,16 @@ ConfigurationMenu::~ConfigurationMenu()
 
 void ConfigurationMenu::start()
 {
+	if(SceneManager::GetInstance()->getCurrentScene()->getName() != "ConfigurationMenu") // ATENCION !!! PROVISIONAL
+		return;
+	
 	inputSystem = InputSystem::GetInstance();
 
 	GameObject* mainCamera = findGameObjectWithName("MainCamera");
 
 	if (mainCamera != nullptr)
 		configurationLayout = mainCamera->getComponent<UILayout>();
-
+	
 	if (configurationLayout != nullptr)
 		startButton = configurationLayout->getRoot().getChild("StartButton");
 
@@ -226,5 +229,8 @@ void ConfigurationMenu::start()
 
 void ConfigurationMenu::update(float deltaTime)
 {
+	if (SceneManager::GetInstance()->getCurrentScene()->getName() != "ConfigurationMenu") // ATENCION !!! PROVISIONAL
+		return;
+
 	checkInput();
 }

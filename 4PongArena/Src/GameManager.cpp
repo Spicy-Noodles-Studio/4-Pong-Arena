@@ -1,4 +1,7 @@
 ﻿#include "GameManager.h"
+
+#include <Timer.h>
+
 #include <ComponentRegister.h>
 
 REGISTER_FACTORY(GameManager);
@@ -82,4 +85,21 @@ void GameManager::setSong(std::string song)
 std::string GameManager::getSong() const
 {
 	return song;
+}
+
+void GameManager::pauseGame(bool setPaused)
+{
+	if (paused == setPaused) return;
+
+	paused = setPaused;
+
+	if (paused)
+		Timer::GetInstance()->setTimeScale(0.0f); //Pause the game
+	else
+		Timer::GetInstance()->setTimeScale(1.0f); //Resume the game
+}
+
+bool GameManager::gameIsPaused()
+{
+	return paused;
 }

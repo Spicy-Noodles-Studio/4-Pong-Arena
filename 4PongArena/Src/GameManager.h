@@ -10,6 +10,8 @@ class GameManager : public UserComponent
 private:
 	static GameManager* instance;
 
+	bool paused;
+
 	std::vector<Player> players;
 
 	int health;
@@ -41,6 +43,9 @@ public:
 
 	void setSong(std::string song);
 	std::string getSong() const;
+
+	void pauseGame(bool setPaused);
+	bool gameIsPaused();
 };
 
 #endif
