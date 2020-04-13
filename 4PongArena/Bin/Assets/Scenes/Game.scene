@@ -1,0 +1,44 @@
+{
+    "SceneName": "Game",
+    "SceneObjects": [
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "MainCamera",
+            "Tag": "mainCamera",
+            "BlueprintPath": "Camera"
+        },
+        {
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "Game",
+            "Tag": "game",
+            "Components":
+            [
+                {
+                    "ComponentName" : "Game"
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Ground",
+            "Tag": "ground",
+            "BlueprintPath": "Ground"
+        },
+		{
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "ForceField",
+            "Tag": "forceField",
+            "BlueprintPath": "ForceField",
+			"Components" : [
+                {
+                    "ComponentName": "ForceField",
+                    "ComponentProperties": [
+                        ["force", "1"],
+                        ["stateTime", "15"],
+                        ["random", "0"]
+                    ]
+                }
+            ]
+        }
+    ]
+}

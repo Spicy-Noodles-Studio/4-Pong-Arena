@@ -27,7 +27,7 @@ void WallManager::start()
 	sensor = instantiate("Sensor", initialPosition);
 	sensor->transform->setRotation(gameObject->transform->getRotation());
 
-	int id = gameObject->getComponent<PlayerController>()->getPlayerId();
+	int id = gameObject->getComponent<PlayerController>()->getPlayer().id;
 
 	if (id == 1)
 		sensor->transform->setPosition(initialPosition + Vector3(0, 0, sensorOffset));

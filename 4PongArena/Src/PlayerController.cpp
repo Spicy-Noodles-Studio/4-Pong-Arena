@@ -34,7 +34,7 @@ void PlayerController::update(float deltaTime)
 	{
 		Vector3 dir = Vector3(0, 0, 0);
 
-		if (player.index == -1)
+		if (player.index == 4)
 		{
 			if (player.id == 1 || player.id == 3)
 			{
@@ -98,7 +98,13 @@ void PlayerController::handleData(ComponentData* data)
 	}
 }
 
-int PlayerController::getPlayerId()
+void PlayerController::setPlayer(int id, int index)
 {
-	return player.id;
+	player.id = id;
+	player.index = index;
+}
+
+Player PlayerController::getPlayer() const
+{
+	return player;
 }

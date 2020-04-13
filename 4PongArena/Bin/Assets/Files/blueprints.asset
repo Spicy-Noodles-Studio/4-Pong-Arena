@@ -1,5 +1,5 @@
-./Assets/Blueprints/Suelo.blueprint
-./Assets/Blueprints/Player.blueprint
+./Assets/Blueprints/Camera.blueprint
+./Assets/Blueprints/Ground.blueprint
+./Assets/Blueprints/Paddle.blueprint
 ./Assets/Blueprints/ForceField.blueprint
 ./Assets/Blueprints/Sensor.blueprint
-./Assets/Blueprints/Camera.blueprint

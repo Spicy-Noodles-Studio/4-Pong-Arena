@@ -3,16 +3,11 @@
 #define PLAYER_CONTROLLER_H
 
 #include <UserComponent.h>
+#include "Player.h"
 
 class GameObject;
 class RigidBody;
 class Health;
-
-struct Player
-{
-	int id; // Jugador, de 1 a 4
-	int index; // Teclado = -1, mandos de 0 a 3
-};
 
 class PlayerController : public UserComponent
 {
@@ -31,7 +26,8 @@ public:
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
 
-	int getPlayerId();
+	void setPlayer(int id, int index);
+	Player getPlayer() const;
 };
 
 #endif

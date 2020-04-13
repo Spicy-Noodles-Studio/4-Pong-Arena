@@ -26,13 +26,6 @@
         },
         {
             "ComponentName": "SoundListener"
-        },
-        {
-            "ComponentName": "Reverb",
-            "ComponentProperties": [
-                ["preset" , "mountains"],
-                ["maxDistance" , "100000"]
-            ]
         }
     ]
 }

@@ -1,21 +1,21 @@
 {
     "ObjectType": "GAMEOBJECT",
-    "ObjectName": "Suelo",
-    "Tag": "suelo",
+    "ObjectName": "Paddle",
+    "Tag": "paddle",
     "Components":
     [
         {
             "ComponentName": "Transform",
             "ComponentProperties": [
                 ["position", "0 0 0"],
-                ["scale", "5 0.5 5"],
+                ["scale", "0.75 0.25 0.25"],
                 ["rotation", "0 0 0"]
             ]
         },
         {
             "ComponentName": "MeshRenderer",
             "ComponentProperties": [
-                ["mesh", "suelo Cube.mesh"]
+                ["mesh", "paddle Cube.mesh"]
             ]
         },
         {
@@ -30,8 +30,30 @@
                 ["gravity", "0 0 0"],
                 ["offset", "0 0 0"],
                 ["scale", "1 1 1"],
-                ["kinematic", "1"],
+                ["kinematic", "0"],
                 ["trigger", "0"]
+            ]
+        },
+        {
+            "ComponentName": "PlayerController",
+            "ComponentProperties": [
+                ["force", "5"],
+                ["id", "0"],
+                ["index", "0"]
+            ]
+        },
+        {
+            "ComponentName": "Health",
+            "ComponentProperties": [
+                ["health", "15"]
+            ]
+        },
+        {
+            "ComponentName": "WallManager",
+            "ComponentProperties": [
+                ["sensorOffset", "0.5"],
+                ["wallMesh", "wall Cube.mesh"],
+                ["wallScale", "1 1 1"]
             ]
         }
     ]
