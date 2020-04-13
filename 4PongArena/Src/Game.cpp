@@ -61,6 +61,21 @@ void Game::createPlayers()
 
 		paddles.push_back(paddle);
 	}
+
+	int nIA = 4 - nPlayers;
+
+	if (nIA > 0)
+	{
+		for (int i = 0; i < nIA; i++)
+		{
+			GameObject* paddleIA = instantiate("IA", playerTransforms[i + nPlayers].first);
+			paddleIA->transform->setRotation(playerTransforms[i + nPlayers].second);
+
+			paddleIA->getComponent<Health>()->setHealth(gameManager->getHealth());
+
+			paddles.push_back(paddleIA);
+		}
+	}
 }
 
 void Game::playSong()

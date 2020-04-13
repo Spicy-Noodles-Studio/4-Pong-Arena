@@ -2,12 +2,6 @@
     "SceneName": "Game",
     "SceneObjects": [
         {
-            "ObjectType": "BLUEPRINT",
-            "ObjectName": "MainCamera",
-            "Tag": "mainCamera",
-            "BlueprintPath": "Camera"
-        },
-        {
             "ObjectType": "GAMEOBJECT",
             "ObjectName": "Game",
             "Tag": "game",
@@ -20,9 +14,71 @@
         },
         {
             "ObjectType": "BLUEPRINT",
+            "ObjectName": "MainCamera",
+            "Tag": "mainCamera",
+            "BlueprintPath": "Camera"
+        },
+        {
+            "ObjectType": "BLUEPRINT",
             "ObjectName": "Ground",
             "Tag": "ground",
             "BlueprintPath": "Ground"
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Pillar1",
+            "Tag": "pillar",
+            "BlueprintPath": "Pillar",
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "-2 1 -2"]
+                    ]
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Pillar2",
+            "Tag": "pillar",
+            "BlueprintPath": "Pillar",
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "-2 1 2"]
+                    ]
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Pillar3",
+            "Tag": "pillar",
+            "BlueprintPath": "Pillar",
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "2 1 2"]
+                    ]
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Pillar4",
+            "Tag": "pillar",
+            "BlueprintPath": "Pillar",
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "2 1 -2"]
+                    ]
+                }
+            ]
         },
 		{
             "ObjectType": "BLUEPRINT",
