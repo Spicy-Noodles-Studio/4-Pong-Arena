@@ -168,23 +168,25 @@
     <ClCompile Include="..\..\Src\Ball.cpp" />
     <ClCompile Include="..\..\Src\ForceField.cpp" />
     <ClCompile Include="..\..\Src\GameManager.cpp" />
+    <ClCompile Include="..\..\Src\Goal.cpp" />
+    <ClCompile Include="..\..\Src\GoalKeeper.cpp" />
     <ClCompile Include="..\..\Src\Health.cpp" />
     <ClCompile Include="..\..\Src\IAPaddle.cpp" />
     <ClCompile Include="..\..\Src\main.cpp" />
     <ClCompile Include="..\..\Src\Movement.cpp" />
     <ClCompile Include="..\..\Src\PlayerController.cpp" />
-    <ClCompile Include="..\..\Src\Score.cpp" />
     <ClCompile Include="..\..\Src\Death.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Ball.h" />
     <ClInclude Include="..\..\Src\ForceField.h" />
     <ClInclude Include="..\..\Src\GameManager.h" />
+    <ClInclude Include="..\..\Src\Goal.h" />
+    <ClInclude Include="..\..\Src\GoalKeeper.h" />
     <ClInclude Include="..\..\Src\Health.h" />
     <ClInclude Include="..\..\Src\IAPaddle.h" />
     <ClInclude Include="..\..\Src\Movement.h" />
     <ClInclude Include="..\..\Src\PlayerController.h" />
-    <ClInclude Include="..\..\Src\Score.h" />
     <ClInclude Include="..\..\Src\Death.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -4,10 +4,6 @@
 #include <GameObject.h>
 #include <sstream>
 
-//TODO: QUITAR
-#include <RigidBody.h>
-#include "Ball.h"
-
 #include "Movement.h"
 
 REGISTER_FACTORY(PlayerController);
@@ -31,13 +27,6 @@ void PlayerController::start()
 void PlayerController::update(float deltaTime)
 {
 	checkInput();
-
-	// DEBUG PURPOSES TODO: quitar
-	if (inputSystem->getKeyPress("Space")) {
-		GameObject* ball = instantiate("Ball");
-		ball->getComponent<RigidBody>()->setLinearVelocity(Vector3(0.75, 0.0, 1.0));
-		ball->getComponent<Ball>()->setVelocity(4);
-	}
 }
 
 void PlayerController::handleData(ComponentData* data)
@@ -46,13 +35,11 @@ void PlayerController::handleData(ComponentData* data)
 	{
 		std::stringstream ss(prop.second);
 
-		if (prop.first == "id")
-		{
+		if (prop.first == "id") {
 			if (!(ss >> player.id))
 				LOG("PLAYER CONTROLLER: Invalid property with name \"%s\"", prop.first.c_str());
 		}
-		else if (prop.first == "index")
-		{
+		else if (prop.first == "index") {
 			if (!(ss >> player.index))
 				LOG("PLAYER CONTROLLER: Invalid property with name \"%s\"", prop.first.c_str());
 		}

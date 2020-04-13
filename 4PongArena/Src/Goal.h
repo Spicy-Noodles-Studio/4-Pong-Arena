@@ -1,16 +1,16 @@
 #pragma once
-#ifndef SCORE_H
-#define SCORE_H
+#ifndef GOAL_H
+#define GOAL_H
 
 #include <UserComponent.h>
 
 class Health;
 
-class Score : public UserComponent
+class Goal : public UserComponent
 {
 public:
-	Score(GameObject* gameObject);
-	virtual ~Score();
+	Goal(GameObject* gameObject);
+	virtual ~Goal();
 
 	virtual void onObjectEnter(GameObject* other);
 

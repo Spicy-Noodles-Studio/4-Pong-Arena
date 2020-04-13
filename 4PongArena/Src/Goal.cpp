@@ -1,22 +1,22 @@
-#include "Score.h"
+#include "Goal.h"
 #include <ComponentRegister.h>
 #include <GameObject.h>
 
 #include "Health.h"
 
-REGISTER_FACTORY(Score);
+REGISTER_FACTORY(Goal);
 
-Score::Score(GameObject* gameObject) : UserComponent(gameObject), score(0), health(nullptr)
+Goal::Goal(GameObject* gameObject) : UserComponent(gameObject), score(0), health(nullptr)
 {
 
 }
 
-Score::~Score()
+Goal::~Goal()
 {
 
 }
 
-void Score::onObjectEnter(GameObject* other)
+void Goal::onObjectEnter(GameObject* other)
 {
 	if (other->getTag() == "ball") {
 		score++;
@@ -25,23 +25,23 @@ void Score::onObjectEnter(GameObject* other)
 	}
 }
 
-void Score::setScore(int score)
+void Goal::setScore(int score)
 {
 	this->score = score;
 }
 
-int Score::getScore() const
+int Goal::getScore() const
 {
 	return score;
 }
 
-void Score::setKeeper(GameObject* keeper)
+void Goal::setKeeper(GameObject* keeper)
 {
 	if (keeper == nullptr) return;
 	health = keeper->getComponent<Health>();
 }
 
-GameObject* Score::getKeeper()
+GameObject* Goal::getKeeper()
 {
 	if (health == nullptr) return nullptr;
 	return health->gameObject;

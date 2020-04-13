@@ -21,7 +21,6 @@ public:
 
 	float getVelocity();
 	void setVelocity(float velocity);
-
 };
 
 #endif

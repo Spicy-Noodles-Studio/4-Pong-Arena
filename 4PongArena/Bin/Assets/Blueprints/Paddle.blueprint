@@ -31,20 +31,28 @@
             ]
         },
         {
-            "ComponentName": "Movement"
+            "ComponentName": "Movement",
+            "ComponentProperties": [
+                ["velocity", "5.0"]
+            ]
         },
         {
             "ComponentName": "Health",
             "ComponentProperties": [
-                ["health", "5"]
+                ["health", "15"]
             ]
         },
         {
             "ComponentName": "Death",
             "ComponentProperties": [
-                ["sensorOffset", "0.75"],
                 ["wallMesh", "wall Cube.mesh"],
                 ["wallScale", "3 1 0.25"]
+            ]
+        },
+        {
+            "ComponentName": "GoalKeeper",
+            "ComponentProperties": [
+                ["offset", "0.75"]
             ]
         }
     ]

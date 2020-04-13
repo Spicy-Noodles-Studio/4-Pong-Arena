@@ -51,10 +51,10 @@ void IAPaddle::handleData(ComponentData* data)
 		std::stringstream ss(prop.second);
 		if (prop.first == "decisionTime") {
 			if (!(ss >> decisionTime))
-				LOG_ERROR("IA PADDLE", "Invalid value for property with name \"%s\"", prop.first.c_str());
+				LOG("IA PADDLE: Invalid value for property with name \"%s\"", prop.first.c_str());
 		}
 		else
-			LOG_ERROR("IA PADDLE", "Invalid property with name \"%s\"", prop.first.c_str());
+			LOG("IA PADDLE: Invalid property with name \"%s\"", prop.first.c_str());
 	}
 }
 
@@ -86,7 +86,7 @@ void IAPaddle::processMoveState()
 	}
 
 	Vector3 normal = movement->getNormal();
-	Vector3 motionDirection(-normal.z, 0.0, normal.x); // Perpendicular vector
+	Vector3 motionDirection(-normal.z, 0.0, normal.x); // Perpendicular vector (right)
 	Vector3 directionMask = Vector3(abs(-normal.z), 0.0, abs(normal.x)).normalized();
 	Vector3 diff = (targetBall->transform->getPosition() - gameObject->transform->getPosition()) * directionMask; //Extract raw differnce (no signe modification)
 	float tolerance = 0.2f;
@@ -112,7 +112,7 @@ bool IAPaddle::isBallBehind(const Vector3& ballPosition)
 	Vector3 direction = (ballPosition - gameObject->transform->getPosition()) * Vector3(abs(normal.x), 0.0, abs(normal.z));
 	direction.normalize();
 
-	return normal != direction && ballPosition.y < 0.0; // TODO: quitar segunda condicion
+	return normal != direction && ballPosition.y < 0.0; // TODO: quitar segunda condicion (cuando la gestion de bolas este hecha)
 }
 
 bool IAPaddle::isBallHeadingToMe(const Vector3& ballDirection)

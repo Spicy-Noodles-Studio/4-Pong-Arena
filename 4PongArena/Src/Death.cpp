@@ -5,13 +5,11 @@
 #include <MeshRenderer.h>
 #include <sstream>
 
-#include "Movement.h"
 #include "Health.h"
-#include "Score.h"
 
 REGISTER_FACTORY(Death);
 
-Death::Death(GameObject* gameObject) : UserComponent(gameObject), rigidBody(nullptr), health(nullptr), goal(nullptr), goalOffset(0.0f)
+Death::Death(GameObject* gameObject) : UserComponent(gameObject), rigidBody(nullptr), health(nullptr)
 {
 
 }
@@ -25,20 +23,8 @@ void Death::start()
 {
 	initialPosition = gameObject->transform->getPosition();
 
-	goal = instantiate("Goal", initialPosition); // TODO: HACER EN UN COMPONENTE KEEPER (Portero)
-	goal->transform->setRotation(gameObject->transform->getRotation());
-
-	Vector3 normal = gameObject->getComponent<Movement>()->getNormal();
-	goal->transform->setPosition(initialPosition - normal * goalOffset);
-	goal->getComponent<Score>()->setKeeper(gameObject);
-
 	rigidBody = gameObject->getComponent<RigidBody>();
 	health = gameObject->getComponent<Health>();
-
-	aliveMeshId = gameObject->getComponent<MeshRenderer>()->getMeshId();
-	aliveMeshName = gameObject->getComponent<MeshRenderer>()->getMeshName();
-
-	aliveScale = gameObject->transform->getScale();
 }
 
 void Death::update(float deltaTime)
@@ -53,23 +39,16 @@ void Death::handleData(ComponentData* data)
 {
 	for (auto prop : data->getProperties())	{
 		std::stringstream ss(prop.second);
-		if (prop.first == "sensorOffset") {
-			if (!(ss >> goalOffset))
-				LOG("WALL MANAGER: Invalid property with name \"%s\"", prop.first.c_str());
-		}
-		else if (prop.first == "wallMesh") {
+		if (prop.first == "wallMesh") {
 			if (!(ss >> wallMeshId >> wallMeshName))
-				LOG("WALL MANAGER: Invalid property with name \"%s\"", prop.first.c_str());
+				LOG("DEATH: Invalid value for property with name \"%s\"", prop.first.c_str());
 		}
 		else if (prop.first == "wallScale")	{
-			double x, y, z;
-			if (!(ss >> x >> y >> z))
-				LOG("WALL MANAGER: Invalid property with name \"%s\"", prop.first.c_str());
-			else
-				wallScale = { x,y,z };
+			if (!(ss >> wallScale.x >> wallScale.y >> wallScale.z))
+				LOG("DEATH: Invalid value for property with name \"%s\"", prop.first.c_str());
 		}
 		else
-			LOG("WALL MANAGER: Invalid property name \"%s\"", prop.first.c_str());
+			LOG("DEATH: Invalid property name \"%s\"", prop.first.c_str());
 	}
 }
 
