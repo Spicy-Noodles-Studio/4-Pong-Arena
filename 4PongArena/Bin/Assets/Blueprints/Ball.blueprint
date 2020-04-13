@@ -1,34 +1,35 @@
 {
     "ObjectType": "GAMEOBJECT",
-    "ObjectName": "Ground",
-    "Tag": "ground",
+    "ObjectName": "Ball",
+    "Tag": "ball",
     "Components":
     [
         {
             "ComponentName": "Transform",
             "ComponentProperties": [
-                ["position", "0 0 0"],
-                ["scale", "5 1 5"]
+                ["scale", "0.25 0.25 0.25"]
             ]
         },
         {
             "ComponentName": "MeshRenderer",
             "ComponentProperties": [
-                ["mesh", "ground Cube.mesh"]
+                ["mesh", "ball Sphere.mesh"]
             ]
         },
         {
             "ComponentName": "RigidBody",
             "ComponentProperties": [
-                ["shape", "Box"],
-                ["mass", "0"],
+                ["shape", "Sphere"],
+                ["mass", "0.000001"],
                 ["friction", "0"],
                 ["restitution", "1"],
                 ["damping", "0"],
                 ["angularDamping", "0"],
-                ["offset", "0 0 0"],
                 ["scale", "1 1 1"]
             ]
+        },
+        {
+            "ComponentName" : "Ball"
         }
     ]
 }

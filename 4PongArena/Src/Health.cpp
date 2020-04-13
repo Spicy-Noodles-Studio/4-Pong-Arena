@@ -1,12 +1,12 @@
 #include "Health.h"
+
+#include <ComponentRegister.h>
 #include <GameObject.h>
 #include <sstream>
 
-#include "ComponentRegister.h"
-
 REGISTER_FACTORY(Health);
 
-Health::Health(GameObject* gameObject) : UserComponent(gameObject)
+Health::Health(GameObject* gameObject) : UserComponent(gameObject), health(0)
 {
 
 }
@@ -14,12 +14,6 @@ Health::Health(GameObject* gameObject) : UserComponent(gameObject)
 Health::~Health()
 {
 
-}
-
-void Health::start()
-{
-	maxHealth = health;
-	alive = true;
 }
 
 void Health::handleData(ComponentData* data)
@@ -31,27 +25,16 @@ void Health::handleData(ComponentData* data)
 		if (prop.first == "health")
 		{
 			if (!(ss >> health))
-				LOG("HEALTH: Invalid property with name \"%s\"", prop.first.c_str());
+				LOG("HEALTH: Invalid value for property with name \"%s\"", prop.first.c_str());
 		}
 		else
 			LOG("HEALTH: Invalid property name \"%s\"", prop.first.c_str());
 	}
 }
 
-void Health::onObjectEnter(GameObject* other)
-{
-	if (other->getTag() == "Ball")
-		receiveDamage(1);
-}
-
-int Health::getHealth()
+int Health::getHealth() const
 {
 	return health;
-}
-
-int Health::getMaxHealth()
-{
-	return maxHealth;
 }
 
 void Health::setHealth(int health)
@@ -59,15 +42,18 @@ void Health::setHealth(int health)
 	this->health = health;
 }
 
+bool Health::isAlive() const
+{
+	return health > 0;
+}
+
+bool Health::isDead() const
+{
+	return !isAlive();
+}
+
 void Health::receiveDamage(int damage)
 {
 	health -= damage;
-
 	if (health < 0) health = 0;
-	if (health == 0) alive = false;
-}
-
-bool Health::isAlive()
-{
-	return alive;
 }

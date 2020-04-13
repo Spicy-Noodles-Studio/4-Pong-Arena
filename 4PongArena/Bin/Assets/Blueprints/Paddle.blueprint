@@ -7,8 +7,8 @@
         {
             "ComponentName": "Transform",
             "ComponentProperties": [
-                ["position", "0 0 0"],
-                ["scale", "0.75 0.25 0.25"],
+                ["position", "0 1 0"],
+                ["scale", "0.75 1 0.25"],
                 ["rotation", "0 0 0"]
             ]
         },
@@ -22,16 +22,18 @@
             "ComponentName": "RigidBody",
             "ComponentProperties": [
                 ["shape", "Box"],
-                ["mass", "3"],
+                ["mass", "1"],
                 ["friction", "0"],
-                ["restitution", "0"],
+                ["restitution", "1"],
                 ["damping", "0"],
                 ["angularDamping", "0"],
-                ["gravity", "0 0 0"],
-                ["offset", "0 0 0"],
-                ["scale", "1 1 1"],
-                ["kinematic", "0"],
-                ["trigger", "0"]
+                ["scale", "1 1 1"]
+            ]
+        },
+        {
+            "ComponentName": "Movement",
+            "ComponentProperties": [
+                ["velocity", "5.0"]
             ]
         },
         {
@@ -49,11 +51,16 @@
             ]
         },
         {
-            "ComponentName": "WallManager",
+            "ComponentName": "Death",
             "ComponentProperties": [
-                ["sensorOffset", "0.5"],
                 ["wallMesh", "wall Cube.mesh"],
-                ["wallScale", "1 1 1"]
+                ["wallScale", "3 1 0.25"]
+            ]
+        },
+        {
+            "ComponentName": "GoalKeeper",
+            "ComponentProperties": [
+                ["offset", "0.75"]
             ]
         }
     ]

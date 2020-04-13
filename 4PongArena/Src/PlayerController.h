@@ -5,18 +5,20 @@
 #include <UserComponent.h>
 #include "Player.h"
 
-class GameObject;
-class RigidBody;
-class Health;
+class InputSystem;
+class Movement;
 
 class PlayerController : public UserComponent
 {
 private:
-	RigidBody* rigidBody;
-	Health* health;
-
 	Player player;
-	int force;
+	InputSystem* inputSystem;
+	Movement* movement;
+	
+	void checkInput() const;
+	Vector3 getInputAxis() const;
+	Vector3 getKeyboardAxis() const;
+	Vector3 getControllerAxis() const;
 
 public:
 	PlayerController(GameObject* gameObject);

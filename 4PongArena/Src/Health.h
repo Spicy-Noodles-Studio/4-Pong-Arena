@@ -10,23 +10,17 @@ public:
 	Health(GameObject* gameObject);
 	virtual ~Health();
 
-	virtual void start();
 	virtual void handleData(ComponentData* data);
-	virtual void onObjectEnter(GameObject* other);
 
-	int getHealth();
-	int getMaxHealth();
-
+	int getHealth() const;
 	void setHealth(int health);
+	bool isAlive() const;
+	bool isDead() const;
+
 	void receiveDamage(int damage);
 
-	bool isAlive();
-
 private:
-	int maxHealth;
 	int health;
-
-	bool alive;
 };
 
 #endif

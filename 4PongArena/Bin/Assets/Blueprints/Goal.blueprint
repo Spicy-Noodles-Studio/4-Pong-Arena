@@ -1,14 +1,14 @@
 {
     "ObjectType": "GAMEOBJECT",
-    "ObjectName": "Sensor",
-    "Tag": "sensor",
+    "ObjectName": "Goal",
+    "Tag": "goal",
     "Components":
     [
         {
             "ComponentName": "Transform",
             "ComponentProperties": [
                 ["position", "0 0 0"],
-                ["scale", "5 0.25 0.25"],
+                ["scale", "3 1 1"],
                 ["rotation" , "0 0 0"]
             ]
         },
@@ -16,7 +16,7 @@
             "ComponentName": "RigidBody",
             "ComponentProperties": [
                 ["shape", "Box"],
-                ["mass", "3"],
+                ["mass", "1"],
                 ["friction", "0"],
                 ["restitution", "0"],
                 ["damping", "0"],
@@ -27,6 +27,9 @@
                 ["kinematic", "1"],
                 ["trigger", "1"]
             ]
+        },
+        {
+            "ComponentName" : "Goal"
         }
     ]
 }
