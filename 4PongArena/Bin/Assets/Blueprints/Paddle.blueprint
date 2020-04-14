@@ -1,0 +1,59 @@
+{
+    "ObjectType": "GAMEOBJECT",
+    "ObjectName": "Paddle",
+    "Tag": "paddle",
+    "Components":
+    [
+        {
+            "ComponentName": "Transform",
+            "ComponentProperties": [
+                ["position", "0 1 0"],
+                ["scale", "0.75 1 0.25"],
+                ["rotation", "0 0 0"]
+            ]
+        },
+        {
+            "ComponentName": "MeshRenderer",
+            "ComponentProperties": [
+                ["mesh", "paddle Cube.mesh"]
+            ]
+        },
+        {
+            "ComponentName": "RigidBody",
+            "ComponentProperties": [
+                ["shape", "Box"],
+                ["mass", "1"],
+                ["friction", "0"],
+                ["restitution", "1"],
+                ["damping", "0"],
+                ["angularDamping", "0"],
+                ["scale", "1 1 1"]
+            ]
+        },
+        {
+            "ComponentName": "Movement",
+            "ComponentProperties": [
+                ["velocity", "5.0"]
+            ]
+        },
+        {
+            "ComponentName": "Health",
+            "ComponentProperties": [
+                ["health", "15"]
+            ]
+        },
+        {
+            "ComponentName": "Death",
+            "ComponentProperties": [
+                ["wallMesh", "wall Cube.mesh"],
+                ["wallScale", "3 1 0.25"]
+            ]
+        },
+        {
+            "ComponentName": "GoalKeeper",
+            "ComponentProperties": [
+                ["offset", "0.75"]
+            ]
+        }
+    ]
+}

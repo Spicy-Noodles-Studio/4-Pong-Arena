@@ -1,7 +1,6 @@
 {
     "SceneName": "MainScene",
     "SceneObjects": [
-        
         {
             "ObjectType": "BLUEPRINT",
             "ObjectName": "MainCamera",
@@ -18,14 +17,13 @@
             "ObjectType": "BLUEPRINT",
             "ObjectName": "Player1",
             "Tag": "p1",
-            "BlueprintPath": "Player",
-            "Components" : [
+            "BlueprintPath": "Paddle",
+            "Components" : [ 
                 {
                     "ComponentName": "PlayerController",
                     "ComponentProperties": [
-                        ["force", "5"],
                         ["id", "1"],
-                        ["index", "-1"]
+                        ["index", "4"]
                     ]
                 }
             ],
@@ -43,15 +41,10 @@
             "ObjectType": "BLUEPRINT",
             "ObjectName": "Player2",
             "Tag": "p2",
-            "BlueprintPath": "Player",
+            "BlueprintPath": "Paddle",
             "Components" : [
                 {
-                    "ComponentName": "PlayerController",
-                    "ComponentProperties": [
-                        ["force", "5"],
-                        ["id", "2"],
-                        ["index", "0"]
-                    ]
+                    "ComponentName": "IAPaddle"
                 }
             ],
             "ComponentModifications": [
@@ -68,15 +61,10 @@
             "ObjectType": "BLUEPRINT",
             "ObjectName": "Player3",
             "Tag": "p3",
-            "BlueprintPath": "Player",
+            "BlueprintPath": "Paddle",
             "Components" : [
                 {
-                    "ComponentName": "PlayerController",
-                    "ComponentProperties": [
-                        ["force", "5"],
-                        ["id", "3"],
-                        ["index", "1"]
-                    ]
+                    "ComponentName": "IAPaddle"
                 }
             ],
             "ComponentModifications": [
@@ -93,15 +81,10 @@
             "ObjectType": "BLUEPRINT",
             "ObjectName": "Player4",
             "Tag": "p4",
-            "BlueprintPath": "Player",
+            "BlueprintPath": "Paddle",
             "Components" : [
                 {
-                    "ComponentName": "PlayerController",
-                    "ComponentProperties": [
-                        ["force", "5"],
-                        ["id", "4"],
-                        ["index", "2"]
-                    ]
+                    "ComponentName": "IAPaddle"
                 }
             ],
             "ComponentModifications": [
@@ -114,34 +97,58 @@
                 }
             ]
         },
-		{
+        {
             "ObjectType": "BLUEPRINT",
-            "ObjectName": "ForceField",
-            "Tag": "forceField",
-            "BlueprintPath": "ForceField",
-			"Components" : [
+            "ObjectName": "Pillar1",
+            "Tag": "pillar",
+            "BlueprintPath": "Pillar",
+            "ComponentModifications": [
                 {
-                    "ComponentName": "ForceField",
+                    "ComponentName": "Transform",
                     "ComponentProperties": [
-                        ["force", "1"],
-                        ["stateTime", "15"],
-                        ["random", "0"]
+                        ["position", "-2 1 -2"]
                     ]
                 }
             ]
         },
-		{
+        {
             "ObjectType": "BLUEPRINT",
-            "ObjectName": "ForceField",
-            "Tag": "forceField",
-            "BlueprintPath": "ForceField",
-			"Components" : [
+            "ObjectName": "Pillar2",
+            "Tag": "pillar",
+            "BlueprintPath": "Pillar",
+            "ComponentModifications": [
                 {
-                    "ComponentName": "ForceField",
+                    "ComponentName": "Transform",
                     "ComponentProperties": [
-                        ["force", "1"],
-                        ["stateTime", "15"],
-                        ["random", "0"]
+                        ["position", "-2 1 2"]
+                    ]
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Pillar3",
+            "Tag": "pillar",
+            "BlueprintPath": "Pillar",
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "2 1 2"]
+                    ]
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "Pillar4",
+            "Tag": "pillar",
+            "BlueprintPath": "Pillar",
+            "ComponentModifications": [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "2 1 -2"]
                     ]
                 }
             ]

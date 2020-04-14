@@ -4,37 +4,36 @@
 
 #include <UserComponent.h>
 
-
-class WallManager;
-class GameObject;
-class RigidBody;
-class Health;
-
-struct Player
-{
-	int id; // Jugador, de 1 a 4
-	int index; // Teclado = -1, mandos de 0 a 3
-};
+class InputSystem;
+class Movement;
 
 class PlayerController : public UserComponent
 {
+public:
+	struct Player
+	{
+		int id; // Jugador, de 1 a 4
+		int index; // Teclado = 4, mandos de 0 a 3
+	};
+
 private:
 	Player player;
-
-	RigidBody* rigidBody;
-	int force;
-	Vector3 OriginalPosition;
-	Health* health;
-
-	WallManager* wall;
+	InputSystem* inputSystem;
+	Movement* movement;
 
 public:
 	PlayerController(GameObject* gameObject);
+	virtual ~PlayerController();
 
 	virtual void start();
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
 
+private:
+	void checkInput() const;
+	Vector3 getInputAxis() const;
+	Vector3 getKeyboardAxis() const;
+	Vector3 getControllerAxis() const;
 };
 
 #endif
