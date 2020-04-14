@@ -24,9 +24,9 @@ void BallGenerator::start()
 	balls = 0;
 	players = 4;
 
-	initTime = 6.0f;
-	minTime = 1.0f;
-	timeGen = 6.0f;
+	initTime = 5.0f;
+	minTime = 2.0f;
+	timeGen = 5.0f;
 
 
 	time = 0.0f;
@@ -67,11 +67,11 @@ void BallGenerator::generateBall()
 	}
 
 
-	float rand1 = rand() % 200;
-	rand1 = (rand1 - 100.0f) / 100;
+	float rand1 = rand() % 50;
+	rand1 = (rand1 - 25.0f) / 25;
 
-	float rand2 = rand() % 200;
-	rand2 = (rand2 - 100.0f) / 100;
+	float rand2 = rand() % 50;
+	rand2 = (rand2 - 25.0f) / 25;
 
 	GameObject* ball = instantiate("Ball", positions[i]);
 	ball->getComponent<RigidBody>()->setLinearVelocity(Vector3(dirs[i].x + rand1,0.0, dirs[i].z + rand2).normalized() * vel);
