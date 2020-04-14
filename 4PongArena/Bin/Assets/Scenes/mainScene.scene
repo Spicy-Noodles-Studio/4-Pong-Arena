@@ -176,6 +176,18 @@
                     ]
                 }
             ]
+        },
+		
+        {
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "BallGenerator",
+            "Tag": "ballGenerator",
+            "Components": 
+            [
+                {
+                    "ComponentName" : "BallGenerator"
+                }
+            ]
         }
     ]
 }

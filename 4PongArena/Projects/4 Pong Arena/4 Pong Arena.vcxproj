@@ -165,6 +165,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Src\BallGenerator.cpp" />
     <ClCompile Include="..\..\Src\ForceField.cpp" />
     <ClCompile Include="..\..\Src\GameManager.cpp" />
     <ClCompile Include="..\..\Src\Health.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="..\..\Src\WallManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Src\BallGenerator.h" />
     <ClInclude Include="..\..\Src\ForceField.h" />
     <ClInclude Include="..\..\Src\GameManager.h" />
     <ClInclude Include="..\..\Src\Health.h" />
