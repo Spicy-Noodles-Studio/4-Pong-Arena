@@ -1,7 +1,8 @@
-./Assets/Blueprints/Suelo.blueprint
-./Assets/Blueprints/Paddle.blueprint
-./Assets/Blueprints/ForceField.blueprint
-./Assets/Blueprints/Goal.blueprint
 ./Assets/Blueprints/Camera.blueprint
-./Assets/Blueprints/Ball.blueprint
+./Assets/Blueprints/Ground.blueprint
 ./Assets/Blueprints/Pillar.blueprint
+./Assets/Blueprints/Paddle.blueprint
+./Assets/Blueprints/IA.blueprint
+./Assets/Blueprints/Goal.blueprint
+./Assets/Blueprints/ForceField.blueprint
+./Assets/Blueprints/Ball.blueprint

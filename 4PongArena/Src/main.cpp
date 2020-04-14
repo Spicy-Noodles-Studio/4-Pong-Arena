@@ -1,4 +1,3 @@
-#include <iostream>
 #include <GaiaCore.h>
 
 #ifdef _DEBUG

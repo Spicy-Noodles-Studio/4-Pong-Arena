@@ -48,6 +48,17 @@ void PlayerController::handleData(ComponentData* data)
 	}
 }
 
+void PlayerController::setPlayer(int id, int index)
+{
+	player.id = id;
+	player.index = index;
+}
+
+Player PlayerController::getPlayer() const
+{
+	return player;
+}
+
 void PlayerController::checkInput() const
 {
 	if (movement == nullptr) return;

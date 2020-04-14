@@ -165,6 +165,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Src\ConfigurationMenu.cpp" />
+    <ClCompile Include="..\..\Src\Game.cpp" />
     <ClCompile Include="..\..\Src\Ball.cpp" />
     <ClCompile Include="..\..\Src\ForceField.cpp" />
     <ClCompile Include="..\..\Src\GameManager.cpp" />
@@ -173,17 +175,22 @@
     <ClCompile Include="..\..\Src\Health.cpp" />
     <ClCompile Include="..\..\Src\IAPaddle.cpp" />
     <ClCompile Include="..\..\Src\main.cpp" />
+    <ClCompile Include="..\..\Src\MainMenu.cpp" />
     <ClCompile Include="..\..\Src\Movement.cpp" />
     <ClCompile Include="..\..\Src\PlayerController.cpp" />
     <ClCompile Include="..\..\Src\Death.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Src\ConfigurationMenu.h" />
     <ClInclude Include="..\..\Src\Ball.h" />
     <ClInclude Include="..\..\Src\ForceField.h" />
+    <ClInclude Include="..\..\Src\Game.h" />
     <ClInclude Include="..\..\Src\GameManager.h" />
     <ClInclude Include="..\..\Src\Goal.h" />
     <ClInclude Include="..\..\Src\GoalKeeper.h" />
     <ClInclude Include="..\..\Src\Health.h" />
+    <ClInclude Include="..\..\Src\MainMenu.h" />
+    <ClInclude Include="..\..\Src\Player.h" />
     <ClInclude Include="..\..\Src\IAPaddle.h" />
     <ClInclude Include="..\..\Src\Movement.h" />
     <ClInclude Include="..\..\Src\PlayerController.h" />
