@@ -4,16 +4,10 @@
     <ClCompile Include="..\..\Src\Ball.cpp">
       <Filter>Archivos de origen\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\ConfigurationMenu.cpp">
-      <Filter>Archivos de origen\Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Death.cpp">
       <Filter>Archivos de origen\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\ForceField.cpp">
-      <Filter>Archivos de origen\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Game.cpp">
       <Filter>Archivos de origen\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Goal.cpp">
@@ -39,6 +33,15 @@
     </ClCompile>
     <ClCompile Include="..\..\Src\GameManager.cpp">
       <Filter>Archivos de origen\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Game.cpp">
+      <Filter>Archivos de origen\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\ConfigurationMenu.cpp">
+      <Filter>Archivos de origen\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\MainMenu.cpp">
+      <Filter>Archivos de origen\Menus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +84,9 @@
     <ClInclude Include="..\..\Src\GameManager.h">
       <Filter>Archivos de encabezado\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\MainMenu.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Archivos de encabezado">
@@ -106,6 +112,9 @@
     </Filter>
     <Filter Include="Archivos de origen\Components">
       <UniqueIdentifier>{1b8bd6bb-1468-4b39-ab6d-c8bcd853d882}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Menus">
+      <UniqueIdentifier>{d9be2f92-ee91-463a-aff9-3781155af496}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
