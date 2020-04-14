@@ -64,6 +64,9 @@
     <ClCompile Include="..\..\Src\Movement.cpp">
       <Filter>Archivos de origen\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\OptionsMenu.cpp">
+      <Filter>Archivos de origen\Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\ForceField.h">
@@ -128,6 +131,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\Movement.h">
       <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\OptionsMenu.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
