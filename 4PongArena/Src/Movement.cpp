@@ -2,6 +2,7 @@
 #include <ComponentRegister.h>
 #include <GameObject.h>
 #include <RigidBody.h>
+#include <sstream>
 
 REGISTER_FACTORY(Movement)
 
@@ -19,10 +20,10 @@ Movement::~Movement()
 void Movement::start()
 {
 	rigidBody = gameObject->getComponent<RigidBody>();
-	velocity = 5.0f; // TODO: pasarlo por el handleData
 	normal = Vector3::ZERO - gameObject->transform->getPosition();
 	normal *= Vector3(1.0, 0.0, 1.0);
 	normal.normalize();
+
 	// Cancel rotations and translations through normal vector
 	rigidBody->setRotationConstraints(Vector3::ZERO);
 	rigidBody->setMovementConstraints(Vector3(abs(normal.z), 0.0, abs(normal.x)));
@@ -31,6 +32,19 @@ void Movement::start()
 void Movement::update(float deltaTime)
 {
 	move();
+}
+
+void Movement::handleData(ComponentData* data)
+{
+	for (auto prop : data->getProperties()) {
+		std::stringstream ss(prop.second);
+		if (prop.first == "velocity") {
+		if (!(ss >> velocity))
+			LOG("MOVEMENT: Invalid value for property with name \"%s\"", prop.first.c_str());
+		}
+		else
+			LOG("MOVEMENT: Invalid property name \"%s\"", prop.first.c_str());
+	}
 }
 
 void Movement::moveRight()

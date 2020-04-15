@@ -1,36 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Archivos de origen">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Archivos de encabezado">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Archivos de recursos">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\Src\main.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\PlayerController.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\ForceField.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de origen\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Health.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de origen\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\WallManager.cpp">
-      <Filter>Archivos de origen</Filter>
+    <ClCompile Include="..\..\Src\PlayerController.cpp">
+      <Filter>Archivos de origen\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Score.cpp">
+    <ClCompile Include="..\..\Src\main.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Movement.cpp">
@@ -42,25 +22,73 @@
     <ClCompile Include="..\..\Src\GameManager.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\Ball.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Death.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Goal.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\GoalKeeper.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\GameManager.cpp">
+      <Filter>Archivos de origen\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Game.cpp">
+      <Filter>Archivos de origen\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\ConfigurationMenu.cpp">
+      <Filter>Archivos de origen\Menus</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Src\BallGenerator.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\MainMenu.cpp">
+      <Filter>Archivos de origen\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Ball.cpp">
+      <Filter>Archivos de origen\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Death.cpp">
+      <Filter>Archivos de origen\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Goal.cpp">
+      <Filter>Archivos de origen\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\GoalKeeper.cpp">
+      <Filter>Archivos de origen\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\IAPaddle.cpp">
+      <Filter>Archivos de origen\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Movement.cpp">
+      <Filter>Archivos de origen\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\OptionsMenu.cpp">
+      <Filter>Archivos de origen\Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Src\PlayerController.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Src\ForceField.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Health.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\WallManager.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="..\..\Src\PlayerController.h">
+      <Filter>Archivos de encabezado\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Score.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="..\..\Src\Player.h">
+      <Filter>Archivos de encabezado\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\ConfigurationMenu.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Game.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Movement.h">
       <Filter>Archivos de encabezado</Filter>
@@ -71,8 +99,76 @@
     <ClInclude Include="..\..\Src\GameManager.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\Ball.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Death.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Goal.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\GoalKeeper.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\GameManager.h">
+      <Filter>Archivos de encabezado\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\MainMenu.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Ball.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Src\BallGenerator.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\Death.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Goal.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\GoalKeeper.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\IAPaddle.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Movement.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\OptionsMenu.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Archivos de encabezado">
+      <UniqueIdentifier>{79a98ded-29f2-4e9e-8586-989b111e4fda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen">
+      <UniqueIdentifier>{86ddfade-b4b0-45da-b3ca-ac134d11a552}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Utilities">
+      <UniqueIdentifier>{372945b6-f28f-4dd2-ab16-255041c1082f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Menus">
+      <UniqueIdentifier>{06c3a3b8-8a21-4232-ba08-7c02711206ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Managers">
+      <UniqueIdentifier>{0f74391e-48dd-4b45-9440-784473819ae3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Managers">
+      <UniqueIdentifier>{4010a80f-a2ae-44cf-b33b-86b99dd2a0b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Components">
+      <UniqueIdentifier>{940a8193-32a6-48a0-a745-19c9b0a5a96b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Components">
+      <UniqueIdentifier>{1b8bd6bb-1468-4b39-ab6d-c8bcd853d882}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Menus">
+      <UniqueIdentifier>{d9be2f92-ee91-463a-aff9-3781155af496}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

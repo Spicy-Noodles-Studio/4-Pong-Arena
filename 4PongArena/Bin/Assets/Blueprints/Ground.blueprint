@@ -1,7 +1,7 @@
 {
     "ObjectType": "GAMEOBJECT",
-    "ObjectName": "Suelo",
-    "Tag": "suelo",
+    "ObjectName": "Ground",
+    "Tag": "ground",
     "Components":
     [
         {
@@ -14,7 +14,7 @@
         {
             "ComponentName": "MeshRenderer",
             "ComponentProperties": [
-                ["mesh", "suelo Cube.mesh"]
+                ["mesh", "ground Cube.mesh"]
             ]
         },
         {

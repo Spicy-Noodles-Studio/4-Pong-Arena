@@ -1,9 +1,4 @@
-#include <iostream>
 #include <GaiaCore.h>
-
-#include "PlayerController.h"
-#include "WallManager.h"
-#include "ForceField.h"
 
 #ifdef _DEBUG
 int main()

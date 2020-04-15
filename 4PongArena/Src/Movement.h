@@ -10,10 +10,11 @@ class Movement : public UserComponent
 {
 public:
 	Movement(GameObject* gameObject);
-	~Movement();
+	virtual ~Movement();
 
 	virtual void start();
 	virtual void update(float deltaTime);
+	virtual void handleData(ComponentData* data);
 
 	void moveRight();
 	void moveLeft();

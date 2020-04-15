@@ -2,7 +2,6 @@
 #include <ComponentRegister.h>
 #include <InputSystem.h>
 #include <GameObject.h>
-#include <RigidBody.h>
 #include <sstream>
 
 #include "Movement.h"
@@ -28,12 +27,6 @@ void PlayerController::start()
 void PlayerController::update(float deltaTime)
 {
 	checkInput();
-
-	// DEBUG PURPOSES TODO: quitar
-	if (InputSystem::GetInstance()->getKeyPress("Space")) {
-		GameObject* ball = instantiate("Ball");
-		ball->getComponent<RigidBody>()->setLinearVelocity(Vector3(0.5, 0.0, 0.75).normalized() * 4.0);
-	}
 }
 
 void PlayerController::handleData(ComponentData* data)
@@ -42,13 +35,11 @@ void PlayerController::handleData(ComponentData* data)
 	{
 		std::stringstream ss(prop.second);
 
-		if (prop.first == "id")
-		{
+		if (prop.first == "id") {
 			if (!(ss >> player.id))
 				LOG("PLAYER CONTROLLER: Invalid property with name \"%s\"", prop.first.c_str());
 		}
-		else if (prop.first == "index")
-		{
+		else if (prop.first == "index") {
 			if (!(ss >> player.index))
 				LOG("PLAYER CONTROLLER: Invalid property with name \"%s\"", prop.first.c_str());
 		}
@@ -57,59 +48,63 @@ void PlayerController::handleData(ComponentData* data)
 	}
 }
 
+void PlayerController::setPlayer(int id, int index)
+{
+	player.id = id;
+	player.index = index;
+}
+
+Player PlayerController::getPlayer() const
+{
+	return player;
+}
+
 void PlayerController::checkInput() const
 {
 	if (movement == nullptr) return;
 
-	bool leftPressed = false;
-	bool rightPressed = false;
+	Vector3 normal = movement->getNormal();
+	Vector3 motionDirection(-normal.z, 0.0, normal.x);
+	Vector3 directionMask = Vector3(abs(-normal.z), 0.0, abs(normal.x)).normalized();
+	Vector3 axis = getInputAxis();
+	axis *= directionMask; axis *= motionDirection;
 
-	if (player.index == 4) checkKeyboard(leftPressed, rightPressed);
-	else if (player.index >= 0 && player.index <= 3) checkController(leftPressed, rightPressed);
-	else return;
-
-	//If both are pressed or none of them are, then stop
-	if ((rightPressed && leftPressed) || (!rightPressed && !leftPressed)) {
-		movement->stop(); 
-		return;
-	}
-
-	if (rightPressed) movement->moveRight();
-	else if (leftPressed) movement->moveLeft();
+	if (axis.x > 0.0) movement->moveRight();
+	else if (axis.x < 0.0) movement->moveLeft();
+	else if (axis.z > 0.0) movement->moveRight();
+	else if (axis.z < 0.0) movement->moveLeft();
+	else movement->stop();
 }
 
-void PlayerController::checkKeyboard(bool& left, bool& right) const
+Vector3 PlayerController::getInputAxis() const
 {
-	if (player.index != 4) return;
+	if (player.index < 0 || player.index > 4) return Vector3::ZERO;
+
+	if (player.index == 4)
+		return getKeyboardAxis();
 	
-	// Horizontal axis or vertical axis
-	std::string lLetter = player.id % 2 == 1 ? player.id / 2 == 0 ? "A" : "D" : player.id / 2 == 1 ? "S" : "W";
-	std::string rLetter = player.id % 2 == 1 ? player.id / 2 == 0 ? "D" : "A" : player.id / 2 == 1 ? "W" : "S";
-	
-	left = inputSystem->isKeyPressed(lLetter);
-	right = inputSystem->isKeyPressed(rLetter);
+	return getControllerAxis();
 }
 
-void PlayerController::checkController(bool& left, bool& right) const
+Vector3 PlayerController::getKeyboardAxis() const
 {
-	if (player.index < 0 || player.index > 3) return;
+	Vector3 axis = Vector3::ZERO;
+	if (inputSystem->isKeyPressed("A")) axis.x += -1;	// Left
+	if (inputSystem->isKeyPressed("D")) axis.x += 1;	// Right
+	if (inputSystem->isKeyPressed("W")) axis.z += -1;	// Up
+	if (inputSystem->isKeyPressed("S")) axis.z += 1;	// Down
 
+	return axis;
+}
+
+Vector3 PlayerController::getControllerAxis() const
+{
+	Vector3 axis = Vector3::ZERO;
 	std::pair<int, int> leftJoystick = inputSystem->getLeftJoystick(player.index);
-	
-	left =	player.id % 2 == 1 ?
-			player.id / 2 == 0 ?	leftJoystick.first < 0 || inputSystem->isButtonPressed(player.index, "Left") :
-									leftJoystick.first > 0 || inputSystem->isButtonPressed(player.index, "Right") :
-			player.id / 2 == 1 ?	leftJoystick.second > 0 || inputSystem->isButtonPressed(player.index, "Down") :
-									leftJoystick.second < 0 || inputSystem->isButtonPressed(player.index, "Up");
+	if (leftJoystick.first < 0 || inputSystem->isButtonPressed(player.index, "Left")) axis.x += -1;	// Left
+	if (leftJoystick.first > 0 || inputSystem->isButtonPressed(player.index, "Right")) axis.x += 1;	// Right
+	if (leftJoystick.second < 0 || inputSystem->isButtonPressed(player.index, "Up")) axis.z += -1;	// Up
+	if (leftJoystick.second > 0 || inputSystem->isButtonPressed(player.index, "Down")) axis.z += 1;	// Down
 
-	right =	player.id % 2 == 1 ?
-			player.id / 2 == 0 ?	leftJoystick.first > 0 || inputSystem->isButtonPressed(player.index, "Right") :
-									leftJoystick.first < 0 || inputSystem->isButtonPressed(player.index, "Left") :
-			player.id / 2 == 1 ?	leftJoystick.second < 0 || inputSystem->isButtonPressed(player.index, "Up") :
-									leftJoystick.second > 0 || inputSystem->isButtonPressed(player.index, "Down");
-}
-
-int PlayerController::getPlayerId()
-{
-	return player.id;
+	return axis;
 }

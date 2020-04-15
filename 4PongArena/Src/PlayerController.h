@@ -3,6 +3,7 @@
 #define PLAYER_CONTROLLER_H
 
 #include <UserComponent.h>
+#include "Player.h"
 
 class InputSystem;
 class Movement;
@@ -23,18 +24,20 @@ private:
 
 public:
 	PlayerController(GameObject* gameObject);
-	~PlayerController();
+	virtual ~PlayerController();
 
 	virtual void start();
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
 
-	int getPlayerId();
-
+	void setPlayer(int id, int index);
+	Player getPlayer() const;
+	
 private:
 	void checkInput() const;
-	void checkKeyboard(bool& left, bool& right) const;
-	void checkController(bool& left, bool& right) const;
+	Vector3 getInputAxis() const;
+	Vector3 getKeyboardAxis() const;
+	Vector3 getControllerAxis() const;
 };
 
 #endif

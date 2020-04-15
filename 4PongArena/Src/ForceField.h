@@ -40,7 +40,6 @@ public:
 
 private:
 	void changeState();
-
 };
 
 #endif

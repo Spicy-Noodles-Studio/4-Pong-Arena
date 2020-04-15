@@ -13,24 +13,25 @@ private:
 	State currentState;
 	GameObject* targetBall;
 	Movement* movement;
-	float timeToChange;
-	float timerToChange;
+	float decisionTime;
+	float decisionTimer;
 
-	std::vector<GameObject*> balls;
+	std::vector<GameObject*> balls; // TODO: por eficiencia, deberia ser un puntero a un vector de �GameManager?
 
 public:
 	IAPaddle(GameObject* gameObject);
-	~IAPaddle();
+	virtual ~IAPaddle();
 
 	virtual void start();
 	virtual void update(float deltaTime);
+
+	virtual void handleData(ComponentData* data);
 
 private:
 	void processChooseTargetState();
 	void processMoveState();
 
 	void takeDecision();
-	bool canReachToTarget();
 	bool isBallBehind(const Vector3& ballPosition);
 	bool isBallHeadingToMe(const Vector3& ballDirection);
 };
