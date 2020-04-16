@@ -82,7 +82,6 @@ Vector3 PlayerController::getInputAxis() const
 
 	if (player.index == 4)
 		return getKeyboardAxis();
-
 	return getControllerAxis();
 }
 

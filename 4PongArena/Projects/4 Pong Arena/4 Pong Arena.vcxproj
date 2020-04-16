@@ -176,8 +176,9 @@
     <ClCompile Include="..\..\Src\Health.cpp" />
     <ClCompile Include="..\..\Src\IAPaddle.cpp" />
     <ClCompile Include="..\..\Src\main.cpp" />
-    <ClCompile Include="..\..\Src\MainMenu.cpp" />
     <ClCompile Include="..\..\Src\Movement.cpp" />
+    <ClCompile Include="..\..\Src\PauseMenu.cpp" />
+    <ClCompile Include="..\..\Src\MainMenu.cpp" />
     <ClCompile Include="..\..\Src\OptionsMenu.cpp" />
     <ClCompile Include="..\..\Src\PlayerController.cpp" />
     <ClCompile Include="..\..\Src\Death.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="..\..\Src\Goal.h" />
     <ClInclude Include="..\..\Src\GoalKeeper.h" />
     <ClInclude Include="..\..\Src\Health.h" />
+    <ClInclude Include="..\..\Src\PauseMenu.h" />
     <ClInclude Include="..\..\Src\MainMenu.h" />
     <ClInclude Include="..\..\Src\OptionsMenu.h" />
     <ClInclude Include="..\..\Src\Player.h" />

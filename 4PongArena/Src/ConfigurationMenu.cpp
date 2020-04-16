@@ -208,7 +208,6 @@ void ConfigurationMenu::start()
 
 	if (mainCamera != nullptr)
 		configurationLayout = mainCamera->getComponent<UILayout>();
-
 	if (configurationLayout != nullptr)
 		startButton = configurationLayout->getRoot().getChild("StartButton");
 
