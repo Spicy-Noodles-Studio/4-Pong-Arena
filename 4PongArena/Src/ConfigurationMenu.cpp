@@ -4,7 +4,6 @@
 #include <SceneManager.h>
 #include <GameObject.h>
 #include <UILayout.h>
-#include <UIElement.h>
 
 #include "GameManager.h"
 
@@ -84,7 +83,7 @@ void ConfigurationMenu::reorderSlots(int index)
 
 bool ConfigurationMenu::changeHealth(int value)
 {
-	health = value;
+	health += value;
 
 	if (health < MIN_HEALTH) health = MIN_HEALTH;
 	if (health > MAX_HEALTH) health = MAX_HEALTH;
@@ -96,7 +95,7 @@ bool ConfigurationMenu::changeHealth(int value)
 
 bool ConfigurationMenu::changeTime(int value)
 {
-	time = value;
+	time += value;
 
 	if (time < MIN_TIME) time = MIN_TIME;
 	if (time > MAX_TIME) time = MAX_TIME;
@@ -108,7 +107,7 @@ bool ConfigurationMenu::changeTime(int value)
 
 bool ConfigurationMenu::changeLevel(int value)
 {
-	levelIndex = value;
+	levelIndex += value;
 
 	if (levelIndex < 0) levelIndex = 0;
 	if (levelIndex > levelNames.size() - 1) levelIndex = levelNames.size() - 1;
@@ -120,7 +119,7 @@ bool ConfigurationMenu::changeLevel(int value)
 
 bool ConfigurationMenu::changeSong(int value)
 {
-	songIndex = value;
+	songIndex += value;
 
 	if (songIndex < 0) songIndex = 0;
 	if (songIndex > songNames.size() - 1) songIndex = songNames.size() - 1;
@@ -156,6 +155,12 @@ bool ConfigurationMenu::startButtonClick()
 	return false;
 }
 
+bool ConfigurationMenu::backButtonClick()
+{
+	SceneManager::GetInstance()->changeScene("MainMenu");
+	return false;
+}
+
 ConfigurationMenu::ConfigurationMenu(GameObject* gameObject) : UserComponent(gameObject), inputSystem(nullptr), configurationLayout(nullptr), startButton(NULL)
 {
 	InterfaceSystem* interfaceSystem = InterfaceSystem::GetInstance();
@@ -173,6 +178,7 @@ ConfigurationMenu::ConfigurationMenu(GameObject* gameObject) : UserComponent(gam
 	interfaceSystem->registerEvent("+levelButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevel(+1); }));
 
 	interfaceSystem->registerEvent("startButtonClick", UIEvent("ButtonClicked", [this]() {return startButtonClick(); }));
+	interfaceSystem->registerEvent("backButtonClick", UIEvent("ButtonClicked", [this]() {return backButtonClick(); }));
 }
 
 ConfigurationMenu::~ConfigurationMenu()
@@ -196,16 +202,12 @@ ConfigurationMenu::~ConfigurationMenu()
 
 void ConfigurationMenu::start()
 {
-	if(SceneManager::GetInstance()->getCurrentScene()->getName() != "ConfigurationMenu") // ATENCION !!! PROVISIONAL
-		return;
-	
 	inputSystem = InputSystem::GetInstance();
 
 	GameObject* mainCamera = findGameObjectWithName("MainCamera");
 
 	if (mainCamera != nullptr)
 		configurationLayout = mainCamera->getComponent<UILayout>();
-	
 	if (configurationLayout != nullptr)
 		startButton = configurationLayout->getRoot().getChild("StartButton");
 
@@ -229,8 +231,5 @@ void ConfigurationMenu::start()
 
 void ConfigurationMenu::update(float deltaTime)
 {
-	if (SceneManager::GetInstance()->getCurrentScene()->getName() != "ConfigurationMenu") // ATENCION !!! PROVISIONAL
-		return;
-
 	checkInput();
 }

@@ -16,7 +16,7 @@ private:
 	float decisionTime;
 	float decisionTimer;
 
-	std::vector<GameObject*> balls; // TODO: por eficiencia, deberia ser un puntero a un vector de ¿GameManager?
+	std::vector<GameObject*> balls; // TODO: por eficiencia, deberia ser un puntero a un vector de ï¿½GameManager?
 
 public:
 	IAPaddle(GameObject* gameObject);

@@ -35,8 +35,6 @@ private:
 	std::vector<std::string> songNames;
 	int songIndex;
 
-
-private:
 	void checkInput();
 
 	void fillSlot(int slotIndex, int deviceIndex);
@@ -51,6 +49,7 @@ private:
 	bool changeSong(int value);
 
 	bool startButtonClick();
+	bool backButtonClick();
 
 public:
 	ConfigurationMenu(GameObject* gameObject);

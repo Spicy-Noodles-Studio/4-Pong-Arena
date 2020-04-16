@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <GUILayout version="4" >
-    <Window type="DefaultWindow" name="ConfigurationMenuRoot" >
+    <Window type="DefaultWindow" name="ConfigurationMenu" >
         <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
         <Property name="MaxSize" value="{{1,0},{1,0}}" />
         # SLOT 1
@@ -11,7 +11,8 @@
             <Window type="TaharezLook/StaticText" name="Slot1Text" >
                 <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
-                <Property name="Text" value="PRESS X OR SPACE" />
+                <Property name="Text" value="Press X or Space" />
+				<Property name="Font" value="Batang8" />
             </Window>
             <Window type="TaharezLook/StaticImage" name="Connected1" >
             <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
@@ -20,17 +21,20 @@
                 <Window type="TaharezLook/StaticText" name="PlayerText" >
                     <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
-                    <Property name="Text" value="P1" />
+                    <Property name="Text" value="Player 1" />
+					<Property name="Font" value="Batang8" />
                 </Window>
                 <Window type="TaharezLook/StaticText" name="IndexText" >
                     <Property name="Area" value="{{0.1,0},{0.3,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Index: " />
+					<Property name="Font" value="Batang8" />
                 </Window>
                 <Window type="TaharezLook/StaticText" name="TypeText" >
                     <Property name="Area" value="{{0.1,0},{0.8,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Keyboard" />
+					<Property name="Font" value="Batang8" />
                 </Window>
             </Window>
         </Window>
@@ -41,7 +45,8 @@
             <Window type="TaharezLook/StaticText" name="Slot2Text" >
                 <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
-                <Property name="Text" value="PRESS X OR SPACE" />
+                <Property name="Text" value="Press X or Space" />
+				<Property name="Font" value="Batang8" />
             </Window>
             <Window type="TaharezLook/StaticImage" name="Connected2" >
             <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
@@ -50,17 +55,20 @@
                 <Window type="TaharezLook/StaticText" name="PlayerText" >
                     <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
-                    <Property name="Text" value="P2" />
+                    <Property name="Text" value="Player 2" />
+					<Property name="Font" value="Batang8" />
                 </Window>
                 <Window type="TaharezLook/StaticText" name="IndexText" >
                     <Property name="Area" value="{{0.1,0},{0.3,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Index: " />
+					<Property name="Font" value="Batang8" />
                 </Window>
                 <Window type="TaharezLook/StaticText" name="TypeText" >
                     <Property name="Area" value="{{0.1,0},{0.8,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Keyboard" />
+					<Property name="Font" value="Batang8" />
                 </Window>
             </Window>
         </Window>
@@ -71,7 +79,8 @@
             <Window type="TaharezLook/StaticText" name="Slot3Text" >
                 <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
-                <Property name="Text" value="PRESS X OR SPACE" />
+                <Property name="Text" value="Press X or Space" />
+				<Property name="Font" value="Batang8" />
             </Window>
             <Window type="TaharezLook/StaticImage" name="Connected3" >
             <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
@@ -80,17 +89,20 @@
                 <Window type="TaharezLook/StaticText" name="PlayerText" >
                     <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
-                    <Property name="Text" value="P3" />
+                    <Property name="Text" value="Player 3" />
+					<Property name="Font" value="Batang8" />
                 </Window>
                 <Window type="TaharezLook/StaticText" name="IndexText" >
                     <Property name="Area" value="{{0.1,0},{0.3,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Index: " />
+					<Property name="Font" value="Batang8" />
                 </Window>
                 <Window type="TaharezLook/StaticText" name="TypeText" >
                     <Property name="Area" value="{{0.1,0},{0.8,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Keyboard" />
+					<Property name="Font" value="Batang8" />
                 </Window>
             </Window>
         </Window>
@@ -101,7 +113,8 @@
             <Window type="TaharezLook/StaticText" name="Slot4Text" >
                 <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
-                <Property name="Text" value="PRESS X OR SPACE" />
+                <Property name="Text" value="Press X or Space" />
+				<Property name="Font" value="Batang8" />
             </Window>
             <Window type="TaharezLook/StaticImage" name="Connected4" >
             <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
@@ -110,17 +123,20 @@
                 <Window type="TaharezLook/StaticText" name="PlayerText" >
                     <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
-                    <Property name="Text" value="P4" />
+                    <Property name="Text" value="Player 4" />
+					<Property name="Font" value="Batang8" />
                 </Window>
                 <Window type="TaharezLook/StaticText" name="IndexText" >
                     <Property name="Area" value="{{0.1,0},{0.3,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Index: " />
+					<Property name="Font" value="Batang8" />
                 </Window>
                 <Window type="TaharezLook/StaticText" name="TypeText" >
                     <Property name="Area" value="{{0.1,0},{0.8,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Keyboard" />
+					<Property name="Font" value="Batang8" />
                 </Window>
             </Window>
         </Window>
@@ -129,109 +145,167 @@
                     <Property name="Area" value="{{0.1,0},{0.3,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="LEVEL" />
+					<Property name="Font" value="Batang8" />
         </Window>
         # -LEVEL BUTTON
         <Window type="TaharezLook/Button" name="-LevelButton" >
                     <Property name="Area" value="{{0.4,0},{0.38,0},{0.45,0},{0.42,0}}" />
                     <Property name="MaxSize" value="{{0.1,0},{0.2,0}}" />
                     <Property name="Text" value="-" />
+					<Property name="UpButton" value="BackButton" />
+					<Property name="DownButton" value="-TimeButton" />
+					<Property name="LeftButton" value="-LevelButton" />
+					<Property name="RightButton" value="+LevelButton" />
+                    <Property name="Font" value="Batang8" />
         </Window>
         # LEVEL
         <Window type="TaharezLook/StaticText" name="Level" >
                     <Property name="Area" value="{{0.5,0},{0.3,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
-                    <Property name="Text" value="level 1" />
+                    <Property name="Text" value="level" />
+					<Property name="Font" value="Batang8" />
         </Window>
         # +LEVEL BUTTON
         <Window type="TaharezLook/Button" name="+LevelButton" >
                     <Property name="Area" value="{{0.6,0},{0.38,0},{0.65,0},{0.42,0}}" />
                     <Property name="MaxSize" value="{{0.1,0},{0.2,0}}" />
                     <Property name="Text" value="+" />
+					<Property name="UpButton" value="BackButton" />
+					<Property name="DownButton" value="+TimeButton" />
+					<Property name="LeftButton" value="-LevelButton" />
+					<Property name="RightButton" value="+LevelButton" />
+                    <Property name="Font" value="Batang8" />
         </Window>
         # TIME TEXT
         <Window type="TaharezLook/StaticText" name="TimeText" >
                     <Property name="Area" value="{{0.1,0},{0.4,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="TIME" />
+					<Property name="Font" value="Batang8" />
         </Window>
         # -TIME BUTTON
         <Window type="TaharezLook/Button" name="-TimeButton" >
                     <Property name="Area" value="{{0.4,0},{0.48,0},{0.45,0},{0.52,0}}" />
                     <Property name="MaxSize" value="{{0.1,0},{0.2,0}}" />
                     <Property name="Text" value="-" />
+					<Property name="UpButton" value="-LevelButton" />
+					<Property name="DownButton" value="-SongButton" />
+					<Property name="LeftButton" value="-TimeButton" />
+					<Property name="RightButton" value="+TimeButton" />
+                    <Property name="Font" value="Batang8" />
         </Window>
         # TIME
         <Window type="TaharezLook/StaticText" name="Time" >
                     <Property name="Area" value="{{0.5,0},{0.4,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="60" />
+					<Property name="Font" value="Batang8" />
         </Window>
         # +TIME BUTTON
         <Window type="TaharezLook/Button" name="+TimeButton" >
                     <Property name="Area" value="{{0.6,0},{0.48,0},{0.65,0},{0.52,0}}" />
                     <Property name="MaxSize" value="{{0.1,0},{0.2,0}}" />
                     <Property name="Text" value="+" />
+					<Property name="UpButton" value="+LevelButton" />
+					<Property name="DownButton" value="+SongButton" />
+					<Property name="LeftButton" value="-TimeButton" />
+					<Property name="RightButton" value="+TimeButton" />
+                    <Property name="Font" value="Batang8" />
         </Window>
         # SONG TEXT
         <Window type="TaharezLook/StaticText" name="SongText" >
                     <Property name="Area" value="{{0.1,0},{0.5,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="SONG" />
+					<Property name="Font" value="Batang8" />
         </Window>
         # -SONG BUTTON
         <Window type="TaharezLook/Button" name="-SongButton" >
                     <Property name="Area" value="{{0.4,0},{0.58,0},{0.45,0},{0.62,0}}" />
                     <Property name="MaxSize" value="{{0.1,0},{0.2,0}}" />
                     <Property name="Text" value="-" />
+					<Property name="UpButton" value="-TimeButton" />
+					<Property name="DownButton" value="-HealthButton" />
+					<Property name="LeftButton" value="-SongButton" />
+					<Property name="RightButton" value="+SongButton" />
+                    <Property name="Font" value="Batang8" />
         </Window>
         # SONG
         <Window type="TaharezLook/StaticText" name="Song" >
                     <Property name="Area" value="{{0.5,0},{0.5,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="despacito" />
+					<Property name="Font" value="Batang8" />
         </Window>
         # +SONG BUTTON
         <Window type="TaharezLook/Button" name="+SongButton" >
                     <Property name="Area" value="{{0.6,0},{0.58,0},{0.65,0},{0.62,0}}" />
                     <Property name="MaxSize" value="{{0.1,0},{0.2,0}}" />
                     <Property name="Text" value="+" />
+					<Property name="UpButton" value="+TimeButton" />
+					<Property name="DownButton" value="+HealthButton" />
+					<Property name="LeftButton" value="-SongButton" />
+					<Property name="RightButton" value="+SongButton" />
+                    <Property name="Font" value="Batang8" />
         </Window>
         # HEALTH TEXT
         <Window type="TaharezLook/StaticText" name="HealthText" >
                     <Property name="Area" value="{{0.1,0},{0.6,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="HEALTH" />
+					<Property name="Font" value="Batang8" />
         </Window>
         # -HEALTH BUTTON
         <Window type="TaharezLook/Button" name="-HealthButton" >
                     <Property name="Area" value="{{0.4,0},{0.68,0},{0.45,0},{0.72,0}}" />
                     <Property name="MaxSize" value="{{0.1,0},{0.2,0}}" />
                     <Property name="Text" value="-" />
+					<Property name="UpButton" value="-SongButton" />
+					<Property name="DownButton" value="StartButton" />
+					<Property name="LeftButton" value="-HealthButton" />
+					<Property name="RightButton" value="+HealthButton" />
+                    <Property name="Font" value="Batang8" />
         </Window>
         # HEALTH
         <Window type="TaharezLook/StaticText" name="Health" >
                     <Property name="Area" value="{{0.5,0},{0.6,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
-                    <Property name="Text" value="4" />
+                    <Property name="Text" value="5" />
+					<Property name="Font" value="Batang8" />
         </Window>
         # +HEALTH BUTTON
         <Window type="TaharezLook/Button" name="+HealthButton" >
                     <Property name="Area" value="{{0.6,0},{0.68,0},{0.65,0},{0.72,0}}" />
                     <Property name="MaxSize" value="{{0.1,0},{0.2,0}}" />
                     <Property name="Text" value="+" />
+					<Property name="UpButton" value="+SongButton" />
+					<Property name="DownButton" value="StartButton" />
+					<Property name="LeftButton" value="-HealthButton" />
+					<Property name="RightButton" value="+HealthButton" />
+                    <Property name="Font" value="Batang8" />
         </Window>
         # FIGHT BUTTON
         <Window type="TaharezLook/Button" name="StartButton" >
             <Property name="Area" value="{{0.4,0},{0.8,0},{0.6,0},{0.85,0}}" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="Visible" value="False" />
-            <Property name="Text" value="FIGHT!" />
+            <Property name="Text" value="START!" />
+			<Property name="UpButton" value="+HealthButton" />
+			<Property name="DownButton" value="BackButton" />
+			<Property name="LeftButton" value="BackButton" />
+			<Property name="RightButton" value="+HealthButton" />
+            <Property name="Font" value="Batang8" />
         </Window>
         # BACK BUTTON
         <Window type="TaharezLook/Button" name="BackButton" >
             <Property name="Area" value="{{0.1,0},{0.9,0},{0.4,0},{1,0}}" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="Text" value="BACK" />
+			<Property name="UpButton" value="StartButton" />
+			<Property name="DownButton" value="+LevelButton" />
+			<Property name="LeftButton" value="-LevelButton" />
+			<Property name="RightButton" value="StartButton" />
+            <Property name="Font" value="Batang8" />
         </Window>
     </Window>
 </GUILayout>

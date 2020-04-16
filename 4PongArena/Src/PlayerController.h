@@ -14,11 +14,6 @@ private:
 	Player player;
 	InputSystem* inputSystem;
 	Movement* movement;
-	
-	void checkInput() const;
-	Vector3 getInputAxis() const;
-	Vector3 getKeyboardAxis() const;
-	Vector3 getControllerAxis() const;
 
 public:
 	PlayerController(GameObject* gameObject);
@@ -30,6 +25,12 @@ public:
 
 	void setPlayer(int id, int index);
 	Player getPlayer() const;
+
+private:
+	void checkInput() const;
+	Vector3 getInputAxis() const;
+	Vector3 getKeyboardAxis() const;
+	Vector3 getControllerAxis() const;
 };
 
 #endif

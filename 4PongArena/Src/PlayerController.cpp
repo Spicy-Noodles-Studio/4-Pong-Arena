@@ -15,6 +15,11 @@ PlayerController::PlayerController(GameObject* gameObject) : UserComponent(gameO
 
 PlayerController::~PlayerController()
 {
+
+}
+
+PlayerController::~PlayerController()
+{
 	
 }
 
@@ -82,7 +87,6 @@ Vector3 PlayerController::getInputAxis() const
 
 	if (player.index == 4)
 		return getKeyboardAxis();
-	
 	return getControllerAxis();
 }
 

@@ -56,7 +56,11 @@
         <PropertyDefinition name="PushedImage" initialValue="" redrawOnWrite="true" type="Image"/>
         <PropertyDefinition name="DisabledImage" initialValue="" redrawOnWrite="true" type="Image"/>
         <PropertyDefinition name="VertImageFormatting" initialValue="Stretched" redrawOnWrite="true" type="VerticalFormatting" />
-        <PropertyDefinition name="HorzImageFormatting" initialValue="Stretched" redrawOnWrite="true" type="HorizontalFormatting" />  
+        <PropertyDefinition name="HorzImageFormatting" initialValue="Stretched" redrawOnWrite="true" type="HorizontalFormatting" />
+		<PropertyDefinition name="UpButton" initialValue="" />
+		<PropertyDefinition name="DownButton" initialValue="" />
+		<PropertyDefinition name="LeftButton" initialValue="" />
+		<PropertyDefinition name="RightButton" initialValue="" />		
         <Property name="Size" value="{{0, 96}, {0, 32}}" />
         <ImagerySection name="label">
             <TextComponent>
@@ -271,6 +275,10 @@
         <PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" type="ColourRect"/>
         <PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" type="ColourRect"/>
         <PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" type="ColourRect"/>
+		<PropertyDefinition name="UpButton" initialValue="" />
+		<PropertyDefinition name="DownButton" initialValue="" />
+		<PropertyDefinition name="LeftButton" initialValue="" />
+		<PropertyDefinition name="RightButton" initialValue="" />
         <Property name="Size" value="{{0, 128}, {0, 32}}" />
         <ImagerySection name="label">
             <TextComponent>
@@ -1325,6 +1333,10 @@
     ***************************************************
     -->
     <WidgetLook name="TaharezLook/HorizontalScrollbar">
+		<PropertyDefinition name="UpButton" initialValue="" />
+		<PropertyDefinition name="DownButton" initialValue="" />
+		<PropertyDefinition name="LeftButton" initialValue="" />
+		<PropertyDefinition name="RightButton" initialValue="" />
         <Property name="Size" value="{{1, 0}, {0, 16}}" />
         <NamedArea name="ThumbTrackArea">
             <Area>
@@ -2067,6 +2079,8 @@
         <PropertyDefinition name="FrameColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" type="ColourRect"/>
         <PropertyDefinition name="BackgroundColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" type="ColourRect"/>
 
+        
+
         <PropertyLinkDefinition name="HorzScrollPosition" widget="__auto_hscrollbar__" targetProperty="ScrollPosition" type="float" />
         <PropertyLinkDefinition name="HorzScrollPageSize" widget="__auto_hscrollbar__" targetProperty="PageSize" type="float" />
         <PropertyLinkDefinition name="HorzScrollDocumentSize" widget="__auto_hscrollbar__" targetProperty="DocumentSize" type="float" />
@@ -2075,8 +2089,8 @@
         <PropertyLinkDefinition name="VertScrollPageSize" widget="__auto_vscrollbar__" targetProperty="PageSize" type="float" />
         <PropertyLinkDefinition name="VertScrollDocumentSize" widget="__auto_vscrollbar__" targetProperty="DocumentSize" type="float" />
 
-        <Property name="FrameEnabled" value="true" />
-        <Property name="BackgroundEnabled" value="true" />
+        <Property name="FrameEnabled" value="false" />
+        <Property name="BackgroundEnabled" value="false" />
         <Property name="Size" value="{{0, 256}, {0, 128}}" />
         <NamedArea name="WithFrameTextRenderArea">
             <Area>
