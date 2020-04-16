@@ -25,7 +25,7 @@ public:
 
 	void setPlayer(int id, int index);
 	Player getPlayer() const;
-	
+
 private:
 	void checkInput() const;
 	Vector3 getInputAxis() const;

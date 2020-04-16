@@ -165,6 +165,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Src\BallGenerator.cpp" />
     <ClCompile Include="..\..\Src\ConfigurationMenu.cpp" />
     <ClCompile Include="..\..\Src\Game.cpp" />
     <ClCompile Include="..\..\Src\Ball.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="..\..\Src\Death.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Src\BallGenerator.h" />
     <ClInclude Include="..\..\Src\ConfigurationMenu.h" />
     <ClInclude Include="..\..\Src\Ball.h" />
     <ClInclude Include="..\..\Src\ForceField.h" />
