@@ -100,22 +100,6 @@
                     ]
                 }
             ]
-        },
-		{
-            "ObjectType": "BLUEPRINT",
-            "ObjectName": "ForceField",
-            "Tag": "forceField",
-            "BlueprintPath": "ForceField",
-			"Components" : [
-                {
-                    "ComponentName": "ForceField",
-                    "ComponentProperties": [
-                        ["force", "1"],
-                        ["stateTime", "15"],
-                        ["random", "0"]
-                    ]
-                }
-            ]
         }
     ]
 }

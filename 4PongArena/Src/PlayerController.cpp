@@ -18,11 +18,6 @@ PlayerController::~PlayerController()
 
 }
 
-PlayerController::~PlayerController()
-{
-	
-}
-
 void PlayerController::start()
 {
 	inputSystem = InputSystem::GetInstance();

@@ -22,7 +22,7 @@
                 {
                     "ComponentName": "UILayout",
                     "ComponentProperties": [
-                        ["layout" , "options.layout"],
+                        ["layout" , "OptionsMenu.layout"],
                         ["event" ,  "-ResolutionButton -resolutionButtonClick | +ResolutionButton +resolutionButtonClick | FullscreenYesButton fullscreenYesButtonClick | ResolutionApplyButton resolutionApplyButtonClick | BackButton backButtonClick | SoundScroll volumeScrollChange | MusicScroll volumeMusicScrollChange | GammaScroll gammaScrollChange"]
                     ]
                 }
