@@ -14,12 +14,16 @@ public:
 private:
 	// Impulse given to the ball
 	float force;
+
 	// Time to change state
 	float stateTime;
+
 	// Timer
 	float stateTimer;
+
 	// Boolean so State change is or is not random
 	bool random;
+
 	// Current ForceField state
 	State currentState;
 
@@ -29,11 +33,12 @@ public:
 
 	virtual void start();
 	virtual void update(float deltaTime);
-	virtual void onTriggerStay(GameObject* other);
 	virtual void handleData(ComponentData* data);
+	virtual void onTriggerStay(GameObject* other);
 
 	void setState(const std::string& state);
 	void setState(State state);
+
 	void setForce(float force);
 	void setTime(float time);
 	void setRandom(bool random);

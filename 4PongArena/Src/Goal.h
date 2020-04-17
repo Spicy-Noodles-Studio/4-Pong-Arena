@@ -16,12 +16,13 @@ public:
 
 	void setScore(int score);
 	int getScore() const;
+
 	void setKeeper(GameObject* keeper);
 	GameObject* getKeeper();
 
 private:
-	int score;
 	Health* health;
+	int score;
 };
 
 #endif

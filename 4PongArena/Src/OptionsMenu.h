@@ -2,11 +2,8 @@
 #ifndef OPTIONS_MENU_H
 #define OPTIONS_MENU_H
 
-#include "UserComponent.h"
-
-#include <vector>
-#include <string>
-#include "UIElement.h"
+#include <UserComponent.h>
+#include <UIElement.h>
 
 const int MIN_VOLUME = 0;
 const int MAX_VOLUME = 100;
@@ -20,9 +17,9 @@ const std::vector<std::pair<int, int>> RESOLUTIONS = { {640,480},{800,600},{960,
 {1400,1050},{1440,900},{1440,1080},{1600,900},{1600,1200},
 {1680,1050},{1856,1392},{1920,1080}, {1920,1200},{1920,1440} };
 
-
 class OptionsMenu : public UserComponent
 {
+private:
 	UIElement resolutionButton;
 	UIElement volumeScroll;
 	UIElement musicScroll;
@@ -40,9 +37,6 @@ class OptionsMenu : public UserComponent
 												 "1400x1050","1440x900","1440x1080","1600x900","1600x1200","1680x1050","1856x1392","1920x1080", "1920x1200",
 												 "1920x1440" };
 
-
-private:
-	// events
 	bool resolutionButtonClick();
 	bool backButtonClick();
 

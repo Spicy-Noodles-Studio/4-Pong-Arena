@@ -14,10 +14,9 @@ public:
 
 	int getHealth() const;
 	void setHealth(int health);
-	bool isAlive() const;
-	bool isDead() const;
-
 	void receiveDamage(int damage);
+
+	bool isAlive() const;
 
 private:
 	int health;

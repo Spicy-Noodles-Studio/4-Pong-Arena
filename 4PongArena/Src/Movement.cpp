@@ -1,13 +1,13 @@
 #include "Movement.h"
-#include <ComponentRegister.h>
 #include <GameObject.h>
 #include <RigidBody.h>
 #include <sstream>
 
+#include <ComponentRegister.h>
+
 REGISTER_FACTORY(Movement)
 
-Movement::Movement(GameObject* gameObject) :	UserComponent(gameObject), rigidBody(nullptr), velocity(0.0f),
-												direction(Vector3::ZERO), normal(Vector3::FORWARD)
+Movement::Movement(GameObject* gameObject) : UserComponent(gameObject), rigidBody(nullptr), direction(Vector3::ZERO), normal(Vector3::FORWARD), velocity(0.0f)
 {
 
 }
@@ -36,11 +36,14 @@ void Movement::update(float deltaTime)
 
 void Movement::handleData(ComponentData* data)
 {
-	for (auto prop : data->getProperties()) {
+	for (auto prop : data->getProperties())
+	{
 		std::stringstream ss(prop.second);
-		if (prop.first == "velocity") {
-		if (!(ss >> velocity))
-			LOG("MOVEMENT: Invalid value for property with name \"%s\"", prop.first.c_str());
+
+		if (prop.first == "velocity")
+		{
+			if (!(ss >> velocity))
+				LOG("MOVEMENT: Invalid value for property with name \"%s\"", prop.first.c_str());
 		}
 		else
 			LOG("MOVEMENT: Invalid property name \"%s\"", prop.first.c_str());

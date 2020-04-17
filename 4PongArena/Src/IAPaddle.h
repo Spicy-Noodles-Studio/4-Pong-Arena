@@ -13,10 +13,11 @@ private:
 	State currentState;
 	GameObject* targetBall;
 	Movement* movement;
+
 	float decisionTime;
 	float decisionTimer;
 
-	std::vector<GameObject*> balls; // TODO: por eficiencia, deberia ser un puntero a un vector de �GameManager?
+	std::vector<GameObject*> balls;
 
 public:
 	IAPaddle(GameObject* gameObject);
@@ -32,6 +33,7 @@ private:
 	void processMoveState();
 
 	void takeDecision();
+
 	bool isBallBehind(const Vector3& ballPosition);
 	bool isBallHeadingToMe(const Vector3& ballDirection);
 };

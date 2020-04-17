@@ -1,7 +1,9 @@
 #include "Ball.h"
-#include <ComponentRegister.h>
 #include <GameObject.h>
 #include <RigidBody.h>
+#include <sstream>
+
+#include <ComponentRegister.h>
 
 REGISTER_FACTORY(Ball);
 
@@ -18,12 +20,28 @@ Ball::~Ball()
 void Ball::start()
 {
 	rigidBody = gameObject->getComponent<RigidBody>();
-	//rigidBody->setMovementConstraints(Vector3::UP); // ALVARO, SIGO SIN ENTENDER LOS "CONSTRAINTS"
 }
 
 void Ball::update(float deltaTime)
 { 
-	rigidBody->setLinearVelocity(rigidBody->getLinearVelocity().normalized() * velocity);
+	if (rigidBody != nullptr)
+		rigidBody->setLinearVelocity(rigidBody->getLinearVelocity().normalized() * velocity);
+}
+
+void Ball::handleData(ComponentData* data)
+{
+	for (auto prop : data->getProperties())
+	{
+		std::stringstream ss(prop.second);
+
+		if (prop.first == "velocity")
+		{
+			if (!(ss >> velocity))
+				LOG("BALL: Invalid property with name \"%s\"", prop.first.c_str());
+		}
+		else
+			LOG("BALL: Invalid property name \"%s\"", prop.first.c_str());
+	}
 }
 
 float Ball::getVelocity()

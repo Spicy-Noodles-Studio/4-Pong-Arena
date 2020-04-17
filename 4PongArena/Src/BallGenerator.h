@@ -1,50 +1,32 @@
 #pragma once
-#ifndef BALLGENERATOR_H
-#define BALLGENERATOR_H
+#ifndef BALL_GENERATOR_H
+#define BALL_GENERATOR_H
 
-#include "UserComponent.h"
-
-#include <vector>
-#include <string>
-
-#include "UIElement.h"
-
-#include "Vector3.h"
-
+#include <UserComponent.h>
+#include <UIElement.h>
 
 class BallGenerator : public UserComponent
 {
 private:
-
-	std::vector<Vector3> positions = { {-2,0.5,-2}, {-2,0.5,2}, {2,0.5,-2}, {2,0.5,2} };
-	std::vector<Vector3> dirs = { {1.0,0.0,1.0}, {1.0,0.0,-1.0}, {-1.0,0.0,1.0}, {-1.0,0.0,-1.0} };
-
-	int lastGen;
-	int balls;
-	int players;
-
-	float initTime;
-	float minTime;
-	float timeGen;
-
-
 	float time;
+	float generationTime;
+	float minimumTime;
 
-
-	float vel;
-
-private:
+	float velocity;
 	
 public:
 	BallGenerator(GameObject* gameObject);
-	~BallGenerator();
+	virtual ~BallGenerator();
 
 	virtual void start();
 	virtual void update(float deltaTime);
+	virtual void handleData(ComponentData* data);
 
-	void playerDie();
-	void gol();
 	void generateBall();
+
+	void setGenerationTime(float generationTime);
+	float getGenerationTime() const;
+	float getMinimumTime() const;
 };
 
 #endif

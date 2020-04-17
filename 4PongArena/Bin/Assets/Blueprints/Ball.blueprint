@@ -29,7 +29,10 @@
             ]
         },
         {
-            "ComponentName" : "Ball"
+            "ComponentName" : "Ball",
+            "ComponentProperties": [
+                ["velocity", "3"]
+            ]
         }
     ]
 }

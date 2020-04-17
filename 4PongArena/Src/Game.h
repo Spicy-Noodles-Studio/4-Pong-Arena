@@ -13,28 +13,24 @@ class Game : public UserComponent
 {
 private:
 	GameManager* gameManager;
-	//UILayout* gameLayout;
 
+	//UILayout* gameLayout;
 	//UIElement timeText;
 	//UIElement winnerPanel;
 	//UIElement winnerText;
 
 	std::vector<GameObject*> paddles;
-
-	int numPlayers;
 	std::vector<std::pair<Vector3, Vector3>> playerTransforms;
 
-	float gameTimer; // If time is -1, then infinite
-	float finishTimer; // Time taken to send us back to MainMenu
+	float gameTimer;
+	float finishTimer; // Quitar cuando haya menu de final de partida
 
 	int winner;
-	bool ended;
 
 	void createLevel();
 	void createPlayers();
 
 	void playSong();
-
 	void chooseWinner();
 
 public:
@@ -43,8 +39,6 @@ public:
 
 	virtual void start();
 	virtual void update(float deltaTime);
-
-	void updatePlayers();
 };
 
 #endif

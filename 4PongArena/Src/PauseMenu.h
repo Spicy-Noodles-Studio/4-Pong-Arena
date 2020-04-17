@@ -15,6 +15,7 @@ private:
 
 public:
 	PauseMenu(GameObject* gameObject);
+	virtual ~PauseMenu();
 
 	virtual void start();
 	virtual void update(float deltaTime);

@@ -18,6 +18,8 @@ private:
 	std::string wallMeshId, wallMeshName;
 	Vector3 wallScale;
 
+	void die();
+
 public:
 	Death(GameObject* gameObject);
 	virtual ~Death();
@@ -25,9 +27,6 @@ public:
 	virtual void start();
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
-
-private:
-	void die();
 };
 
 #endif

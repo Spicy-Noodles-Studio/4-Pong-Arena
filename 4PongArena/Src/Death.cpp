@@ -1,11 +1,14 @@
 #include "Death.h"
-#include <ComponentRegister.h>
 #include <GameObject.h>
 #include <RigidBody.h>
 #include <MeshRenderer.h>
 #include <sstream>
 
 #include "Health.h"
+#include "BallGenerator.h"
+#include "GameManager.h"
+
+#include <ComponentRegister.h>
 
 REGISTER_FACTORY(Death);
 
@@ -29,7 +32,8 @@ void Death::start()
 
 void Death::update(float deltaTime)
 {
-	if (health != nullptr && health->isDead()) {
+	if (health != nullptr && !health->isAlive())
+	{
 		die();
 		setActive(false);
 	}
@@ -37,13 +41,17 @@ void Death::update(float deltaTime)
 
 void Death::handleData(ComponentData* data)
 {
-	for (auto prop : data->getProperties())	{
+	for (auto prop : data->getProperties())
+	{
 		std::stringstream ss(prop.second);
-		if (prop.first == "wallMesh") {
+
+		if (prop.first == "wallMesh")
+		{
 			if (!(ss >> wallMeshId >> wallMeshName))
 				LOG("DEATH: Invalid value for property with name \"%s\"", prop.first.c_str());
 		}
-		else if (prop.first == "wallScale")	{
+		else if (prop.first == "wallScale")
+		{
 			if (!(ss >> wallScale.x >> wallScale.y >> wallScale.z))
 				LOG("DEATH: Invalid value for property with name \"%s\"", prop.first.c_str());
 		}
@@ -57,10 +65,26 @@ void Death::die()
 	gameObject->transform->setPosition(initialPosition);
 	rigidBody->setStatic(true);
 
-	if (wallMeshId != "" || wallMeshName != "") {
+	if (wallMeshId != "" || wallMeshName != "")
+	{
 		gameObject->getComponent<MeshRenderer>()->changeMesh(wallMeshId, wallMeshName);
+
 		Vector3 scaleRatio = wallScale / gameObject->transform->getScale();
 		gameObject->transform->setScale(wallScale);
 		rigidBody->multiplyScale(scaleRatio);
+	}
+
+	GameManager* gameManger = GameManager::GetInstance();
+
+	gameManger->setPlayersAlive(gameManger->getPlayersAlive() - 1);
+
+	for (int i = 0; i < gameManger->getGenerators().size(); i++)
+	{
+		BallGenerator* aux = gameManger->getGenerators()[i]->getComponent<BallGenerator>();
+
+		if (aux->getGenerationTime() / 2 > aux->getMinimumTime())
+			aux->setGenerationTime(aux->getGenerationTime() / 2);
+		else
+			aux->setGenerationTime(aux->getMinimumTime());
 	}
 }

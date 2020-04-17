@@ -76,6 +76,8 @@ void Game::createPlayers()
 			paddles.push_back(paddleIA);
 		}
 	}
+
+	gameManager->setPlayersAlive(paddles.size());
 }
 
 void Game::playSong()
@@ -120,7 +122,7 @@ void Game::chooseWinner()
 	}*/
 }
 
-Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr)/*, gameLayout(nullptr), timeText(NULL), winnerPanel(NULL), winnerText(NULL)*/
+Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr)/*, gameLayout(nullptr), timeText(NULL), winnerPanel(NULL), winnerText(NULL)*/, finishTimer(3.0f), winner(0)
 {
 
 }
@@ -149,16 +151,22 @@ void Game::start()
 		winnerText = winnerPanel.getChild("Winner");
 	}*/
 
-	numPlayers = gameManager->getPlayers().size();
+	std::vector<GameObject*> generators = findGameObjectsWithTag("generator");
+	std::vector<GameObject*> balls;
+
+	/*for (int i = 0; i < 25; i++)
+	{
+		balls.push_back(instantiate("Ball"));
+		balls.back()->setActive(false);
+	}*/
+
+	gameManager->setGenerators(generators);
+	gameManager->setBalls(balls);
 
 	createLevel();
 	createPlayers();
 
 	gameTimer = gameManager->getTime();
-	finishTimer = 4.0f; // Placeholder
-
-	winner = 0;
-	ended = false;
 
 	playSong();
 }
@@ -169,29 +177,20 @@ void Game::update(float deltaTime)
 	{
 		gameTimer -= deltaTime;
 
-		if (gameTimer < 0.0f)
-			gameTimer = 0.0f;
+		if (gameTimer <= 0.0f)
+			chooseWinner();
 
 		/*if (gameLayout != nullptr)
 			timeText.setText(std::to_string((int)gameTimer % 60));*/
 	}
 	else
 	{
-		ended = true;
 		finishTimer -= deltaTime;
 
 		if (finishTimer <= 0.0f)
-			SceneManager::GetInstance()->changeScene("ConfigurationMenu"); // Placeholder
+			SceneManager::GetInstance()->changeScene("ConfigurationMenu"); // Cambiar a menu de final de partida
 	}
 
-	if (ended)
+	if (gameManager->getPlayersAlive() == 0)
 		chooseWinner();
-}
-
-void Game::updatePlayers()
-{
-	numPlayers--;
-
-	if (numPlayers == 1)
-		ended = true;
 }

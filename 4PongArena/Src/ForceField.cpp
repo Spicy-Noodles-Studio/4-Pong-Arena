@@ -1,14 +1,14 @@
 #include "ForceField.h"
-#include <ComponentRegister.h>
 #include <GameObject.h>
 #include <RigidBody.h>
 #include <MathUtils.h>
 #include <sstream>
 
+#include <ComponentRegister.h>
+
 REGISTER_FACTORY(ForceField);
 
-ForceField::ForceField(GameObject* gameObject) :	UserComponent(gameObject), force(0.0f), stateTime(0.0f), stateTimer(0.0f), random(false),
-													currentState(State::FORWARDS)
+ForceField::ForceField(GameObject* gameObject) :	UserComponent(gameObject), force(0.0f), stateTime(0.0f), stateTimer(0.0f), random(false), currentState(State::FORWARDS)
 {
 	
 }
@@ -28,9 +28,36 @@ void ForceField::update(float deltaTime)
 {
 	stateTimer += deltaTime;
 
-	if (stateTimer >= stateTime) {
+	if (stateTimer >= stateTime)
+	{
 		changeState();
 		stateTimer = 0;
+	}
+}
+
+void ForceField::handleData(ComponentData* data)
+{
+	for (auto prop : data->getProperties())
+	{
+		std::stringstream ss(prop.second);
+
+		if (prop.first == "force")
+		{
+			if (!(ss >> force))
+				LOG("FORCE FIELD: Invalid value for property with name \"%s\"", prop.first.c_str());
+		}
+		else if (prop.first == "stateTime")
+		{
+			if (!(ss >> stateTime))
+				LOG("FORCE FIELD: Invalid value for property with name \"%s\"", prop.first.c_str());
+		}
+		else if (prop.first == "random")
+		{
+			if (!(ss >> random))
+				LOG("FORCE FIELD: Invalid value for property with name \"%s\"", prop.first.c_str());
+		}
+		else
+			LOG("FORCE FIELD: Invalid property with name \"%s\"", prop.first.c_str());
 	}
 }
 
@@ -50,32 +77,6 @@ void ForceField::onTriggerStay(GameObject* other)
 		forceDirection = other->transform->getPosition() - gameObject->transform->getPosition();
 
 	ball->addForce(forceDirection.normalized() * force);
-}
-
-void ForceField::handleData(ComponentData* data)
-{
-	for (auto prop : data->getProperties())
-	{
-		std::stringstream ss(prop.second);
-
-		if (prop.first == "force")
-		{
-			if(!(ss >> force))
-				LOG("FORCE FIELD: Invalid value for property with name \"%s\"", prop.first.c_str());
-		}
-		else if (prop.first == "stateTime")
-		{
-			if(!(ss >> stateTime))
-				LOG("FORCE FIELD: Invalid value for property with name \"%s\"", prop.first.c_str());
-		}
-		else if (prop.first == "random")
-		{
-			if (!(ss >> random))
-				LOG("FORCE FIELD: Invalid value for property with name \"%s\"", prop.first.c_str());
-		}
-		else
-			LOG("FORCE FIELD: Invalid property with name \"%s\"", prop.first.c_str());
-	}
 }
 
 /// States: "DISABLED" | "FORWARDS" | "BACKWARDS"

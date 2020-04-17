@@ -1,14 +1,14 @@
 #include "BallGenerator.h"
+#include <GameObject.h>
+#include <RigidBody.h>
 
-#include "GameObject.h"
+#include "GameManager.h"
 
-#include "RigidBody.h"
-
-#include "ComponentRegister.h"
+#include <ComponentRegister.h>
 
 REGISTER_FACTORY(BallGenerator);
 
-BallGenerator::BallGenerator(GameObject* gameObject) : UserComponent(gameObject)
+BallGenerator::BallGenerator(GameObject* gameObject) : UserComponent(gameObject), time(0.0f), generationTime(6.0f), minimumTime(1.0f), velocity(3.0f)
 {
 
 }
@@ -20,66 +20,91 @@ BallGenerator::~BallGenerator()
 
 void BallGenerator::start()
 {
-	lastGen = -1;
-	balls = 0;
-	players = 4;
-
-	initTime = 5.0f;
-	minTime = 2.0f;
-	timeGen = 5.0f;
-
-
-	time = 0.0f;
-
-	vel = 3.0f;
+	time = generationTime;
 }
-
 
 void BallGenerator::update(float deltaTime)
 {
-	time += deltaTime;
-
-	if (balls == 0 || time >= timeGen) generateBall();
-	
+	if (time > 0)
+		time -= deltaTime;
+	else
+	{
+		generateBall();
+		time = generationTime;
+	}
 }
 
-void BallGenerator::playerDie()
+void BallGenerator::handleData(ComponentData* data)
 {
-	players--;
+	for (auto prop : data->getProperties())
+	{
+		std::stringstream ss(prop.second);
 
-	timeGen /= 2.0f;
-
-	if (timeGen < minTime) timeGen = minTime;
-}
-
-void BallGenerator::gol()
-{
-	balls--;
+		if (prop.first == "generationTime")
+		{
+			if (!(ss >> generationTime))
+				LOG("BALL GENERATOR: Invalid property with name \"%s\"", prop.first.c_str());
+		}
+		else if (prop.first == "minimumTime")
+		{
+			if (!(ss >> minimumTime))
+				LOG("BALL GENERATOR: Invalid property with name \"%s\"", prop.first.c_str());
+		}
+		else if (prop.first == "velocity")
+		{
+			if (!(ss >> velocity))
+				LOG("BALL GENERATOR: Invalid property with name \"%s\"", prop.first.c_str());
+		}
+		else
+			LOG("BALL GENERATOR: Invalid property name \"%s\"", prop.first.c_str());
+	}
 }
 
 void BallGenerator::generateBall()
 {
-	int i = lastGen;
+	int i = 0;
+	bool found = false;
+	GameObject* ball = nullptr;
+	std::vector<GameObject*> balls = GameManager::GetInstance()->getBalls();
 
-	while (i == lastGen) {
-	i = rand() % 4;
-	
+	/*while (i < balls.size() && !found)
+	{
+		if (!balls[i]->isActive())
+		{
+			found = true;
+			ball = balls[i];
+			ball->setActive(true);
+		}
+		else
+			i++;
 	}
 
+	if (i > balls.size())
+	{
+		ball = instantiate("Ball", gameObject->transform->getPosition());
+		balls.push_back(ball);
+	}*/
 
-	float rand1 = rand() % 50;
-	rand1 = (rand1 - 25.0f) / 25;
+	ball = instantiate("Ball", gameObject->transform->getPosition());
+	balls.push_back(ball);
 
-	float rand2 = rand() % 50;
-	rand2 = (rand2 - 25.0f) / 25;
+	GameManager::GetInstance()->setBalls(balls);
 
-	GameObject* ball = instantiate("Ball", positions[i]);
-	ball->getComponent<RigidBody>()->setLinearVelocity(Vector3(dirs[i].x + rand1,0.0, dirs[i].z + rand2).normalized() * vel);
-
-	balls++;
-	time = 0.0f;
-	lastGen = i;
+	if (ball != nullptr)
+		ball->getComponent<RigidBody>()->setLinearVelocity(Vector3(-gameObject->transform->getPosition().x, 0, -gameObject->transform->getPosition().z).normalized() * velocity);
 }
 
+void BallGenerator::setGenerationTime(float generationTime)
+{
+	this->generationTime = generationTime;
+}
 
+float BallGenerator::getGenerationTime() const
+{
+	return generationTime;
+}
 
+float BallGenerator::getMinimumTime() const
+{
+	return minimumTime;
+}

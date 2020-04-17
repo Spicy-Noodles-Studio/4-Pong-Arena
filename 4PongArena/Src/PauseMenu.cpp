@@ -1,5 +1,4 @@
 #include "PauseMenu.h"
-
 #include <InputSystem.h>
 #include <InterfaceSystem.h>
 #include <GameObject.h>
@@ -7,13 +6,18 @@
 #include "GameManager.h"
 #include "UILayout.h"
 
-#include "ComponentRegister.h"
+#include <ComponentRegister.h>
 
 REGISTER_FACTORY(PauseMenu);
 
 PauseMenu::PauseMenu(GameObject* gameObject) : UserComponent(gameObject), pauseMenu(NULL)
 {
 	InterfaceSystem::GetInstance()->registerEvent("resumeButtonClick", UIEvent("ButtonClicked", [this]() {setPaused(false); return false;}));
+}
+
+PauseMenu::~PauseMenu()
+{
+
 }
 
 void PauseMenu::start()
@@ -24,21 +28,18 @@ void PauseMenu::start()
 		pauseMenu = cameraLayout->getRoot().getChild("PauseBackground");
 
 	inputSystem = InputSystem::GetInstance();
-
-	LOG("ME HE CREADOOOOOWOWO\n");
 }
 
 void PauseMenu::update(float deltaTime)
 {
 	if (inputSystem->getKeyPress("ESCAPE"))
-		setPaused(!GameManager::GetInstance()->gameIsPaused());
+		setPaused(!GameManager::GetInstance()->isPaused());
 }
 
 void PauseMenu::setPaused(bool paused)
 {
-	if (paused == GameManager::GetInstance()->gameIsPaused()) return;
 	pauseMenu.setVisible(paused);
-	GameManager::GetInstance()->pauseGame(paused);
+	GameManager::GetInstance()->pause(paused);
 }
 
 bool PauseMenu::isVisible()

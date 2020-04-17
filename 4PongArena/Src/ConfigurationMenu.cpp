@@ -151,7 +151,6 @@ bool ConfigurationMenu::startButtonClick()
 	gameManager->setSong(songNames[songIndex]);
 
 	SceneManager::GetInstance()->changeScene("Game");
-
 	return false;
 }
 
@@ -198,6 +197,7 @@ ConfigurationMenu::~ConfigurationMenu()
 	interfaceSystem->unregisterEvent("+levelButtonClick");
 
 	interfaceSystem->unregisterEvent("startButtonClick");
+	interfaceSystem->unregisterEvent("backButtonClick");
 }
 
 void ConfigurationMenu::start()

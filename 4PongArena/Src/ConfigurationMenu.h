@@ -20,10 +20,10 @@ class ConfigurationMenu : public UserComponent
 {
 private:
 	InputSystem* inputSystem;
-
-	std::vector<std::pair<int, UIElement>> slots;
 	UILayout* configurationLayout;
 	UIElement startButton;
+
+	std::vector<std::pair<int, UIElement>> slots;
 
 	int filledSlots;
 	int health;
