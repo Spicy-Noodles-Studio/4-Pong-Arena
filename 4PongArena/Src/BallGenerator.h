@@ -16,7 +16,7 @@ class BallGenerator : public UserComponent
 {
 private:
 
-	std::vector<Vector3> positions = { {-2,0.5,-2}, {-2,0.5,2}, {2,0.5,-2}, {2,0.5,2} };
+	std::vector<Vector3> positions = { {-2.0,0.5,-2.0}, {-2,0.5,2}, {2,0.5,-2}, {2,0.5,2} };
 	std::vector<Vector3> dirs = { {1.0,0.0,1.0}, {1.0,0.0,-1.0}, {-1.0,0.0,1.0}, {-1.0,0.0,-1.0} };
 
 	int lastGen;
