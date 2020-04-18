@@ -35,3 +35,8 @@ void Ball::setVelocity(float velocity)
 {
 	this->velocity = velocity;
 }
+
+RigidBody* Ball::getRigidBody()
+{
+	return rigidBody;
+}

@@ -21,6 +21,7 @@ public:
 
 	float getVelocity();
 	void setVelocity(float velocity);
+	RigidBody* getRigidBody();
 };
 
 #endif
