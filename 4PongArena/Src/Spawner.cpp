@@ -4,6 +4,8 @@
 #include <MathUtils.h>
 #include <sstream>
 
+#include "Ball.h"
+
 #include <ComponentRegister.h>
 
 REGISTER_FACTORY(Spawner);
@@ -41,20 +43,17 @@ void Spawner::handleData(ComponentData* data)
 
 void Spawner::shoot(GameObject* ball)
 {
-	Vector3 aux = Vector3() - gameObject->transform->getPosition();
-
-	double actualAngle = RAD_TO_DEG * atan2(aux.x, aux.z);
-
-	if (actualAngle == -45 || actualAngle == 135) // No se por que hay que hacer esto, ¿cambiarlo?
-		actualAngle += 180;
-
-	double finalAngle = (actualAngle + random(-angle, angle)) * DEG_TO_RAD;
-
-	Vector3 direction = Vector3(cos(finalAngle), 0, sin(finalAngle));
+	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
+	direction.rotateAroundAxis(Vector3::UP, random(-angle, angle));
+	direction.y = 0;
 
 	if (ball != nullptr)
 	{
-		ball->transform->setPosition(gameObject->transform->getPosition());
-		ball->getComponent<RigidBody>()->setLinearVelocity(direction * velocity);
+		ball->transform->setPosition(gameObject->transform->getPosition() + direction.normalized());
+
+		ball->getComponent<Ball>()->setVelocity(velocity);
+		ball->getComponent<Ball>()->setTargetVelocity(velocity);
+
+		ball->getComponent<RigidBody>()->setLinearVelocity(direction.normalized() * velocity);
 	}
 }

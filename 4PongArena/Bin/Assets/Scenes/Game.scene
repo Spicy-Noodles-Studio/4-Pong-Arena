@@ -59,62 +59,6 @@
             "ObjectName": "Ground",
             "Tag": "ground",
             "BlueprintPath": "Ground"
-        },
-        {
-            "ObjectType": "BLUEPRINT",
-            "ObjectName": "Pillar1",
-            "Tag": "spawner",
-            "BlueprintPath": "Spawner",
-            "ComponentModifications": [
-                {
-                    "ComponentName": "Transform",
-                    "ComponentProperties": [
-                        ["position", "-2 1 -2"]
-                    ]
-                }
-            ]
-        },
-        {
-            "ObjectType": "BLUEPRINT",
-            "ObjectName": "Pillar2",
-            "Tag": "spawner",
-            "BlueprintPath": "Spawner",
-            "ComponentModifications": [
-                {
-                    "ComponentName": "Transform",
-                    "ComponentProperties": [
-                        ["position", "-2 1 2"]
-                    ]
-                }
-            ]
-        },
-        {
-            "ObjectType": "BLUEPRINT",
-            "ObjectName": "Pillar3",
-            "Tag": "spawner",
-            "BlueprintPath": "Spawner",
-            "ComponentModifications": [
-                {
-                    "ComponentName": "Transform",
-                    "ComponentProperties": [
-                        ["position", "2 1 2"]
-                    ]
-                }
-            ]
-        },
-        {
-            "ObjectType": "BLUEPRINT",
-            "ObjectName": "Pillar4",
-            "Tag": "spawner",
-            "BlueprintPath": "Spawner",
-            "ComponentModifications": [
-                {
-                    "ComponentName": "Transform",
-                    "ComponentProperties": [
-                        ["position", "2 1 -2"]
-                    ]
-                }
-            ]
         }
     ]
 }

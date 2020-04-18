@@ -61,8 +61,6 @@ SpawnerManager::~SpawnerManager()
 
 void SpawnerManager::start()
 {
-	spawners = findGameObjectsWithTag("spawner");
-
 	for (int i = 0; i < 25; i++)
 	{
 		pool.push_back(instantiate("Ball"));

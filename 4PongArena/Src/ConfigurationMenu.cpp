@@ -44,9 +44,6 @@ void ConfigurationMenu::fillSlot(int slotIndex, int deviceIndex)
 		slots[slotIndex].second.getChild("TypeText").setText("Controller");
 
 	filledSlots++;
-
-	if (!startButton.isVisible() && filledSlots >= MIN_PLAYERS)
-		startButton.setVisible(true);
 }
 
 int ConfigurationMenu::isSlotFilled(int index)
@@ -67,9 +64,6 @@ void ConfigurationMenu::clearSlot(int index)
 	slots[index].second.setVisible(false);
 
 	filledSlots--;
-
-	if (startButton.isVisible() && filledSlots < MIN_PLAYERS)
-		startButton.setVisible(false);
 }
 
 void ConfigurationMenu::reorderSlots(int index)
@@ -158,7 +152,9 @@ bool ConfigurationMenu::startButtonClick()
 	gameManager->setLevel(levelNames[levelIndex]);
 	gameManager->setSong(songNames[songIndex]);
 
-	SceneManager::GetInstance()->changeScene("Game");
+	if (!IA && filledSlots > 1 || IA)
+		SceneManager::GetInstance()->changeScene("Game");
+
 	return false;
 }
 

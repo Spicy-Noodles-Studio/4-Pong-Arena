@@ -30,10 +30,7 @@
             ]
         },
         {
-            "ComponentName" : "Ball",
-            "ComponentProperties": [
-                ["maxVelocity", "8"]
-            ]
+            "ComponentName" : "Ball"
         }
     ]
 }

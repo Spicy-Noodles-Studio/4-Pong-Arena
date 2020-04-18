@@ -12,8 +12,9 @@ public:
 	enum class State { DISABLED, FORWARDS, BACKWARDS };
 
 private:
-	// Impulse given to the ball
-	float force;
+	// Properties given to the ball
+	float targetVelocity;
+	float acceleration;
 
 	// Time to change state
 	float stateTime;
@@ -34,12 +35,13 @@ public:
 	virtual void start();
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
-	virtual void onTriggerStay(GameObject* other);
+	virtual void onObjectEnter(GameObject* other);
 
 	void setState(const std::string& state);
 	void setState(State state);
 
-	void setForce(float force);
+	void setTargetVelocity(float targetVelocity);
+	void setAcceleration(float acceleration);
 	void setTime(float time);
 	void setRandom(bool random);
 

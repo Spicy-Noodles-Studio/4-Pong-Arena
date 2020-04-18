@@ -11,7 +11,7 @@ const int MAX_TIME = 300;
 const int MIN_HEALTH = 1;
 const int MAX_HEALTH = 15;
 
-const int MIN_PLAYERS = 1;
+const int MIN_PLAYERS = 0;
 
 class InputSystem;
 class UILayout;

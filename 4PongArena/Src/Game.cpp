@@ -69,16 +69,30 @@ void Game::createLevel()
 		spawnerTransforms.push_back({ { posX, posY, posZ }, { rotX, rotY, rotZ } });
 	}
 
-	// wall initial scale
-	GaiaData wallData = levelData.find("WallScale");
+	// force field initial transforms
+	GaiaData forceFieldData = levelData.find("ForceFieldTransforms");
+	for (int i = 0; i < forceFieldData.size(); i++)
+	{
+		std::stringstream ss(forceFieldData[i][0].getValue());
+		double posX, posY, posZ;
 
-	std::stringstream ss(wallData[0].getValue());
-	double scaX, scaY, scaZ;
+		if (!(ss >> posX >> posY >> posZ))
+		{
+			LOG_ERROR("GAME", "invalid player position \"%s\"", forceFieldData[i][0].getValue().c_str());
+			continue;
+		}
 
-	if (!(ss >> scaX >> scaY >> scaZ))
-		LOG_ERROR("GAME", "invalid player position \"%s\"", wallData[0].getValue().c_str());
+		ss = std::stringstream(forceFieldData[i][1].getValue());
+		double rotX, rotY, rotZ;
 
-	wallScale = { scaX, scaY, scaZ };
+		if (!(ss >> rotX >> rotY >> rotZ))
+		{
+			LOG_ERROR("GAME", "invalid player rotation \"%s\"", forceFieldData[i][1].getValue().c_str());
+			continue;
+		}
+
+		forceFieldTransforms.push_back({ { posX, posY, posZ }, { rotX, rotY, rotZ } });
+	}
 }
 
 void Game::createPlayers()
@@ -109,7 +123,7 @@ void Game::createPlayers()
 				GameObject* paddleIA = instantiate("IA", playerTransforms[i + nPlayers].first);
 				paddleIA->transform->setRotation(playerTransforms[i + nPlayers].second);
 
-				paddleIA->getComponent<IAPaddle>()->setId(MAX_PLAYERS - i);
+				paddleIA->getComponent<IAPaddle>()->setId(i + nPlayers + 1);
 				paddleIA->getComponent<Health>()->setHealth(gameManager->getHealth());
 
 				paddles.push_back(paddleIA);
@@ -118,7 +132,7 @@ void Game::createPlayers()
 			{
 				GameObject* wall = instantiate("Wall", playerTransforms[i + nPlayers].first);
 				wall->transform->setRotation(playerTransforms[i + nPlayers].second);
-				wall->transform->setScale(wallScale);
+				wall->setActive(true);
 			}
 		}
 	}
@@ -136,11 +150,24 @@ void Game::createSpawners()
 	{
 		GameObject* spawner = instantiate("Spawner", spawnerTransforms[i].first);
 		spawner->transform->setRotation(spawnerTransforms[i].second);
+		spawner->setActive(true);
+		spawner->getChildren()[0]->setActive(true);
 
 		aux.push_back(spawner);
 	}
 
 	findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>()->setSpawners(aux);
+}
+
+void Game::createForceField()
+{
+	int n = forceFieldTransforms.size();
+
+	for (int i = 0; i < n; i++)
+	{
+		GameObject* forceField = instantiate("ForceField", forceFieldTransforms[i].first);
+		forceField->transform->setRotation(forceFieldTransforms[i].second);
+	}
 }
 
 void Game::playSong()
@@ -165,6 +192,7 @@ void Game::chooseWinner()
 			{
 				majorHealth = health->getHealth();
 				majorIndex = i;
+				tie = false;
 			}
 			else if (health->getHealth() == majorHealth)
 				tie = true;
@@ -216,7 +244,8 @@ void Game::start()
 
 	createLevel();
 	createPlayers();
-	//createSpawners();
+	createSpawners();
+	createForceField();
 	playSong();
 
 	gameTimer = gameManager->getTime();
@@ -242,6 +271,6 @@ void Game::update(float deltaTime)
 			SceneManager::GetInstance()->changeScene("ConfigurationMenu"); // Cambiar a menu de final de partida
 	}
 
-	if (gameManager->getPlayersAlive() == 0)
+	if (gameManager->getPlayersAlive() == 1)
 		chooseWinner();
 }

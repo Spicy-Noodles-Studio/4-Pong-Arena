@@ -4,11 +4,13 @@
 #include <MathUtils.h>
 #include <sstream>
 
+#include "Ball.h"
+
 #include <ComponentRegister.h>
 
 REGISTER_FACTORY(ForceField);
 
-ForceField::ForceField(GameObject* gameObject) :	UserComponent(gameObject), force(0.0f), stateTime(0.0f), stateTimer(0.0f), random(false), currentState(State::FORWARDS)
+ForceField::ForceField(GameObject* gameObject) :	UserComponent(gameObject), targetVelocity(0.0f), acceleration(0.0f), stateTime(0.0f), stateTimer(0.0f), random(false), currentState(State::FORWARDS)
 {
 	
 }
@@ -41,9 +43,14 @@ void ForceField::handleData(ComponentData* data)
 	{
 		std::stringstream ss(prop.second);
 
-		if (prop.first == "force")
+		if (prop.first == "targetVelocity")
 		{
-			if (!(ss >> force))
+			if (!(ss >> targetVelocity))
+				LOG("FORCE FIELD: Invalid value for property with name \"%s\"", prop.first.c_str());
+		}
+		else if (prop.first == "acceleration")
+		{
+			if (!(ss >> acceleration))
 				LOG("FORCE FIELD: Invalid value for property with name \"%s\"", prop.first.c_str());
 		}
 		else if (prop.first == "stateTime")
@@ -61,22 +68,20 @@ void ForceField::handleData(ComponentData* data)
 	}
 }
 
-void ForceField::onTriggerStay(GameObject* other)
+void ForceField::onObjectEnter(GameObject* other)
 {
 	if (currentState == State::DISABLED) return;
 
-	RigidBody* ball = other->getComponent<RigidBody>();
+	RigidBody* rigidBody = other->getComponent<RigidBody>();
+	Ball* ball = other->getComponent<Ball>();
 
-	if (ball == nullptr) return;
+	if (ball == nullptr || rigidBody == nullptr) return;
 
-	Vector3 forceDirection = { 0,0,0 };
+	if (currentState != State::FORWARDS)
+		rigidBody->setLinearVelocity(rigidBody->getLinearVelocity() * -1);
 
-	if (currentState == State::FORWARDS)
-		forceDirection = gameObject->transform->getPosition() - other->transform->getPosition();
-	else
-		forceDirection = other->transform->getPosition() - gameObject->transform->getPosition();
-
-	ball->addForce(forceDirection.normalized() * force);
+	ball->setTargetVelocity(targetVelocity);
+	ball->setAcceleration(acceleration);
 }
 
 /// States: "DISABLED" | "FORWARDS" | "BACKWARDS"
@@ -93,9 +98,14 @@ void ForceField::setState(State state)
 	currentState = state;
 }
 
-void ForceField::setForce(float force)
+void ForceField::setTargetVelocity(float targetVelocity)
 {
-	this->force = force;
+	this->targetVelocity = targetVelocity;
+}
+
+void ForceField::setAcceleration(float acceleration)
+{
+	this->acceleration = acceleration;
 }
 
 void ForceField::setTime(float time)

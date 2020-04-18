@@ -7,7 +7,7 @@
 
 REGISTER_FACTORY(Ball);
 
-Ball::Ball(GameObject* gameObject): UserComponent(gameObject), rigidBody(nullptr), maxVelocity(0.0f)
+Ball::Ball(GameObject* gameObject): UserComponent(gameObject), rigidBody(nullptr), velocity(0.0f), targetVelocity(0.0f), acceleration(0.0f)
 {
 
 }
@@ -23,23 +23,27 @@ void Ball::start()
 }
 
 void Ball::update(float deltaTime)
-{ 
-	if (rigidBody != nullptr && rigidBody->getLinearVelocity().magnitude() > maxVelocity)
-		rigidBody->setLinearVelocity(rigidBody->getLinearVelocity().normalized() * maxVelocity);
+{
+	if (velocity < targetVelocity)
+		velocity += acceleration * deltaTime;
+	else
+		velocity = targetVelocity;
+
+	if (rigidBody != nullptr)
+		rigidBody->setLinearVelocity(rigidBody->getLinearVelocity().normalized() * velocity);
 }
 
-void Ball::handleData(ComponentData* data)
+void Ball::setVelocity(float velocity)
 {
-	for (auto prop : data->getProperties())
-	{
-		std::stringstream ss(prop.second);
+	this->velocity = velocity;
+}
 
-		if (prop.first == "maxVelocity")
-		{
-			if (!(ss >> maxVelocity))
-				LOG("BALL: Invalid property with name \"%s\"", prop.first.c_str());
-		}
-		else
-			LOG("BALL: Invalid property name \"%s\"", prop.first.c_str());
-	}
+void Ball::setTargetVelocity(float targetVelocity)
+{
+	this->targetVelocity = targetVelocity;
+}
+
+void Ball::setAcceleration(float acceleration)
+{
+	this->acceleration = acceleration;
 }
