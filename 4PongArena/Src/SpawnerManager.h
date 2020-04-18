@@ -27,6 +27,7 @@ public:
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
 
+	void setSpawners(std::vector<GameObject*>& spawners);
 	std::vector<GameObject*> getPool() const;
 
 	void setGenerationTime(float generationTime);

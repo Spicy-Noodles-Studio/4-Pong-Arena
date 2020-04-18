@@ -17,6 +17,8 @@ private:
 	float decisionTime;
 	float decisionTimer;
 
+	int id;
+
 public:
 	IAPaddle(GameObject* gameObject);
 	virtual ~IAPaddle();
@@ -25,6 +27,9 @@ public:
 	virtual void update(float deltaTime);
 
 	virtual void handleData(ComponentData* data);
+
+	void setId(int id);
+	int getId() const;
 
 private:
 	void processChooseTargetState();

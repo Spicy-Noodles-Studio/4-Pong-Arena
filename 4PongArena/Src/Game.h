@@ -5,6 +5,8 @@
 #include <UserComponent.h>
 #include <UIElement.h>
 
+const int MAX_PLAYERS = 4;
+
 class GameManager;
 class UILayout;
 class InputSystem;
@@ -14,13 +16,14 @@ class Game : public UserComponent
 private:
 	GameManager* gameManager;
 
-	//UILayout* gameLayout;
-	//UIElement timeText;
-	//UIElement winnerPanel;
-	//UIElement winnerText;
+	UILayout* gameLayout;
+	UIElement timeText;
+	UIElement winnerPanel;
+	UIElement winnerText;
 
 	std::vector<GameObject*> paddles;
 	std::vector<std::pair<Vector3, Vector3>> playerTransforms;
+	std::vector<std::pair<Vector3, Vector3>> spawnerTransforms;
 
 	float gameTimer;
 	float finishTimer; // Quitar cuando haya menu de final de partida
@@ -29,6 +32,7 @@ private:
 
 	void createLevel();
 	void createPlayers();
+	void createSpawners();
 
 	void playSong();
 	void chooseWinner();

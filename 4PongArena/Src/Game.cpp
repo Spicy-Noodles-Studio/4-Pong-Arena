@@ -5,7 +5,9 @@
 #include <GameObject.h>
 
 #include "PlayerController.h"
+#include "IAPaddle.h"
 #include "Health.h"
+#include "SpawnerManager.h"
 #include "GameManager.h"
 
 #include <ComponentRegister.h>
@@ -41,6 +43,31 @@ void Game::createLevel()
 
 		playerTransforms.push_back({ { posX, posY, posZ }, { rotX, rotY, rotZ } });
 	}
+
+	// spawner initial transforms
+	GaiaData spawnerData = levelData.find("SpawnerTransforms");
+	for (int i = 0; i < spawnerData.size(); i++)
+	{
+		std::stringstream ss(spawnerData[i][0].getValue());
+		double posX, posY, posZ;
+
+		if (!(ss >> posX >> posY >> posZ))
+		{
+			LOG_ERROR("GAME", "invalid player position \"%s\"", spawnerData[i][0].getValue().c_str());
+			continue;
+		}
+
+		ss = std::stringstream(spawnerData[i][1].getValue());
+		double rotX, rotY, rotZ;
+
+		if (!(ss >> rotX >> rotY >> rotZ))
+		{
+			LOG_ERROR("GAME", "invalid player rotation \"%s\"", spawnerData[i][1].getValue().c_str());
+			continue;
+		}
+
+		spawnerTransforms.push_back({ { posX, posY, posZ }, { rotX, rotY, rotZ } });
+	}
 }
 
 void Game::createPlayers()
@@ -60,7 +87,7 @@ void Game::createPlayers()
 		paddles.push_back(paddle);
 	}
 
-	int nIA = 4 - nPlayers;
+	int nIA = MAX_PLAYERS - nPlayers;
 
 	if (nIA > 0)
 	{
@@ -69,6 +96,7 @@ void Game::createPlayers()
 			GameObject* paddleIA = instantiate("IA", playerTransforms[i + nPlayers].first);
 			paddleIA->transform->setRotation(playerTransforms[i + nPlayers].second);
 
+			paddleIA->getComponent<IAPaddle>()->setId(MAX_PLAYERS - i);
 			paddleIA->getComponent<Health>()->setHealth(gameManager->getHealth());
 
 			paddles.push_back(paddleIA);
@@ -76,6 +104,23 @@ void Game::createPlayers()
 	}
 
 	gameManager->setPlayersAlive(paddles.size());
+}
+
+void Game::createSpawners()
+{
+	std::vector<GameObject*> aux;
+
+	int n = spawnerTransforms.size();
+
+	for (int i = 0; i < n; i++)
+	{
+		GameObject* spawner = instantiate("Spawner", spawnerTransforms[i].first);
+		spawner->transform->setRotation(spawnerTransforms[i].second);
+
+		aux.push_back(spawner);
+	}
+
+	findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>()->setSpawners(aux);
 }
 
 void Game::playSong()
@@ -106,7 +151,7 @@ void Game::chooseWinner()
 		}
 	}
 
-	/*if (gameLayout != nullptr)
+	if (gameLayout != nullptr)
 	{
 		winnerPanel.setVisible(true);
 
@@ -115,12 +160,12 @@ void Game::chooseWinner()
 		else
 		{
 			winner = majorIndex;
-			winnerText.setText("Winner: P" + std::to_string(winner + 1));
+			winnerText.setText("WINNER: P" + std::to_string(winner + 1));
 		}
-	}*/
+	}
 }
 
-Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr)/*, gameLayout(nullptr), timeText(NULL), winnerPanel(NULL), winnerText(NULL)*/, finishTimer(3.0f), winner(0)
+Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), gameLayout(nullptr), timeText(NULL), winnerPanel(NULL), winnerText(NULL), finishTimer(3.0f), winner(0)
 {
 
 }
@@ -136,7 +181,7 @@ void Game::start()
 
 	GameObject* mainCamera = findGameObjectWithName("MainCamera");
 
-	/*if (mainCamera != nullptr)
+	if (mainCamera != nullptr)
 		gameLayout = mainCamera->getComponent<UILayout>();
 
 	if (gameLayout != nullptr)
@@ -147,10 +192,11 @@ void Game::start()
 		winnerPanel.setVisible(false);
 
 		winnerText = winnerPanel.getChild("Winner");
-	}*/
+	}
 
 	createLevel();
 	createPlayers();
+	//createSpawners();
 	playSong();
 
 	gameTimer = gameManager->getTime();
@@ -165,8 +211,8 @@ void Game::update(float deltaTime)
 		if (gameTimer <= 0.0f)
 			chooseWinner();
 
-		/*if (gameLayout != nullptr)
-			timeText.setText(std::to_string((int)gameTimer % 60));*/
+		if (gameLayout != nullptr)
+			timeText.setText(std::to_string((int)gameTimer % 60));
 	}
 	else
 	{

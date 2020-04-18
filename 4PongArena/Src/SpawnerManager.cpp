@@ -107,6 +107,11 @@ void SpawnerManager::handleData(ComponentData* data)
 	}
 }
 
+void SpawnerManager::setSpawners(std::vector<GameObject*>& spawners)
+{
+	this->spawners = spawners;
+}
+
 std::vector<GameObject*> SpawnerManager::getPool() const
 {
 	return pool;

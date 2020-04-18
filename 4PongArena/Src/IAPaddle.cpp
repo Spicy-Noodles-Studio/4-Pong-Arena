@@ -11,7 +11,7 @@
 
 REGISTER_FACTORY(IAPaddle);
 
-IAPaddle::IAPaddle(GameObject* gameObject) : UserComponent(gameObject), currentState(State::MOVE), targetBall(nullptr), movement(nullptr), decisionTime(1.0f), decisionTimer(0.0f)
+IAPaddle::IAPaddle(GameObject* gameObject) : UserComponent(gameObject), currentState(State::MOVE), targetBall(nullptr), movement(nullptr), decisionTime(1.0f), decisionTimer(0.0f), id(0)
 {
 
 }
@@ -61,6 +61,16 @@ void IAPaddle::handleData(ComponentData* data)
 		else
 			LOG("IA PADDLE: Invalid property with name \"%s\"", prop.first.c_str());
 	}
+}
+
+void IAPaddle::setId(int id)
+{
+	this->id = id;
+}
+
+int IAPaddle::getId() const
+{
+	return id;
 }
 
 void IAPaddle::processChooseTargetState()
