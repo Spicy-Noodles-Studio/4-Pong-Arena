@@ -6,8 +6,6 @@
 
 #include "ComponentRegister.h"
 
-#include "Ball.h"
-
 REGISTER_FACTORY(BallGenerator);
 
 BallGenerator::BallGenerator(GameObject* gameObject) : UserComponent(gameObject)
@@ -77,7 +75,6 @@ void BallGenerator::generateBall()
 
 	GameObject* ball = instantiate("Ball", positions[i]);
 	ball->getComponent<RigidBody>()->setLinearVelocity(Vector3(dirs[i].x + rand1,0.0, dirs[i].z + rand2).normalized() * vel);
-	//Vector3 auxv =  ball->getComponent<RigidBody>()->getLinearVelocity();
 	balls++;
 	time = 0.0f;
 	lastGen = i;
