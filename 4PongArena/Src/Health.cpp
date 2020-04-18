@@ -1,8 +1,8 @@
 #include "Health.h"
-
-#include <ComponentRegister.h>
 #include <GameObject.h>
 #include <sstream>
+
+#include <ComponentRegister.h>
 
 REGISTER_FACTORY(Health);
 
@@ -42,18 +42,13 @@ void Health::setHealth(int health)
 	this->health = health;
 }
 
-bool Health::isAlive() const
-{
-	return health > 0;
-}
-
-bool Health::isDead() const
-{
-	return !isAlive();
-}
-
 void Health::receiveDamage(int damage)
 {
 	health -= damage;
 	if (health < 0) health = 0;
+}
+
+bool Health::isAlive() const
+{
+	return health > 0;
 }

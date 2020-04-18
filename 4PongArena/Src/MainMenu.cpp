@@ -1,5 +1,6 @@
 #include "MainMenu.h"
 #include <InterfaceSystem.h>
+#include <RenderSystem.h>
 #include <SceneManager.h>
 #include <GameObject.h>
 
@@ -29,7 +30,7 @@ bool MainMenu::optionsButtonClick()
 
 bool MainMenu::exitButtonClick()
 {
-
+	RenderSystem::GetInstance()->closeWindow();
 	return false;
 }
 

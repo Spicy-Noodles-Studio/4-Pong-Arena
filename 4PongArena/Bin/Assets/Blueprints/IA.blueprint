@@ -57,6 +57,9 @@
             "ComponentProperties": [
                 ["offset", "0.75"]
             ]
+        },
+        {
+            "ComponentName": "PlayerUI"
         }
     ]
 }

@@ -1,115 +1,121 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\Src\Ball.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\BallGenerator.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\ConfigurationMenu.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Death.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\ForceField.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Game.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\GameManager.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Goal.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\GoalKeeper.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Health.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\IAPaddle.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\main.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\MainMenu.cpp">
-      <Filter>Archivos de código fuente</Filter>
+    <ClCompile Include="..\..\Src\Ball.cpp">
+      <Filter>Archivos de código fuente\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Death.cpp">
+      <Filter>Archivos de código fuente\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\ForceField.cpp">
+      <Filter>Archivos de código fuente\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Goal.cpp">
+      <Filter>Archivos de código fuente\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\GoalKeeper.cpp">
+      <Filter>Archivos de código fuente\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Health.cpp">
+      <Filter>Archivos de código fuente\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\IAPaddle.cpp">
+      <Filter>Archivos de código fuente\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Movement.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\OptionsMenu.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\PauseMenu.cpp">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\PlayerController.cpp">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\BallGenerator.cpp">
-      <Filter>Archivos de origen\Components</Filter>
+    <ClCompile Include="..\..\Src\PlayerUI.cpp">
+      <Filter>Archivos de código fuente\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Spawner.cpp">
+      <Filter>Archivos de código fuente\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\ConfigurationMenu.cpp">
+      <Filter>Archivos de código fuente\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\MainMenu.cpp">
+      <Filter>Archivos de código fuente\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\OptionsMenu.cpp">
+      <Filter>Archivos de código fuente\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PauseMenu.cpp">
+      <Filter>Archivos de código fuente\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\GameManager.cpp">
+      <Filter>Archivos de código fuente\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\SpawnerManager.cpp">
+      <Filter>Archivos de código fuente\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Game.cpp">
+      <Filter>Archivos de código fuente\Menus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Src\Ball.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\BallGenerator.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\ConfigurationMenu.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Death.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\ForceField.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Game.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\GameManager.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Goal.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\GoalKeeper.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Health.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\IAPaddle.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\MainMenu.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Movement.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\OptionsMenu.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\PauseMenu.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Src\Player.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\PlayerController.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\BallGenerator.h">
+    <ClInclude Include="..\..\Src\Ball.h">
       <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Death.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\ForceField.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Goal.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\GoalKeeper.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Health.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\IAPaddle.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Movement.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\PlayerController.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\PlayerUI.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Spawner.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\ConfigurationMenu.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\MainMenu.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\OptionsMenu.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\PauseMenu.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Game.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\GameManager.h">
+      <Filter>Archivos de encabezado\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\SpawnerManager.h">
+      <Filter>Archivos de encabezado\Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +124,24 @@
     </Filter>
     <Filter Include="Archivos de encabezado">
       <UniqueIdentifier>{07d7a113-2136-4990-aba2-2e78a0b75564}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Components">
+      <UniqueIdentifier>{d848fddf-8180-4ed0-9830-065265348979}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Managers">
+      <UniqueIdentifier>{b6ffed13-2f70-4607-bca0-fcba228219cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Menus">
+      <UniqueIdentifier>{0724b67a-caab-40f4-9093-1e2a86482b01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Components">
+      <UniqueIdentifier>{7f80f96a-caee-4d86-ac32-1fc89cf8c6a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Menus">
+      <UniqueIdentifier>{1f265e25-3b7c-4e00-a4df-a4e7f8b83139}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Managers">
+      <UniqueIdentifier>{762d026e-ba34-44db-beaa-e52c183d57b0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

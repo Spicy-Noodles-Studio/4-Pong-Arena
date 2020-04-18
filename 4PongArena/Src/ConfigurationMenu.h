@@ -11,7 +11,7 @@ const int MAX_TIME = 300;
 const int MIN_HEALTH = 1;
 const int MAX_HEALTH = 15;
 
-const int MIN_PLAYERS = 1;
+const int MIN_PLAYERS = 0;
 
 class InputSystem;
 class UILayout;
@@ -20,10 +20,12 @@ class ConfigurationMenu : public UserComponent
 {
 private:
 	InputSystem* inputSystem;
-
-	std::vector<std::pair<int, UIElement>> slots;
 	UILayout* configurationLayout;
 	UIElement startButton;
+
+	std::vector<std::pair<int, UIElement>> slots;
+
+	bool IA;
 
 	int filledSlots;
 	int health;
@@ -43,6 +45,7 @@ private:
 	void clearSlot(int index);
 	void reorderSlots(int index);
 
+	bool changeFiller(bool value);
 	bool changeHealth(int value);
 	bool changeTime(int value);
 	bool changeLevel(int value);

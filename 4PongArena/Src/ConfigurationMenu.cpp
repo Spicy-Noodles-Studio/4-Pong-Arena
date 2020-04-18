@@ -44,9 +44,6 @@ void ConfigurationMenu::fillSlot(int slotIndex, int deviceIndex)
 		slots[slotIndex].second.getChild("TypeText").setText("Controller");
 
 	filledSlots++;
-
-	if (!startButton.isVisible() && filledSlots >= MIN_PLAYERS)
-		startButton.setVisible(true);
 }
 
 int ConfigurationMenu::isSlotFilled(int index)
@@ -67,9 +64,6 @@ void ConfigurationMenu::clearSlot(int index)
 	slots[index].second.setVisible(false);
 
 	filledSlots--;
-
-	if (startButton.isVisible() && filledSlots < MIN_PLAYERS)
-		startButton.setVisible(false);
 }
 
 void ConfigurationMenu::reorderSlots(int index)
@@ -79,6 +73,14 @@ void ConfigurationMenu::reorderSlots(int index)
 		fillSlot(i, slots[i + 1].first);
 		clearSlot(i + 1);
 	}
+}
+
+bool ConfigurationMenu::changeFiller(bool value)
+{
+	IA = value;
+	GameManager::GetInstance()->setIA(value);
+
+	return false;
 }
 
 bool ConfigurationMenu::changeHealth(int value)
@@ -150,7 +152,8 @@ bool ConfigurationMenu::startButtonClick()
 	gameManager->setLevel(levelNames[levelIndex]);
 	gameManager->setSong(songNames[songIndex]);
 
-	SceneManager::GetInstance()->changeScene("Game");
+	if (!IA && filledSlots > 1 || IA)
+		SceneManager::GetInstance()->changeScene("Game");
 
 	return false;
 }
@@ -164,6 +167,8 @@ bool ConfigurationMenu::backButtonClick()
 ConfigurationMenu::ConfigurationMenu(GameObject* gameObject) : UserComponent(gameObject), inputSystem(nullptr), configurationLayout(nullptr), startButton(NULL)
 {
 	InterfaceSystem* interfaceSystem = InterfaceSystem::GetInstance();
+
+	interfaceSystem->registerEvent("checkBoxClick", UIEvent("ToggleClicked", [this]() {return changeFiller(!IA); }));
 
 	interfaceSystem->registerEvent("-healthButtonClick", UIEvent("ButtonClicked", [this]() {return changeHealth(-1); }));
 	interfaceSystem->registerEvent("+healthButtonClick", UIEvent("ButtonClicked", [this]() {return changeHealth(+1); }));
@@ -185,6 +190,8 @@ ConfigurationMenu::~ConfigurationMenu()
 {
 	InterfaceSystem* interfaceSystem = InterfaceSystem::GetInstance();
 
+	interfaceSystem->unregisterEvent("checkBoxClick");
+
 	interfaceSystem->unregisterEvent("-healthButtonClick");
 	interfaceSystem->unregisterEvent("+healthButtonClick");
 
@@ -198,6 +205,7 @@ ConfigurationMenu::~ConfigurationMenu()
 	interfaceSystem->unregisterEvent("+levelButtonClick");
 
 	interfaceSystem->unregisterEvent("startButtonClick");
+	interfaceSystem->unregisterEvent("backButtonClick");
 }
 
 void ConfigurationMenu::start()
@@ -210,6 +218,8 @@ void ConfigurationMenu::start()
 		configurationLayout = mainCamera->getComponent<UILayout>();
 	if (configurationLayout != nullptr)
 		startButton = configurationLayout->getRoot().getChild("StartButton");
+
+	IA = false;
 
 	filledSlots = 0;
 	health = 5;

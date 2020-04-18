@@ -24,6 +24,21 @@
             ]
         },
         {
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "SpawnerManager",
+            "Tag": "spawnerManager",
+            "Components": 
+            [
+                {
+                    "ComponentName" : "SpawnerManager",
+                    "ComponentProperties": [
+                        ["generationTime", "3"],
+                        ["minimumTime", "1"]
+                    ]
+                }
+            ]
+        },
+        {
             "ObjectType": "BLUEPRINT",
             "ObjectName": "MainCamera",
             "Tag": "mainCamera",
@@ -44,73 +59,6 @@
             "ObjectName": "Ground",
             "Tag": "ground",
             "BlueprintPath": "Ground"
-        },
-        {
-            "ObjectType": "BLUEPRINT",
-            "ObjectName": "Pillar1",
-            "Tag": "pillar",
-            "BlueprintPath": "Pillar",
-            "ComponentModifications": [
-                {
-                    "ComponentName": "Transform",
-                    "ComponentProperties": [
-                        ["position", "-2 1 -2"]
-                    ]
-                }
-            ]
-        },
-        {
-            "ObjectType": "BLUEPRINT",
-            "ObjectName": "Pillar2",
-            "Tag": "pillar",
-            "BlueprintPath": "Pillar",
-            "ComponentModifications": [
-                {
-                    "ComponentName": "Transform",
-                    "ComponentProperties": [
-                        ["position", "-2 1 2"]
-                    ]
-                }
-            ]
-        },
-        {
-            "ObjectType": "BLUEPRINT",
-            "ObjectName": "Pillar3",
-            "Tag": "pillar",
-            "BlueprintPath": "Pillar",
-            "ComponentModifications": [
-                {
-                    "ComponentName": "Transform",
-                    "ComponentProperties": [
-                        ["position", "2 1 2"]
-                    ]
-                }
-            ]
-        },
-        {
-            "ObjectType": "BLUEPRINT",
-            "ObjectName": "Pillar4",
-            "Tag": "pillar",
-            "BlueprintPath": "Pillar",
-            "ComponentModifications": [
-                {
-                    "ComponentName": "Transform",
-                    "ComponentProperties": [
-                        ["position", "2 1 -2"]
-                    ]
-                }
-            ]
-        },
-		{
-		"ObjectType": "GAMEOBJECT",
-            "ObjectName": "BallGenerator",
-            "Tag": "ballGenerator",
-            "Components":
-            [
-                {
-                    "ComponentName" : "BallGenerator"
-                }
-            ]
-		}
+        }
     ]
 }

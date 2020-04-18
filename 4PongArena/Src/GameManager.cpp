@@ -1,5 +1,4 @@
 ﻿#include "GameManager.h"
-
 #include <Timer.h>
 
 #include <ComponentRegister.h>
@@ -37,6 +36,16 @@ void GameManager::start()
 	dontDestroyOnLoad(gameObject);
 }
 
+void GameManager::setPlayersAlive(int players)
+{
+	this->playersAlive = players;
+}
+
+int GameManager::getPlayersAlive() const
+{
+	return playersAlive;
+}
+
 void GameManager::setPlayers(std::vector<Player>& players)
 {
 	this->players = players;
@@ -45,6 +54,16 @@ void GameManager::setPlayers(std::vector<Player>& players)
 std::vector<Player> GameManager::getPlayers() const
 {
 	return players;
+}
+
+void GameManager::setIA(bool IA)
+{
+	this->IA = IA;
+}
+
+bool GameManager::getIA() const
+{
+	return IA;
 }
 
 void GameManager::setHealth(int health)
@@ -87,19 +106,17 @@ std::string GameManager::getSong() const
 	return song;
 }
 
-void GameManager::pauseGame(bool setPaused)
+void GameManager::pause(bool paused)
 {
-	if (paused == setPaused) return;
-
-	paused = setPaused;
-
 	if (paused)
 		Timer::GetInstance()->setTimeScale(0.0f); //Pause the game
 	else
 		Timer::GetInstance()->setTimeScale(1.0f); //Resume the game
+
+	this->paused = paused;
 }
 
-bool GameManager::gameIsPaused()
+bool GameManager::isPaused()
 {
 	return paused;
 }

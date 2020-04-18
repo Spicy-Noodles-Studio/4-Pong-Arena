@@ -3,11 +3,11 @@
 #include <SceneManager.h>
 #include <UILayout.h>
 #include <GameObject.h>
-#include <RigidBody.h>
 
 #include "PlayerController.h"
+#include "IAPaddle.h"
 #include "Health.h"
-#include "ConfigurationMenu.h"
+#include "SpawnerManager.h"
 #include "GameManager.h"
 
 #include <ComponentRegister.h>
@@ -43,6 +43,56 @@ void Game::createLevel()
 
 		playerTransforms.push_back({ { posX, posY, posZ }, { rotX, rotY, rotZ } });
 	}
+
+	// spawner initial transforms
+	GaiaData spawnerData = levelData.find("SpawnerTransforms");
+	for (int i = 0; i < spawnerData.size(); i++)
+	{
+		std::stringstream ss(spawnerData[i][0].getValue());
+		double posX, posY, posZ;
+
+		if (!(ss >> posX >> posY >> posZ))
+		{
+			LOG_ERROR("GAME", "invalid player position \"%s\"", spawnerData[i][0].getValue().c_str());
+			continue;
+		}
+
+		ss = std::stringstream(spawnerData[i][1].getValue());
+		double rotX, rotY, rotZ;
+
+		if (!(ss >> rotX >> rotY >> rotZ))
+		{
+			LOG_ERROR("GAME", "invalid player rotation \"%s\"", spawnerData[i][1].getValue().c_str());
+			continue;
+		}
+
+		spawnerTransforms.push_back({ { posX, posY, posZ }, { rotX, rotY, rotZ } });
+	}
+
+	// force field initial transforms
+	GaiaData forceFieldData = levelData.find("ForceFieldTransforms");
+	for (int i = 0; i < forceFieldData.size(); i++)
+	{
+		std::stringstream ss(forceFieldData[i][0].getValue());
+		double posX, posY, posZ;
+
+		if (!(ss >> posX >> posY >> posZ))
+		{
+			LOG_ERROR("GAME", "invalid player position \"%s\"", forceFieldData[i][0].getValue().c_str());
+			continue;
+		}
+
+		ss = std::stringstream(forceFieldData[i][1].getValue());
+		double rotX, rotY, rotZ;
+
+		if (!(ss >> rotX >> rotY >> rotZ))
+		{
+			LOG_ERROR("GAME", "invalid player rotation \"%s\"", forceFieldData[i][1].getValue().c_str());
+			continue;
+		}
+
+		forceFieldTransforms.push_back({ { posX, posY, posZ }, { rotX, rotY, rotZ } });
+	}
 }
 
 void Game::createPlayers()
@@ -62,19 +112,61 @@ void Game::createPlayers()
 		paddles.push_back(paddle);
 	}
 
-	int nIA = 4 - nPlayers;
+	int nUnfilled = MAX_PLAYERS - nPlayers;
 
-	if (nIA > 0)
+	if (nUnfilled > 0)
 	{
-		for (int i = 0; i < nIA; i++)
+		for (int i = 0; i < nUnfilled; i++)
 		{
-			GameObject* paddleIA = instantiate("IA", playerTransforms[i + nPlayers].first);
-			paddleIA->transform->setRotation(playerTransforms[i + nPlayers].second);
+			if (gameManager->getIA())
+			{
+				GameObject* paddleIA = instantiate("IA", playerTransforms[i + nPlayers].first);
+				paddleIA->transform->setRotation(playerTransforms[i + nPlayers].second);
 
-			paddleIA->getComponent<Health>()->setHealth(gameManager->getHealth());
+				paddleIA->getComponent<IAPaddle>()->setId(i + nPlayers + 1);
+				paddleIA->getComponent<Health>()->setHealth(gameManager->getHealth());
 
-			paddles.push_back(paddleIA);
+				paddles.push_back(paddleIA);
+			}
+			else
+			{
+				GameObject* wall = instantiate("Wall", playerTransforms[i + nPlayers].first);
+				wall->transform->setRotation(playerTransforms[i + nPlayers].second);
+				wall->setActive(true);
+			}
 		}
+	}
+
+	gameManager->setPlayersAlive(paddles.size());
+}
+
+void Game::createSpawners()
+{
+	std::vector<GameObject*> aux;
+
+	int n = spawnerTransforms.size();
+
+	for (int i = 0; i < n; i++)
+	{
+		GameObject* spawner = instantiate("Spawner", spawnerTransforms[i].first);
+		spawner->transform->setRotation(spawnerTransforms[i].second);
+		spawner->setActive(true);
+		spawner->getChildren()[0]->setActive(true);
+
+		aux.push_back(spawner);
+	}
+
+	findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>()->setSpawners(aux);
+}
+
+void Game::createForceField()
+{
+	int n = forceFieldTransforms.size();
+
+	for (int i = 0; i < n; i++)
+	{
+		GameObject* forceField = instantiate("ForceField", forceFieldTransforms[i].first);
+		forceField->transform->setRotation(forceFieldTransforms[i].second);
 	}
 }
 
@@ -100,13 +192,14 @@ void Game::chooseWinner()
 			{
 				majorHealth = health->getHealth();
 				majorIndex = i;
+				tie = false;
 			}
 			else if (health->getHealth() == majorHealth)
 				tie = true;
 		}
 	}
 
-	/*if (gameLayout != nullptr)
+	if (gameLayout != nullptr)
 	{
 		winnerPanel.setVisible(true);
 
@@ -115,12 +208,12 @@ void Game::chooseWinner()
 		else
 		{
 			winner = majorIndex;
-			winnerText.setText("Winner: P" + std::to_string(winner + 1));
+			winnerText.setText("WINNER: P" + std::to_string(winner + 1));
 		}
-	}*/
+	}
 }
 
-Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr)/*, gameLayout(nullptr), timeText(NULL), winnerPanel(NULL), winnerText(NULL)*/
+Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), gameLayout(nullptr), timeText(NULL), winnerPanel(NULL), winnerText(NULL), finishTimer(3.0f), winner(0)
 {
 
 }
@@ -136,7 +229,7 @@ void Game::start()
 
 	GameObject* mainCamera = findGameObjectWithName("MainCamera");
 
-	/*if (mainCamera != nullptr)
+	if (mainCamera != nullptr)
 		gameLayout = mainCamera->getComponent<UILayout>();
 
 	if (gameLayout != nullptr)
@@ -147,20 +240,15 @@ void Game::start()
 		winnerPanel.setVisible(false);
 
 		winnerText = winnerPanel.getChild("Winner");
-	}*/
-
-	numPlayers = gameManager->getPlayers().size();
+	}
 
 	createLevel();
 	createPlayers();
+	createSpawners();
+	createForceField();
+	playSong();
 
 	gameTimer = gameManager->getTime();
-	finishTimer = 4.0f; // Placeholder
-
-	winner = 0;
-	ended = false;
-
-	playSong();
 }
 
 void Game::update(float deltaTime)
@@ -169,29 +257,20 @@ void Game::update(float deltaTime)
 	{
 		gameTimer -= deltaTime;
 
-		if (gameTimer < 0.0f)
-			gameTimer = 0.0f;
+		if (gameTimer <= 0.0f)
+			chooseWinner();
 
-		/*if (gameLayout != nullptr)
-			timeText.setText(std::to_string((int)gameTimer % 60));*/
+		if (gameLayout != nullptr)
+			timeText.setText(std::to_string((int)gameTimer % 60));
 	}
 	else
 	{
-		ended = true;
 		finishTimer -= deltaTime;
 
 		if (finishTimer <= 0.0f)
-			SceneManager::GetInstance()->changeScene("ConfigurationMenu"); // Placeholder
+			SceneManager::GetInstance()->changeScene("ConfigurationMenu"); // Cambiar a menu de final de partida
 	}
 
-	if (ended)
+	if (gameManager->getPlayersAlive() == 1)
 		chooseWinner();
-}
-
-void Game::updatePlayers()
-{
-	numPlayers--;
-
-	if (numPlayers == 1)
-		ended = true;
 }

@@ -11,9 +11,9 @@ class Movement;
 class PlayerController : public UserComponent
 {
 private:
-	Player player;
 	InputSystem* inputSystem;
 	Movement* movement;
+	Player player;
 
 public:
 	PlayerController(GameObject* gameObject);

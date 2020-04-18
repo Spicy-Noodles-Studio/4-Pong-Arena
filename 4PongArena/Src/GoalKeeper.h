@@ -15,9 +15,9 @@ public:
 	virtual ~GoalKeeper();
 
 	virtual void start();
-
 	virtual void handleData(ComponentData* data);
 
 	GameObject* getGoal() const;
 };
+
 #endif

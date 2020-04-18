@@ -1,10 +1,11 @@
 #include "PlayerController.h"
-#include <ComponentRegister.h>
 #include <InputSystem.h>
 #include <GameObject.h>
 #include <sstream>
 
 #include "Movement.h"
+
+#include <ComponentRegister.h>
 
 REGISTER_FACTORY(PlayerController);
 
@@ -35,11 +36,13 @@ void PlayerController::handleData(ComponentData* data)
 	{
 		std::stringstream ss(prop.second);
 
-		if (prop.first == "id") {
+		if (prop.first == "id")
+		{
 			if (!(ss >> player.id))
 				LOG("PLAYER CONTROLLER: Invalid property with name \"%s\"", prop.first.c_str());
 		}
-		else if (prop.first == "index") {
+		else if (prop.first == "index")
+		{
 			if (!(ss >> player.index))
 				LOG("PLAYER CONTROLLER: Invalid property with name \"%s\"", prop.first.c_str());
 		}
@@ -82,6 +85,7 @@ Vector3 PlayerController::getInputAxis() const
 
 	if (player.index == 4)
 		return getKeyboardAxis();
+
 	return getControllerAxis();
 }
 

@@ -1,23 +1,17 @@
 #include "OptionsMenu.h"
-
-
 #include <InterfaceSystem.h>
-#include <SoundSystem.h>
 #include <RenderSystem.h>
-#include <Window.h>
+#include <SoundSystem.h>
 #include <SceneManager.h>
 #include <GameObject.h>
 #include <UILayout.h>
 #include <UIElement.h>
+#include <Window.h>
 #include <Camera.h>
-
 
 #include "ComponentRegister.h"
 
 REGISTER_FACTORY(OptionsMenu);
-
-// EVENTS----
-
 
 bool OptionsMenu::backButtonClick()
 {
@@ -90,11 +84,8 @@ bool OptionsMenu::changeGamma()
 	return false;
 }
 
-// -----
-
 OptionsMenu::OptionsMenu(GameObject* gameObject) : UserComponent(gameObject), resolutionButton(NULL), volumeScroll(NULL),musicScroll(NULL),gammaScroll(NULL)
 {
-	InterfaceSystem::GetInstance()->registerEvent("backButtonClick", UIEvent("ButtonClicked", [this]() {return backButtonClick(); }));
 	InterfaceSystem::GetInstance()->registerEvent("-resolutionButtonClick", UIEvent("ButtonClicked", [this]() {return changeResolution(-1); }));
 	InterfaceSystem::GetInstance()->registerEvent("+resolutionButtonClick", UIEvent("ButtonClicked", [this]() {return changeResolution(+1); }));
 
@@ -105,6 +96,7 @@ OptionsMenu::OptionsMenu(GameObject* gameObject) : UserComponent(gameObject), re
 	InterfaceSystem::GetInstance()->registerEvent("gammaScrollChange", UIEvent("ScrollChange", [this]() {return changeGamma(); }));
 
 	InterfaceSystem::GetInstance()->registerEvent("resolutionApplyButtonClick", UIEvent("ButtonClicked", [this]() {return resolutionButtonClick(); }));
+	InterfaceSystem::GetInstance()->registerEvent("backButtonClick", UIEvent("ButtonClicked", [this]() {return backButtonClick(); }));
 	currResolution = -1;
 }
 
@@ -125,7 +117,6 @@ OptionsMenu::~OptionsMenu()
 
 void OptionsMenu::start()
 {
-
 	resolutionButton = findGameObjectWithName("MainCamera")->getComponent<UILayout>()->getRoot().getChild("ResolutionApplyButton");
 	
 	volumeScroll = findGameObjectWithName("MainCamera")->getComponent<UILayout>()->getRoot().getChild("SoundScroll");

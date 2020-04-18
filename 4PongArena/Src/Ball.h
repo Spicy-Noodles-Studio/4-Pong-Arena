@@ -11,6 +11,8 @@ class Ball : public UserComponent
 private:
 	RigidBody* rigidBody;
 	float velocity;
+	float targetVelocity;
+	float acceleration;
 
 public:
 	Ball(GameObject* gameObject);
@@ -19,9 +21,9 @@ public:
 	virtual void start();
 	virtual void update(float deltaTime);
 
-	float getVelocity();
 	void setVelocity(float velocity);
-	RigidBody* getRigidBody();
+	void setTargetVelocity(float targetVelocity);
+	void setAcceleration(float acceleration);
 };
 
 #endif

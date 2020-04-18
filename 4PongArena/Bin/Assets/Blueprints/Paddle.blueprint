@@ -37,12 +37,7 @@
             ]
         },
         {
-            "ComponentName": "PlayerController",
-            "ComponentProperties": [
-                ["force", "5"],
-                ["id", "0"],
-                ["index", "0"]
-            ]
+            "ComponentName": "PlayerController"
         },
         {
             "ComponentName": "Health",
@@ -62,6 +57,9 @@
             "ComponentProperties": [
                 ["offset", "0.75"]
             ]
+        },
+        {
+            "ComponentName": "PlayerUI"
         }
     ]
 }

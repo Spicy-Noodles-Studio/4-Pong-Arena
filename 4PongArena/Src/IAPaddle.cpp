@@ -1,16 +1,17 @@
 #include "IAPaddle.h"
-#include <ComponentRegister.h>
 #include <GameObject.h>
 #include <RigidBody.h>
 #include <MathUtils.h>
 #include <sstream>
 
 #include "Movement.h"
+#include "SpawnerManager.h"
+
+#include <ComponentRegister.h>
 
 REGISTER_FACTORY(IAPaddle);
 
-IAPaddle::IAPaddle(GameObject* gameObject) :	UserComponent(gameObject), currentState(State::MOVE), targetBall(nullptr), movement(nullptr), 
-												decisionTime(1.0f), decisionTimer(0.0f)
+IAPaddle::IAPaddle(GameObject* gameObject) : UserComponent(gameObject), currentState(State::MOVE), targetBall(nullptr), movement(nullptr), decisionTime(1.0f), decisionTimer(0.0f), id(0)
 {
 
 }
@@ -28,7 +29,8 @@ void IAPaddle::start()
 void IAPaddle::update(float deltaTime)
 {
 	decisionTimer += deltaTime;
-	if (decisionTimer >= decisionTime) { 
+	if (decisionTimer >= decisionTime)
+	{ 
 		decisionTimer = 0.0f; 
 		takeDecision(); 
 	}
@@ -47,9 +49,12 @@ void IAPaddle::update(float deltaTime)
 
 void IAPaddle::handleData(ComponentData* data)
 {
-	for (auto prop : data->getProperties()) {
+	for (auto prop : data->getProperties())
+	{
 		std::stringstream ss(prop.second);
-		if (prop.first == "decisionTime") {
+
+		if (prop.first == "decisionTime")
+		{
 			if (!(ss >> decisionTime))
 				LOG("IA PADDLE: Invalid value for property with name \"%s\"", prop.first.c_str());
 		}
@@ -58,17 +63,31 @@ void IAPaddle::handleData(ComponentData* data)
 	}
 }
 
+void IAPaddle::setId(int id)
+{
+	this->id = id;
+}
+
+int IAPaddle::getId() const
+{
+	return id;
+}
+
 void IAPaddle::processChooseTargetState()
 {
 	targetBall = nullptr;
-	balls = findGameObjectsWithTag("ball"); // TODO: el vector deberia de ser una referencia a un vector ya creado (mas eficiente)
+	std::vector<GameObject*> balls = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>()->getPool();
 
 	//Escogemos una bola que venga hacia nosotros aleatoria
 	std::vector<GameObject*> validBalls;
-	for (GameObject* ball : balls) {
-		Vector3 direction = ball->getComponent<RigidBody>()->getLinearVelocity().normalized();
-		if (!isBallBehind(ball->transform->getPosition()) && isBallHeadingToMe(direction))
-			validBalls.push_back(ball);
+	for (GameObject* ball : balls)
+	{
+		if (ball->isActive())
+		{
+			Vector3 direction = ball->getComponent<RigidBody>()->getLinearVelocity().normalized();
+			if (!isBallBehind(ball->transform->getPosition()) && isBallHeadingToMe(direction))
+				validBalls.push_back(ball);
+		}
 	}
 	if (!validBalls.size()) return;
 
@@ -79,7 +98,8 @@ void IAPaddle::processChooseTargetState()
 
 void IAPaddle::processMoveState()
 {
-	if (targetBall == nullptr) { 
+	if (targetBall == nullptr)
+	{ 
 		movement->stop(); 
 		currentState = State::CHOOSE_TARGET;
 		return; 

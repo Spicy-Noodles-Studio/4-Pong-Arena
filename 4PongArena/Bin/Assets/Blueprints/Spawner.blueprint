@@ -1,0 +1,66 @@
+{
+    "ObjectType": "GAMEOBJECT",
+    "ObjectName": "Spawner",
+    "Tag": "spawner",
+    "Components":
+    [
+        {
+            "ComponentName": "Transform",
+            "ComponentProperties": [
+                ["scale", "1 1 1"]
+            ]
+        },
+        {
+            "ComponentName": "MeshRenderer",
+            "ComponentProperties": [
+                ["mesh", "spawner Cylinder.mesh"]
+            ]
+        },
+        {
+            "ComponentName": "RigidBody",
+            "ComponentProperties": [
+                ["shape", "Cylinder"],
+                ["mass", "0"],
+                ["friction", "0"],
+                ["restitution", "1"],
+                ["damping", "0"],
+                ["angularDamping", "0"],
+                ["scale", "1 1 1"]
+            ]
+        },
+        {
+            "ComponentName": "Spawner",
+            "ComponentProperties": [
+                ["velocity", "5"]
+            ]
+        }
+    ],
+    "Children" : [
+        {
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "SpawnerLimit",
+            "Tag": "spawner",
+            "Components" : [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "0 0.5 0"],
+                        ["scale", "1.25 0.5 1.25"]
+                    ]
+                },
+                {
+                    "ComponentName": "RigidBody",
+                    "ComponentProperties": [
+                        ["shape", "Box"],
+                        ["mass", "0"],
+                        ["friction", "0"],
+                        ["restitution", "0"],
+                        ["damping", "0"],
+                        ["angularDamping", "0"],
+                        ["scale", "1 1 1"]
+                    ]
+                }
+            ]
+        }
+    ]
+}

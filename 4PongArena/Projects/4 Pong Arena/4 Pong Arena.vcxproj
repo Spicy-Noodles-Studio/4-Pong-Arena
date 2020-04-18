@@ -165,7 +165,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Src\BallGenerator.cpp" />
+    <ClCompile Include="..\..\Src\PlayerUI.cpp" />
+    <ClCompile Include="..\..\Src\Spawner.cpp" />
     <ClCompile Include="..\..\Src\ConfigurationMenu.cpp" />
     <ClCompile Include="..\..\Src\Game.cpp" />
     <ClCompile Include="..\..\Src\Ball.cpp" />
@@ -182,9 +183,11 @@
     <ClCompile Include="..\..\Src\OptionsMenu.cpp" />
     <ClCompile Include="..\..\Src\PlayerController.cpp" />
     <ClCompile Include="..\..\Src\Death.cpp" />
+    <ClCompile Include="..\..\Src\SpawnerManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Src\BallGenerator.h" />
+    <ClInclude Include="..\..\Src\PlayerUI.h" />
+    <ClInclude Include="..\..\Src\Spawner.h" />
     <ClInclude Include="..\..\Src\ConfigurationMenu.h" />
     <ClInclude Include="..\..\Src\Ball.h" />
     <ClInclude Include="..\..\Src\ForceField.h" />
@@ -201,6 +204,7 @@
     <ClInclude Include="..\..\Src\Movement.h" />
     <ClInclude Include="..\..\Src\PlayerController.h" />
     <ClInclude Include="..\..\Src\Death.h" />
+    <ClInclude Include="..\..\Src\SpawnerManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

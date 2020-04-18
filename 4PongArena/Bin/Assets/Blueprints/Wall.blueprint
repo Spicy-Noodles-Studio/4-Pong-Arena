@@ -8,7 +8,7 @@
             "ComponentName": "Transform",
             "ComponentProperties": [
                 ["position", "0 1 0"],
-                ["scale", "1 1 0.25"],
+                ["scale", "3 1 0.25"],
                 ["rotation", "0 0 0"]
             ]
         },
@@ -22,7 +22,7 @@
             "ComponentName": "RigidBody",
             "ComponentProperties": [
                 ["shape", "Box"],
-                ["mass", "1"],
+                ["mass", "0"],
                 ["friction", "0"],
                 ["restitution", "1"],
                 ["damping", "0"],
