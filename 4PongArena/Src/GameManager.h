@@ -13,6 +13,8 @@ private:
 	int playersAlive;
 	std::vector<Player> players;
 
+	bool IA;
+
 	int health;
 	int time;
 
@@ -35,6 +37,9 @@ public:
 
 	void setPlayers(std::vector<Player>& players);
 	std::vector<Player> getPlayers() const;
+
+	void setIA(bool IA);
+	bool getIA() const;
 
 	void setHealth(int health);
 	int getHealth() const;

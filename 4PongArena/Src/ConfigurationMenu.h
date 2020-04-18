@@ -25,6 +25,8 @@ private:
 
 	std::vector<std::pair<int, UIElement>> slots;
 
+	bool IA;
+
 	int filledSlots;
 	int health;
 	int time;
@@ -43,6 +45,7 @@ private:
 	void clearSlot(int index);
 	void reorderSlots(int index);
 
+	bool changeFiller(bool value);
 	bool changeHealth(int value);
 	bool changeTime(int value);
 	bool changeLevel(int value);

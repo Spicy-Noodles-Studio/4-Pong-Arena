@@ -81,6 +81,14 @@ void ConfigurationMenu::reorderSlots(int index)
 	}
 }
 
+bool ConfigurationMenu::changeFiller(bool value)
+{
+	IA = value;
+	GameManager::GetInstance()->setIA(value);
+
+	return false;
+}
+
 bool ConfigurationMenu::changeHealth(int value)
 {
 	health += value;
@@ -164,6 +172,8 @@ ConfigurationMenu::ConfigurationMenu(GameObject* gameObject) : UserComponent(gam
 {
 	InterfaceSystem* interfaceSystem = InterfaceSystem::GetInstance();
 
+	interfaceSystem->registerEvent("checkBoxClick", UIEvent("ToggleClicked", [this]() {return changeFiller(!IA); }));
+
 	interfaceSystem->registerEvent("-healthButtonClick", UIEvent("ButtonClicked", [this]() {return changeHealth(-1); }));
 	interfaceSystem->registerEvent("+healthButtonClick", UIEvent("ButtonClicked", [this]() {return changeHealth(+1); }));
 
@@ -183,6 +193,8 @@ ConfigurationMenu::ConfigurationMenu(GameObject* gameObject) : UserComponent(gam
 ConfigurationMenu::~ConfigurationMenu()
 {
 	InterfaceSystem* interfaceSystem = InterfaceSystem::GetInstance();
+
+	interfaceSystem->unregisterEvent("checkBoxClick");
 
 	interfaceSystem->unregisterEvent("-healthButtonClick");
 	interfaceSystem->unregisterEvent("+healthButtonClick");
@@ -210,6 +222,8 @@ void ConfigurationMenu::start()
 		configurationLayout = mainCamera->getComponent<UILayout>();
 	if (configurationLayout != nullptr)
 		startButton = configurationLayout->getRoot().getChild("StartButton");
+
+	IA = false;
 
 	filledSlots = 0;
 	health = 5;

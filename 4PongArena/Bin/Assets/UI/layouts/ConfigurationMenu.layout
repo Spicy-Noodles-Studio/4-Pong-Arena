@@ -284,9 +284,26 @@
 					<Property name="RightButton" value="+HealthButton" />
                     <Property name="Font" value="Batang8" />
         </Window>
-        # FIGHT BUTTON
+        # CHECKBOX TEXT
+        <Window type="TaharezLook/StaticText" name="CheckBoxText" >
+                    <Property name="Area" value="{{0.1,0},{0.7,0},{0.9,0},{0.9,0}}" />
+                    <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
+                    <Property name="Text" value="IA" />
+					<Property name="Font" value="Batang8" />
+        </Window>
+        # CHECKBOX
+        <Window type="TaharezLook/Checkbox" name="CheckBox" >
+                    <Property name="Area" value="{{0.4,0},{0.75,0},{0.45,0},{0.85,0}}" />
+                    <Property name="MaxSize" value="{{0.1,0},{0.1,0}}" />
+					<Property name="UpButton" value="BackButton" />
+					<Property name="DownButton" value="-TimeButton" />
+					<Property name="LeftButton" value="-LevelButton" />
+					<Property name="RightButton" value="+LevelButton" />
+                    <Property name="Font" value="Batang8" />
+        </Window>
+        # START BUTTON
         <Window type="TaharezLook/Button" name="StartButton" >
-            <Property name="Area" value="{{0.4,0},{0.8,0},{0.6,0},{0.85,0}}" />
+            <Property name="Area" value="{{0.5,0},{0.9,0},{0.8,0},{1,0}}" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="Visible" value="False" />
             <Property name="Text" value="START!" />

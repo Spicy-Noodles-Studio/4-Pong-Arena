@@ -56,6 +56,16 @@ std::vector<Player> GameManager::getPlayers() const
 	return players;
 }
 
+void GameManager::setIA(bool IA)
+{
+	this->IA = IA;
+}
+
+bool GameManager::getIA() const
+{
+	return IA;
+}
+
 void GameManager::setHealth(int health)
 {
 	this->health = health;

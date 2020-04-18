@@ -25,6 +25,8 @@ private:
 	std::vector<std::pair<Vector3, Vector3>> playerTransforms;
 	std::vector<std::pair<Vector3, Vector3>> spawnerTransforms;
 
+	Vector3 wallScale;
+
 	float gameTimer;
 	float finishTimer; // Quitar cuando haya menu de final de partida
 

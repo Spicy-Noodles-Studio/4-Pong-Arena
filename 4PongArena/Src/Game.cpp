@@ -68,6 +68,17 @@ void Game::createLevel()
 
 		spawnerTransforms.push_back({ { posX, posY, posZ }, { rotX, rotY, rotZ } });
 	}
+
+	// wall initial scale
+	GaiaData wallData = levelData.find("WallScale");
+
+	std::stringstream ss(wallData[0].getValue());
+	double scaX, scaY, scaZ;
+
+	if (!(ss >> scaX >> scaY >> scaZ))
+		LOG_ERROR("GAME", "invalid player position \"%s\"", wallData[0].getValue().c_str());
+
+	wallScale = { scaX, scaY, scaZ };
 }
 
 void Game::createPlayers()
@@ -87,19 +98,28 @@ void Game::createPlayers()
 		paddles.push_back(paddle);
 	}
 
-	int nIA = MAX_PLAYERS - nPlayers;
+	int nUnfilled = MAX_PLAYERS - nPlayers;
 
-	if (nIA > 0)
+	if (nUnfilled > 0)
 	{
-		for (int i = 0; i < nIA; i++)
+		for (int i = 0; i < nUnfilled; i++)
 		{
-			GameObject* paddleIA = instantiate("IA", playerTransforms[i + nPlayers].first);
-			paddleIA->transform->setRotation(playerTransforms[i + nPlayers].second);
+			if (gameManager->getIA())
+			{
+				GameObject* paddleIA = instantiate("IA", playerTransforms[i + nPlayers].first);
+				paddleIA->transform->setRotation(playerTransforms[i + nPlayers].second);
 
-			paddleIA->getComponent<IAPaddle>()->setId(MAX_PLAYERS - i);
-			paddleIA->getComponent<Health>()->setHealth(gameManager->getHealth());
+				paddleIA->getComponent<IAPaddle>()->setId(MAX_PLAYERS - i);
+				paddleIA->getComponent<Health>()->setHealth(gameManager->getHealth());
 
-			paddles.push_back(paddleIA);
+				paddles.push_back(paddleIA);
+			}
+			else
+			{
+				GameObject* wall = instantiate("Wall", playerTransforms[i + nPlayers].first);
+				wall->transform->setRotation(playerTransforms[i + nPlayers].second);
+				wall->transform->setScale(wallScale);
+			}
 		}
 	}
 
