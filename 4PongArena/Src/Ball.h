@@ -10,7 +10,7 @@ class Ball : public UserComponent
 {
 private:
 	RigidBody* rigidBody;
-	float velocity;
+	float maxVelocity;
 
 public:
 	Ball(GameObject* gameObject);
@@ -19,9 +19,6 @@ public:
 	virtual void start();
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
-
-	float getVelocity();
-	void setVelocity(float velocity);
 };
 
 #endif

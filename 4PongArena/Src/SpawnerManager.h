@@ -1,31 +1,37 @@
 #pragma once
-#ifndef BALL_GENERATOR_H
-#define BALL_GENERATOR_H
+#ifndef SPAWNER_MANAGER_H
+#define SPAWNER_MANAGER_H
 
 #include <UserComponent.h>
-#include <UIElement.h>
 
-class BallGenerator : public UserComponent
+class SpawnerManager : public UserComponent
 {
 private:
+	std::vector<GameObject*> spawners;
+	std::vector<GameObject*> pool;
+
 	float time;
 	float generationTime;
 	float minimumTime;
 
-	float velocity;
-	
+	int lastUsed;
+
+	int chooseSpawn();
+	GameObject* getBall();
+
 public:
-	BallGenerator(GameObject* gameObject);
-	virtual ~BallGenerator();
+	SpawnerManager(GameObject* gameObject);
+	virtual ~SpawnerManager();
 
 	virtual void start();
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
 
-	void generateBall();
+	std::vector<GameObject*> getPool() const;
 
 	void setGenerationTime(float generationTime);
 	float getGenerationTime() const;
+
 	float getMinimumTime() const;
 };
 

@@ -5,7 +5,7 @@
 #include <sstream>
 
 #include "Health.h"
-#include "BallGenerator.h"
+#include "SpawnerManager.h"
 #include "GameManager.h"
 
 #include <ComponentRegister.h>
@@ -74,17 +74,12 @@ void Death::die()
 		rigidBody->multiplyScale(scaleRatio);
 	}
 
-	GameManager* gameManger = GameManager::GetInstance();
+	GameManager::GetInstance()->setPlayersAlive(GameManager::GetInstance()->getPlayersAlive() - 1);
 
-	gameManger->setPlayersAlive(gameManger->getPlayersAlive() - 1);
+	SpawnerManager* spawnerManager = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>();
 
-	for (int i = 0; i < gameManger->getGenerators().size(); i++)
-	{
-		BallGenerator* aux = gameManger->getGenerators()[i]->getComponent<BallGenerator>();
-
-		if (aux->getGenerationTime() / 2 > aux->getMinimumTime())
-			aux->setGenerationTime(aux->getGenerationTime() / 2);
-		else
-			aux->setGenerationTime(aux->getMinimumTime());
-	}
+	if (spawnerManager->getGenerationTime() / 2 < spawnerManager->getMinimumTime())
+		spawnerManager->setGenerationTime(spawnerManager->getMinimumTime());
+	else
+		spawnerManager->setGenerationTime(spawnerManager->getGenerationTime() / 2);
 }

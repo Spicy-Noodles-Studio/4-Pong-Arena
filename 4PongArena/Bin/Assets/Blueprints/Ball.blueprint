@@ -25,13 +25,14 @@
                 ["restitution", "1"],
                 ["damping", "0"],
                 ["angularDamping", "0"],
-                ["scale", "1 1 1"]
+                ["scale", "1 1 1"],
+                ["movementConstraints", "1 0 1"]
             ]
         },
         {
             "ComponentName" : "Ball",
             "ComponentProperties": [
-                ["velocity", "3"]
+                ["maxVelocity", "8"]
             ]
         }
     ]

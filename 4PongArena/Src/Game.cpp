@@ -3,11 +3,9 @@
 #include <SceneManager.h>
 #include <UILayout.h>
 #include <GameObject.h>
-#include <RigidBody.h>
 
 #include "PlayerController.h"
 #include "Health.h"
-#include "ConfigurationMenu.h"
 #include "GameManager.h"
 
 #include <ComponentRegister.h>
@@ -151,24 +149,11 @@ void Game::start()
 		winnerText = winnerPanel.getChild("Winner");
 	}*/
 
-	std::vector<GameObject*> generators = findGameObjectsWithTag("generator");
-	std::vector<GameObject*> balls;
-
-	/*for (int i = 0; i < 25; i++)
-	{
-		balls.push_back(instantiate("Ball"));
-		balls.back()->setActive(false);
-	}*/
-
-	gameManager->setGenerators(generators);
-	gameManager->setBalls(balls);
-
 	createLevel();
 	createPlayers();
+	playSong();
 
 	gameTimer = gameManager->getTime();
-
-	playSong();
 }
 
 void Game::update(float deltaTime)

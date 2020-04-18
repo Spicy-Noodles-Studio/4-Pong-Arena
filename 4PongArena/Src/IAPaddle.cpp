@@ -5,7 +5,7 @@
 #include <sstream>
 
 #include "Movement.h"
-#include "GameManager.h"
+#include "SpawnerManager.h"
 
 #include <ComponentRegister.h>
 
@@ -66,15 +66,18 @@ void IAPaddle::handleData(ComponentData* data)
 void IAPaddle::processChooseTargetState()
 {
 	targetBall = nullptr;
-	balls = GameManager::GetInstance()->getBalls();
+	std::vector<GameObject*> balls = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>()->getPool();
 
 	//Escogemos una bola que venga hacia nosotros aleatoria
 	std::vector<GameObject*> validBalls;
 	for (GameObject* ball : balls)
 	{
-		Vector3 direction = ball->getComponent<RigidBody>()->getLinearVelocity().normalized();
-		if (!isBallBehind(ball->transform->getPosition()) && isBallHeadingToMe(direction))
-			validBalls.push_back(ball);
+		if (ball->isActive())
+		{
+			Vector3 direction = ball->getComponent<RigidBody>()->getLinearVelocity().normalized();
+			if (!isBallBehind(ball->transform->getPosition()) && isBallHeadingToMe(direction))
+				validBalls.push_back(ball);
+		}
 	}
 	if (!validBalls.size()) return;
 

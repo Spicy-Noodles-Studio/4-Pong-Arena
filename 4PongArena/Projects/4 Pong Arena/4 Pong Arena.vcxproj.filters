@@ -4,9 +4,6 @@
     <ClCompile Include="..\..\Src\Ball.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\BallGenerator.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\ConfigurationMenu.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
@@ -52,12 +49,15 @@
     <ClCompile Include="..\..\Src\PlayerController.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\SpawnerManager.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Spawner.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Ball.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\BallGenerator.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\ConfigurationMenu.h">
@@ -103,6 +103,12 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\PlayerController.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\SpawnerManager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Spawner.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

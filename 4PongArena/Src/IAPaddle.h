@@ -17,8 +17,6 @@ private:
 	float decisionTime;
 	float decisionTimer;
 
-	std::vector<GameObject*> balls;
-
 public:
 	IAPaddle(GameObject* gameObject);
 	virtual ~IAPaddle();

@@ -56,26 +56,6 @@ std::vector<Player> GameManager::getPlayers() const
 	return players;
 }
 
-void GameManager::setGenerators(std::vector<GameObject*>& generators)
-{
-	this->generators = generators;
-}
-
-std::vector<GameObject*> GameManager::getGenerators() const
-{
-	return generators;
-}
-
-void GameManager::setBalls(std::vector<GameObject*>& balls)
-{
-	this->balls = balls;
-}
-
-std::vector<GameObject*> GameManager::getBalls() const
-{
-	return balls;
-}
-
 void GameManager::setHealth(int health)
 {
 	this->health = health;

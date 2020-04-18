@@ -1,5 +1,6 @@
 #include "Goal.h"
 #include <GameObject.h>
+#include <MeshRenderer.h>
 
 #include "Health.h"
 
@@ -27,6 +28,7 @@ void Goal::onObjectEnter(GameObject* other)
 			health->receiveDamage(1);
 
 		other->setActive(false);
+		other->getComponent<MeshRenderer>()->setVisible(false);
 	}
 }
 

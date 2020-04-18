@@ -12,8 +12,6 @@ private:
 
 	int playersAlive;
 	std::vector<Player> players;
-	std::vector<GameObject*> generators;
-	std::vector<GameObject*> balls;
 
 	int health;
 	int time;
@@ -37,12 +35,6 @@ public:
 
 	void setPlayers(std::vector<Player>& players);
 	std::vector<Player> getPlayers() const;
-
-	void setGenerators(std::vector<GameObject*>& generators);
-	std::vector<GameObject*> getGenerators() const;
-
-	void setBalls(std::vector<GameObject*>& balls);
-	std::vector<GameObject*> getBalls() const;
 
 	void setHealth(int health);
 	int getHealth() const;
