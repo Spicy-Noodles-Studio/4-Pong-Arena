@@ -7,7 +7,7 @@
 
 REGISTER_FACTORY(Ball);
 
-Ball::Ball(GameObject* gameObject): UserComponent(gameObject), rigidBody(nullptr), velocity(0.0f), targetVelocity(0.0f), acceleration(0.0f)
+Ball::Ball(GameObject* gameObject): UserComponent(gameObject), rigidBody(nullptr), velocity(0.0f), targetVelocity(0.0f), acceleration(0.0f),idPlayer(-1)
 {
 
 }
@@ -46,4 +46,14 @@ void Ball::setTargetVelocity(float targetVelocity)
 void Ball::setAcceleration(float acceleration)
 {
 	this->acceleration = acceleration;
+}
+
+void Ball::setIdPlayerHit(int id)
+{
+	idPlayer = id;
+}
+
+int Ball::getIdPlayerHit()
+{
+	return idPlayer;
 }

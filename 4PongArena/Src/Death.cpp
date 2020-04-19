@@ -7,6 +7,9 @@
 #include "Health.h"
 #include "SpawnerManager.h"
 #include "GameManager.h"
+#include "Score.h"
+#include "PlayerController.h"
+#include "IAPaddle.h"
 
 #include <ComponentRegister.h>
 
@@ -73,8 +76,18 @@ void Death::die()
 		gameObject->transform->setScale(wallScale);
 		rigidBody->multiplyScale(scaleRatio);
 	}
-
+	int id = -1;
+	if (this->gameObject->getComponent<PlayerController>() != nullptr)
+		id = this->gameObject->getComponent<PlayerController>()->getPlayer().id;
+	else if (this->gameObject->getComponent<IAPaddle>() != nullptr)
+		id = this->gameObject->getComponent<IAPaddle>()->getId();
+	if (id != -1)
+	{
+		GameManager::GetInstance()->getScore()->setPositionOnLeaderBoard(id, GameManager::GetInstance()->getPlayersAlive());
+		GameManager::GetInstance()->getScore()->setTimeAlive(id, GameManager::GetInstance()->getInitialTime(), GameManager::GetInstance()->getTime());
+	}
 	GameManager::GetInstance()->setPlayersAlive(GameManager::GetInstance()->getPlayersAlive() - 1);
+
 
 	SpawnerManager* spawnerManager = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>();
 

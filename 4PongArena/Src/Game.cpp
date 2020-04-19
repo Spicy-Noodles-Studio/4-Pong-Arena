@@ -138,6 +138,8 @@ void Game::createPlayers()
 	}
 
 	gameManager->setPlayersAlive(paddles.size());
+	gameManager->setTotalPlayers(paddles.size());
+	gameManager->getScore()->initScore(paddles.size());
 }
 
 void Game::createSpawners()

@@ -1,7 +1,11 @@
 ﻿#include "GameManager.h"
 #include <Timer.h>
 
+
+
+
 #include <ComponentRegister.h>
+
 
 REGISTER_FACTORY(GameManager);
 
@@ -46,6 +50,16 @@ int GameManager::getPlayersAlive() const
 	return playersAlive;
 }
 
+void GameManager::setTotalPlayers(int players)
+{
+	totalPlayers = players;
+}
+
+int GameManager::getTotalPlayers() const
+{
+	return totalPlayers;
+}
+
 void GameManager::setPlayers(std::vector<Player>& players)
 {
 	this->players = players;
@@ -79,6 +93,7 @@ int GameManager::getHealth() const
 void GameManager::setTime(int time)
 {
 	this->time = time;
+	this->initialTime = time;
 }
 
 int GameManager::getTime() const
@@ -86,9 +101,15 @@ int GameManager::getTime() const
 	return time;
 }
 
+int GameManager::getInitialTime() const
+{
+	return initialTime;
+}
+
 void GameManager::setLevel(std::string level)
 {
 	this->level = level;
+	this->lastLevel = level;
 }
 
 std::string GameManager::getLevel() const
@@ -96,14 +117,25 @@ std::string GameManager::getLevel() const
 	return level;
 }
 
+std::string GameManager::getLastLevel() const
+{
+	return lastLevel;
+}
+
 void GameManager::setSong(std::string song)
 {
 	this->song = song;
+	this->lastSong = song;
 }
 
 std::string GameManager::getSong() const
 {
 	return song;
+}
+
+std::string GameManager::getLastSong() const
+{
+	return lastSong;
 }
 
 void GameManager::pause(bool paused)
@@ -119,4 +151,9 @@ void GameManager::pause(bool paused)
 bool GameManager::isPaused()
 {
 	return paused;
+}
+
+Score* GameManager::getScore()
+{
+	return &scores;
 }
