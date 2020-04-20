@@ -61,8 +61,8 @@
     <ClCompile Include="..\..\Src\Score.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\ScoreManager.cpp">
-      <Filter>Archivos de código fuente</Filter>
+    <ClCompile Include="..\..\Src\ScoreMenu.cpp">
+      <Filter>Archivos de código fuente\Menus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -126,8 +126,8 @@
     <ClInclude Include="..\..\Src\Score.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\ScoreManager.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="..\..\Src\ScoreMenu.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

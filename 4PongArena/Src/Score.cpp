@@ -8,6 +8,7 @@ void Score::initScorePlayer(ScorePlayer* player)
 	//player->numOfAirAttacks = 0;
 	//player->numOfGroundAttacks = 0;
 	player->numOfGoals = 0;
+	player->numOfSelfGoals = 0;
 	
 }
 
@@ -49,6 +50,11 @@ void Score::goalMade(int PlayerIndex)
 	playerScores.at(PlayerIndex-1)->numOfGoals++;
 }
 
+void Score::goalSelfMade(int PlayerIndex)
+{
+	playerScores.at(PlayerIndex - 1)->numOfSelfGoals++;
+}
+
 void Score::ballHit(int PlayerIndex)
 {
 	playerScores.at(PlayerIndex-1)->numOfBallsHit++;
@@ -67,6 +73,11 @@ int Score::getTimeAlive(int playerIndex)
 int Score::getNumOfGoals(int playerIndex)
 {
 	return playerScores.at(playerIndex - 1)->numOfGoals;
+}
+
+int Score::getNumOfSelfGoals(int playerIndex)
+{
+	return playerScores.at(playerIndex - 1)->numOfSelfGoals;
 }
 
 int Score::getNumOfBallsHit(int playerIndex)

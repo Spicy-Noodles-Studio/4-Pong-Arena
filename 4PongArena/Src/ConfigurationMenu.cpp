@@ -147,7 +147,7 @@ bool ConfigurationMenu::startButtonClick()
 
 	gameManager->setPlayers(players);
 	gameManager->setHealth(health);
-	gameManager->setTime(time);
+	gameManager->setInitialTime(time);
 
 	gameManager->setLevel(levelNames[levelIndex]);
 	gameManager->setSong(songNames[songIndex]);

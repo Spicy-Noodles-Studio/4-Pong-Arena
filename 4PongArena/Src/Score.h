@@ -13,6 +13,7 @@ class Score
 	public:
 		int timeAlive;
 		int numOfGoals;
+		int numOfSelfGoals;
 		int numOfBallsHit;
 		int position;
 	};
@@ -30,11 +31,13 @@ public:
 	void initScore(int numOfPlayers);
 	void setTimeAlive(int PlayerIndex, int originalTime, int timeOfDeath);
 	void goalMade(int PlayerIndex);
+	void goalSelfMade(int PlayerIndex);
 	void ballHit(int PlayerIndex);
 	void setPositionOnLeaderBoard(int PlayerIndex, int position);
 
 	int getTimeAlive(int playerIndex);
 	int getNumOfGoals(int playerIndex);
+	int getNumOfSelfGoals(int playerIndex);
 	int getNumOfBallsHit(int playerIndex);
 	int getPositionOnLeaderBoard(int playerIndex);
 

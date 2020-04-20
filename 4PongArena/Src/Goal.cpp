@@ -41,6 +41,10 @@ void Goal::onObjectEnter(GameObject* other)
 				
 			if (other->getComponent<Ball>()->getIdPlayerHit() != -1 && other->getComponent<Ball>()->getIdPlayerHit() != id)
 				GameManager::GetInstance()->getScore()->goalMade(other->getComponent<Ball>()->getIdPlayerHit());
+			else if (other->getComponent<Ball>()->getIdPlayerHit() != -1 && other->getComponent<Ball>()->getIdPlayerHit() == id)
+			{
+				GameManager::GetInstance()->getScore()->goalSelfMade(other->getComponent<Ball>()->getIdPlayerHit());
+			}
 		}
 
 		other->setActive(false);

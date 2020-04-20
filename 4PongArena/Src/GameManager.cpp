@@ -93,12 +93,18 @@ int GameManager::getHealth() const
 void GameManager::setTime(int time)
 {
 	this->time = time;
-	this->initialTime = time;
+
 }
 
 int GameManager::getTime() const
 {
 	return time;
+}
+
+void GameManager::setInitialTime(int time)
+{
+	this->initialTime = time;
+	this->time = time;
 }
 
 int GameManager::getInitialTime() const

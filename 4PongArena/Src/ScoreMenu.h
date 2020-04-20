@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SCORE_MANAGER_H
-#define SCORE_MANAGER_H
+#ifndef SCORE_MENU_H
+#define SCORE_MENU_H
 
 #include <UserComponent.h>
 #include <vector>
@@ -9,7 +9,7 @@
 
 class GameManager;
 
-class ScoreManager :
+class ScoreMenu :
 	public UserComponent
 {
 	GameManager* manager;
@@ -27,18 +27,20 @@ class ScoreManager :
 private:
 		// events
 	bool resetButtonClick();
+	bool backButtonClick();
 
 	void initStatistics(int numOfPlayers);
 	void reposition(int numOfPlayers);
 
 	void setNumOfHits(int playerIndex);
 	void setNumOfGoals(int playerIndex);
+	void setNumOfSelfGoals(int playerIndex);
 	void setTimeAlive(int playerIndex);
 	void setPositionOnLeaderBoard(int playerIndex);
 
 public:
-	ScoreManager(GameObject* gameObject);
-	virtual ~ScoreManager();
+	ScoreMenu(GameObject* gameObject);
+	virtual ~ScoreMenu();
 
 	virtual void start();
 

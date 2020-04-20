@@ -1,5 +1,5 @@
 
-#include "ScoreManager.h"
+#include "ScoreMenu.h"
 
 
 #include <ComponentRegister.h>
@@ -13,11 +13,11 @@
 #include "GameManager.h"
 #include "Score.h"
 
-REGISTER_FACTORY(ScoreManager);
+REGISTER_FACTORY(ScoreMenu);
 
 
 
-bool ScoreManager::resetButtonClick()
+bool ScoreMenu::resetButtonClick()
 {
 	manager->setPlayersAlive(manager->getTotalPlayers());
 
@@ -26,24 +26,33 @@ bool ScoreManager::resetButtonClick()
 	manager->setSong(manager->getLastSong());
 
 	//change scene
-	SceneManager::GetInstance()->changeScene("mainScene");
+	SceneManager::GetInstance()->changeScene("Game");
 	return false;
 }
 
-ScoreManager::ScoreManager(GameObject* gameObject) : UserComponent(gameObject), player1Text(NULL), player2Text(NULL), player3Text(NULL), player4Text(NULL),
+bool ScoreMenu::backButtonClick()
+{
+	
+	SceneManager::GetInstance()->changeScene("MainMenu");
+	return false;
+}
+
+ScoreMenu::ScoreMenu(GameObject* gameObject) : UserComponent(gameObject), player1Text(NULL), player2Text(NULL), player3Text(NULL), player4Text(NULL),
 													player1Panel(NULL), player2Panel(NULL), player3Panel(NULL), player4Panel(NULL)
 {
 	InterfaceSystem* interfaceSystem = InterfaceSystem::GetInstance();
 	interfaceSystem->registerEvent("resetButtonClick", UIEvent("ButtonClicked", [this]() {return resetButtonClick(); }));
+	interfaceSystem->registerEvent("backButtonClick", UIEvent("ButtonClicked", [this]() {return backButtonClick(); }));
 }
 
-ScoreManager::~ScoreManager()
+ScoreMenu::~ScoreMenu()
 {
 	InterfaceSystem* interfaceSystem = InterfaceSystem::GetInstance();
 	interfaceSystem->unregisterEvent("resetButtonClick");
+	interfaceSystem->unregisterEvent("backButtonClick");
 }
 
-void ScoreManager::start()
+void ScoreMenu::start()
 {
 	
 	player1Text = findGameObjectWithName("MainCamera")->getComponent<UILayout>()->getRoot().getChild("P1");
@@ -67,12 +76,12 @@ void ScoreManager::start()
 	
 	manager = GameManager::GetInstance();
 
-	//reposition(manager->getPlayerIndexes().size());
-	//initStatistics(manager->getPlayerIndexes().size());
+	reposition(manager->getTotalPlayers());
+	initStatistics(manager->getTotalPlayers());
 
 }
 
-void ScoreManager::initStatistics(int numOfPlayers)
+void ScoreMenu::initStatistics(int numOfPlayers)
 {
 	int paddles = numOfPlayers;
 
@@ -82,11 +91,11 @@ void ScoreManager::initStatistics(int numOfPlayers)
 		setNumOfHits(i + 1);
 		setTimeAlive(i + 1);
 		setPositionOnLeaderBoard(i + 1);
-	
+		setNumOfSelfGoals(i + 1);
 	}
 }
 
-void ScoreManager::reposition(int numOfPlayers)
+void ScoreMenu::reposition(int numOfPlayers)
 {
 	float size=(1-0.2)/numOfPlayers;
 	float iTextPos = 0.15;
@@ -104,7 +113,7 @@ void ScoreManager::reposition(int numOfPlayers)
 			player1Text.setPosition(textPos, 0.1);
 			player1Panel.setVisible(true);
 			player1Panel.setPosition(panelPos, 0.2);
-			player1Panel.setSize(size, 0.6);
+			player1Panel.setSize(size, 0.4);
 		}
 		if (i == 1)
 		{
@@ -112,7 +121,7 @@ void ScoreManager::reposition(int numOfPlayers)
 			player2Text.setPosition(textPos, 0.1);
 			player2Panel.setVisible(true);
 			player2Panel.setPosition(panelPos, 0.2);
-			player2Panel.setSize(size, 0.6);
+			player2Panel.setSize(size, 0.4);
 		}
 		if (i == 2)
 		{
@@ -120,7 +129,7 @@ void ScoreManager::reposition(int numOfPlayers)
 			player3Text.setPosition(textPos, 0.1);
 			player3Panel.setVisible(true);
 			player3Panel.setPosition(panelPos, 0.2);
-			player3Panel.setSize(size, 0.6);
+			player3Panel.setSize(size, 0.4);
 		}
 		if (i == 3)
 		{
@@ -128,13 +137,13 @@ void ScoreManager::reposition(int numOfPlayers)
 			player4Text.setPosition(textPos, 0.1);
 			player4Panel.setVisible(true);
 			player4Panel.setPosition(panelPos, 0.2);
-			player4Panel.setSize(size, 0.6);
+			player4Panel.setSize(size, 0.4);
 		}
 
 	}
 }
 
-void ScoreManager::setNumOfHits(int playerIndex)
+void ScoreMenu::setNumOfHits(int playerIndex)
 {
 	Score* score = manager->getScore();
 	std::string name = "P" + std::to_string(playerIndex);
@@ -150,7 +159,7 @@ void ScoreManager::setNumOfHits(int playerIndex)
 			player4Panel.getChild(name).setText("Balls hit: " + std::to_string(score->getNumOfBallsHit(playerIndex)));
 }
 
-void ScoreManager::setNumOfGoals(int playerIndex)
+void ScoreMenu::setNumOfGoals(int playerIndex)
 {
 	Score* score = manager->getScore();
 	std::string name = "P" + std::to_string(playerIndex);
@@ -166,7 +175,23 @@ void ScoreManager::setNumOfGoals(int playerIndex)
 		player4Panel.getChild(name).setText("Goals: " + std::to_string(score->getNumOfGoals(playerIndex)));
 }
 
-void ScoreManager::setTimeAlive(int playerIndex)
+void ScoreMenu::setNumOfSelfGoals(int playerIndex)
+{
+	Score* score = manager->getScore();
+	std::string name = "P" + std::to_string(playerIndex);
+	name = name + "NumOfSelfGoals";
+
+	if (playerIndex == 1)
+		player1Panel.getChild(name).setText("Own goals: " + std::to_string(score->getNumOfSelfGoals(playerIndex)));
+	else if (playerIndex == 2)
+		player2Panel.getChild(name).setText("Own goals: " + std::to_string(score->getNumOfSelfGoals(playerIndex)));
+	else if (playerIndex == 3)
+		player3Panel.getChild(name).setText("Own goals: " + std::to_string(score->getNumOfSelfGoals(playerIndex)));
+	else
+		player4Panel.getChild(name).setText("Own goals: " + std::to_string(score->getNumOfSelfGoals(playerIndex)));
+}
+
+void ScoreMenu::setTimeAlive(int playerIndex)
 {
 	Score* score = manager->getScore();
 	std::string name = "P" + std::to_string(playerIndex);
@@ -182,7 +207,7 @@ void ScoreManager::setTimeAlive(int playerIndex)
 		player4Panel.getChild(name).setText("Time alive: " + std::to_string(score->getTimeAlive(playerIndex)));
 }
 
-void ScoreManager::setPositionOnLeaderBoard(int playerIndex)
+void ScoreMenu::setPositionOnLeaderBoard(int playerIndex)
 {
 	Score* score = manager->getScore();
 	std::string name = "P" + std::to_string(playerIndex);

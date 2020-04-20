@@ -167,7 +167,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Src\PlayerUI.cpp" />
     <ClCompile Include="..\..\Src\Score.cpp" />
-    <ClCompile Include="..\..\Src\ScoreManager.cpp" />
+    <ClCompile Include="..\..\Src\ScoreMenu.cpp" />
     <ClCompile Include="..\..\Src\Spawner.cpp" />
     <ClCompile Include="..\..\Src\ConfigurationMenu.cpp" />
     <ClCompile Include="..\..\Src\Game.cpp" />
@@ -190,7 +190,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Src\PlayerUI.h" />
     <ClInclude Include="..\..\Src\Score.h" />
-    <ClInclude Include="..\..\Src\ScoreManager.h" />
+    <ClInclude Include="..\..\Src\ScoreMenu.h" />
     <ClInclude Include="..\..\Src\Spawner.h" />
     <ClInclude Include="..\..\Src\ConfigurationMenu.h" />
     <ClInclude Include="..\..\Src\Ball.h" />

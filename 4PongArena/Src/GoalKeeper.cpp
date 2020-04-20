@@ -8,6 +8,7 @@
 #include "Score.h"
 #include "PlayerController.h"
 #include "IAPaddle.h"
+#include "Health.h"
 #include <ComponentRegister.h>
 
 REGISTER_FACTORY(GoalKeeper);
@@ -56,16 +57,21 @@ void GoalKeeper::onCollisionEnter(GameObject* other)
 {
 	if (other->getTag() == "ball")
 	{
-		int id=-1;
-		if (this->gameObject->getComponent<PlayerController>() != nullptr)
-			id = this->gameObject->getComponent<PlayerController>()->getPlayer().id;
-		else if (this->gameObject->getComponent<IAPaddle>() != nullptr)
-			id = this->gameObject->getComponent<IAPaddle>()->getId();
-		
-		other->getComponent<Ball>()->setIdPlayerHit(id);
-		if (id != -1)
+		if (this->gameObject->getComponent<Health>() != nullptr)
 		{
-			GameManager::GetInstance()->getScore()->ballHit(id);
+			if (this->gameObject->getComponent<Health>()->isAlive()) {
+				int id = -1;
+				if (this->gameObject->getComponent<PlayerController>() != nullptr)
+					id = this->gameObject->getComponent<PlayerController>()->getPlayer().id;
+				else if (this->gameObject->getComponent<IAPaddle>() != nullptr)
+					id = this->gameObject->getComponent<IAPaddle>()->getId();
+
+				other->getComponent<Ball>()->setIdPlayerHit(id);
+				if (id != -1)
+				{
+					GameManager::GetInstance()->getScore()->ballHit(id);
+				}
+			}
 		}
 	}
 }

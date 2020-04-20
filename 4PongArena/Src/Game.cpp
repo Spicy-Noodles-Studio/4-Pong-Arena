@@ -136,7 +136,7 @@ void Game::createPlayers()
 			}
 		}
 	}
-
+	win = false;
 	gameManager->setPlayersAlive(paddles.size());
 	gameManager->setTotalPlayers(paddles.size());
 	gameManager->getScore()->initScore(paddles.size());
@@ -184,20 +184,22 @@ void Game::chooseWinner()
 	bool tie = false;
 	int majorHealth = 0;
 	int majorIndex = 0;
-
-	for (int i = 0; i < paddles.size(); i++)
+	if (!win)
 	{
-		Health* health = paddles[i]->getComponent<Health>();
-		if (health != nullptr && health->isAlive())
+		for (int i = 0; i < paddles.size(); i++)
 		{
-			if (health->getHealth() > majorHealth)
+			Health* health = paddles[i]->getComponent<Health>();
+			if (health != nullptr && health->isAlive())
 			{
-				majorHealth = health->getHealth();
-				majorIndex = i;
-				tie = false;
+				if (health->getHealth() > majorHealth)
+				{
+					majorHealth = health->getHealth();
+					majorIndex = i;
+					tie = false;
+				}
+				else if (health->getHealth() == majorHealth)
+					tie = true;
 			}
-			else if (health->getHealth() == majorHealth)
-				tie = true;
 		}
 	}
 
@@ -206,10 +208,17 @@ void Game::chooseWinner()
 		winnerPanel.setVisible(true);
 
 		if (tie)
+		{
 			winnerText.setText("TIE");
+		}
 		else
 		{
-			winner = majorIndex;
+		
+			if (!win)
+			{
+				winner = majorIndex;
+			}
+			win = true;
 			winnerText.setText("WINNER: P" + std::to_string(winner + 1));
 		}
 	}
@@ -258,7 +267,7 @@ void Game::update(float deltaTime)
 	if (gameTimer > 0)
 	{
 		gameTimer -= deltaTime;
-
+		gameManager->setTime((int)gameTimer);
 		if (gameTimer <= 0.0f)
 			chooseWinner();
 
@@ -268,9 +277,9 @@ void Game::update(float deltaTime)
 	else
 	{
 		finishTimer -= deltaTime;
-
+		GameManager::GetInstance()->getScore()->setTimeAlive(winner + 1, GameManager::GetInstance()->getInitialTime(), GameManager::GetInstance()->getTime());
 		if (finishTimer <= 0.0f)
-			SceneManager::GetInstance()->changeScene("ConfigurationMenu"); // Cambiar a menu de final de partida
+			SceneManager::GetInstance()->changeScene("LeaderBoardMenu"); // Cambiar a menu de final de partida
 	}
 
 	if (gameManager->getPlayersAlive() == 1)

@@ -57,6 +57,7 @@ public:
 
 	void setTime(int time);
 	int getTime() const;
+	void setInitialTime(int time);
 	int getInitialTime() const;
 
 	void setLevel(std::string level);
