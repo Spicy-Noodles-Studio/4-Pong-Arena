@@ -206,19 +206,36 @@ void Game::chooseWinner()
 	if (gameLayout != nullptr)
 	{
 		winnerPanel.setVisible(true);
-
+		for (int i = 0; i < paddles.size(); i++)
+		{
+			int pos = 1;
+			Health* health = paddles[i]->getComponent<Health>();
+			if (health->isAlive())
+			{
+				for (int j = 0; j < paddles.size(); j++)
+				{
+					Health* health2 = paddles[j]->getComponent<Health>();
+					if (health2->getHealth() > health->getHealth())
+						pos++;
+				}
+				gameManager->getScore()->setTimeAlive(i + 1, GameManager::GetInstance()->getInitialTime(), GameManager::GetInstance()->getTime());
+				gameManager->getScore()->setPositionOnLeaderBoard(i + 1, pos);
+			}
+		}
 		if (tie)
 		{
 			winnerText.setText("TIE");
+			
 		}
 		else
 		{
-		
+			
 			if (!win)
 			{
 				winner = majorIndex;
 			}
 			win = true;
+			gameManager->getScore()->setTimeAlive(winner + 1, GameManager::GetInstance()->getInitialTime(), GameManager::GetInstance()->getTime());
 			winnerText.setText("WINNER: P" + std::to_string(winner + 1));
 		}
 	}
@@ -277,7 +294,7 @@ void Game::update(float deltaTime)
 	else
 	{
 		finishTimer -= deltaTime;
-		GameManager::GetInstance()->getScore()->setTimeAlive(winner + 1, GameManager::GetInstance()->getInitialTime(), GameManager::GetInstance()->getTime());
+		
 		if (finishTimer <= 0.0f)
 			SceneManager::GetInstance()->changeScene("LeaderBoardMenu"); // Cambiar a menu de final de partida
 	}
