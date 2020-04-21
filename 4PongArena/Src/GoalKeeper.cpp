@@ -3,7 +3,12 @@
 #include <sstream>
 
 #include "Goal.h"
-
+#include "Ball.h"
+#include "GameManager.h"
+#include "Score.h"
+#include "PlayerController.h"
+#include "IAPaddle.h"
+#include "Health.h"
 #include <ComponentRegister.h>
 
 REGISTER_FACTORY(GoalKeeper);
@@ -45,6 +50,29 @@ void GoalKeeper::handleData(ComponentData* data)
 		}
 		else 
 			LOG("GOAL KEEPER: Invalid property with name \"%s\"", prop.first.c_str());
+	}
+}
+
+void GoalKeeper::onCollisionEnter(GameObject* other)
+{
+	if (other->getTag() == "ball")
+	{
+		if (this->gameObject->getComponent<Health>() != nullptr)
+		{
+			if (this->gameObject->getComponent<Health>()->isAlive()) {
+				int id = -1;
+				if (this->gameObject->getComponent<PlayerController>() != nullptr)
+					id = this->gameObject->getComponent<PlayerController>()->getPlayer().id;
+				else if (this->gameObject->getComponent<IAPaddle>() != nullptr)
+					id = this->gameObject->getComponent<IAPaddle>()->getId();
+
+				other->getComponent<Ball>()->setIdPlayerHit(id);
+				if (id != -1)
+				{
+					GameManager::GetInstance()->getScore()->ballHit(id);
+				}
+			}
+		}
 	}
 }
 

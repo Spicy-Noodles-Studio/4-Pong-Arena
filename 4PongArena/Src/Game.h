@@ -32,6 +32,7 @@ private:
 	float finishTimer; // Quitar cuando haya menu de final de partida
 
 	int winner;
+	bool win;
 
 	void createLevel();
 	void createPlayers();

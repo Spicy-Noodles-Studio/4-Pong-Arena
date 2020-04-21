@@ -16,6 +16,7 @@ public:
 
 	virtual void start();
 	virtual void handleData(ComponentData* data);
+	virtual void onCollisionEnter(GameObject* other);
 
 	GameObject* getGoal() const;
 };
