@@ -22,25 +22,25 @@
                   <Property name="Font" value="Batang7" />
                </Window>
                <Window type="TaharezLook/StaticText" name="P1NumOfHits" >
-                  <Property name="Area" value="{{0.05,0},{0.1,0},{1,0},{0.2,0}}" />
+                  <Property name="Area" value="{{0.05,0},{0.2,0},{1,0},{0.3,0}}" />
                   <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                   <Property name="Text" value="Balls hit: " />
                   <Property name="Font" value="Batang7" />
                </Window>
                <Window type="TaharezLook/StaticText" name="P1NumOfGoals" >
-                  <Property name="Area" value="{{0.05,0},{0.2,0},{1.0,0},{0.3,0}}" />
+                  <Property name="Area" value="{{0.05,0},{0.4,0},{1.0,0},{0.5,0}}" />
                   <Property name="MaxSize" value="{{1,0},{1,0}}" />
                   <Property name="Font" value="Batang7" />
                   <Property name="Text" value="Goals: " />
                </Window>
                <Window type="TaharezLook/StaticText" name="P1NumOfSelfGoals" >
-                  <Property name="Area" value="{{0.05,0},{0.3,0},{1.0,0},{0.4,0}}" />
+                  <Property name="Area" value="{{0.05,0},{0.6,0},{1.0,0},{0.7,0}}" />
                   <Property name="MaxSize" value="{{1,0},{1,0}}" />
                   <Property name="Font" value="Batang7" />
                   <Property name="Text" value="Own goals: " />
                </Window>
                <Window type="TaharezLook/StaticText" name="P1TimeAlive" >
-                  <Property name="Area" value="{{0.05,0},{0.4,0},{1,0},{0.5,0}}" />
+                  <Property name="Area" value="{{0.05,0},{0.8,0},{1,0},{0.9,0}}" />
                   <Property name="MaxSize" value="{{1,0},{1,0}}" />
                   <Property name="Text" value="Time alive: " />
                   <Property name="Font" value="Batang7" />
@@ -64,25 +64,25 @@
                   <Property name="Font" value="Batang7" />
                </Window>
                <Window type="TaharezLook/StaticText" name="P2NumOfHits" >
-                  <Property name="Area" value="{{0.05,0},{0.1,0},{1,0},{0.2,0}}" />
+                  <Property name="Area" value="{{0.05,0},{0.2,0},{1,0},{0.3,0}}" />
                   <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                   <Property name="Text" value="Balls hit: " />
                   <Property name="Font" value="Batang7" />
                </Window>
                <Window type="TaharezLook/StaticText" name="P2NumOfGoals" >
-                  <Property name="Area" value="{{0.05,0},{0.2,0},{1.0,0},{0.3,0}}" />
+                  <Property name="Area" value="{{0.05,0},{0.4,0},{1.0,0},{0.5,0}}" />
                   <Property name="MaxSize" value="{{1,0},{1,0}}" />
                   <Property name="Font" value="Batang7" />
                   <Property name="Text" value="Goals: " />
                </Window>
                <Window type="TaharezLook/StaticText" name="P2NumOfSelfGoals" >
-                  <Property name="Area" value="{{0.05,0},{0.3,0},{1.0,0},{0.4,0}}" />
+                  <Property name="Area" value="{{0.05,0},{0.6,0},{1.0,0},{0.7,0}}" />
                   <Property name="MaxSize" value="{{1,0},{1,0}}" />
                   <Property name="Font" value="Batang7" />
                   <Property name="Text" value="Own goals: " />
                </Window>
                <Window type="TaharezLook/StaticText" name="P2TimeAlive" >
-                  <Property name="Area" value="{{0.05,0},{0.4,0},{1,0},{0.5,0}}" />
+                  <Property name="Area" value="{{0.05,0},{0.8,0},{1,0},{0.9,0}}" />
                   <Property name="MaxSize" value="{{1,0},{1,0}}" />
                   <Property name="Text" value="Time alive: " />
                   <Property name="Font" value="Batang7" />
@@ -106,25 +106,25 @@
                   <Property name="Font" value="Batang7" />
                </Window>
                <Window type="TaharezLook/StaticText" name="P3NumOfHits" >
-                  <Property name="Area" value="{{0.05,0},{0.1,0},{1,0},{0.2,0}}" />
+                  <Property name="Area" value="{{0.05,0},{0.2,0},{1,0},{0.3,0}}" />
                   <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                   <Property name="Text" value="Balls hit: " />
                   <Property name="Font" value="Batang7" />
                </Window>
                <Window type="TaharezLook/StaticText" name="P3NumOfGoals" >
-                  <Property name="Area" value="{{0.05,0},{0.2,0},{1.0,0},{0.3,0}}" />
+                  <Property name="Area" value="{{0.05,0},{0.4,0},{1.0,0},{0.5,0}}" />
                   <Property name="MaxSize" value="{{1,0},{1,0}}" />
                   <Property name="Font" value="Batang7" />
                   <Property name="Text" value="Goals: " />
                </Window>
                <Window type="TaharezLook/StaticText" name="P3NumOfSelfGoals" >
-                  <Property name="Area" value="{{0.05,0},{0.3,0},{1.0,0},{0.4,0}}" />
+                  <Property name="Area" value="{{0.05,0},{0.6,0},{1.0,0},{0.7,0}}" />
                   <Property name="MaxSize" value="{{1,0},{1,0}}" />
                   <Property name="Font" value="Batang7" />
                   <Property name="Text" value="Own goals: " />
                </Window>
                <Window type="TaharezLook/StaticText" name="P3TimeAlive" >
-                  <Property name="Area" value="{{0.05,0},{0.4,0},{1,0},{0.5,0}}" />
+                  <Property name="Area" value="{{0.05,0},{0.8,0},{1,0},{0.9,0}}" />
                   <Property name="MaxSize" value="{{1,0},{1,0}}" />
                   <Property name="Text" value="Time alive: " />
                   <Property name="Font" value="Batang7" />
@@ -148,25 +148,25 @@
                   <Property name="Font" value="Batang7" />
                </Window>
                <Window type="TaharezLook/StaticText" name="P4NumOfHits" >
-                  <Property name="Area" value="{{0.05,0},{0.1,0},{1,0},{0.2,0}}" />
+                  <Property name="Area" value="{{0.05,0},{0.2,0},{1,0},{0.3,0}}" />
                   <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                   <Property name="Text" value="Balls hit: " />
                   <Property name="Font" value="Batang7" />
                </Window>
                <Window type="TaharezLook/StaticText" name="P4NumOfGoals" >
-                  <Property name="Area" value="{{0.05,0},{0.2,0},{1.0,0},{0.3,0}}" />
+                  <Property name="Area" value="{{0.05,0},{0.4,0},{1.0,0},{0.5,0}}" />
                   <Property name="MaxSize" value="{{1,0},{1,0}}" />
                   <Property name="Font" value="Batang7" />
                   <Property name="Text" value="Goals: " />
                </Window>
                <Window type="TaharezLook/StaticText" name="P4NumOfSelfGoals" >
-                  <Property name="Area" value="{{0.05,0},{0.3,0},{1.0,0},{0.4,0}}" />
+                  <Property name="Area" value="{{0.05,0},{0.6,0},{1.0,0},{0.7,0}}" />
                   <Property name="MaxSize" value="{{1,0},{1,0}}" />
                   <Property name="Font" value="Batang7" />
                   <Property name="Text" value="Own goals: " />
                </Window>
                <Window type="TaharezLook/StaticText" name="P4TimeAlive" >
-                  <Property name="Area" value="{{0.05,0},{0.4,0},{1,0},{0.5,0}}" />
+                  <Property name="Area" value="{{0.05,0},{0.8,0},{1,0},{0.9,0}}" />
                   <Property name="MaxSize" value="{{1,0},{1,0}}" />
                   <Property name="Text" value="Time alive: " />
                   <Property name="Font" value="Batang7" />
