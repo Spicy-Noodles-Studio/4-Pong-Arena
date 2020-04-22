@@ -7,7 +7,6 @@
 #include "Score.h"
 #include "PlayerIndex.h"
 #include "Ball.h"
-
 #include <ComponentRegister.h>
 
 REGISTER_FACTORY(Goal);

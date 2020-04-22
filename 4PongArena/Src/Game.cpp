@@ -237,7 +237,6 @@ void Game::chooseWinner()
 				winner = majorIndex;
 			}
 			win = true;
-			
 			winnerText.setText("WINNER: P" + std::to_string(winner + 1));
 		}
 	}

@@ -99,7 +99,7 @@ void ScoreMenu::reposition(int numOfPlayers)
 		panels.at(i).setVisible(true);
 		panels.at(i).setPosition(panelPos, 0.2);
 		panels.at(i).setSize(size, 0.4);
-		
+
 	}
 }
 
@@ -109,7 +109,7 @@ void ScoreMenu::setNumOfHits(int playerIndex)
 	std::string name = "P" + std::to_string(playerIndex);
 	name = name + "NumOfHits";
 	panels.at(playerIndex-1).getChild(name).setText("Balls hit: " + std::to_string(score->getNumOfBallsHit(playerIndex)));
-	
+
 }
 
 void ScoreMenu::setNumOfGoals(int playerIndex)
@@ -118,7 +118,6 @@ void ScoreMenu::setNumOfGoals(int playerIndex)
 	std::string name = "P" + std::to_string(playerIndex);
 	name = name + "NumOfGoals";
 	panels.at(playerIndex-1).getChild(name).setText("Goals: " + std::to_string(score->getNumOfGoals(playerIndex)));
-	
 }
 
 void ScoreMenu::setNumOfSelfGoals(int playerIndex)

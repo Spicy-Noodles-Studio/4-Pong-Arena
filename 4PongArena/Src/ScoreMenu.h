@@ -35,7 +35,6 @@ public:
 	virtual ~ScoreMenu();
 
 	virtual void start();
-
 };
 
 
