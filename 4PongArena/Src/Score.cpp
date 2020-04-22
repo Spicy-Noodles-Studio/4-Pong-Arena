@@ -5,8 +5,6 @@ void Score::initScorePlayer(ScorePlayer* player)
 	player->timeAlive = 0;
 	player->position = 1;
 	player->numOfBallsHit = 0;
-	//player->numOfAirAttacks = 0;
-	//player->numOfGroundAttacks = 0;
 	player->numOfGoals = 0;
 	player->numOfSelfGoals = 0;
 	
@@ -40,29 +38,29 @@ void Score::initScore(int numOfPlayers)
 	}
 }
 
-void Score::setTimeAlive(int PlayerIndex, int originalTime, int timeOfDeath)
+void Score::setTimeAlive(int playerIndex, int originalTime, int timeOfDeath)
 {
-	playerScores.at(PlayerIndex-1)->timeAlive = originalTime - timeOfDeath;
+	playerScores.at(playerIndex-1)->timeAlive = originalTime - timeOfDeath;
 }
 
-void Score::goalMade(int PlayerIndex)
+void Score::goalMade(int playerIndex)
 {
-	playerScores.at(PlayerIndex-1)->numOfGoals++;
+	playerScores.at(playerIndex-1)->numOfGoals++;
 }
 
-void Score::goalSelfMade(int PlayerIndex)
+void Score::goalSelfMade(int playerIndex)
 {
-	playerScores.at(PlayerIndex - 1)->numOfSelfGoals++;
+	playerScores.at(playerIndex - 1)->numOfSelfGoals++;
 }
 
-void Score::ballHit(int PlayerIndex)
+void Score::ballHit(int playerIndex)
 {
-	playerScores.at(PlayerIndex-1)->numOfBallsHit++;
+	playerScores.at(playerIndex-1)->numOfBallsHit++;
 }
 
-void Score::setPositionOnLeaderBoard(int PlayerIndex, int position)
+void Score::setPositionOnLeaderBoard(int playerIndex, int position)
 {
-	playerScores.at(PlayerIndex-1)->position=position;
+	playerScores.at(playerIndex-1)->position=position;
 }
 
 int Score::getTimeAlive(int playerIndex)

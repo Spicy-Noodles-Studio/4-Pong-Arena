@@ -165,6 +165,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Src\PlayerIndex.cpp" />
     <ClCompile Include="..\..\Src\PlayerUI.cpp" />
     <ClCompile Include="..\..\Src\Score.cpp" />
     <ClCompile Include="..\..\Src\ScoreMenu.cpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="..\..\Src\SpawnerManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Src\PlayerIndex.h" />
     <ClInclude Include="..\..\Src\PlayerUI.h" />
     <ClInclude Include="..\..\Src\Score.h" />
     <ClInclude Include="..\..\Src\ScoreMenu.h" />

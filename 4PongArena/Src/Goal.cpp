@@ -5,9 +5,9 @@
 #include "Health.h"
 #include "GameManager.h"
 #include "Score.h"
-#include "PlayerController.h"
-#include "IAPaddle.h"
+#include "PlayerIndex.h"
 #include "Ball.h"
+
 #include <ComponentRegister.h>
 
 REGISTER_FACTORY(Goal);
@@ -22,28 +22,39 @@ Goal::~Goal()
 
 }
 
+void Goal::start()
+{
+	manager = GameManager::GetInstance();
+	if (manager != nullptr)
+		scores = manager->getScore();
+
+	PlayerIndex* playerId = this->gameObject->getComponent<PlayerIndex>();
+
+	id = -1;
+	if (playerId != nullptr)
+	{
+		id = playerId->getId();
+	}
+}
+
 void Goal::onObjectEnter(GameObject* other)
 {
 	if (other->getTag() == "ball")
 	{
 		score++;
+		Ball* ball = other->getComponent<Ball>();
 
 		if (health != nullptr)
-			health->receiveDamage(1);
-		if (health != nullptr)
 		{
-			int id = -1;
-			if (health->gameObject->getComponent<PlayerController>() != nullptr)
-				id = health->gameObject->getComponent<PlayerController>()->getPlayer().id;
-			else if (health->gameObject->getComponent<IAPaddle>() != nullptr)
-				id = health->gameObject->getComponent<IAPaddle>()->getId();
-			
-				
-			if (other->getComponent<Ball>()->getIdPlayerHit() != -1 && other->getComponent<Ball>()->getIdPlayerHit() != id)
-				GameManager::GetInstance()->getScore()->goalMade(other->getComponent<Ball>()->getIdPlayerHit());
-			else if (other->getComponent<Ball>()->getIdPlayerHit() != -1 && other->getComponent<Ball>()->getIdPlayerHit() == id)
+			health->receiveDamage(1);
+			if (ball != nullptr)
 			{
-				GameManager::GetInstance()->getScore()->goalSelfMade(other->getComponent<Ball>()->getIdPlayerHit());
+				if (ball->getIdPlayerHit() != -1 && ball->getIdPlayerHit() != id)
+					scores->goalMade(ball->getIdPlayerHit());
+				else if (ball->getIdPlayerHit() != -1 && ball->getIdPlayerHit() == id)
+				{
+					scores->goalSelfMade(ball->getIdPlayerHit());
+				}
 			}
 		}
 

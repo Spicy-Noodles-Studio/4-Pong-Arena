@@ -13,16 +13,8 @@ class ScoreMenu :
 	public UserComponent
 {
 	GameManager* manager;
-	UIElement player1Text;
-	UIElement player2Text;
-	UIElement player3Text;
-	UIElement player4Text;
-
-	UIElement player1Panel;
-	UIElement player2Panel;
-	UIElement player3Panel;
-	UIElement player4Panel;
-	
+	std::vector<UIElement> texts;
+	std::vector<UIElement> panels;
 
 private:
 		// events
@@ -44,7 +36,6 @@ public:
 
 	virtual void start();
 
-	
 };
 
 

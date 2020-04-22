@@ -9,6 +9,7 @@
 #include "Health.h"
 #include "SpawnerManager.h"
 #include "GameManager.h"
+#include "PlayerIndex.h"
 
 #include <ComponentRegister.h>
 
@@ -107,6 +108,7 @@ void Game::createPlayers()
 		paddle->transform->setRotation(playerTransforms[i].second);
 
 		paddle->getComponent<PlayerController>()->setPlayer(players[i].id, players[i].index);
+		paddle->getComponent<PlayerIndex>()->setId(players[i].id);
 		paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
 
 		paddles.push_back(paddle);
@@ -123,7 +125,7 @@ void Game::createPlayers()
 				GameObject* paddleIA = instantiate("IA", playerTransforms[i + nPlayers].first);
 				paddleIA->transform->setRotation(playerTransforms[i + nPlayers].second);
 
-				paddleIA->getComponent<IAPaddle>()->setId(i + nPlayers + 1);
+				paddleIA->getComponent<PlayerIndex>()->setId(i + nPlayers + 1);
 				paddleIA->getComponent<Health>()->setHealth(gameManager->getHealth());
 
 				paddles.push_back(paddleIA);
@@ -218,7 +220,7 @@ void Game::chooseWinner()
 					if (health2->getHealth() > health->getHealth())
 						pos++;
 				}
-				gameManager->getScore()->setTimeAlive(i + 1, GameManager::GetInstance()->getInitialTime(), GameManager::GetInstance()->getTime());
+				gameManager->getScore()->setTimeAlive(i + 1,gameManager->getInitialTime(),gameManager->getTime());
 				gameManager->getScore()->setPositionOnLeaderBoard(i + 1, pos);
 			}
 		}
@@ -235,7 +237,7 @@ void Game::chooseWinner()
 				winner = majorIndex;
 			}
 			win = true;
-			gameManager->getScore()->setTimeAlive(winner + 1, GameManager::GetInstance()->getInitialTime(), GameManager::GetInstance()->getTime());
+			
 			winnerText.setText("WINNER: P" + std::to_string(winner + 1));
 		}
 	}
