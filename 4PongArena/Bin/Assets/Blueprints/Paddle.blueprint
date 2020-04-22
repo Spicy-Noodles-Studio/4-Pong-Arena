@@ -59,6 +59,9 @@
             ]
         },
         {
+            "ComponentName": "PlayerIndex"
+        },
+        {
             "ComponentName": "PlayerUI"
         }
     ]

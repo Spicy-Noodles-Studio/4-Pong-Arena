@@ -6,6 +6,8 @@
 
 class RigidBody;
 class Health;
+class Score;
+class GameManager;
 
 class Death : public UserComponent
 {
@@ -17,6 +19,9 @@ private:
 
 	std::string wallMeshId, wallMeshName;
 	Vector3 wallScale;
+	Score* scores;
+	GameManager* manager;
+	int id;
 
 	void die();
 

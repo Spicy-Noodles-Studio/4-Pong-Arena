@@ -8,8 +8,7 @@
 #include "SpawnerManager.h"
 #include "GameManager.h"
 #include "Score.h"
-#include "PlayerController.h"
-#include "IAPaddle.h"
+#include "PlayerIndex.h"
 
 #include <ComponentRegister.h>
 
@@ -31,6 +30,19 @@ void Death::start()
 
 	rigidBody = gameObject->getComponent<RigidBody>();
 	health = gameObject->getComponent<Health>();
+
+	///Para no repetirlos por el codigo y evitar errores.
+	manager = GameManager::GetInstance();
+	if(manager!=nullptr)
+		scores = manager->getScore();
+
+	PlayerIndex * playerId= this->gameObject->getComponent<PlayerIndex>();
+
+	id = -1;
+	if (playerId != nullptr)
+	{
+		id = playerId->getId();
+	}
 }
 
 void Death::update(float deltaTime)
@@ -76,17 +88,14 @@ void Death::die()
 		gameObject->transform->setScale(wallScale);
 		rigidBody->multiplyScale(scaleRatio);
 	}
-	int id = -1;
-	if (this->gameObject->getComponent<PlayerController>() != nullptr)
-		id = this->gameObject->getComponent<PlayerController>()->getPlayer().id;
-	else if (this->gameObject->getComponent<IAPaddle>() != nullptr)
-		id = this->gameObject->getComponent<IAPaddle>()->getId();
-	if (id != -1)
+
+	if (id != -1 && scores!=nullptr)
 	{
-		GameManager::GetInstance()->getScore()->setPositionOnLeaderBoard(id, GameManager::GetInstance()->getPlayersAlive());
-		GameManager::GetInstance()->getScore()->setTimeAlive(id, GameManager::GetInstance()->getInitialTime(), GameManager::GetInstance()->getTime());
+		scores->setPositionOnLeaderBoard(id, manager->getPlayersAlive());
+		scores->setTimeAlive(id,manager->getInitialTime(), manager->getTime());
 	}
-	GameManager::GetInstance()->setPlayersAlive(GameManager::GetInstance()->getPlayersAlive() - 1);
+	manager->setPlayersAlive(manager->getPlayersAlive() - 1);
+
 
 
 	SpawnerManager* spawnerManager = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>();

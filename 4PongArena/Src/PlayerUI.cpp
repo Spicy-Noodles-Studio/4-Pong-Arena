@@ -3,9 +3,9 @@
 #include <UILayout.h>
 #include <Camera.h>
 
-#include "PlayerController.h"
-#include "IAPaddle.h"
+
 #include "Health.h"
+#include "PlayerIndex.h"
 
 #include <ComponentRegister.h>
 
@@ -33,17 +33,11 @@ PlayerUI::~PlayerUI()
 void PlayerUI::start()
 {
 	// Initialize name to search through layout
-	PlayerController* playerController = gameObject->getComponent<PlayerController>();
+	
+	PlayerIndex* playerIndex= gameObject->getComponent<PlayerIndex>();
+	if (playerIndex != nullptr)
+		name = "Player" + std::to_string(playerIndex->getId());
 
-	if (playerController != nullptr)
-		name = "Player" + std::to_string(playerController->getPlayer().id);
-	else
-	{
-		IAPaddle* paddleIA = gameObject->getComponent<IAPaddle>();
-
-		if (paddleIA != nullptr)
-			name = "Player" + std::to_string(paddleIA->getId());
-	}
 
 	// Get health component to update stats
 	health = gameObject->getComponent<Health>();
