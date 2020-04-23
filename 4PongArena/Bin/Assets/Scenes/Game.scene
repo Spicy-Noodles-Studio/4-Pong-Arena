@@ -49,7 +49,7 @@
                     "ComponentName": "UILayout",
                     "ComponentProperties": [
                         ["layout" , "Game.layout"],
-                        ["event" , "ResumeButton resumeButtonClick"]
+                        ["event" , "BackButton pauseBackButtonClick | ResumeButton resumeButtonClick"]
                     ]
                 }
             ]
