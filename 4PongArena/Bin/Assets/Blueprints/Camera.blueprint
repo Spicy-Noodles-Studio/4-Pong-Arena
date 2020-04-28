@@ -33,7 +33,7 @@
                 ["vel" , "2"],
 				["minRange" , "-5"],
 				["maxRange" , "5"],
-                ["duration" , "100"]
+                ["duration" , "1500"]
             ]
         }
     ]
