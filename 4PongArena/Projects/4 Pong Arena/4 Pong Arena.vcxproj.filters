@@ -58,6 +58,9 @@
     <ClCompile Include="..\..\Src\Game.cpp">
       <Filter>Archivos de código fuente\Menus</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\CameraEffects.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Src\Score.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
@@ -125,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\SpawnerManager.h">
       <Filter>Archivos de encabezado\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\CameraEffects.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Score.h">
       <Filter>Archivos de encabezado</Filter>
