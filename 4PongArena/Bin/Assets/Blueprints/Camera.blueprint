@@ -26,6 +26,15 @@
         },
         {
             "ComponentName": "SoundListener"
+        },
+		{
+            "ComponentName": "CameraEffects",
+			"ComponentProperties": [
+                ["vel" , "2"],
+				["minRange" , "-5"],
+				["maxRange" , "5"],
+                ["duration" , "1500"]
+            ]
         }
     ]
 }
