@@ -6,7 +6,7 @@
 #include <UILayout.h>
 
 #include "GameManager.h"
-
+#include "Score.h"
 #include <ComponentRegister.h>
 
 REGISTER_FACTORY(ConfigurationMenu);
@@ -147,10 +147,11 @@ bool ConfigurationMenu::startButtonClick()
 
 	gameManager->setPlayers(players);
 	gameManager->setHealth(health);
-	gameManager->setTime(time);
+	gameManager->setInitialTime(time);
 
 	gameManager->setLevel(levelNames[levelIndex]);
 	gameManager->setSong(songNames[songIndex]);
+	
 
 	if (!IA && filledSlots > 1 || IA)
 		SceneManager::GetInstance()->changeScene("Game");

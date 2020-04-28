@@ -3,7 +3,11 @@
 #include <sstream>
 
 #include "Goal.h"
-
+#include "Ball.h"
+#include "GameManager.h"
+#include "Score.h"
+#include "PlayerIndex.h"
+#include "Health.h"
 #include <ComponentRegister.h>
 
 REGISTER_FACTORY(GoalKeeper);
@@ -30,6 +34,20 @@ void GoalKeeper::start()
 
 	goal->transform->setRotation(gameObject->transform->getRotation());
 	goal->getComponent<Goal>()->setKeeper(gameObject);
+
+	manager = GameManager::GetInstance();
+	if (manager != nullptr)
+		scores = manager->getScore();
+
+	health = this->gameObject->getComponent<Health>();
+	PlayerIndex* playerId = this->gameObject->getComponent<PlayerIndex>();
+
+	id = -1;
+	if (playerId != nullptr)
+	{
+		id = playerId->getId();
+	}
+
 }
 
 void GoalKeeper::handleData(ComponentData* data)
@@ -45,6 +63,27 @@ void GoalKeeper::handleData(ComponentData* data)
 		}
 		else 
 			LOG("GOAL KEEPER: Invalid property with name \"%s\"", prop.first.c_str());
+	}
+}
+
+void GoalKeeper::onCollisionEnter(GameObject* other)
+{
+	if (other->getTag() == "ball")
+	{
+		if (health != nullptr)
+		{
+			if (health->isAlive()) {
+				Ball* ball;
+				ball=other->getComponent<Ball>();
+				if (ball != nullptr) {
+					ball->setIdPlayerHit(id);
+					if (id != -1)
+					{
+						scores->ballHit(id);
+					}
+				}
+			}
+		}
 	}
 }
 

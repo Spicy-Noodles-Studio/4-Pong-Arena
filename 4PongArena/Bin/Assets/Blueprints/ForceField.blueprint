@@ -36,6 +36,13 @@
                 ["stateTime", "5"],
                 ["random", "0"]
             ]
+        },
+        {
+            "ComponentName": "MeshRenderer",
+            "ComponentProperties": [
+                [ "mesh", "shield Sphere.mesh"],
+                [ "material", "shield Shield"]
+            ]
         }
     ]
 }

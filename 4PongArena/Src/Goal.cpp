@@ -3,7 +3,10 @@
 #include <MeshRenderer.h>
 
 #include "Health.h"
-
+#include "GameManager.h"
+#include "Score.h"
+#include "PlayerIndex.h"
+#include "Ball.h"
 #include <ComponentRegister.h>
 
 REGISTER_FACTORY(Goal);
@@ -18,14 +21,41 @@ Goal::~Goal()
 
 }
 
+void Goal::start()
+{
+	manager = GameManager::GetInstance();
+	if (manager != nullptr)
+		scores = manager->getScore();
+
+	PlayerIndex* playerId = this->gameObject->getComponent<PlayerIndex>();
+
+	id = -1;
+	if (playerId != nullptr)
+	{
+		id = playerId->getId();
+	}
+}
+
 void Goal::onObjectEnter(GameObject* other)
 {
 	if (other->getTag() == "ball")
 	{
 		score++;
+		Ball* ball = other->getComponent<Ball>();
 
 		if (health != nullptr)
+		{
 			health->receiveDamage(1);
+			if (ball != nullptr)
+			{
+				if (ball->getIdPlayerHit() != -1 && ball->getIdPlayerHit() != id)
+					scores->goalMade(ball->getIdPlayerHit());
+				else if (ball->getIdPlayerHit() != -1 && ball->getIdPlayerHit() == id)
+				{
+					scores->goalSelfMade(ball->getIdPlayerHit());
+				}
+			}
+		}
 
 		other->setActive(false);
 		other->getComponent<MeshRenderer>()->setVisible(false);

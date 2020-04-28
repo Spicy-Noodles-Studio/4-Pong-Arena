@@ -7,6 +7,8 @@
 #include "Health.h"
 #include "SpawnerManager.h"
 #include "GameManager.h"
+#include "Score.h"
+#include "PlayerIndex.h"
 
 #include <ComponentRegister.h>
 
@@ -28,6 +30,19 @@ void Death::start()
 
 	rigidBody = gameObject->getComponent<RigidBody>();
 	health = gameObject->getComponent<Health>();
+
+	///Para no repetirlos por el codigo y evitar errores.
+	manager = GameManager::GetInstance();
+	if(manager!=nullptr)
+		scores = manager->getScore();
+
+	PlayerIndex * playerId= this->gameObject->getComponent<PlayerIndex>();
+
+	id = -1;
+	if (playerId != nullptr)
+	{
+		id = playerId->getId();
+	}
 }
 
 void Death::update(float deltaTime)
@@ -74,7 +89,14 @@ void Death::die()
 		rigidBody->multiplyScale(scaleRatio);
 	}
 
-	GameManager::GetInstance()->setPlayersAlive(GameManager::GetInstance()->getPlayersAlive() - 1);
+	if (id != -1 && scores!=nullptr)
+	{
+		scores->setPositionOnLeaderBoard(id, manager->getPlayersAlive());
+		scores->setTimeAlive(id,manager->getInitialTime(), manager->getTime());
+	}
+	manager->setPlayersAlive(manager->getPlayersAlive() - 1);
+
+
 
 	SpawnerManager* spawnerManager = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>();
 

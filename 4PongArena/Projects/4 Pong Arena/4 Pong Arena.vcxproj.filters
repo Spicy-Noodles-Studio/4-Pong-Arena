@@ -59,6 +59,15 @@
       <Filter>Archivos de código fuente\Menus</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\CameraEffects.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Score.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\ScoreMenu.cpp">
+      <Filter>Archivos de código fuente\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PlayerIndex.cpp">
       <Filter>Archivos de código fuente\Components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -121,6 +130,15 @@
       <Filter>Archivos de encabezado\Managers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\CameraEffects.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Score.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\ScoreMenu.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\PlayerIndex.h">
       <Filter>Archivos de encabezado\Components</Filter>
     </ClInclude>
   </ItemGroup>

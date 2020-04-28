@@ -14,6 +14,8 @@ private:
 	float targetVelocity;
 	float acceleration;
 
+	int idPlayer;
+
 public:
 	Ball(GameObject* gameObject);
 	virtual ~Ball();
@@ -24,6 +26,9 @@ public:
 	void setVelocity(float velocity);
 	void setTargetVelocity(float targetVelocity);
 	void setAcceleration(float acceleration);
+	
+	void setIdPlayerHit(int id);
+	int getIdPlayerHit();
 };
 
 #endif

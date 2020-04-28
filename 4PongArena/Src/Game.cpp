@@ -9,6 +9,7 @@
 #include "Health.h"
 #include "SpawnerManager.h"
 #include "GameManager.h"
+#include "PlayerIndex.h"
 
 #include <ComponentRegister.h>
 
@@ -107,6 +108,7 @@ void Game::createPlayers()
 		paddle->transform->setRotation(playerTransforms[i].second);
 
 		paddle->getComponent<PlayerController>()->setPlayer(players[i].id, players[i].index);
+		paddle->getComponent<PlayerIndex>()->setId(players[i].id);
 		paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
 
 		paddles.push_back(paddle);
@@ -123,7 +125,7 @@ void Game::createPlayers()
 				GameObject* paddleIA = instantiate("IA", playerTransforms[i + nPlayers].first);
 				paddleIA->transform->setRotation(playerTransforms[i + nPlayers].second);
 
-				paddleIA->getComponent<IAPaddle>()->setId(i + nPlayers + 1);
+				paddleIA->getComponent<PlayerIndex>()->setId(i + nPlayers + 1);
 				paddleIA->getComponent<Health>()->setHealth(gameManager->getHealth());
 
 				paddles.push_back(paddleIA);
@@ -136,8 +138,10 @@ void Game::createPlayers()
 			}
 		}
 	}
-
+	win = false;
 	gameManager->setPlayersAlive(paddles.size());
+	gameManager->setTotalPlayers(paddles.size());
+	gameManager->getScore()->initScore(paddles.size());
 }
 
 void Game::createSpawners()
@@ -182,32 +186,57 @@ void Game::chooseWinner()
 	bool tie = false;
 	int majorHealth = 0;
 	int majorIndex = 0;
-
-	for (int i = 0; i < paddles.size(); i++)
+	if (!win)
 	{
-		Health* health = paddles[i]->getComponent<Health>();
-		if (health != nullptr && health->isAlive())
+		for (int i = 0; i < paddles.size(); i++)
 		{
-			if (health->getHealth() > majorHealth)
+			Health* health = paddles[i]->getComponent<Health>();
+			if (health != nullptr && health->isAlive())
 			{
-				majorHealth = health->getHealth();
-				majorIndex = i;
-				tie = false;
+				if (health->getHealth() > majorHealth)
+				{
+					majorHealth = health->getHealth();
+					majorIndex = i;
+					tie = false;
+				}
+				else if (health->getHealth() == majorHealth)
+					tie = true;
 			}
-			else if (health->getHealth() == majorHealth)
-				tie = true;
 		}
 	}
 
 	if (gameLayout != nullptr)
 	{
 		winnerPanel.setVisible(true);
-
+		for (int i = 0; i < paddles.size(); i++)
+		{
+			int pos = 1;
+			Health* health = paddles[i]->getComponent<Health>();
+			if (health->isAlive())
+			{
+				for (int j = 0; j < paddles.size(); j++)
+				{
+					Health* health2 = paddles[j]->getComponent<Health>();
+					if (health2->getHealth() > health->getHealth())
+						pos++;
+				}
+				gameManager->getScore()->setTimeAlive(i + 1,gameManager->getInitialTime(),gameManager->getTime());
+				gameManager->getScore()->setPositionOnLeaderBoard(i + 1, pos);
+			}
+		}
 		if (tie)
+		{
 			winnerText.setText("TIE");
+			
+		}
 		else
 		{
-			winner = majorIndex;
+			
+			if (!win)
+			{
+				winner = majorIndex;
+			}
+			win = true;
 			winnerText.setText("WINNER: P" + std::to_string(winner + 1));
 		}
 	}
@@ -256,7 +285,7 @@ void Game::update(float deltaTime)
 	if (gameTimer > 0)
 	{
 		gameTimer -= deltaTime;
-
+		gameManager->setTime((int)gameTimer);
 		if (gameTimer <= 0.0f)
 			chooseWinner();
 
@@ -266,9 +295,9 @@ void Game::update(float deltaTime)
 	else
 	{
 		finishTimer -= deltaTime;
-
+		
 		if (finishTimer <= 0.0f)
-			SceneManager::GetInstance()->changeScene("ConfigurationMenu"); // Cambiar a menu de final de partida
+			SceneManager::GetInstance()->changeScene("LeaderBoardMenu"); // Cambiar a menu de final de partida
 	}
 
 	if (gameManager->getPlayersAlive() == 1)
