@@ -47,7 +47,7 @@ bool OptionsMenu::changeResolution(int value)
 {
 	resolution += value;
 
-	if (resolution < 0) resolution = 0;
+	if (resolution < 1) resolution = 1;
 	if (resolution > resolutionNames.size() - 1) resolution = resolutionNames.size() - 1;
 
 	resolutionText.setText(resolutionNames[resolution]);
@@ -128,7 +128,7 @@ OptionsMenu::~OptionsMenu()
 
 void OptionsMenu::start()
 {
-	root = findGameObjectWithName("MainCamera")->getComponent<UILayout>()->getRoot();
+	root = findGameObjectWithName("MainCamera")->getComponent<UILayout>()->getRoot().getChild("OptionsBackground");
 	resolutionButton = root.getChild("ResolutionApplyButton");
 
 	volumeScroll = root.getChild("SoundScroll");
@@ -141,14 +141,14 @@ void OptionsMenu::start()
 	UIElement checkbox = root.getChild("FullscreenYesButton");
 
 
-
-
 	musicVolume = soundSystem->getMusicVolume();
 	soundsVolume = soundSystem->getSoundVolume();
 	gamma = windowManager->getBrightness();
 
+	
 	resolution = windowManager->getActualResolutionId();
-	//fullscreen = WindowManager::GetInstance()->getFullscreen();
+	if (resolution == 0)
+		resolution = 1;
 
 	changeResolution(0);
 	musicScroll.setScrollPositionScrollBar(musicVolume);

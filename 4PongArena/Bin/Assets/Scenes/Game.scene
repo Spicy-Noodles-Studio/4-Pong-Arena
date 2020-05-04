@@ -25,6 +25,17 @@
         },
         {
             "ObjectType": "GAMEOBJECT",
+            "ObjectName": "OptionsMenu",
+            "Tag": "optionsMenu",
+            "Components": 
+            [
+                {
+                    "ComponentName" : "OptionsMenuScreen"
+                }
+            ]
+        },
+        {
+            "ObjectType": "GAMEOBJECT",
             "ObjectName": "SpawnerManager",
             "Tag": "spawnerManager",
             "Components": 
@@ -49,7 +60,26 @@
                     "ComponentName": "UILayout",
                     "ComponentProperties": [
                         ["layout" , "Game.layout"],
-                        ["event" , "BackButton pauseBackButtonClick | ResumeButton resumeButtonClick"]
+                        ["event" , "BackButton pauseBackButtonClick | ResumeButton resumeButtonClick |OptionsButton pauseOptionsButtonClick"]
+                    ]
+                }
+            ],
+            "Children": 
+            [
+                {
+                    "ObjectType": "GAMEOBJECT",
+                    "ObjectName": "OptionsMenuScreen",
+                    "Tag": "optionsMenuScreen",
+                    "Components":
+                    [
+                        {
+                            "ComponentName": "UILayout",
+                            "ComponentProperties": 
+                            [
+                                ["layout" , "OptionsMenu.layout"],
+                                ["event" ,  "-ResolutionButton -resolutionButtonClick | +ResolutionButton +resolutionButtonClick | FullscreenYesButton fullscreenYesButtonClick | ResolutionApplyButton resolutionApplyButtonClick | BackButton backToMenuButtonClick | SoundScroll volumeScrollChange | MusicScroll volumeMusicScrollChange | GammaScroll gammaScrollChange"]
+                            ]
+                        }
                     ]
                 }
             ]

@@ -16,7 +16,7 @@ class RenderSystem;
 class SoundSystem;
 class OptionsMenu : public UserComponent
 {
-private:
+protected:
 	InterfaceSystem* interfaceSystem;
 	WindowManager* windowManager;
 	RenderSystem* renderSystem;
