@@ -20,6 +20,25 @@ bool OptionsMenu::backButtonClick()
 	return false;
 }
 
+bool OptionsMenu::resetConfigButtonClick()
+{
+	fullscreen = false;
+	resolution = 1;
+	soundsVolume = 100;
+	musicVolume = 100;
+	gamma = 100;
+
+
+	changeResolution(0);
+	musicScroll.setScrollPositionScrollBar(musicVolume);
+	volumeScroll.setScrollPositionScrollBar(soundsVolume);
+	gammaScroll.setScrollPositionScrollBar(gamma);
+	checkbox.setCheckBoxState(false);
+	changeFullscreen(false);
+	
+	return false;
+}
+
 bool OptionsMenu::resolutionButtonClick()
 {
 	if (currResolution != resolution)
@@ -87,7 +106,7 @@ bool OptionsMenu::changeGamma()
 }
 
 OptionsMenu::OptionsMenu(GameObject* gameObject) : UserComponent(gameObject), resolutionButton(NULL), volumeScroll(NULL), musicScroll(NULL), gammaScroll(NULL), interfaceSystem(nullptr), windowManager(nullptr), renderSystem(nullptr), soundSystem(nullptr),
-resolutionText(NULL), volumeText(NULL), musicText(NULL), gammaText(NULL), root(NULL) 
+resolutionText(NULL), volumeText(NULL), musicText(NULL), gammaText(NULL), root(NULL),checkbox(NULL)
 {
 	interfaceSystem = InterfaceSystem::GetInstance();
 	interfaceSystem->registerEvent("-resolutionButtonClick", UIEvent("ButtonClicked", [this]() {return changeResolution(-1); }));
@@ -100,6 +119,7 @@ resolutionText(NULL), volumeText(NULL), musicText(NULL), gammaText(NULL), root(N
 	interfaceSystem->registerEvent("gammaScrollChange", UIEvent("ScrollChange", [this]() {return changeGamma(); }));
 
 	interfaceSystem->registerEvent("resolutionApplyButtonClick", UIEvent("ButtonClicked", [this]() {return resolutionButtonClick(); }));
+	interfaceSystem->registerEvent("resetConfigurationsButtonClick", UIEvent("ButtonClicked", [this]() {return resetConfigButtonClick(); }));
 	interfaceSystem->registerEvent("backButtonClick", UIEvent("ButtonClicked", [this]() {return backButtonClick(); }));
 	currResolution = -1;
 
@@ -123,6 +143,7 @@ OptionsMenu::~OptionsMenu()
 	interfaceSystem->unregisterEvent("gammaScrollChange");
 
 	interfaceSystem->unregisterEvent("resolutionApplyButtonClick");
+	interfaceSystem->unregisterEvent("resetConfigurationsButtonClick");
 	interfaceSystem->unregisterEvent("backButtonClick");
 }
 
@@ -138,7 +159,7 @@ void OptionsMenu::start()
 	volumeText = root.getChild("SoundVolume");
 	musicText = root.getChild("MusicVolume");
 	gammaText = root.getChild("Gamma");
-	UIElement checkbox = root.getChild("FullscreenYesButton");
+	checkbox = root.getChild("FullscreenYesButton");
 
 
 	musicVolume = soundSystem->getMusicVolume();

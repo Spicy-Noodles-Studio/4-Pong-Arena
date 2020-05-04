@@ -58,7 +58,7 @@ void OptionsMenuScreen::start()
 	volumeText = optionsMenu.getChild("SoundVolume");
 	musicText = optionsMenu.getChild("MusicVolume");
 	gammaText = optionsMenu.getChild("Gamma");
-	UIElement checkbox = optionsMenu.getChild("FullscreenYesButton");
+	checkbox = optionsMenu.getChild("FullscreenYesButton");
 
 
 

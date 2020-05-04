@@ -30,6 +30,7 @@ protected:
 	UIElement resolutionText;
 	UIElement volumeText;
 	UIElement musicText;
+	UIElement checkbox;
 	UIElement gammaText;
 
 	UIElement root;
@@ -46,6 +47,7 @@ protected:
 	std::vector<std::pair<int, int>> resolutions;
 	bool resolutionButtonClick();
 	bool backButtonClick();
+	bool resetConfigButtonClick();
 
 	bool changeResolution(int value);
 	bool changeFullscreen(bool value);
