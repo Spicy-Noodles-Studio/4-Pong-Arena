@@ -131,6 +131,14 @@
             <Property name="Text" value="[colour='FF00FFFF']P4" />
             <Property name="Font" value="Batang8" />
         </Window>
+		# COUNTDOWN
+        <Window type="TaharezLook/StaticText" name="Countdown" >
+                <Property name="Area" value="{{0.5,0},{0.5,0},{1,0},{1,0}}" />
+                <Property name="MaxSize" value="{{5,0},{0.05,0}}" />
+				<Property name="Size" value="{{5,0},{0.05,0}}" />
+                <Property name="Text" value="" />
+                <Property name="Font" value="Sans" />
+        </Window>
         ## PAUSE MENU
         <Window type="TaharezLook/StaticImage" name="PauseBackground" >
             <Property name="Area" value="{{0.3,0},{0.3,0},{0.7,0},{0.6,0}}" />
