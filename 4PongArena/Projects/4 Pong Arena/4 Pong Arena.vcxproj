@@ -166,6 +166,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\CameraEffects.cpp" />
+    <ClCompile Include="..\..\Src\OptionsMenuScreen.cpp" />
     <ClCompile Include="..\..\Src\Countdown.cpp" />
     <ClCompile Include="..\..\Src\PlayerIndex.cpp" />
     <ClCompile Include="..\..\Src\PlayerUI.cpp" />
@@ -192,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\CameraEffects.h" />
+    <ClInclude Include="..\..\Src\OptionsMenuScreen.h" />
     <ClInclude Include="..\..\Src\Countdown.h" />
     <ClInclude Include="..\..\Src\PlayerIndex.h" />
     <ClInclude Include="..\..\Src\PlayerUI.h" />

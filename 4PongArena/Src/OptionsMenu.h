@@ -16,7 +16,7 @@ class RenderSystem;
 class SoundSystem;
 class OptionsMenu : public UserComponent
 {
-private:
+protected:
 	InterfaceSystem* interfaceSystem;
 	WindowManager* windowManager;
 	RenderSystem* renderSystem;
@@ -30,6 +30,7 @@ private:
 	UIElement resolutionText;
 	UIElement volumeText;
 	UIElement musicText;
+	UIElement checkbox;
 	UIElement gammaText;
 
 	UIElement root;
@@ -46,6 +47,7 @@ private:
 	std::vector<std::pair<int, int>> resolutions;
 	bool resolutionButtonClick();
 	bool backButtonClick();
+	bool resetConfigButtonClick();
 
 	bool changeResolution(int value);
 	bool changeFullscreen(bool value);

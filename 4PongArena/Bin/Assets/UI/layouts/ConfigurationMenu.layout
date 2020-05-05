@@ -12,6 +12,7 @@
                 <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="Text" value="Press X or Space" />
+                <Property name="Disabled" value="true" />
 				<Property name="Font" value="Batang8" />
             </Window>
             <Window type="TaharezLook/StaticImage" name="Connected1" >
@@ -22,18 +23,21 @@
                     <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Player 1" />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
                 </Window>
                 <Window type="TaharezLook/StaticText" name="IndexText" >
                     <Property name="Area" value="{{0.1,0},{0.3,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Index: " />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
                 </Window>
                 <Window type="TaharezLook/StaticText" name="TypeText" >
                     <Property name="Area" value="{{0.1,0},{0.8,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Keyboard" />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
                 </Window>
             </Window>
@@ -45,6 +49,7 @@
             <Window type="TaharezLook/StaticText" name="Slot2Text" >
                 <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Disabled" value="true" />
                 <Property name="Text" value="Press X or Space" />
 				<Property name="Font" value="Batang8" />
             </Window>
@@ -56,18 +61,21 @@
                     <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Player 2" />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
                 </Window>
                 <Window type="TaharezLook/StaticText" name="IndexText" >
                     <Property name="Area" value="{{0.1,0},{0.3,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Index: " />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
                 </Window>
                 <Window type="TaharezLook/StaticText" name="TypeText" >
                     <Property name="Area" value="{{0.1,0},{0.8,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Keyboard" />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
                 </Window>
             </Window>
@@ -79,6 +87,7 @@
             <Window type="TaharezLook/StaticText" name="Slot3Text" >
                 <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Disabled" value="true" />
                 <Property name="Text" value="Press X or Space" />
 				<Property name="Font" value="Batang8" />
             </Window>
@@ -90,18 +99,21 @@
                     <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Player 3" />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
                 </Window>
                 <Window type="TaharezLook/StaticText" name="IndexText" >
                     <Property name="Area" value="{{0.1,0},{0.3,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Index: " />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
                 </Window>
                 <Window type="TaharezLook/StaticText" name="TypeText" >
                     <Property name="Area" value="{{0.1,0},{0.8,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Keyboard" />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
                 </Window>
             </Window>
@@ -113,6 +125,7 @@
             <Window type="TaharezLook/StaticText" name="Slot4Text" >
                 <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Disabled" value="true" />
                 <Property name="Text" value="Press X or Space" />
 				<Property name="Font" value="Batang8" />
             </Window>
@@ -123,6 +136,7 @@
                 <Window type="TaharezLook/StaticText" name="PlayerText" >
                     <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
+                    <Property name="Disabled" value="true" />
                     <Property name="Text" value="Player 4" />
 					<Property name="Font" value="Batang8" />
                 </Window>
@@ -130,12 +144,14 @@
                     <Property name="Area" value="{{0.1,0},{0.3,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Index: " />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
                 </Window>
                 <Window type="TaharezLook/StaticText" name="TypeText" >
                     <Property name="Area" value="{{0.1,0},{0.8,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="Keyboard" />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
                 </Window>
             </Window>
@@ -145,6 +161,7 @@
                     <Property name="Area" value="{{0.1,0},{0.3,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="LEVEL" />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
         </Window>
         # -LEVEL BUTTON
@@ -163,6 +180,7 @@
                     <Property name="Area" value="{{0.5,0},{0.3,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="level" />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
         </Window>
         # +LEVEL BUTTON
@@ -181,6 +199,7 @@
                     <Property name="Area" value="{{0.1,0},{0.4,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="TIME" />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
         </Window>
         # -TIME BUTTON
@@ -199,6 +218,7 @@
                     <Property name="Area" value="{{0.5,0},{0.4,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="60" />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
         </Window>
         # +TIME BUTTON
@@ -217,6 +237,7 @@
                     <Property name="Area" value="{{0.1,0},{0.5,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="SONG" />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
         </Window>
         # -SONG BUTTON
@@ -235,6 +256,7 @@
                     <Property name="Area" value="{{0.5,0},{0.5,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="despacito" />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
         </Window>
         # +SONG BUTTON
@@ -253,6 +275,7 @@
                     <Property name="Area" value="{{0.1,0},{0.6,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="HEALTH" />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
         </Window>
         # -HEALTH BUTTON
@@ -271,6 +294,7 @@
                     <Property name="Area" value="{{0.5,0},{0.6,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="5" />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
         </Window>
         # +HEALTH BUTTON
@@ -289,6 +313,7 @@
                     <Property name="Area" value="{{0.1,0},{0.7,0},{0.9,0},{0.9,0}}" />
                     <Property name="MaxSize" value="{{1,0},{0.2,0}}" />
                     <Property name="Text" value="IA" />
+                    <Property name="Disabled" value="true" />
 					<Property name="Font" value="Batang8" />
         </Window>
         # CHECKBOX

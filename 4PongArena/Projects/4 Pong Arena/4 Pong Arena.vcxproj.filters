@@ -70,6 +70,9 @@
     <ClCompile Include="..\..\Src\PlayerIndex.cpp">
       <Filter>Archivos de código fuente\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\OptionsMenuScreen.cpp">
+      <Filter>Archivos de código fuente\Menus</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Src\Countdown.cpp">
       <Filter>Archivos de código fuente\Components</Filter>
     </ClCompile>
@@ -144,6 +147,9 @@
     <ClInclude Include="..\..\Src\PlayerIndex.h">
       <Filter>Archivos de encabezado\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\OptionsMenuScreen.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
+    </ClInclude>  
     <ClInclude Include="..\..\Src\Countdown.h">
       <Filter>Archivos de encabezado\Components</Filter>
     </ClInclude>

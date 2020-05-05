@@ -9,6 +9,7 @@
                 <Property name="Area" value="{{0.5,0},{0,0},{1,0},{1,0}}" />
                 <Property name="MaxSize" value="{{1,0},{0.05,0}}" />
                 <Property name="Text" value="0" />
+                <Property name="Disabled" value="true" />
                 <Property name="Font" value="Batang8" />
         </Window>
         ## WINNER PANEL
@@ -19,6 +20,7 @@
             <Window type="TaharezLook/StaticText" name="Winner" >
                 <Property name="Area" value="{{0.3,0},{0,0},{1,0},{1,0}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Disabled" value="true" />
                 <Property name="Text" value="Winner: " />
                 <Property name="Font" value="Batang8" />
             </Window>
@@ -32,12 +34,14 @@
             <Window type="TaharezLook/StaticText" name="Player1Text" >
                 <Property name="Area" value="{{0.1,0},{0,0},{1,0},{1,0}}" />
                 <Property name="MaxSize" value="{{1,0},{0.05,0}}" />
+                <Property name="Disabled" value="true" />
                 <Property name="Text" value="[colour='FFFF0000']P1" />
                 <Property name="Font" value="Batang8" />
             </Window>
             <Window type="TaharezLook/StaticText" name="Player1HealthText" >
             <Property name="Area" value="{{0.1,0},{0,0},{1,0},{1,0}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Disabled" value="true" />
                 <Property name="Text" value="Health: 10" />
                 <Property name="Font" value="Batang8" />
             </Window>
@@ -47,6 +51,7 @@
             <Property name="Area" value="{{0.4,0},{0.7,0},{1,0},{1,0}}" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="Visible" value="False" />
+            <Property name="Disabled" value="true" />
             <Property name="Text" value="[colour='FFFF0000']P1" />
             <Property name="Font" value="Batang8" />
         </Window>
@@ -60,12 +65,14 @@
                 <Property name="Area" value="{{0.1,0},{0,0},{1,0},{1,0}}" />
                 <Property name="MaxSize" value="{{1,0},{0.05,0}}" />
                 <Property name="Text" value="[colour='FF0000FF']P2" />
+                <Property name="Disabled" value="true" />
                 <Property name="Font" value="Batang8" />
             </Window>
             <Window type="TaharezLook/StaticText" name="Player2HealthText" >
             <Property name="Area" value="{{0.1,0},{0,0},{1,0},{1,0}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="Text" value="Health: 10" />
+                <Property name="Disabled" value="true" />
                 <Property name="Font" value="Batang8" />
             </Window>
         </Window>
@@ -75,6 +82,7 @@
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="Visible" value="False" />
             <Property name="Text" value="[colour='FF0000FF']P2" />
+            <Property name="Disabled" value="true" />
             <Property name="Font" value="Batang8" />
         </Window>
         ## PLAYER 3 INFO
@@ -87,11 +95,13 @@
                 <Property name="Area" value="{{0.1,0},{0,0},{1,0},{1,0}}" />
                 <Property name="MaxSize" value="{{1,0},{0.05,0}}" />
                 <Property name="Text" value="[colour='FFFF0000']P3" />
+                <Property name="Disabled" value="true" />
                 <Property name="Font" value="Batang8" />
             </Window>
             <Window type="TaharezLook/StaticText" name="Player3HealthText" >
             <Property name="Area" value="{{0.1,0},{0,0},{1,0},{1,0}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Disabled" value="true" />
                 <Property name="Text" value="Health: 10" />
                 <Property name="Font" value="Batang8" />
             </Window>
@@ -101,6 +111,7 @@
             <Property name="Area" value="{{0.7,0},{0.7,0},{1,0},{1,0}}" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="Visible" value="False" />
+            <Property name="Disabled" value="true" />
             <Property name="Text" value="[colour='FFFF0000']P3" />
             <Property name="Font" value="Batang8" />
         </Window>
@@ -113,6 +124,7 @@
             <Window type="TaharezLook/StaticText" name="Player4Text" >
                 <Property name="Area" value="{{0.1,0},{0,0},{1,0},{1,0}}" />
                 <Property name="MaxSize" value="{{1,0},{0.05,0}}" />
+                <Property name="Disabled" value="true" />
                 <Property name="Text" value="[colour='FF00FFFF']P4" />
                 <Property name="Font" value="Batang8" />
             </Window>
@@ -120,6 +132,7 @@
             <Property name="Area" value="{{0.1,0},{0,0},{1,0},{1,0}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="Text" value="Health: 10" />
+                <Property name="Disabled" value="true" />
                 <Property name="Font" value="Batang8" />
             </Window>
         </Window>
@@ -128,6 +141,7 @@
             <Property name="Area" value="{{0.8,0},{0.7,0},{1,0},{1,0}}" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="Visible" value="False" />
+            <Property name="Disabled" value="true" />
             <Property name="Text" value="[colour='FF00FFFF']P4" />
             <Property name="Font" value="Batang8" />
         </Window>
@@ -150,18 +164,31 @@
                 <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.2,0}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="Text" value="RESUME" />
+                <Property name="UpButton" value="ResumeButton" />
+                <Property name="DownButton" value="OptionsButton" />
+                <Property name="LeftButton" value="ResumeButton" />
+                <Property name="RightButton" value="OptionsButton" />
+
             </Window>
             # OPTIONS
             <Window type="TaharezLook/Button" name="OptionsButton" >
                 <Property name="Area" value="{{0.1,0},{0.4,0},{0.9,0},{0.5,0}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="Text" value="OPTIONS" />
+                <Property name="UpButton" value="ResumeButton" />
+                <Property name="DownButton" value="BackButton" />
+                <Property name="LeftButton" value="ResumeButton" />
+                <Property name="RightButton" value="BackButton" />
             </Window>
             # BACK BUTTON
             <Window type="TaharezLook/Button" name="BackButton" >
                 <Property name="Area" value="{{0.1,0},{0.7,0},{0.9,0},{0.8,0}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="Text" value="BACK" />
+                <Property name="UpButton" value="OptionsButton" />
+                <Property name="DownButton" value="BackButton" />
+                <Property name="LeftButton" value="OptionsButton" />
+                <Property name="RightButton" value="BackButton" />
             </Window>
         </Window>
     </Window>
