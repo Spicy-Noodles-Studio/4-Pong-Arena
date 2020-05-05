@@ -33,7 +33,6 @@ OptionsMenuScreen::OptionsMenuScreen(GameObject* gameObject):OptionsMenu(gameObj
 
 OptionsMenuScreen::~OptionsMenuScreen()
 {
-	OptionsMenu::~OptionsMenu();
 	interfaceSystem->unregisterEvent("backToMenuButtonClick");
 }
 
