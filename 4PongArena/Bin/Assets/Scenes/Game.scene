@@ -23,6 +23,20 @@
                 }
             ]
         },
+		{
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "Countdown",
+            "Tag": "countdown",
+            "Components": 
+            [
+                {
+                    "ComponentName" : "Countdown",
+					"ComponentProperties": [
+                        ["time" , "10"]
+                    ]
+                }
+            ]
+        },
         {
             "ObjectType": "GAMEOBJECT",
             "ObjectName": "SpawnerManager",
