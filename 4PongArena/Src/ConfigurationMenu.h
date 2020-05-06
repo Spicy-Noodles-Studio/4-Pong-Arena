@@ -11,6 +11,10 @@ const int MAX_TIME = 300;
 const int MIN_HEALTH = 1;
 const int MAX_HEALTH = 15;
 
+const int BASE_TYPES = 3;
+const int OBSTACLES_TYPES = 3;
+const int FORCES_TYPES = 3;
+
 const int MIN_PLAYERS = 0;
 
 class InputSystem;
@@ -31,8 +35,9 @@ private:
 	int health;
 	int time;
 
-	std::vector<std::string> levelNames;
-	int levelIndex;
+	int levelBaseType;
+	int levelObstaclesType;
+	int levelForcesType;
 
 	std::vector<std::string> songNames;
 	int songIndex;
@@ -48,8 +53,11 @@ private:
 	bool changeFiller(bool value);
 	bool changeHealth(int value);
 	bool changeTime(int value);
-	bool changeLevel(int value);
 	bool changeSong(int value);
+
+	bool changeLevelBase(int value);
+	bool changeLevelObstacles(int value);
+	bool changeLevelForces(int value);
 
 	bool startButtonClick();
 	bool backButtonClick();

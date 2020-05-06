@@ -107,18 +107,6 @@ bool ConfigurationMenu::changeTime(int value)
 	return false;
 }
 
-bool ConfigurationMenu::changeLevel(int value)
-{
-	levelIndex += value;
-
-	if (levelIndex < 0) levelIndex = 0;
-	if (levelIndex > levelNames.size() - 1) levelIndex = levelNames.size() - 1;
-
-	configurationLayout->getRoot().getChild("Level").setText(levelNames[levelIndex]);
-
-	return false;
-}
-
 bool ConfigurationMenu::changeSong(int value)
 {
 	songIndex += value;
@@ -127,6 +115,38 @@ bool ConfigurationMenu::changeSong(int value)
 	if (songIndex > songNames.size() - 1) songIndex = songNames.size() - 1;
 
 	configurationLayout->getRoot().getChild("Song").setText(songNames[songIndex]);
+
+	return false;
+}
+
+bool ConfigurationMenu::changeLevelBase(int value)
+{
+	levelBaseType += value;
+
+	if (levelBaseType < 0) levelBaseType = 0;
+	if (levelBaseType > BASE_TYPES) levelBaseType = BASE_TYPES;
+
+	//configurationLayout->getRoot().getChild("Level").setText(levelNames[levelIndex]);
+
+	return false;
+}
+
+bool ConfigurationMenu::changeLevelObstacles(int value)
+{
+	levelObstaclesType += value;
+
+	if (levelObstaclesType < 0) levelObstaclesType = 0;
+	if (levelObstaclesType > OBSTACLES_TYPES) levelObstaclesType = OBSTACLES_TYPES;
+
+	return false;
+}
+
+bool ConfigurationMenu::changeLevelForces(int value)
+{
+	levelForcesType += value;
+
+	if (levelForcesType < 0) levelForcesType = 0;
+	if (levelForcesType > FORCES_TYPES) levelForcesType = FORCES_TYPES;
 
 	return false;
 }
@@ -149,7 +169,10 @@ bool ConfigurationMenu::startButtonClick()
 	gameManager->setHealth(health);
 	gameManager->setInitialTime(time);
 
-	gameManager->setLevel(levelNames[levelIndex]);
+	gameManager->setLevelBase(levelBaseType);
+	gameManager->setLevelObstacles(levelObstaclesType);
+	gameManager->setLevelForces(levelForcesType);
+
 	gameManager->setSong(songNames[songIndex]);
 	
 
@@ -180,8 +203,12 @@ ConfigurationMenu::ConfigurationMenu(GameObject* gameObject) : UserComponent(gam
 	interfaceSystem->registerEvent("-songButtonClick", UIEvent("ButtonClicked", [this]() {return changeSong(-1); }));
 	interfaceSystem->registerEvent("+songButtonClick", UIEvent("ButtonClicked", [this]() {return changeSong(+1); }));
 
-	interfaceSystem->registerEvent("-levelButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevel(-1); }));
-	interfaceSystem->registerEvent("+levelButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevel(+1); }));
+	interfaceSystem->registerEvent("-levelBaseButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevelBase(-1); }));
+	interfaceSystem->registerEvent("+levelBaseButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevelBase(+1); }));
+	interfaceSystem->registerEvent("-levelObstaclesButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevelObstacles(-1); }));
+	interfaceSystem->registerEvent("+levelObstaclesButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevelObstacles(+1); }));
+	interfaceSystem->registerEvent("-levelForcesButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevelForces(-1); }));
+	interfaceSystem->registerEvent("+levelForcesButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevelForces(+1); }));
 
 	interfaceSystem->registerEvent("startButtonClick", UIEvent("ButtonClicked", [this]() {return startButtonClick(); }));
 	interfaceSystem->registerEvent("backButtonClick", UIEvent("ButtonClicked", [this]() {return backButtonClick(); }));
@@ -202,8 +229,8 @@ ConfigurationMenu::~ConfigurationMenu()
 	interfaceSystem->unregisterEvent("-songButtonClick");
 	interfaceSystem->unregisterEvent("+songButtonClick");
 
-	interfaceSystem->unregisterEvent("-levelButtonClick");
-	interfaceSystem->unregisterEvent("+levelButtonClick");
+	interfaceSystem->unregisterEvent("-levelBaseButtonClick");
+	interfaceSystem->unregisterEvent("+levelBaseButtonClick");
 
 	interfaceSystem->unregisterEvent("startButtonClick");
 	interfaceSystem->unregisterEvent("backButtonClick");
@@ -226,8 +253,8 @@ void ConfigurationMenu::start()
 	health = 5;
 	time = 60;
 
-	levelNames = std::vector<std::string>(4, "level"); // Placeholder
-	levelIndex = 0;
+	//levelNames = std::vector<std::string>(4, "level"); // Placeholder
+	//levelIndex = 0;
 
 	songNames = std::vector<std::string>(4, "song"); // Placeholder
 	songIndex = 0;

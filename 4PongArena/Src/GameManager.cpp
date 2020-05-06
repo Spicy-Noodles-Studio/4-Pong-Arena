@@ -112,15 +112,37 @@ int GameManager::getInitialTime() const
 	return initialTime;
 }
 
-void GameManager::setLevel(std::string level)
+void GameManager::setLevelBase(int levelBase)
 {
-	this->level = level;
-	this->lastLevel = level;
+	this->levelBase = levelBase;
+	//this->lastLevel = level;
 }
 
-std::string GameManager::getLevel() const
+void GameManager::setLevelObstacles(int levelObstacles)
 {
-	return level;
+	this->levelObstacles = levelObstacles;
+	//this->lastLevel = level;
+}
+
+void GameManager::setLevelForces(int levelForces)
+{
+	this->levelForces = levelForces;
+	//this->lastLevel = level;
+}
+
+int GameManager::getLevelBase() const
+{
+	return levelBase;
+}
+
+int GameManager::getLevelObstacles() const
+{
+	return levelObstacles;
+}
+
+int GameManager::getLevelForces() const
+{
+	return levelForces;
 }
 
 std::string GameManager::getLastLevel() const

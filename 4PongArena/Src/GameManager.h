@@ -23,7 +23,10 @@ private:
 	int initialTime;
 	bool paused;
 
-	std::string level;
+	int levelBase;
+	int levelObstacles;
+	int levelForces;
+
 	std::string song;
 
 	std::string lastLevel;
@@ -60,8 +63,14 @@ public:
 	void setInitialTime(int time);
 	int getInitialTime() const;
 
-	void setLevel(std::string level);
-	std::string getLevel() const;
+	void setLevelBase(int levelBase);
+	void setLevelObstacles(int levelObstacles);
+	void setLevelForces(int levelForces);
+
+	int getLevelBase() const;
+	int getLevelObstacles() const;
+	int getLevelForces() const;
+
 	std::string getLastLevel() const;
 
 	void setSong(std::string song);

@@ -23,7 +23,7 @@
                     "ComponentName": "UILayout",
                     "ComponentProperties": [
                         ["layout" , "ConfigurationMenu.layout"],
-                        ["event" , "CheckBox checkBoxClick | -LevelButton -levelButtonClick | +LevelButton +levelButtonClick | -SongButton -songButtonClick | +SongButton +songButtonClick | -HealthButton -healthButtonClick | +HealthButton +healthButtonClick | -TimeButton -timeButtonClick | +TimeButton +timeButtonClick | StartButton startButtonClick | BackButton backButtonClick"]
+                        ["event" , "CheckBox checkBoxClick | -LevelBaseButton -levelBaseButtonClick | +LevelBaseButton +levelBaseButtonClick | -SongButton -songButtonClick | +SongButton +songButtonClick | -HealthButton -healthButtonClick | +HealthButton +healthButtonClick | -TimeButton -timeButtonClick | +TimeButton +timeButtonClick | StartButton startButtonClick | BackButton backButtonClick"]
                     ]
                 }
             ]

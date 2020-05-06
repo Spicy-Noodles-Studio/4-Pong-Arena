@@ -18,7 +18,9 @@ REGISTER_FACTORY(Game);
 void Game::createLevel()
 {
 	GaiaData levelData;
-	levelData.load("./Assets/Levels/" + GameManager::GetInstance()->getLevel() + ".level");
+
+	//level base
+	//levelData.load("./Assets/Levels/" + GameManager::GetInstance()->getLevel() + ".level");
 
 	// player initial transforms
 	GaiaData playerData = levelData.find("PlayerTransforms");
