@@ -9,6 +9,8 @@
             <Property name="Area" value="{{0.3,0},{0.2,0},{0.7,0},{0.4,0}}" />
             <Property name="Disabled" value="true" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Image" value="title"/>
+            <Property name="FrameEnabled" Value="False" />
         </Window>
         # SINGLE PLAYER
         <Window type="TaharezLook/Button" name="SinglePlayerButton" >
@@ -52,9 +54,10 @@
         </Window>
         # INFO TEXT
         <Window type="TaharezLook/StaticText" name="InfoText" >
-            <Property name="Area" value="{{0.2,0},{0.95,0},{0.9,0},{1,0}}" />
+            <Property name="Area" value="{{0,0},{0.95,0},{1,0},{1,0}}" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="Disabled" value="true" />
+            <Property name="HorzFormatting" value="CentreAligned" />
             <Property name="Text" value="4 Pong Arena v1.0 is powered by Gaia. All rights reserved. Spicy Noodles (C) 2020." />
         </Window>
     </Window>
