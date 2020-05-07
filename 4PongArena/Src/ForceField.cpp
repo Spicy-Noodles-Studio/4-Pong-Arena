@@ -28,13 +28,13 @@ void ForceField::start()
 	
 void ForceField::update(float deltaTime)
 {
-	stateTimer += deltaTime;
+	/*stateTimer += deltaTime;
 
 	if (stateTimer >= stateTime)
 	{
 		changeState();
 		stateTimer = 0;
-	}
+	}*/
 }
 
 void ForceField::handleData(ComponentData* data)
@@ -76,10 +76,10 @@ void ForceField::onObjectEnter(GameObject* other)
 	Ball* ball = other->getComponent<Ball>();
 
 	if (ball == nullptr || rigidBody == nullptr) return;
-
+	/*
 	if (currentState != State::FORWARDS)
 		rigidBody->setLinearVelocity(rigidBody->getLinearVelocity() * -1);
-
+	*/
 	ball->setTargetVelocity(targetVelocity);
 	ball->setAcceleration(acceleration);
 }

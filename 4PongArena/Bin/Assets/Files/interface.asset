@@ -11,6 +11,8 @@ Font = batang.ttf Batang8 8
 
 Image = 4pongarenatitle.jpg title
 Image = base1.png base1
+Image = base2.png base2
+Image = base3.png base3
 Image = obstacles1.png obstacles1
 Image = obstacles2.png obstacles2
 Image = forces1.png forces1

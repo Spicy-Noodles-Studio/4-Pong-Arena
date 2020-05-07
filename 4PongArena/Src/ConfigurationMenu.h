@@ -11,9 +11,9 @@ const int MAX_TIME = 300;
 const int MIN_HEALTH = 1;
 const int MAX_HEALTH = 15;
 
-const int BASE_TYPES = 3;
-const int OBSTACLES_TYPES = 3;
-const int FORCES_TYPES = 3;
+const int BASE_TYPES = 2;
+const int OBSTACLES_TYPES = 2;
+const int FORCES_TYPES = 2;
 
 const int MIN_PLAYERS = 0;
 
@@ -58,6 +58,8 @@ private:
 	bool changeLevelBase(int value);
 	bool changeLevelObstacles(int value);
 	bool changeLevelForces(int value);
+
+	bool randomizeLevel();
 
 	bool startButtonClick();
 	bool backButtonClick();

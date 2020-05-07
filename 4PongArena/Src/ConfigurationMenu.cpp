@@ -8,6 +8,7 @@
 #include "GameManager.h"
 #include "Score.h"
 #include <ComponentRegister.h>
+#include <MathUtils.h>
 
 REGISTER_FACTORY(ConfigurationMenu);
 
@@ -126,7 +127,8 @@ bool ConfigurationMenu::changeLevelBase(int value)
 	if (levelBaseType < 0) levelBaseType = 0;
 	if (levelBaseType > BASE_TYPES) levelBaseType = BASE_TYPES;
 
-	//configurationLayout->getRoot().getChild("Level").setText(levelNames[levelIndex]);
+	configurationLayout->getRoot().getChild("BaseImage").setVisible(true);
+	configurationLayout->getRoot().getChild("BaseImage").setProperty("Image", "base" + std::to_string(levelBaseType + 1));
 
 	return false;
 }
@@ -138,6 +140,14 @@ bool ConfigurationMenu::changeLevelObstacles(int value)
 	if (levelObstaclesType < 0) levelObstaclesType = 0;
 	if (levelObstaclesType > OBSTACLES_TYPES) levelObstaclesType = OBSTACLES_TYPES;
 
+	if (levelObstaclesType == 0)
+		configurationLayout->getRoot().getChild("ObstaclesImage").setVisible(false);
+	else
+	{
+		configurationLayout->getRoot().getChild("ObstaclesImage").setVisible(true);
+		configurationLayout->getRoot().getChild("ObstaclesImage").setProperty("Image", "obstacles" + std::to_string(levelObstaclesType));
+	}
+
 	return false;
 }
 
@@ -147,6 +157,27 @@ bool ConfigurationMenu::changeLevelForces(int value)
 
 	if (levelForcesType < 0) levelForcesType = 0;
 	if (levelForcesType > FORCES_TYPES) levelForcesType = FORCES_TYPES;
+
+	if (levelForcesType == 0)
+		configurationLayout->getRoot().getChild("ForcesImage").setVisible(false);
+	else
+	{
+		configurationLayout->getRoot().getChild("ForcesImage").setVisible(true);
+		configurationLayout->getRoot().getChild("ForcesImage").setProperty("Image", "forces" + std::to_string(levelForcesType));
+	}
+
+	return false;
+}
+
+bool ConfigurationMenu::randomizeLevel()
+{
+	levelBaseType = random(0, BASE_TYPES + 1);
+	levelObstaclesType = random(0, OBSTACLES_TYPES + 1);
+	levelForcesType = random(0, FORCES_TYPES + 1);
+
+	changeLevelBase(0);
+	changeLevelObstacles(0);
+	changeLevelForces(0);
 
 	return false;
 }
@@ -174,7 +205,7 @@ bool ConfigurationMenu::startButtonClick()
 	gameManager->setLevelForces(levelForcesType);
 
 	gameManager->setSong(songNames[songIndex]);
-	
+
 
 	if (!IA && filledSlots > 1 || IA)
 		SceneManager::GetInstance()->changeScene("Game");
@@ -210,6 +241,8 @@ ConfigurationMenu::ConfigurationMenu(GameObject* gameObject) : UserComponent(gam
 	interfaceSystem->registerEvent("-levelForcesButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevelForces(-1); }));
 	interfaceSystem->registerEvent("+levelForcesButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevelForces(+1); }));
 
+	interfaceSystem->registerEvent("randomizeButtonClick", UIEvent("ButtonClicked", [this]() {return randomizeLevel(); }));
+
 	interfaceSystem->registerEvent("startButtonClick", UIEvent("ButtonClicked", [this]() {return startButtonClick(); }));
 	interfaceSystem->registerEvent("backButtonClick", UIEvent("ButtonClicked", [this]() {return backButtonClick(); }));
 }
@@ -231,6 +264,13 @@ ConfigurationMenu::~ConfigurationMenu()
 
 	interfaceSystem->unregisterEvent("-levelBaseButtonClick");
 	interfaceSystem->unregisterEvent("+levelBaseButtonClick");
+	interfaceSystem->unregisterEvent("-levelObstaclesButtonClick");
+	interfaceSystem->unregisterEvent("+levelObstaclesButtonClick");
+	interfaceSystem->unregisterEvent("-levelForcesButtonClick");
+	interfaceSystem->unregisterEvent("+levelForcesButtonClick");
+
+	interfaceSystem->unregisterEvent("randomizeButtonClick");
+
 
 	interfaceSystem->unregisterEvent("startButtonClick");
 	interfaceSystem->unregisterEvent("backButtonClick");

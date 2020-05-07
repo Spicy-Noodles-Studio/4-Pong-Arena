@@ -25,6 +25,7 @@ private:
 	std::vector<std::pair<Vector3, Vector3>> playerTransforms;
 	std::vector<std::pair<Vector3, Vector3>> spawnerTransforms;
 	std::vector<std::pair<Vector3, Vector3>> forceFieldTransforms;
+	std::vector<std::pair<Vector3, Vector3>> obstacleTransforms;
 
 	Vector3 wallScale;
 
@@ -42,6 +43,7 @@ private:
 	void createPlayers();
 	void createSpawners();
 	void createForceField();
+	void createObstacles();
 
 	void playSong();
 	void chooseWinner();

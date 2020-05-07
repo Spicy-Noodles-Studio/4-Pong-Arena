@@ -254,15 +254,48 @@
 					<Property name="RightButton" value="+LevelBaseButton" />
                     <Property name="Font" value="Sans" />
         </Window>
-        # LEVEL CUSTOMIZATION IMAGES #
-        # BASES
-        <Window type="TaharezLook/StaticImage" name="Base1Image" >
+        # LEVEL CUSTOMIZATION #
+        # BASE IMAGE
+        <Window type="TaharezLook/StaticImage" name="BaseImage" >
             <Property name="Area" value="{{0.73,0},{0.5,0},{0.87,0},{0.7,0}}" />
             <Property name="Disabled" value="true" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="Image" value="base1"/>
             <Property name="FrameEnabled" Value="False" />
+            <Property name="BackgroundEnabled" Value="False" />
         </Window>
+        # OBSTACLES IMAGE
+        <Window type="TaharezLook/StaticImage" name="ObstaclesImage" >
+            <Property name="Area" value="{{0.73,0},{0.5,0},{0.87,0},{0.7,0}}" />
+            <Property name="Disabled" value="true" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Image" value="obstacles1"/>
+            <Property name="FrameEnabled" Value="False" />
+            <Property name="BackgroundEnabled" Value="False" />
+            <Property name="Visible" Value="False" />
+        </Window>
+        # FORCEFIELDS IMAGE
+        <Window type="TaharezLook/StaticImage" name="ForcesImage" >
+            <Property name="Area" value="{{0.73,0},{0.5,0},{0.87,0},{0.7,0}}" />
+            <Property name="Disabled" value="true" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Image" value="forces1"/>
+            <Property name="FrameEnabled" Value="False" />
+            <Property name="BackgroundEnabled" Value="False" />
+            <Property name="Visible" Value="False" />
+        </Window>
+        # RANDOMIZE BUTTON
+        <Window type="TaharezLook/Button" name="RandomizeButton" >
+                    <Property name="Area" value="{{0.7,0},{0.78,0},{0.96,0},{0.84,0}}" />
+                    <Property name="MaxSize" value="{{0.2,0},{0.2,0}}" />
+                    <Property name="Text" value="RANDOMIZE" />
+					<Property name="UpButton" value="+SongButton" />
+					<Property name="DownButton" value="StartButton" />
+					<Property name="LeftButton" value="-HealthButton" />
+					<Property name="RightButton" value="+HealthButton" />
+                    <Property name="Font" value="Sans" />
+        </Window>
+        ##############################
         # TIME TEXT
         <Window type="TaharezLook/StaticText" name="TimeText" >
                     <Property name="Area" value="{{0.1,0},{0.4,0},{0.9,0},{0.9,0}}" />

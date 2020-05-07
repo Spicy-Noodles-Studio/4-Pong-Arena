@@ -72,37 +72,67 @@ void Game::createLevel()
 		spawnerTransforms.push_back({ { posX, posY, posZ }, { rotX, rotY, rotZ } });
 	}
 
-	// force field initial transforms
-	GaiaData forceFieldData = levelData[levelBase].find("ForceFieldTransforms");
-	for (int i = 0; i < forceFieldData.size(); i++)
+	if (levelObstacles > 0)
 	{
-		std::stringstream ss(forceFieldData[i][0].getValue());
-		double posX, posY, posZ;
+		// LEVEL OBSTACLES
+		levelData.load("./Assets/Levels/Obstacles.level");
 
-		if (!(ss >> posX >> posY >> posZ))
+		// obstacles initial transforms
+		GaiaData obstacleData = levelData[levelObstacles - 1].find("ObstacleTransforms");
+		for (int i = 0; i < obstacleData.size(); i++)
 		{
-			LOG_ERROR("GAME", "invalid player position \"%s\"", forceFieldData[i][0].getValue().c_str());
-			continue;
+			std::stringstream ss(obstacleData[i][0].getValue());
+			double posX, posY, posZ;
+
+			if (!(ss >> posX >> posY >> posZ))
+			{
+				LOG_ERROR("GAME", "invalid obstacle position \"%s\"", obstacleData[i][0].getValue().c_str());
+				continue;
+			}
+
+			ss = std::stringstream(obstacleData[i][1].getValue());
+			double escX, escY, escZ;
+
+			if (!(ss >> escX >> escY >> escZ))
+			{
+				LOG_ERROR("GAME", "invalid obstacle scale \"%s\"", obstacleData[i][1].getValue().c_str());
+				continue;
+			}
+
+			obstacleTransforms.push_back({ { posX, posY, posZ }, { escX, escY, escZ } });
 		}
-
-		ss = std::stringstream(forceFieldData[i][1].getValue());
-		double rotX, rotY, rotZ;
-
-		if (!(ss >> rotX >> rotY >> rotZ))
-		{
-			LOG_ERROR("GAME", "invalid player rotation \"%s\"", forceFieldData[i][1].getValue().c_str());
-			continue;
-		}
-
-		forceFieldTransforms.push_back({ { posX, posY, posZ }, { rotX, rotY, rotZ } });
 	}
 
-	// LEVEL OBSTACLES
-
-
 	// LEVEL FORCE FIELDS
+	if (levelForces > 0)
+	{
+		levelData.load("./Assets/Levels/ForceFields.level");
 
+		// force field initial transforms
+		GaiaData forceFieldData = levelData[levelForces - 1].find("ForceFieldTransforms");
+		for (int i = 0; i < forceFieldData.size(); i++)
+		{
+			std::stringstream ss(forceFieldData[i][0].getValue());
+			double posX, posY, posZ;
 
+			if (!(ss >> posX >> posY >> posZ))
+			{
+				LOG_ERROR("GAME", "invalid force field position \"%s\"", forceFieldData[i][0].getValue().c_str());
+				continue;
+			}
+
+			ss = std::stringstream(forceFieldData[i][1].getValue());
+			double escX, escY, escZ;
+
+			if (!(ss >> escX >> escY >> escZ))
+			{
+				LOG_ERROR("GAME", "invalid force field scale \"%s\"", forceFieldData[i][1].getValue().c_str());
+				continue;
+			}
+
+			forceFieldTransforms.push_back({ { posX, posY, posZ }, { escX, escY, escZ } });
+		}
+	}
 }
 
 void Game::createPlayers()
@@ -179,7 +209,19 @@ void Game::createForceField()
 	for (int i = 0; i < n; i++)
 	{
 		GameObject* forceField = instantiate("ForceField", forceFieldTransforms[i].first);
-		forceField->transform->setRotation(forceFieldTransforms[i].second);
+		forceField->transform->setScale(forceFieldTransforms[i].second);
+		forceField->setActive(true);
+	}
+}
+
+void Game::createObstacles()
+{
+	int n = obstacleTransforms.size();
+
+	for (int i = 0; i < n; i++)
+	{
+		GameObject* obstacle = instantiate("Obstacle", obstacleTransforms[i].first);
+		obstacle->transform->setScale(obstacleTransforms[i].second);
 	}
 }
 
@@ -229,18 +271,18 @@ void Game::chooseWinner()
 					if (health2->getHealth() > health->getHealth())
 						pos++;
 				}
-				gameManager->getScore()->setTimeAlive(i + 1,gameManager->getInitialTime(),gameManager->getTime());
+				gameManager->getScore()->setTimeAlive(i + 1, gameManager->getInitialTime(), gameManager->getTime());
 				gameManager->getScore()->setPositionOnLeaderBoard(i + 1, pos);
 			}
 		}
 		if (tie)
 		{
 			winnerText.setText("TIE");
-			
+
 		}
 		else
 		{
-			
+
 			if (!win)
 			{
 				winner = majorIndex;
@@ -288,6 +330,7 @@ void Game::start()
 	createPlayers();
 	createSpawners();
 	createForceField();
+	createObstacles();
 	playSong();
 
 	gameTimer = gameManager->getTime();
@@ -308,7 +351,7 @@ void Game::update(float deltaTime)
 	else
 	{
 		finishTimer -= deltaTime;
-		
+
 		if (finishTimer <= 0.0f)
 			SceneManager::GetInstance()->changeScene("LeaderBoardMenu"); // Cambiar a menu de final de partida
 	}
