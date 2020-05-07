@@ -8,20 +8,20 @@
             "ComponentName": "Transform",
             "ComponentProperties": [
                 ["position", "0 1 0"],
-                ["scale", "0.75 1 0.25"],
+                ["scale", "1 1 1"],
                 ["rotation", "0 0 0"]
             ]
         },
         {
             "ComponentName": "MeshRenderer",
             "ComponentProperties": [
-                ["mesh", "paddle Cube.mesh"]
+                ["mesh", "paddle Paddle.mesh"]
             ]
         },
         {
             "ComponentName": "RigidBody",
             "ComponentProperties": [
-                ["shape", "Box"],
+                ["shape", "Capsule"],
                 ["mass", "1"],
                 ["friction", "0"],
                 ["restitution", "1"],
