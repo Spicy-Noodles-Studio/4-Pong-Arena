@@ -6,9 +6,9 @@ material Neon {
         pass {
             lighting on
             ambient 0.19539394974708557 0.9430219531059265 1.0 0.4210527539253235
-            diffuse 0.19539394974708557 0.9430219531059265 1.0 0.4210527539253235
+            diffuse 0.19539394974708557 0.9430219531059265 1.0 1.0
             specular 0.5 0.5 0.5 0.4210527539253235 10.0
-            emissive vertexcolour
+            emissive  0.0 0.0 1.0 1.0
             
             alpha_to_coverage off 
             colour_write on 
