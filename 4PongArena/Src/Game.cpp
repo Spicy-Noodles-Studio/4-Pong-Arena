@@ -19,11 +19,11 @@ void Game::createLevel()
 {
 	GaiaData levelData;
 
-	//level base
-	//levelData.load("./Assets/Levels/" + GameManager::GetInstance()->getLevel() + ".level");
+	// LEVEL BASE
+	levelData.load("./Assets/Levels/Bases.level");
 
 	// player initial transforms
-	GaiaData playerData = levelData.find("PlayerTransforms");
+	GaiaData playerData = levelData[levelBase].find("PlayerTransforms");
 	for (int i = 0; i < playerData.size(); i++)
 	{
 		std::stringstream ss(playerData[i][0].getValue());
@@ -48,7 +48,7 @@ void Game::createLevel()
 	}
 
 	// spawner initial transforms
-	GaiaData spawnerData = levelData.find("SpawnerTransforms");
+	GaiaData spawnerData = levelData[levelBase].find("SpawnerTransforms");
 	for (int i = 0; i < spawnerData.size(); i++)
 	{
 		std::stringstream ss(spawnerData[i][0].getValue());
@@ -73,7 +73,7 @@ void Game::createLevel()
 	}
 
 	// force field initial transforms
-	GaiaData forceFieldData = levelData.find("ForceFieldTransforms");
+	GaiaData forceFieldData = levelData[levelBase].find("ForceFieldTransforms");
 	for (int i = 0; i < forceFieldData.size(); i++)
 	{
 		std::stringstream ss(forceFieldData[i][0].getValue());
@@ -96,6 +96,13 @@ void Game::createLevel()
 
 		forceFieldTransforms.push_back({ { posX, posY, posZ }, { rotX, rotY, rotZ } });
 	}
+
+	// LEVEL OBSTACLES
+
+
+	// LEVEL FORCE FIELDS
+
+
 }
 
 void Game::createPlayers()
@@ -272,6 +279,10 @@ void Game::start()
 
 		winnerText = winnerPanel.getChild("Winner");
 	}
+
+	levelBase = gameManager->getLevelBase();
+	levelObstacles = gameManager->getLevelObstacles();
+	levelForces = gameManager->getLevelForces();
 
 	createLevel();
 	createPlayers();

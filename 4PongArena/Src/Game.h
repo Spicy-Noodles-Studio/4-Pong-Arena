@@ -34,6 +34,10 @@ private:
 	int winner;
 	bool win;
 
+	int levelBase;
+	int levelObstacles;
+	int levelForces;
+
 	void createLevel();
 	void createPlayers();
 	void createSpawners();

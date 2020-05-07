@@ -1,0 +1,50 @@
+[
+    {
+        "RenderMesh" : "SquareRender.mesh",
+        "ColliderMesh" : "Square.mesh",
+        "PlayerTransforms": [
+            ["0 1 2", "0 0 0"],
+            ["0 1 -2", "0 180 0"],
+            ["2 1 0", "0 90 0"],
+            ["-2 1 0", "0 -90 0"]
+        ],
+        "SpawnerTransforms": [
+            ["-2 1 -2", "0 0 0"],
+            ["-2 1 2", "0 0 0"],
+            ["2 1 2", "0 0 0"],
+            ["2 1 -2", "0 0 0"]
+        ]
+    },
+    {
+        "RenderMesh" : "OctagonRender.mesh",
+        "ColliderMesh" : "Octagon.mesh",
+        "PlayerTransforms": [
+            ["0 1 2", "0 0 0"],
+            ["0 1 -2", "0 180 0"],
+            ["2 1 0", "0 90 0"],
+            ["-2 1 0", "0 -90 0"]
+        ],
+        "SpawnerTransforms": [
+            ["-2 1 -2", "0 0 0"],
+            ["-2 1 2", "0 0 0"],
+            ["2 1 2", "0 0 0"],
+            ["2 1 -2", "0 0 0"]
+        ]
+    },
+    {
+        "RenderMesh" : "CrossRender.mesh",
+        "ColliderMesh" : "Cross.mesh",
+        "PlayerTransforms": [
+            ["0 1 2", "0 0 0"],
+            ["0 1 -2", "0 180 0"],
+            ["2 1 0", "0 90 0"],
+            ["-2 1 0", "0 -90 0"]
+        ],
+        "SpawnerTransforms": [
+            ["-2 1 -2", "0 0 0"],
+            ["-2 1 2", "0 0 0"],
+            ["2 1 2", "0 0 0"],
+            ["2 1 -2", "0 0 0"]
+        ]
+    }
+]

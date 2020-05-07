@@ -256,6 +256,10 @@ void ConfigurationMenu::start()
 	//levelNames = std::vector<std::string>(4, "level"); // Placeholder
 	//levelIndex = 0;
 
+	levelBaseType = 0;
+	levelObstaclesType = 0;
+	levelForcesType = 0;
+
 	songNames = std::vector<std::string>(4, "song"); // Placeholder
 	songIndex = 0;
 

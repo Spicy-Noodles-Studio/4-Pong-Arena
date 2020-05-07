@@ -32,7 +32,7 @@
                 {
                     "ComponentName" : "Countdown",
 					"ComponentProperties": [
-                        ["time" , "10"]
+                        ["time" , "3"]
                     ]
                 }
             ]
@@ -99,10 +99,44 @@
             ]
         },
         {
-            "ObjectType": "BLUEPRINT",
-            "ObjectName": "Ground",
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "LevelRender",
+            "Tag": "levelRender",
+            "Components":
+            [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "0 0 0"],
+                        ["scale", "1 1 1"],
+                        ["rotation", "0 0 0"]
+                    ]
+                },
+                {
+                    "ComponentName": "MeshRenderer"
+                }
+            ]
+        },
+        {
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "LevelCollider",
             "Tag": "ground",
-            "BlueprintPath": "Ground"
+            "Components":
+            [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "0 0 0"],
+                        ["scale", "1 1 1"]
+                    ]
+                },
+                {
+                    "ComponentName": "MeshRenderer"
+                },
+                {
+                    "ComponentName": "Strider"
+                }
+            ]
         }
     ]
 }
