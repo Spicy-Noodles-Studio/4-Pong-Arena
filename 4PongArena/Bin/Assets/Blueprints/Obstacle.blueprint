@@ -1,7 +1,7 @@
 {
     "ObjectType": "GAMEOBJECT",
     "ObjectName": "Obstacle",
-    "Tag": "spawner",
+    "Tag": "obstacle",
     "Components":
     [
         {
@@ -13,7 +13,7 @@
         {
             "ComponentName": "MeshRenderer",
             "ComponentProperties": [
-                ["mesh", "obstacle Cylinder.mesh"]
+                ["mesh", "obstacle Obstacle.mesh"]
             ]
         },
         {
@@ -25,7 +25,7 @@
                 ["restitution", "1"],
                 ["damping", "0"],
                 ["angularDamping", "0"],
-                ["scale", "1 1 1"]
+                ["scale", "0.5 1 0.5"]
             ]
         }
     ]

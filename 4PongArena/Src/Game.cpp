@@ -3,6 +3,9 @@
 #include <SceneManager.h>
 #include <UILayout.h>
 #include <GameObject.h>
+#include <RigidBody.h>
+#include <MeshRenderer.h>
+#include <Strider.h>
 
 #include "PlayerController.h"
 #include "IAPaddle.h"
@@ -21,6 +24,14 @@ void Game::createLevel()
 
 	// LEVEL BASE
 	levelData.load("./Assets/Levels/Bases.level");
+
+	std::string renderName = levelData[levelBase].find("RenderMesh").getValue();
+	std::string colliderName = levelData[levelBase].find("ColliderMesh").getValue();
+
+	// render mesh
+	//configureLevelRender(renderName);
+	// collider mesh
+	configureLevelCollider(colliderName);
 
 	// player initial transforms
 	GaiaData playerData = levelData[levelBase].find("PlayerTransforms");
@@ -194,7 +205,7 @@ void Game::createSpawners()
 		GameObject* spawner = instantiate("Spawner", spawnerTransforms[i].first);
 		spawner->transform->setRotation(spawnerTransforms[i].second);
 		spawner->setActive(true);
-		spawner->getChildren()[0]->setActive(true);
+		//spawner->getChildren()[0]->setActive(true);
 
 		aux.push_back(spawner);
 	}
@@ -210,6 +221,7 @@ void Game::createForceField()
 	{
 		GameObject* forceField = instantiate("ForceField", forceFieldTransforms[i].first);
 		forceField->transform->setScale(forceFieldTransforms[i].second);
+		forceField->getComponent<RigidBody>()->multiplyScale(forceFieldTransforms[i].second);
 		forceField->setActive(true);
 	}
 }
@@ -217,12 +229,59 @@ void Game::createForceField()
 void Game::createObstacles()
 {
 	int n = obstacleTransforms.size();
-
+	
 	for (int i = 0; i < n; i++)
 	{
 		GameObject* obstacle = instantiate("Obstacle", obstacleTransforms[i].first);
 		obstacle->transform->setScale(obstacleTransforms[i].second);
+		obstacle->setActive(true);
 	}
+}
+
+void Game::configureLevelRender(const std::string& name)
+{
+	GameObject* levelRender = findGameObjectWithName("LevelRender");
+	if (levelRender == nullptr)
+	{
+		LOG_ERROR("GAME", "LevelRender object not found on scene");
+		return;
+	}
+
+	MeshRenderer* meshRenderer = levelRender->getComponent<MeshRenderer>();
+	if (meshRenderer == nullptr)
+	{
+		LOG_ERROR("GAME", "MeshRenderer not found"); return;
+	}
+
+	meshRenderer->setMesh("levelRender", name);
+	meshRenderer->attachEntityToNode("levelRender");
+}
+
+void Game::configureLevelCollider(const std::string& name)
+{
+	GameObject* levelCollider = findGameObjectWithName("LevelCollider");
+	if (levelCollider == nullptr)
+	{
+		LOG_ERROR("GAME", "LevelCollider object not found on scene"); return;
+	}
+
+	MeshRenderer* meshRenderer = levelCollider->getComponent<MeshRenderer>();
+	if (meshRenderer == nullptr)
+	{
+		LOG_ERROR("GAME", "MeshRenderer not found"); return;
+	}
+
+	Strider* strider = levelCollider->getComponent<Strider>();
+	if (strider == nullptr)
+	{
+		LOG_ERROR("GAME", "Strider not found"); return;
+	}
+
+	meshRenderer->setMesh("levelCollider", name);
+	meshRenderer->attachEntityToNode("levelCollider");
+	meshRenderer->setVisible(false);
+	strider->stride("levelCollider");
+	strider->setFriction(0.5f);
 }
 
 void Game::playSong()

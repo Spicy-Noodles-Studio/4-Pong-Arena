@@ -45,6 +45,9 @@ private:
 	void createForceField();
 	void createObstacles();
 
+	void configureLevelRender(const std::string& name);
+	void configureLevelCollider(const std::string& name);
+
 	void playSong();
 	void chooseWinner();
 
