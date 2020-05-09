@@ -171,7 +171,7 @@ bool ConfigurationMenu::changeLevelForces(int value)
 
 bool ConfigurationMenu::randomizeLevel()
 {
-	levelBaseType = random(0, BASE_TYPES + 1);
+	levelBaseType = random(0, BASE_TYPES);
 	levelObstaclesType = random(0, OBSTACLES_TYPES + 1);
 	levelForcesType = random(0, FORCES_TYPES + 1);
 

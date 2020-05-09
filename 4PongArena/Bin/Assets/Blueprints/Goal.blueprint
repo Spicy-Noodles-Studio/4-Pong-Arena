@@ -8,7 +8,7 @@
             "ComponentName": "Transform",
             "ComponentProperties": [
                 ["position", "0 0 0"],
-                ["scale", "1 6.5 1"],
+                ["scale", "1 6 1"],
                 ["rotation" , "0 0 0"]
             ]
         },
@@ -25,7 +25,10 @@
                 ["offset", "0 0 0"],
                 ["scale", "1 1 1"],
                 ["kinematic", "1"],
-                ["trigger", "1"]
+                ["trigger", "1"],
+                ["collisionGroup", "ColGroup2"],
+                ["collidesWith", "Default"]
+                
             ]
         },
         {

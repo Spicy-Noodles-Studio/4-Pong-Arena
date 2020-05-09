@@ -134,7 +134,11 @@
                     "ComponentName": "MeshRenderer"
                 },
                 {
-                    "ComponentName": "Strider"
+                    "ComponentName": "Strider",
+                    "ComponentProperties": [
+                        ["collisionGroup", "ColGroup1"],
+                        ["collidesWith", "Default"]
+                    ]
                 }
             ]
         }
