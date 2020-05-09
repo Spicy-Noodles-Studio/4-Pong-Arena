@@ -184,7 +184,10 @@ void Game::createPlayers()
 			{
 				GameObject* wall = instantiate("Wall", playerTransforms[i + nPlayers].first);
 				wall->transform->setRotation(playerTransforms[i + nPlayers].second);
-				wall->setActive(true);
+				RigidBody* wallRigidBody = wall->getComponent<RigidBody>();
+				wallRigidBody->setStatic(true);
+				wallRigidBody->setFriction(0.5f);
+				wallRigidBody->setActive(true);
 			}
 		}
 	}
@@ -229,7 +232,7 @@ void Game::createForceField()
 void Game::createObstacles()
 {
 	int n = obstacleTransforms.size();
-	
+
 	for (int i = 0; i < n; i++)
 	{
 		GameObject* obstacle = instantiate("Obstacle", obstacleTransforms[i].first);
@@ -407,7 +410,7 @@ void Game::update(float deltaTime)
 		if (gameLayout != nullptr)
 			timeText.setText(std::to_string((int)gameTimer % 60));
 	}
-	else
+	else if (gameTimer == 0)
 	{
 		finishTimer -= deltaTime;
 

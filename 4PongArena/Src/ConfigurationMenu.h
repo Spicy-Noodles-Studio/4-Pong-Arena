@@ -7,9 +7,11 @@
 
 const int MIN_TIME = 60;
 const int MAX_TIME = 300;
+const int CHANGE_TIME = 10;
 
 const int MIN_HEALTH = 1;
 const int MAX_HEALTH = 15;
+const int CHANGE_HEALTH = 1;
 
 const int BASE_TYPES = 2;
 const int OBSTACLES_TYPES = 2;

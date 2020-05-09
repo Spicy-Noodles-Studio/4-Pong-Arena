@@ -45,6 +45,9 @@ void ConfigurationMenu::fillSlot(int slotIndex, int deviceIndex)
 		slots[slotIndex].second.getChild("TypeText").setText("Controller");
 
 	filledSlots++;
+
+	/*if (!startButton.isVisible() && (!IA && filledSlots > 1 || IA))
+		startButton.setVisible(true);*/
 }
 
 int ConfigurationMenu::isSlotFilled(int index)
@@ -65,6 +68,8 @@ void ConfigurationMenu::clearSlot(int index)
 	slots[index].second.setVisible(false);
 
 	filledSlots--;
+
+
 }
 
 void ConfigurationMenu::reorderSlots(int index)
@@ -103,7 +108,10 @@ bool ConfigurationMenu::changeTime(int value)
 	if (time < MIN_TIME) time = MIN_TIME;
 	if (time > MAX_TIME) time = MAX_TIME;
 
-	configurationLayout->getRoot().getChild("Time").setText(std::to_string(time));
+	if (time == MAX_TIME)
+		configurationLayout->getRoot().getChild("Time").setText("INFINITE");
+	else
+		configurationLayout->getRoot().getChild("Time").setText(std::to_string(time));
 
 	return false;
 }
@@ -206,9 +214,12 @@ bool ConfigurationMenu::startButtonClick()
 
 	gameManager->setSong(songNames[songIndex]);
 
+	if (time != MAX_TIME)
+		gameManager->setTime(time);
+	else
+		gameManager->setTime(-1);
 
-	if (!IA && filledSlots > 1 || IA)
-		SceneManager::GetInstance()->changeScene("Game");
+	SceneManager::GetInstance()->changeScene("Game");
 
 	return false;
 }
@@ -225,11 +236,11 @@ ConfigurationMenu::ConfigurationMenu(GameObject* gameObject) : UserComponent(gam
 
 	interfaceSystem->registerEvent("checkBoxClick", UIEvent("ToggleClicked", [this]() {return changeFiller(!IA); }));
 
-	interfaceSystem->registerEvent("-healthButtonClick", UIEvent("ButtonClicked", [this]() {return changeHealth(-1); }));
-	interfaceSystem->registerEvent("+healthButtonClick", UIEvent("ButtonClicked", [this]() {return changeHealth(+1); }));
+	interfaceSystem->registerEvent("-healthButtonClick", UIEvent("ButtonClicked", [this]() {return changeHealth(-CHANGE_HEALTH); }));
+	interfaceSystem->registerEvent("+healthButtonClick", UIEvent("ButtonClicked", [this]() {return changeHealth(+CHANGE_HEALTH); }));
 
-	interfaceSystem->registerEvent("-timeButtonClick", UIEvent("ButtonClicked", [this]() {return changeTime(-10); }));
-	interfaceSystem->registerEvent("+timeButtonClick", UIEvent("ButtonClicked", [this]() {return changeTime(+10); }));
+	interfaceSystem->registerEvent("-timeButtonClick", UIEvent("ButtonClicked", [this]() {return changeTime(-CHANGE_TIME); }));
+	interfaceSystem->registerEvent("+timeButtonClick", UIEvent("ButtonClicked", [this]() {return changeTime(+CHANGE_TIME); }));
 
 	interfaceSystem->registerEvent("-songButtonClick", UIEvent("ButtonClicked", [this]() {return changeSong(-1); }));
 	interfaceSystem->registerEvent("+songButtonClick", UIEvent("ButtonClicked", [this]() {return changeSong(+1); }));
@@ -314,4 +325,16 @@ void ConfigurationMenu::start()
 void ConfigurationMenu::update(float deltaTime)
 {
 	checkInput();
+
+	if (!IA && filledSlots > 1 || IA)
+	{
+		if (!startButton.isVisible())
+			startButton.setVisible(true);
+	}
+	else
+	{
+		if (startButton.isVisible())
+			startButton.setVisible(false);
+	}
+
 }

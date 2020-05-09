@@ -96,8 +96,6 @@ void Death::die()
 	}
 	manager->setPlayersAlive(manager->getPlayersAlive() - 1);
 
-
-
 	SpawnerManager* spawnerManager = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>();
 
 	if (spawnerManager->getGenerationTime() / 2 < spawnerManager->getMinimumTime())
