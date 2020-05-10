@@ -28,10 +28,11 @@ void Game::createLevel()
 	std::string renderName = levelData[levelBase].find("RenderMesh").getValue();
 	std::string colliderName = levelData[levelBase].find("ColliderMesh").getValue();
 
-	// render mesh
-	//configureLevelRender(renderName);
 	// collider mesh
 	configureLevelCollider(colliderName);
+	// render mesh
+	configureLevelRender(renderName);
+
 
 	// player initial transforms
 	GaiaData playerData = levelData[levelBase].find("PlayerTransforms");
