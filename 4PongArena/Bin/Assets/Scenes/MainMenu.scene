@@ -1,16 +1,11 @@
 {
     "SceneName": "MainMenu",
     "SceneObjects": [
-        {
-            "ObjectType": "GAMEOBJECT",
-            "ObjectName": "MainMenu",
-            "Tag": "mainMenu",
-            "Components":
-            [
-                {
-                    "ComponentName": "MainMenu"
-                }
-            ]
+		{
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "MusicEmitter",
+            "Tag": "MusicEmitter",
+            "BlueprintPath": "MusicEmitter"
         },
         {
             "ObjectType": "GAMEOBJECT",
@@ -20,6 +15,17 @@
             [
                 {
                     "ComponentName": "GameManager"
+                }
+            ]
+        },
+        {
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "MainMenu",
+            "Tag": "mainMenu",
+            "Components":
+            [
+                {
+                    "ComponentName": "MainMenu"
                 }
             ]
         },
@@ -34,7 +40,7 @@
                     "ComponentName": "UILayout",
                     "ComponentProperties": [
                         ["layout" , "MainMenu.layout"],
-                        ["event" , "SinglePlayerButton singlePlayerButtonClick | MultiplayerButton multiplayerButtonClick | OptionsButton optionsButtonClick | ExitButton exitButtonClick"]
+                        ["event" , "SinglePlayerButton multiplayerButtonClick | MultiplayerButton multiplayerButtonClick | OptionsButton optionsButtonClick | ExitButton exitButtonClick"]
                     ]
                 }
             ]

@@ -3,6 +3,7 @@
 #include <SceneManager.h>
 #include <UILayout.h>
 #include <GameObject.h>
+#include <SoundSystem.h>
 
 #include "PlayerController.h"
 #include "IAPaddle.h"

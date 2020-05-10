@@ -1,10 +1,9 @@
 ﻿#include "GameManager.h"
 #include <Timer.h>
-
-
-
-
 #include <ComponentRegister.h>
+
+#include <SoundEmitter.h>
+#include <GameObject.h>
 
 
 REGISTER_FACTORY(GameManager);
@@ -162,4 +161,34 @@ bool GameManager::isPaused()
 Score* GameManager::getScore()
 {
 	return &scores;
+}
+
+void GameManager::playMusic(std::string music)
+{
+	soundEmitter->playMusic(music);
+}
+
+void GameManager::stopMusic()
+{
+	soundEmitter->stopMusicAll();
+}
+
+void GameManager::setCurrentMusic(std::string _currentMusic)
+{
+	currentMusic = _currentMusic;
+}
+
+std::string GameManager::getCurrentMusic()
+{
+	return currentMusic;
+}
+
+void GameManager::registerMusicEmitter(MusicEmitter* mEmitter)
+{
+	soundEmitter = mEmitter;
+}
+
+bool GameManager::musicEmitterReady()
+{
+	return (soundEmitter != nullptr);
 }

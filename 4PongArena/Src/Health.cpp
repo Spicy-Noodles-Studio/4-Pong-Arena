@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include <ComponentRegister.h>
+#include <SoundEmitter.h>
 
 REGISTER_FACTORY(Health);
 
@@ -14,6 +15,11 @@ Health::Health(GameObject* gameObject) : UserComponent(gameObject), health(0)
 Health::~Health()
 {
 
+}
+
+void Health::start()
+{
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
 }
 
 void Health::handleData(ComponentData* data)
@@ -45,6 +51,7 @@ void Health::setHealth(int health)
 void Health::receiveDamage(int damage)
 {
 	health -= damage;
+	if (health > 0) soundEmitter->playSound("Damage");
 	if (health < 0) health = 0;
 }
 

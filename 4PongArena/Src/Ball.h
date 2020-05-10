@@ -5,11 +5,14 @@
 #include <UserComponent.h>
 
 class RigidBody;
+class SoundEmitter;
 
 class Ball : public UserComponent
 {
 private:
 	RigidBody* rigidBody;
+	SoundEmitter* soundEmitter;
+
 	float velocity;
 	float targetVelocity;
 	float acceleration;
@@ -29,6 +32,8 @@ public:
 	
 	void setIdPlayerHit(int id);
 	int getIdPlayerHit();
+
+	virtual void onCollisionEnter(GameObject* other);
 };
 
 #endif

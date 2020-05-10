@@ -5,12 +5,15 @@
 #include <UserComponent.h>
 #include "Player.h"
 #include "Score.h"
+#include "MusicEmitter.h"
 //class Score;
 
 class GameManager : public UserComponent
 {
 private:
 	static GameManager* instance;
+
+	MusicEmitter* soundEmitter;
 
 	int playersAlive;
 	std::vector<Player> players;
@@ -31,6 +34,7 @@ private:
 
 	Score scores;
 
+	std::string currentMusic;
 
 public:
 	GameManager();
@@ -73,6 +77,12 @@ public:
 
 	Score* getScore();
 
+	void playMusic(std::string music);
+	void stopMusic();
+	void setCurrentMusic(std::string _currentMusic);
+	std::string getCurrentMusic();
+	void registerMusicEmitter(MusicEmitter* mEmitter);
+	bool musicEmitterReady();
 };
 
 #endif

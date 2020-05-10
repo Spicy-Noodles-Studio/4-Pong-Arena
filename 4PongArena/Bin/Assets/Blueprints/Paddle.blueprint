@@ -36,6 +36,9 @@
                 ["velocity", "5.0"]
             ]
         },
+		{
+            "ComponentName": "SoundEmitter"
+        },
         {
             "ComponentName": "PlayerController"
         },

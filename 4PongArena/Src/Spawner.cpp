@@ -7,6 +7,7 @@
 #include "Ball.h"
 
 #include <ComponentRegister.h>
+#include <SoundEmitter.h>
 
 REGISTER_FACTORY(Spawner);
 
@@ -55,5 +56,12 @@ void Spawner::shoot(GameObject* ball)
 		ball->getComponent<Ball>()->setTargetVelocity(velocity);
 
 		ball->getComponent<RigidBody>()->setLinearVelocity(direction.normalized() * velocity);
+
+		if (soundEmitter != nullptr) soundEmitter->playSound("Ball_Launch");
 	}
+}
+
+void Spawner::start()
+{
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
 }

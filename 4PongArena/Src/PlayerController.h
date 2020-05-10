@@ -7,13 +7,18 @@
 
 class InputSystem;
 class Movement;
+class SoundEmitter;
 
 class PlayerController : public UserComponent
 {
 private:
 	InputSystem* inputSystem;
 	Movement* movement;
+	SoundEmitter* soundEmitter;
 	Player player;
+
+	bool hasMoved;
+	bool moving;
 
 public:
 	PlayerController(GameObject* gameObject);
@@ -27,10 +32,12 @@ public:
 	Player getPlayer() const;
 
 private:
-	void checkInput() const;
+	void checkInput();
 	Vector3 getInputAxis() const;
 	Vector3 getKeyboardAxis() const;
 	Vector3 getControllerAxis() const;
+
+	void setMoving(bool _moving);
 };
 
 #endif

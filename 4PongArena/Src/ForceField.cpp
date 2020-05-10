@@ -7,6 +7,7 @@
 #include "Ball.h"
 
 #include <ComponentRegister.h>
+#include <SoundEmitter.h>
 
 REGISTER_FACTORY(ForceField);
 
@@ -73,15 +74,21 @@ void ForceField::onObjectEnter(GameObject* other)
 	if (currentState == State::DISABLED) return;
 
 	RigidBody* rigidBody = other->getComponent<RigidBody>();
+	SoundEmitter* soundEmitter = other->getComponent<SoundEmitter>();
 	Ball* ball = other->getComponent<Ball>();
 
 	if (ball == nullptr || rigidBody == nullptr) return;
 
-	if (currentState != State::FORWARDS)
+	std::string soundToPlay = "Impulse";
+
+	if (currentState != State::FORWARDS) {
 		rigidBody->setLinearVelocity(rigidBody->getLinearVelocity() * -1);
+		soundToPlay = "Force_Bounce";
+	}
 
 	ball->setTargetVelocity(targetVelocity);
 	ball->setAcceleration(acceleration);
+	if(soundEmitter != nullptr)soundEmitter->playSound(soundToPlay);
 }
 
 /// States: "DISABLED" | "FORWARDS" | "BACKWARDS"

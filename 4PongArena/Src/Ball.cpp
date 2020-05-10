@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include <ComponentRegister.h>
+#include <SoundEmitter.h>
 
 REGISTER_FACTORY(Ball);
 
@@ -20,6 +21,7 @@ Ball::~Ball()
 void Ball::start()
 {
 	rigidBody = gameObject->getComponent<RigidBody>();
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
 }
 
 void Ball::update(float deltaTime)
@@ -56,4 +58,22 @@ void Ball::setIdPlayerHit(int id)
 int Ball::getIdPlayerHit()
 {
 	return idPlayer;
+}
+
+void Ball::onCollisionEnter(GameObject* other)
+{
+	if (soundEmitter == nullptr) return;
+
+	std::string soundToPlay = "NO SOUND";
+	if (other->getTag() == "wall" || other->getTag() == "spawner") {
+		soundToPlay = "Wall_Bounce";
+	}
+	else if (other->getTag() == "ball") {
+		soundToPlay = "Ball_bounce_hard";
+	}
+	else if (other->getTag() == "paddle" || other->getTag() == "paddleIA") {
+		soundToPlay = "Ball_bounce";
+	}
+
+	if(soundToPlay != "NO SOUND") soundEmitter->playSound(soundToPlay);
 }

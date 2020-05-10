@@ -8,6 +8,7 @@
 #include "GameManager.h"
 #include "Score.h"
 #include <ComponentRegister.h>
+#include <SoundEmitter.h>
 
 REGISTER_FACTORY(ConfigurationMenu);
 
@@ -20,8 +21,10 @@ void ConfigurationMenu::checkInput()
 		bool enterButton = (i < 4 && inputSystem->getButtonPress(i, "A")) || (i == 4 && inputSystem->getKeyPress("Space"));
 		bool exitButton = (i < 4 && (inputSystem->getButtonPress(i, "B") || !inputSystem->isControllerConnected(i))) || (i == 4 && inputSystem->getKeyPress("ESCAPE"));
 
-		if (filledSlots < 4 && slotIndex == -1 && enterButton)
+		if (filledSlots < 4 && slotIndex == -1 && enterButton) {
 			fillSlot(filledSlots, i);
+			buttonClick(playerAddedSound);
+		}
 		else if (slotIndex != -1 && exitButton)
 		{
 			clearSlot(slotIndex);
@@ -79,6 +82,7 @@ bool ConfigurationMenu::changeFiller(bool value)
 {
 	IA = value;
 	GameManager::GetInstance()->setIA(value);
+	buttonClick(buttonSound);
 
 	return false;
 }
@@ -91,7 +95,7 @@ bool ConfigurationMenu::changeHealth(int value)
 	if (health > MAX_HEALTH) health = MAX_HEALTH;
 
 	configurationLayout->getRoot().getChild("Health").setText(std::to_string(health));
-
+	buttonClick(buttonSound);
 	return false;
 }
 
@@ -103,7 +107,7 @@ bool ConfigurationMenu::changeTime(int value)
 	if (time > MAX_TIME) time = MAX_TIME;
 
 	configurationLayout->getRoot().getChild("Time").setText(std::to_string(time));
-
+	buttonClick(buttonSound);
 	return false;
 }
 
@@ -115,7 +119,7 @@ bool ConfigurationMenu::changeLevel(int value)
 	if (levelIndex > levelNames.size() - 1) levelIndex = levelNames.size() - 1;
 
 	configurationLayout->getRoot().getChild("Level").setText(levelNames[levelIndex]);
-
+	buttonClick(buttonSound);
 	return false;
 }
 
@@ -127,14 +131,13 @@ bool ConfigurationMenu::changeSong(int value)
 	if (songIndex > songNames.size() - 1) songIndex = songNames.size() - 1;
 
 	configurationLayout->getRoot().getChild("Song").setText(songNames[songIndex]);
-
+	buttonClick(buttonSound);
 	return false;
 }
 
 bool ConfigurationMenu::startButtonClick()
 {
 	GameManager* gameManager = GameManager::GetInstance();
-
 	std::vector<Player> players;
 	for (int i = 0; i < filledSlots; i++)
 	{
@@ -156,16 +159,18 @@ bool ConfigurationMenu::startButtonClick()
 	if (!IA && filledSlots > 1 || IA)
 		SceneManager::GetInstance()->changeScene("Game");
 
+	buttonClick(startSound);
 	return false;
 }
 
 bool ConfigurationMenu::backButtonClick()
 {
 	SceneManager::GetInstance()->changeScene("MainMenu");
+	buttonClick(backSound);
 	return false;
 }
 
-ConfigurationMenu::ConfigurationMenu(GameObject* gameObject) : UserComponent(gameObject), inputSystem(nullptr), configurationLayout(nullptr), startButton(NULL)
+ConfigurationMenu::ConfigurationMenu(GameObject* gameObject) : Menu(gameObject), inputSystem(nullptr), configurationLayout(nullptr), startButton(NULL)
 {
 	InterfaceSystem* interfaceSystem = InterfaceSystem::GetInstance();
 
@@ -211,6 +216,7 @@ ConfigurationMenu::~ConfigurationMenu()
 
 void ConfigurationMenu::start()
 {
+	Menu::start();
 	inputSystem = InputSystem::GetInstance();
 
 	GameObject* mainCamera = findGameObjectWithName("MainCamera");

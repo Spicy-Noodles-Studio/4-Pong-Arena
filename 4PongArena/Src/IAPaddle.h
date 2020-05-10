@@ -5,6 +5,7 @@
 #include <UserComponent.h>
 
 class Movement;
+class SoundEmitter;
 
 class IAPaddle : public UserComponent
 {
@@ -13,6 +14,7 @@ private:
 	State currentState;
 	GameObject* targetBall;
 	Movement* movement;
+	SoundEmitter* soundEmitter;
 
 	float decisionTime;
 	float decisionTimer;

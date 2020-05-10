@@ -8,6 +8,7 @@
 #include "SpawnerManager.h"
 
 #include <ComponentRegister.h>
+#include <SoundEmitter.h>
 
 REGISTER_FACTORY(IAPaddle);
 
@@ -24,6 +25,7 @@ IAPaddle::~IAPaddle()
 void IAPaddle::start()
 {
 	movement = gameObject->getComponent<Movement>();
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
 }
 
 void IAPaddle::update(float deltaTime)
@@ -93,6 +95,7 @@ void IAPaddle::processChooseTargetState()
 
 	//De todas las que se dirigen a mi, elijo una random
 	targetBall = validBalls[rand() % validBalls.size()];
+	soundEmitter->playSound("Paddle_Move");
 	currentState = State::MOVE;
 }
 
