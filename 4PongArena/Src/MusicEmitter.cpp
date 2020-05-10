@@ -44,3 +44,8 @@ void MusicEmitter::stopMusicAll()
 	soundEmitter->stopAll();
 }
 
+void MusicEmitter::setVolume(float volume)
+{
+	soundEmitter->setVolume(volume);
+}
+

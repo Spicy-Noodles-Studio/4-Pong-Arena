@@ -26,6 +26,7 @@ void IAPaddle::start()
 {
 	movement = gameObject->getComponent<Movement>();
 	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	soundEmitter->setVolume(0.8);
 }
 
 void IAPaddle::update(float deltaTime)

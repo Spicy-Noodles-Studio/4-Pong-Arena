@@ -79,9 +79,8 @@ public:
 
 	void playMusic(std::string music);
 	void stopMusic();
-	void setCurrentMusic(std::string _currentMusic);
-	std::string getCurrentMusic();
 	void registerMusicEmitter(MusicEmitter* mEmitter);
+	void setMusicVolume(float volume);
 	bool musicEmitterReady();
 };
 

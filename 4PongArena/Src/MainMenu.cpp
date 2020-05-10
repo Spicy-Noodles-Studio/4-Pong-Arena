@@ -38,6 +38,18 @@ bool MainMenu::exitButtonClick()
 	return false;
 }
 
+void MainMenu::initMusic()
+{
+	if (GameManager::GetInstance()->getSong() != "Menu_loop" && GameManager::GetInstance()->musicEmitterReady()) {
+		GameManager::GetInstance()->stopMusic();
+		GameManager::GetInstance()->playMusic("Menu_loop");
+		GameManager::GetInstance()->setSong("Menu_loop");
+		GameManager::GetInstance()->setMusicVolume(0.3);
+		musicPlaying = true;
+	}
+	else musicPlaying = false;
+}
+
 MainMenu::MainMenu(GameObject* gameObject) : Menu(gameObject)
 {
 	InterfaceSystem* interfaceSystem = InterfaceSystem::GetInstance();
@@ -61,23 +73,12 @@ MainMenu::~MainMenu()
 void MainMenu::start()
 {
 	Menu::start();
-	if (GameManager::GetInstance()->getCurrentMusic() != "Menu_loop" && GameManager::GetInstance()->musicEmitterReady()) {
-		GameManager::GetInstance()->stopMusic();
-		GameManager::GetInstance()->playMusic("Menu_loop");
-		GameManager::GetInstance()->setCurrentMusic("Menu_loop");
-		musicPlaying = true;
-	}
-	else musicPlaying = false;
+	initMusic();
 }
 
 void MainMenu::update(float deltaTime)
 {
 	if (!musicPlaying) {
-		if (GameManager::GetInstance()->getCurrentMusic() != "Menu_loop" && GameManager::GetInstance()->musicEmitterReady()) {
-			GameManager::GetInstance()->stopMusic();
-			GameManager::GetInstance()->playMusic("Menu_loop");
-			GameManager::GetInstance()->setCurrentMusic("Menu_loop");
-			musicPlaying = true;
-		}
+		initMusic();
 	}
 }

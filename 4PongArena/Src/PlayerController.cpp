@@ -25,6 +25,7 @@ void PlayerController::start()
 	inputSystem = InputSystem::GetInstance();
 	movement = gameObject->getComponent<Movement>();
 	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	soundEmitter->setVolume(0.8);
 	moving = false;
 	hasMoved = false;
 }

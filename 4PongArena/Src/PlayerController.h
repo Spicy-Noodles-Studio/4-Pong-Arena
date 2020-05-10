@@ -36,8 +36,6 @@ private:
 	Vector3 getInputAxis() const;
 	Vector3 getKeyboardAxis() const;
 	Vector3 getControllerAxis() const;
-
-	void setMoving(bool _moving);
 };
 
 #endif

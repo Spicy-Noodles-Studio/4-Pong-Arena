@@ -21,3 +21,4 @@ EXAMPLE: despacito.mp3 scene_1_music 2D true
 ./Assets/Sounds/Game_Effects/Countdown.wav Countdown 2D false
 ./Assets/Sounds/Game_Effects/Countdown_end.wav Countdown_end 2D false
 ./Assets/Sounds/Music/Menu_loop.wav Menu_loop 2D true
+./Assets/Sounds/Music/Bloody_Mary.mp3 BloodyMary 2D true

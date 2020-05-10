@@ -22,6 +22,7 @@ public:
 	void playMusic(const std::string& sound);
 	void stopMusic(const std::string& sound);
 	void stopMusicAll();
+	void setVolume(float volume);
 };
 
 #endif

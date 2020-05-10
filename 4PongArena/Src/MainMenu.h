@@ -19,6 +19,8 @@ private:
 	bool optionsButtonClick();
 	bool exitButtonClick();
 
+	void initMusic();
+
 public:
 	MainMenu(GameObject* gameObject);
 	virtual ~MainMenu();

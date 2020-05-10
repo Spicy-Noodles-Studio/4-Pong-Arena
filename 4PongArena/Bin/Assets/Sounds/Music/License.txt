@@ -4,3 +4,9 @@ Menu_loop:
 	(You can use this for all commercial and non-commercial projects. 
 	You are not allowed to redistribute/sell the loops as they are, only as part of a 		project )
 	
+
+Bloody_Mary:
+	Bloody Mary by Electronic Senses | https://soundcloud.com/electronicsenses
+	Music promoted by https://www.free-stock-music.com
+	Creative Commons Attribution-ShareAlike 3.0 Unported
+	https://creativecommons.org/licenses/by-sa/3.0/deed.en_US

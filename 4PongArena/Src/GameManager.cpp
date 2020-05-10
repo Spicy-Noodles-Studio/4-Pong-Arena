@@ -129,8 +129,8 @@ std::string GameManager::getLastLevel() const
 
 void GameManager::setSong(std::string song)
 {
+	lastSong = this->song;
 	this->song = song;
-	this->lastSong = song;
 }
 
 std::string GameManager::getSong() const
@@ -166,6 +166,7 @@ Score* GameManager::getScore()
 void GameManager::playMusic(std::string music)
 {
 	soundEmitter->playMusic(music);
+
 }
 
 void GameManager::stopMusic()
@@ -173,19 +174,14 @@ void GameManager::stopMusic()
 	soundEmitter->stopMusicAll();
 }
 
-void GameManager::setCurrentMusic(std::string _currentMusic)
-{
-	currentMusic = _currentMusic;
-}
-
-std::string GameManager::getCurrentMusic()
-{
-	return currentMusic;
-}
-
 void GameManager::registerMusicEmitter(MusicEmitter* mEmitter)
 {
 	soundEmitter = mEmitter;
+}
+
+void GameManager::setMusicVolume(float volume)
+{
+	soundEmitter->setVolume(volume);
 }
 
 bool GameManager::musicEmitterReady()
