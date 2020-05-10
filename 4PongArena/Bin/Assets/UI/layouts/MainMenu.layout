@@ -11,6 +11,7 @@
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="Image" value="title"/>
             <Property name="FrameEnabled" Value="False" />
+            <Property name="BackgroundEnabled" Value="False" />
         </Window>
         # SINGLE PLAYER
         <Window type="TaharezLook/Button" name="SinglePlayerButton" >
