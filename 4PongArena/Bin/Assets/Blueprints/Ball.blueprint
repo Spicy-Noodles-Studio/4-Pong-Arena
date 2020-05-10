@@ -13,7 +13,8 @@
         {
             "ComponentName": "MeshRenderer",
             "ComponentProperties": [
-                ["mesh", "ball Sphere.mesh"]
+                ["mesh", "ball Sphere.mesh"],
+                ["material", "ball Ball"]
             ]
         },
         {
