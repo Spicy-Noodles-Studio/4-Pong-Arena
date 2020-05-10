@@ -30,7 +30,7 @@ void Death::start()
 
 	rigidBody = gameObject->getComponent<RigidBody>();
 	health = gameObject->getComponent<Health>();
-
+	meshRenderer = gameObject->getComponent<MeshRenderer>();
 	///Para no repetirlos por el codigo y evitar errores.
 	manager = GameManager::GetInstance();
 	if(manager!=nullptr)
@@ -75,6 +75,11 @@ void Death::handleData(ComponentData* data)
 	}
 }
 
+void Death::setPlayerColour(Vector3 colour)
+{
+	playerColour = colour;
+}
+
 void Death::die()
 {
 	gameObject->transform->setPosition(initialPosition);
@@ -82,11 +87,15 @@ void Death::die()
 
 	if (wallMeshId != "" || wallMeshName != "")
 	{
-		gameObject->getComponent<MeshRenderer>()->changeMesh(wallMeshId, wallMeshName);
+		if (meshRenderer != nullptr) {
+			meshRenderer->changeMesh(wallMeshId, wallMeshName);
+			meshRenderer->setDiffuse(0, playerColour, 1);
+		}
 
 		Vector3 scaleRatio = wallScale / gameObject->transform->getScale();
 		gameObject->transform->setScale(wallScale);
 		rigidBody->multiplyScale(scaleRatio);
+
 	}
 
 	if (id != -1 && scores!=nullptr)

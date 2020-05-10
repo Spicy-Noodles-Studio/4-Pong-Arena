@@ -8,6 +8,7 @@ class RigidBody;
 class Health;
 class Score;
 class GameManager;
+class MeshRenderer;
 
 class Death : public UserComponent
 {
@@ -18,6 +19,8 @@ private:
 	Vector3 initialPosition;
 
 	std::string wallMeshId, wallMeshName;
+	Vector3 playerColour;
+	MeshRenderer* meshRenderer;
 	Vector3 wallScale;
 	Score* scores;
 	GameManager* manager;
@@ -32,6 +35,8 @@ public:
 	virtual void start();
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
+
+	void setPlayerColour(Vector3 colour);
 };
 
 #endif

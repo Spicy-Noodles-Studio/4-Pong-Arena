@@ -12,6 +12,7 @@ class GameManager : public UserComponent
 private:
 	static GameManager* instance;
 
+	std::vector<Vector3> playerColours;
 	int playersAlive;
 	std::vector<Player> players;
 	int totalPlayers;
@@ -51,6 +52,7 @@ public:
 
 	void setPlayers(std::vector<Player>& players);
 	std::vector<Player> getPlayers() const;
+	std::vector<Vector3>& getPlayerColours();
 
 	void setIA(bool IA);
 	bool getIA() const;

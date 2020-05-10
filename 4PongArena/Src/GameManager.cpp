@@ -37,6 +37,7 @@ GameManager* GameManager::GetInstance()
 
 void GameManager::start()
 {
+	playerColours = { {1,0,0}, {0,0,1}, {1,1,0}, {0,1,0} };
 	dontDestroyOnLoad(gameObject);
 }
 
@@ -68,6 +69,11 @@ void GameManager::setPlayers(std::vector<Player>& players)
 std::vector<Player> GameManager::getPlayers() const
 {
 	return players;
+}
+
+std::vector<Vector3>& GameManager::getPlayerColours()
+{
+	return playerColours;
 }
 
 void GameManager::setIA(bool IA)

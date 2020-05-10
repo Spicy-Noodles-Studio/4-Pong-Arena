@@ -13,6 +13,7 @@
 #include "SpawnerManager.h"
 #include "GameManager.h"
 #include "PlayerIndex.h"
+#include "Death.h"
 
 #include <ComponentRegister.h>
 
@@ -156,11 +157,13 @@ void Game::createPlayers()
 	for (int i = 0; i < nPlayers; i++)
 	{
 		GameObject* paddle = instantiate("Paddle", playerTransforms[i].first);
+		paddle->getComponent<RigidBody>()->setGravity(Vector3(0, 0, 0));
 		paddle->transform->setRotation(playerTransforms[i].second);
-
 		paddle->getComponent<PlayerController>()->setPlayer(players[i].id, players[i].index);
 		paddle->getComponent<PlayerIndex>()->setId(players[i].id);
 		paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
+		paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
+		paddle->getComponent<Death>()->setPlayerColour(playerColours[i]);
 
 		paddles.push_back(paddle);
 	}
@@ -175,10 +178,11 @@ void Game::createPlayers()
 			{
 				GameObject* paddleIA = instantiate("IA", playerTransforms[i + nPlayers].first);
 				paddleIA->transform->setRotation(playerTransforms[i + nPlayers].second);
-
+				paddleIA->getComponent<RigidBody>()->setGravity(Vector3(0, 0, 0));
 				paddleIA->getComponent<PlayerIndex>()->setId(i + nPlayers + 1);
 				paddleIA->getComponent<Health>()->setHealth(gameManager->getHealth());
-
+				paddleIA->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i + nPlayers], 1);
+				paddleIA->getComponent<Death>()->setPlayerColour(playerColours[i + nPlayers]);
 				paddles.push_back(paddleIA);
 			}
 			else
@@ -384,7 +388,7 @@ void Game::start()
 
 		winnerText = winnerPanel.getChild("Winner");
 	}
-
+	playerColours = gameManager->getPlayerColours();
 	levelBase = gameManager->getLevelBase();
 	levelObstacles = gameManager->getLevelObstacles();
 	levelForces = gameManager->getLevelForces();
