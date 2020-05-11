@@ -1,20 +1,20 @@
 #include "Death.h"
 #include <GameObject.h>
-#include <RigidBody.h>
 #include <MeshRenderer.h>
+#include <RigidBody.h>
 #include <sstream>
 
+#include "PlayerIndex.h"
 #include "Health.h"
+#include "Score.h"
 #include "SpawnerManager.h"
 #include "GameManager.h"
-#include "Score.h"
-#include "PlayerIndex.h"
 
 #include <ComponentRegister.h>
 
 REGISTER_FACTORY(Death);
 
-Death::Death(GameObject* gameObject) : UserComponent(gameObject), rigidBody(nullptr), health(nullptr)
+Death::Death(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), meshRenderer(nullptr), rigidBody(nullptr), health(nullptr), scores(nullptr), id(-1)
 {
 
 }
@@ -28,21 +28,19 @@ void Death::start()
 {
 	initialPosition = gameObject->transform->getPosition();
 
+	meshRenderer = gameObject->getComponent<MeshRenderer>();
 	rigidBody = gameObject->getComponent<RigidBody>();
 	health = gameObject->getComponent<Health>();
-	meshRenderer = gameObject->getComponent<MeshRenderer>();
-	///Para no repetirlos por el codigo y evitar errores.
-	manager = GameManager::GetInstance();
-	if(manager!=nullptr)
-		scores = manager->getScore();
 
-	PlayerIndex * playerId= this->gameObject->getComponent<PlayerIndex>();
+	gameManager = GameManager::GetInstance();
 
-	id = -1;
+	if (gameManager != nullptr)
+		scores = gameManager->getScore();
+
+	PlayerIndex* playerId = gameObject->getComponent<PlayerIndex>();
+
 	if (playerId != nullptr)
-	{
 		id = playerId->getId();
-	}
 }
 
 void Death::update(float deltaTime)
@@ -87,7 +85,8 @@ void Death::die()
 
 	if (wallMeshId != "" || wallMeshName != "")
 	{
-		if (meshRenderer != nullptr) {
+		if (meshRenderer != nullptr)
+		{
 			meshRenderer->changeMesh(wallMeshId, wallMeshName);
 			meshRenderer->setDiffuse(0, playerColour, 1);
 		}
@@ -95,15 +94,13 @@ void Death::die()
 		Vector3 scaleRatio = wallScale / gameObject->transform->getScale();
 		gameObject->transform->setScale(wallScale);
 		rigidBody->multiplyScale(scaleRatio);
-
 	}
 
-	if (id != -1 && scores!=nullptr)
-	{
-		scores->setPositionOnLeaderBoard(id, manager->getPlayersAlive());
-		scores->setTimeAlive(id,manager->getInitialTime(), manager->getTime());
-	}
-	manager->setPlayersAlive(manager->getPlayersAlive() - 1);
+	if (id != -1 && scores != nullptr)
+		scores->setTimeAlive(id, gameManager->getInitialTime(), gameManager->getTime());
+
+	gameManager->setPlayerRanking(id, gameManager->getPlayersAlive());
+	gameManager->setPlayersAlive(gameManager->getPlayersAlive() - 1);
 
 	SpawnerManager* spawnerManager = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>();
 

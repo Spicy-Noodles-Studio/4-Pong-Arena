@@ -11,29 +11,31 @@ class GameManager : public UserComponent
 private:
 	static GameManager* instance;
 
-	std::vector<Vector3> playerColours;
-	int playersAlive;
+	Score scores;
+
+	std::vector<int> playerRanking;
 	std::vector<Player> players;
-	int totalPlayers;
+	std::vector<Vector3> playerColours;
+	std::vector<GameObject*> paddles;
+
+	int playersAlive;
+	int initialPlayers;
 
 	bool IA;
+	bool paused;
 
 	int health;
+
 	int time;
 	int initialTime;
-	bool paused;
+
+	int winner;
 
 	int levelBase;
 	int levelObstacles;
 	int levelForces;
 
 	std::string song;
-
-	std::string lastLevel;
-	std::string lastSong;
-
-	Score scores;
-
 
 public:
 	GameManager();
@@ -44,45 +46,53 @@ public:
 
 	virtual void start();
 
-	void setPlayersAlive(int players);
-	int getPlayersAlive() const;
-	void setTotalPlayers(int players);
-	int getTotalPlayers() const;
+	Score* getScore();
+
+	void initPlayerRanking(int tam);
+	void setPlayerRanking(int index, int rank);
+	int getPlayerRanking(int index) const;
 
 	void setPlayers(std::vector<Player>& players);
 	std::vector<Player> getPlayers() const;
+
 	std::vector<Vector3>& getPlayerColours();
+	std::vector<GameObject*>& getPaddles();
+
+	void setPlayersAlive(int players);
+	int getPlayersAlive() const;
+
+	void setInitialPlayers(int players);
+	int getInitialPlayers() const;
 
 	void setIA(bool IA);
 	bool getIA() const;
+
+	void setPaused(bool paused);
+	bool isPaused();
 
 	void setHealth(int health);
 	int getHealth() const;
 
 	void setTime(int time);
 	int getTime() const;
+
 	void setInitialTime(int time);
 	int getInitialTime() const;
 
+	void setWinner(int winner);
+	int getWinner() const;
+
 	void setLevelBase(int levelBase);
-	void setLevelObstacles(int levelObstacles);
-	void setLevelForces(int levelForces);
-
 	int getLevelBase() const;
-	int getLevelObstacles() const;
-	int getLevelForces() const;
 
-	std::string getLastLevel() const;
+	void setLevelObstacles(int levelObstacles);
+	int getLevelObstacles() const;
+
+	void setLevelForces(int levelForces);
+	int getLevelForces() const;
 
 	void setSong(std::string song);
 	std::string getSong() const;
-	std::string getLastSong() const;
-
-	void pause(bool paused);
-	bool isPaused();
-
-	Score* getScore();
-
 };
 
 #endif

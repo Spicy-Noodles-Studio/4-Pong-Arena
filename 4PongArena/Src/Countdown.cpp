@@ -1,101 +1,97 @@
 #include "Countdown.h"
+#include <ComponentRegister.h>
 #include <InterfaceSystem.h>
 #include <RenderSystem.h>
 #include <SceneManager.h>
 #include <WindowManager.h>
 #include <GameObject.h>
-#include "UILayout.h"
+#include <UILayout.h>
+
+#include "PlayerController.h"
+#include "IAPaddle.h"
 #include "GameManager.h"
-
-#include <ComponentRegister.h>
-
-#include <ctime>
-
 #include "DebugUtils.h"
 
 REGISTER_FACTORY(Countdown);
 
-
-Countdown::Countdown(GameObject* gameObject) : UserComponent(gameObject), text(NULL)
+Countdown::Countdown(GameObject* gameObject) : UserComponent(gameObject), text(NULL), players(), time(0), startCounting(false), countingDown(false)
 {
 
 }
 
 Countdown::~Countdown()
 {
-	
+
 }
 
 void Countdown::start()
 {
-	started = false;
-	charged = false;
-	paused = false;
-
 	UILayout* cameraLayout = findGameObjectWithName("MainCamera")->getComponent<UILayout>();
 
 	if (cameraLayout != nullptr)
 		text = cameraLayout->getRoot().getChild("Countdown");
 
+	players = GameManager::GetInstance()->getPaddles();
 }
 
-void Countdown::preUpdate(float deltaTime)
+void Countdown::update(float deltaTime)
 {
+	if (!startCounting)
+	{
+		for (int i = 0; i < players.size(); i++)
+		{
+			if (players[i]->getComponent<PlayerController>() != nullptr)
+				players[i]->getComponent<PlayerController>()->setActive(false);
+			else if (players[i]->getComponent<IAPaddle>() != nullptr)
+				players[i]->getComponent<IAPaddle>()->setActive(false);
+		}
 
-	if (charged && !started) {
-		pauseGame();
-		started = true;
-		paused = true;
-		last = std::chrono::steady_clock::now();
+		startCounting = true;
+		countingDown = true;
 	}
-	if (paused) {
-		
 
-		std::chrono::steady_clock::time_point current = std::chrono::steady_clock::now();
-		std::chrono::duration<float> elapsed = std::chrono::duration_cast<std::chrono::duration<float>>(current - last);
-		deltaTime = elapsed.count();
-		last = current;
-
+	if (countingDown)
+	{
 		time -= deltaTime;
-		if (time >= 1)
-		text.setText(std::to_string((int)time));
-		else { 
-			text.setPosition(0.3f, 0.25f);
-			text.setText("FIGHT!"); 
-		}
 
-		if (time <= 0) { 
-			startGame(); 
-			paused = false;
+		if (time + 1 >= 1)
+			text.setText(std::to_string((int)time));
+		else
+			text.setText("SURVIVE!");
+
+		if (time + 1 <= 0)
+		{
 			text.setText("");
-		}
-		
-	}
-	
-	if (!charged) charged = true;
 
-	
+			for (int i = 0; i < players.size(); i++)
+			{
+				if (players[i]->getComponent<PlayerController>() != nullptr)
+					players[i]->getComponent<PlayerController>()->setActive(true);
+				else if (players[i]->getComponent<IAPaddle>() != nullptr)
+					players[i]->getComponent<IAPaddle>()->setActive(true);
+			}
+
+			countingDown = false;
+		}
+	}
 }
 
 void Countdown::handleData(ComponentData* data)
 {
-	for (auto prop : data->getProperties()) {
+	for (auto prop : data->getProperties())
+	{
 		std::stringstream ss(prop.second);
 
-		if (prop.first == "time") {
+		if (prop.first == "time")
+		{
 			setFloat(time);
-		}else
-			LOG("DODGE: Invalid property name %s", prop.first.c_str());
+		}
+		else
+			LOG("COUNTDOWN: Invalid property name %s", prop.first.c_str());
 	}
 }
 
-
-void Countdown::pauseGame()
+bool Countdown::isCounting() const
 {
-	GameManager::GetInstance()->pause(true);
-}
-
-void Countdown::startGame()
-{
-	GameManager::GetInstance()->pause(false);
+	return countingDown;
 }

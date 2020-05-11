@@ -13,17 +13,20 @@ class MeshRenderer;
 class Death : public UserComponent
 {
 private:
+	GameManager* gameManager;
+
+	MeshRenderer* meshRenderer;
 	RigidBody* rigidBody;
 	Health* health;
+	Score* scores;
 
 	Vector3 initialPosition;
 
 	std::string wallMeshId, wallMeshName;
-	Vector3 playerColour;
-	MeshRenderer* meshRenderer;
 	Vector3 wallScale;
-	Score* scores;
-	GameManager* manager;
+
+	Vector3 playerColour;
+
 	int id;
 
 	void die();

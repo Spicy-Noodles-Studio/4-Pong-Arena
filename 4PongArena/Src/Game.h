@@ -7,9 +7,10 @@
 
 const int MAX_PLAYERS = 4;
 
+class InputSystem;
 class GameManager;
 class UILayout;
-class InputSystem;
+class Countdown;
 
 class Game : public UserComponent
 {
@@ -18,6 +19,8 @@ private:
 
 	UILayout* gameLayout;
 	UIElement timeText;
+
+	Countdown* countdown;
 
 	std::vector<GameObject*> paddles;
 	std::vector<Vector3> playerColours;

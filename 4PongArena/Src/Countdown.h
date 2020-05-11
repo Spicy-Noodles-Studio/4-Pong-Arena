@@ -5,31 +5,29 @@
 #include <UserComponent.h>
 #include <UIElement.h>
 
-#include <chrono>
-
 class UILayout;
 
 class Countdown : public UserComponent
 {
 private:
-	
-	void pauseGame();
-	void startGame();
+	UIElement text;
+
+	std::vector<GameObject*> players;
 
 	float time;
 
-	bool started, charged,paused;
-
-	std::chrono::steady_clock::time_point last;
-
-	UIElement text;
+	bool startCounting;
+	bool countingDown;
 
 public:
 	Countdown(GameObject* gameObject);
 	virtual ~Countdown();
+
 	virtual void start();
-	virtual void preUpdate(float deltaTime);
+	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
+
+	bool isCounting() const;
 };
 
 #endif

@@ -11,9 +11,10 @@
 #include "PlayerIndex.h"
 #include "IAPaddle.h"
 #include "Health.h"
+#include "Death.h"
+#include "Countdown.h"
 #include "SpawnerManager.h"
 #include "GameManager.h"
-#include "Death.h"
 
 #include <ComponentRegister.h>
 
@@ -152,6 +153,8 @@ void Game::createPlayers()
 {
 	std::vector<Player> players = gameManager->getPlayers();
 
+	gameManager->getPaddles().clear();
+
 	int nPlayers = players.size();
 
 	for (int i = 0; i < nPlayers; i++)
@@ -167,7 +170,9 @@ void Game::createPlayers()
 		paddle->getComponent<Death>()->setPlayerColour(playerColours[i]);
 
 		paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
+
 		paddles.push_back(paddle);
+		gameManager->getPaddles().push_back(paddle);
 	}
 
 	int nUnfilled = MAX_PLAYERS - nPlayers;
@@ -188,7 +193,9 @@ void Game::createPlayers()
 				paddleIA->getComponent<Death>()->setPlayerColour(playerColours[i + nPlayers]);
 
 				paddleIA->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i + nPlayers], 1);
+
 				paddles.push_back(paddleIA);
+				gameManager->getPaddles().push_back(paddleIA);
 			}
 			else
 			{
@@ -203,8 +210,11 @@ void Game::createPlayers()
 		}
 	}
 
+	gameManager->initPlayerRanking(paddles.size());
+
 	gameManager->setPlayersAlive(paddles.size());
-	gameManager->setTotalPlayers(paddles.size());
+	gameManager->setInitialPlayers(paddles.size());
+
 	gameManager->getScore()->initScore(paddles.size());
 }
 
@@ -306,11 +316,15 @@ void Game::chooseWinner()
 	bool tie = false;
 	int majorHealth = 0;
 	int majorIndex = 0;
+	int tieIndex = 0;
 
 	for (int i = 0; i < paddles.size(); i++)
 	{
 		Health* health = paddles[i]->getComponent<Health>();
-		if (health != nullptr && health->isAlive())
+		if (health == nullptr)
+			continue;
+
+		if (health->isAlive())
 		{
 			if (health->getHealth() > majorHealth)
 			{
@@ -319,31 +333,31 @@ void Game::chooseWinner()
 				tie = false;
 			}
 			else if (health->getHealth() == majorHealth)
-				tie = true;
-		}
-	}
-
-	if (gameLayout != nullptr)
-	{
-		for (int i = 0; i < paddles.size(); i++)
-		{
-			int pos = 1;
-			Health* health = paddles[i]->getComponent<Health>();
-			if (health->isAlive())
 			{
-				for (int j = 0; j < paddles.size(); j++)
-				{
-					Health* health2 = paddles[j]->getComponent<Health>();
-					if (health2->getHealth() > health->getHealth())
-						pos++;
-				}
-				gameManager->getScore()->setTimeAlive(i + 1, gameManager->getInitialTime(), gameManager->getTime());
-				gameManager->getScore()->setPositionOnLeaderBoard(i + 1, pos);
+				tieIndex = i;
+				tie = true;
 			}
 		}
 	}
 
-	SceneManager::GetInstance()->changeScene("LeaderBoardMenu");
+	if (tie)
+	{
+		for (int i = 0; i < paddles.size(); i++)
+		{
+			if (i == majorIndex || i == tieIndex)
+				gameManager->setPlayerRanking(i + 1, 1);
+			else
+				gameManager->setPlayerRanking(i + 1, gameManager->getPlayerRanking(i + 1) - 1);
+		}
+		gameManager->setWinner(-1);
+	}
+	else
+	{
+		gameManager->setPlayerRanking(majorIndex + 1, 1);
+		gameManager->setWinner(majorIndex + 1);
+	}
+
+	SceneManager::GetInstance()->changeScene("ScoreMenu");
 }
 
 Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), gameLayout(nullptr), timeText(NULL), gameTimer(0), levelBase(0), levelForces(0), levelObstacles(0)
@@ -368,8 +382,9 @@ void Game::start()
 	if (gameLayout != nullptr)
 		timeText = gameLayout->getRoot().getChild("Time");
 
-	playerColours = gameManager->getPlayerColours();
+	countdown = findGameObjectWithName("Countdown")->getComponent<Countdown>();
 
+	playerColours = gameManager->getPlayerColours();
 	gameTimer = gameManager->getTime();
 
 	levelBase = gameManager->getLevelBase();
@@ -387,7 +402,7 @@ void Game::start()
 
 void Game::update(float deltaTime)
 {
-	if (gameTimer > 0)
+	if (!countdown->isCounting() && gameTimer > 0)
 	{
 		gameTimer -= deltaTime;
 		gameManager->setTime((int)gameTimer);

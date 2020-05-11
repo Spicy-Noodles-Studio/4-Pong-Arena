@@ -3,39 +3,37 @@
 #define SCORE_MENU_H
 
 #include <UserComponent.h>
+#include <UIElement.h>
 #include <vector>
 #include <string>
-#include "UIElement.h"
 
 class GameManager;
 
-class ScoreMenu :
-	public UserComponent
+class ScoreMenu : public UserComponent
 {
-	GameManager* manager;
+private:
+	GameManager* gameManager;
 	std::vector<UIElement> texts;
 	std::vector<UIElement> panels;
 
-private:
-		// events
-	bool resetButtonClick();
-	bool backButtonClick();
-
-	void initStatistics(int numOfPlayers);
 	void reposition(int numOfPlayers);
+	void initStatistics(int numOfPlayers);
 
 	void setNumOfHits(int playerIndex);
+
 	void setNumOfGoals(int playerIndex);
 	void setNumOfSelfGoals(int playerIndex);
+
 	void setTimeAlive(int playerIndex);
-	void setPositionOnLeaderBoard(int playerIndex);
+
+	bool checkControllersInput();
 
 public:
 	ScoreMenu(GameObject* gameObject);
 	virtual ~ScoreMenu();
 
 	virtual void start();
+	virtual void update(float deltaTime);
 };
-
 
 #endif

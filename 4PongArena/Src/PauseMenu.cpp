@@ -27,7 +27,7 @@ bool PauseMenu::optionsButtonClick()
 
 bool PauseMenu::exitButtonClick()
 {
-	GameManager::GetInstance()->pause(false);
+	GameManager::GetInstance()->setPaused(false);
 	SceneManager::GetInstance()->changeScene("MainMenu");
 
 	return false;
@@ -93,7 +93,7 @@ void PauseMenu::setPaused(bool paused)
 
 	pauseText.setVisible(paused);
 
-	GameManager::GetInstance()->pause(paused);
+	GameManager::GetInstance()->setPaused(paused);
 }
 
 bool PauseMenu::isVisible()

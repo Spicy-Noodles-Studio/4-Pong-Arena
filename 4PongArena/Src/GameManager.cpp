@@ -1,11 +1,6 @@
 ﻿#include "GameManager.h"
-#include <Timer.h>
-
-
-
-
 #include <ComponentRegister.h>
-
+#include <Timer.h>
 
 REGISTER_FACTORY(GameManager);
 
@@ -41,24 +36,28 @@ void GameManager::start()
 	dontDestroyOnLoad(gameObject);
 }
 
-void GameManager::setPlayersAlive(int players)
+Score* GameManager::getScore()
 {
-	this->playersAlive = players;
+	return &scores;
 }
 
-int GameManager::getPlayersAlive() const
+void GameManager::initPlayerRanking(int tam)
 {
-	return playersAlive;
+	playerRanking = std::vector<int>(tam, 0);
 }
 
-void GameManager::setTotalPlayers(int players)
+void GameManager::setPlayerRanking(int index, int rank)
 {
-	totalPlayers = players;
+	if (index > 0 && (index - 1) < playerRanking.size())
+		playerRanking[index - 1] = rank;
 }
 
-int GameManager::getTotalPlayers() const
+int GameManager::getPlayerRanking(int index) const
 {
-	return totalPlayers;
+	if (index > 0 && (index - 1) < playerRanking.size())
+		return playerRanking[index - 1];
+
+	return -1;
 }
 
 void GameManager::setPlayers(std::vector<Player>& players)
@@ -76,6 +75,31 @@ std::vector<Vector3>& GameManager::getPlayerColours()
 	return playerColours;
 }
 
+std::vector<GameObject*>& GameManager::getPaddles()
+{
+	return paddles;
+}
+
+void GameManager::setPlayersAlive(int players)
+{
+	this->playersAlive = players;
+}
+
+int GameManager::getPlayersAlive() const
+{
+	return playersAlive;
+}
+
+void GameManager::setInitialPlayers(int players)
+{
+	initialPlayers = players;
+}
+
+int GameManager::getInitialPlayers() const
+{
+	return initialPlayers;
+}
+
 void GameManager::setIA(bool IA)
 {
 	this->IA = IA;
@@ -84,6 +108,21 @@ void GameManager::setIA(bool IA)
 bool GameManager::getIA() const
 {
 	return IA;
+}
+
+void GameManager::setPaused(bool paused)
+{
+	if (paused)
+		Timer::GetInstance()->setTimeScale(0.0f); //Pause the game
+	else
+		Timer::GetInstance()->setTimeScale(1.0f); //Resume the game
+
+	this->paused = paused;
+}
+
+bool GameManager::isPaused()
+{
+	return paused;
 }
 
 void GameManager::setHealth(int health)
@@ -118,19 +157,19 @@ int GameManager::getInitialTime() const
 	return initialTime;
 }
 
+void GameManager::setWinner(int winner)
+{
+	this->winner = winner;
+}
+
+int GameManager::getWinner() const
+{
+	return winner;
+}
+
 void GameManager::setLevelBase(int levelBase)
 {
 	this->levelBase = levelBase;
-}
-
-void GameManager::setLevelObstacles(int levelObstacles)
-{
-	this->levelObstacles = levelObstacles;
-}
-
-void GameManager::setLevelForces(int levelForces)
-{
-	this->levelForces = levelForces;
 }
 
 int GameManager::getLevelBase() const
@@ -138,9 +177,19 @@ int GameManager::getLevelBase() const
 	return levelBase;
 }
 
+void GameManager::setLevelObstacles(int levelObstacles)
+{
+	this->levelObstacles = levelObstacles;
+}
+
 int GameManager::getLevelObstacles() const
 {
 	return levelObstacles;
+}
+
+void GameManager::setLevelForces(int levelForces)
+{
+	this->levelForces = levelForces;
 }
 
 int GameManager::getLevelForces() const
@@ -148,43 +197,12 @@ int GameManager::getLevelForces() const
 	return levelForces;
 }
 
-std::string GameManager::getLastLevel() const
-{
-	return lastLevel;
-}
-
 void GameManager::setSong(std::string song)
 {
 	this->song = song;
-	this->lastSong = song;
 }
 
 std::string GameManager::getSong() const
 {
 	return song;
-}
-
-std::string GameManager::getLastSong() const
-{
-	return lastSong;
-}
-
-void GameManager::pause(bool paused)
-{
-	if (paused)
-		Timer::GetInstance()->setTimeScale(0.0f); //Pause the game
-	else
-		Timer::GetInstance()->setTimeScale(1.0f); //Resume the game
-
-	this->paused = paused;
-}
-
-bool GameManager::isPaused()
-{
-	return paused;
-}
-
-Score* GameManager::getScore()
-{
-	return &scores;
 }
