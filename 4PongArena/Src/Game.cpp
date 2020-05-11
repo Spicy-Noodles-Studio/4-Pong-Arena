@@ -183,9 +183,8 @@ void Game::playSong()
 
 void Game::chooseWinner()
 {
-	soundEmitter->setVolume(1.2);
+	soundEmitter->setVolume(1.5);
 	soundEmitter->playSound("Game_End");
-	gameManager->setMusicVolume(0.2);
 
 	gameTimer = 0.0f;
 
@@ -303,8 +302,10 @@ void Game::update(float deltaTime)
 	{
 		finishTimer -= deltaTime;
 		
-		if (finishTimer <= 0.0f)
+		if (finishTimer <= 0.0f) {
+			gameManager->setMusicVolume(0.2);
 			SceneManager::GetInstance()->changeScene("LeaderBoardMenu"); // Cambiar a menu de final de partida
+		}
 	}
 
 	if (gameManager->getPlayersAlive() == 1)

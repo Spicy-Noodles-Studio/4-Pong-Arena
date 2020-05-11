@@ -25,6 +25,7 @@ bool ScoreMenu::resetButtonClick()
 	manager->setLevel(manager->getLastLevel());
 	manager->setSong(manager->getLastSong());
 	buttonClick(buttonSound);
+	GameManager::GetInstance()->stopMusic();
 	//change scene
 	SceneManager::GetInstance()->changeScene("Game");
 	return false;
