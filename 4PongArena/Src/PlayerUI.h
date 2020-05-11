@@ -20,6 +20,7 @@ private:
 	UIElement playerIndicator;
 
 	void updateIndicator();
+	void updateHealth();
 
 public:
 	PlayerUI(GameObject* gameObject);
@@ -27,8 +28,6 @@ public:
 
 	virtual void start();
 	virtual void update(float deltaTime);
-
-	void updateHealth();
 };
 
 #endif

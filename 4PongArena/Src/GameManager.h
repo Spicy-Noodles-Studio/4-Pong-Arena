@@ -5,7 +5,6 @@
 #include <UserComponent.h>
 #include "Player.h"
 #include "Score.h"
-//class Score;
 
 class GameManager : public UserComponent
 {

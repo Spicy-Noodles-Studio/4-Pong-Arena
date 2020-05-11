@@ -5,62 +5,74 @@
 #include <UserComponent.h>
 #include <UIElement.h>
 
-const int MAX_VOLUME = 100;
-const int MAX_GAMMA = 100;
+#include <vector>
+#include <string>
 
-
+const int MAX_VALUE = 100;
 
 class InterfaceSystem;
-class WindowManager;
+class InputSystem;
 class RenderSystem;
 class SoundSystem;
+class WindowManager;
+
 class OptionsMenu : public UserComponent
 {
 protected:
 	InterfaceSystem* interfaceSystem;
-	WindowManager* windowManager;
+	InputSystem* inputSystem;
 	RenderSystem* renderSystem;
 	SoundSystem* soundSystem;
+	WindowManager* windowManager;
 
-	UIElement resolutionButton;
-	UIElement volumeScroll;
+	UIElement applyButton;
+	UIElement restoreButton;
+
+	UIElement brightnessScroll;
+	UIElement soundScroll;
 	UIElement musicScroll;
-	UIElement gammaScroll;
 
 	UIElement resolutionText;
-	UIElement volumeText;
+	UIElement fullscreenText;
+	UIElement brightnessText;
+	UIElement soundText;
 	UIElement musicText;
-	UIElement checkbox;
-	UIElement gammaText;
 
 	UIElement root;
 
+	float brightness;
+	float soundVolume;
 	float musicVolume;
-	float soundsVolume;
-	float gamma;
 
 	bool fullscreen;
 	int resolution;
-	int currResolution;
+	int initialResolution;
+	int currentResolution;
 
 	std::vector<std::string> resolutionNames;
+	std::vector<std::string> screenNames;
 	std::vector<std::pair<int, int>> resolutions;
-	bool resolutionButtonClick();
+
+protected:
 	bool backButtonClick();
-	bool resetConfigButtonClick();
+	bool applyButtonClick();
+	bool restoreButtonClick();
 
 	bool changeResolution(int value);
-	bool changeFullscreen(bool value);
+	bool changeFullscreen(int value);
 
+	bool changeBrightness();
 	bool changeSoundVolume();
 	bool changeMusicVolume();
-	bool changeGamma();
+
+	bool checkControllersInput();
 
 public:
 	OptionsMenu(GameObject* gameObject);
 	virtual ~OptionsMenu();
 
 	virtual void start();
+	virtual void update(float deltaTime);
 };
 
 #endif

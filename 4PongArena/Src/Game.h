@@ -18,27 +18,20 @@ private:
 
 	UILayout* gameLayout;
 	UIElement timeText;
-	UIElement winnerPanel;
-	UIElement winnerText;
 
 	std::vector<GameObject*> paddles;
 	std::vector<Vector3> playerColours;
+
 	std::vector<std::pair<Vector3, Vector3>> playerTransforms;
 	std::vector<std::pair<Vector3, Vector3>> spawnerTransforms;
 	std::vector<std::pair<Vector3, Vector3>> forceFieldTransforms;
 	std::vector<std::pair<Vector3, Vector3>> obstacleTransforms;
 
-	Vector3 wallScale;
-
 	float gameTimer;
-	float finishTimer; // Quitar cuando haya menu de final de partida
-
-	int winner;
-	bool win;
 
 	int levelBase;
-	int levelObstacles;
 	int levelForces;
+	int levelObstacles;
 
 	void createLevel();
 	void createPlayers();

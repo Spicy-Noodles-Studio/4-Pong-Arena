@@ -3,22 +3,12 @@
 #include <UILayout.h>
 #include <Camera.h>
 
-
-#include "Health.h"
 #include "PlayerIndex.h"
+#include "Health.h"
 
 #include <ComponentRegister.h>
 
 REGISTER_FACTORY(PlayerUI);
-
-void PlayerUI::updateIndicator()
-{
-	if (mainCamera == nullptr)
-		return;
-
-	Vector3 pos = mainCamera->worldToScreen(gameObject->transform->getPosition());
-	playerIndicator.setPosition((float)pos.x - 0.005f, (float)pos.y - 0.24f);
-}
 
 PlayerUI::PlayerUI(GameObject* gameObject) : UserComponent(gameObject), mainCamera(nullptr), health(nullptr), name(""), playerHUD(nullptr), playerIndicator(nullptr)
 {
@@ -33,11 +23,10 @@ PlayerUI::~PlayerUI()
 void PlayerUI::start()
 {
 	// Initialize name to search through layout
-	
 	PlayerIndex* playerIndex= gameObject->getComponent<PlayerIndex>();
+
 	if (playerIndex != nullptr)
 		name = "Player" + std::to_string(playerIndex->getId());
-
 
 	// Get health component to update stats
 	health = gameObject->getComponent<Health>();
@@ -75,6 +64,15 @@ void PlayerUI::update(float deltaTime)
 {
 	updateIndicator();
 	updateHealth();
+}
+
+void PlayerUI::updateIndicator()
+{
+	if (mainCamera == nullptr)
+		return;
+
+	Vector3 pos = mainCamera->worldToScreen(gameObject->transform->getPosition());
+	playerIndicator.setPosition((float)pos.x - 0.025f, (float)pos.y - 0.025f);
 }
 
 void PlayerUI::updateHealth()

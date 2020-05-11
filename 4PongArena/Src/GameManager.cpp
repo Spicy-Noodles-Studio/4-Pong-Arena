@@ -121,19 +121,16 @@ int GameManager::getInitialTime() const
 void GameManager::setLevelBase(int levelBase)
 {
 	this->levelBase = levelBase;
-	//this->lastLevel = level;
 }
 
 void GameManager::setLevelObstacles(int levelObstacles)
 {
 	this->levelObstacles = levelObstacles;
-	//this->lastLevel = level;
 }
 
 void GameManager::setLevelForces(int levelForces)
 {
 	this->levelForces = levelForces;
-	//this->lastLevel = level;
 }
 
 int GameManager::getLevelBase() const
