@@ -3,7 +3,7 @@
 #include <RigidBody.h>
 #include <MeshRenderer.h>
 #include <sstream>
-
+#include <MathUtils.h>
 #include "Health.h"
 #include "SpawnerManager.h"
 #include "GameManager.h"
@@ -80,6 +80,14 @@ void Death::setPlayerColour(Vector3 colour)
 	playerColour = colour;
 }
 
+void Death::setwallColours(Vector3 colourWall,Vector3 colourWallEmissive, Vector3 colourNeon, Vector3 colourNeonEmissive)
+{
+	wallColourD = colourWall;
+	wallColourE = colourWallEmissive;
+	neonColourD = colourNeon;
+	neonColourE = colourNeonEmissive;
+}
+
 void Death::die()
 {
 	gameObject->transform->setPosition(initialPosition);
@@ -90,6 +98,15 @@ void Death::die()
 		if (meshRenderer != nullptr) {
 			meshRenderer->changeMesh(wallMeshId, wallMeshName);
 			meshRenderer->setDiffuse(0, playerColour, 1);
+
+			meshRenderer->setDiffuse(2, neonColourD, 1);
+			meshRenderer->setEmissive(2, neonColourE);
+
+			meshRenderer->setDiffuse(1, wallColourD, 1);
+			meshRenderer->setEmissive(1, wallColourE);
+
+
+
 		}
 
 		Vector3 scaleRatio = wallScale / gameObject->transform->getScale();

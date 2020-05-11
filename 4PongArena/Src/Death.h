@@ -20,6 +20,10 @@ private:
 
 	std::string wallMeshId, wallMeshName;
 	Vector3 playerColour;
+	Vector3 wallColourD;
+	Vector3 wallColourE;
+	Vector3 neonColourD;
+	Vector3 neonColourE;
 	MeshRenderer* meshRenderer;
 	Vector3 wallScale;
 	Score* scores;
@@ -37,6 +41,7 @@ public:
 	virtual void handleData(ComponentData* data);
 
 	void setPlayerColour(Vector3 colour);
+	void setwallColours(Vector3 colourWall, Vector3 colourWallEmissive, Vector3 colourNeon, Vector3 colourNeonEmissive);
 };
 
 #endif

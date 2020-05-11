@@ -164,6 +164,8 @@ void Game::createPlayers()
 		paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
 		paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
 		paddle->getComponent<Death>()->setPlayerColour(playerColours[i]);
+		paddle->getComponent<Death>()->setwallColours(levelColours[levelBase][0], levelColours[levelBase][1], levelColours[levelBase][2], levelColours[levelBase][3]);
+
 
 		paddles.push_back(paddle);
 	}
@@ -183,6 +185,7 @@ void Game::createPlayers()
 				paddleIA->getComponent<Health>()->setHealth(gameManager->getHealth());
 				paddleIA->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i + nPlayers], 1);
 				paddleIA->getComponent<Death>()->setPlayerColour(playerColours[i + nPlayers]);
+				paddleIA->getComponent<Death>()->setwallColours(levelColours[levelBase][0], levelColours[levelBase][1], levelColours[levelBase][2], levelColours[levelBase][3]);
 				paddles.push_back(paddleIA);
 			}
 			else
@@ -243,6 +246,11 @@ void Game::createObstacles()
 		GameObject* obstacle = instantiate("Obstacle", obstacleTransforms[i].first);
 		obstacle->transform->setScale(obstacleTransforms[i].second);
 		obstacle->setActive(true);
+		for (int j = 0; j < 2; j ++)
+		{
+			obstacle->getComponent<MeshRenderer>()->setDiffuse(j, levelColours[levelBase][j*2], 1);
+			obstacle->getComponent<MeshRenderer>()->setEmissive(j, levelColours[levelBase][(j*2) + 1]);
+		}
 	}
 }
 
@@ -392,6 +400,7 @@ void Game::start()
 	levelBase = gameManager->getLevelBase();
 	levelObstacles = gameManager->getLevelObstacles();
 	levelForces = gameManager->getLevelForces();
+	levelColours = gameManager->getLevelColours();
 
 	createLevel();
 	createPlayers();

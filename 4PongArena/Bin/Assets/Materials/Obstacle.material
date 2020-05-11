@@ -40,7 +40,7 @@ material ObstaculoNeon {
             ambient 0.33323004841804504 1.0 0.9430022835731506 0.4105262756347656
             diffuse 0.33323004841804504 1.0 0.9430022835731506 0.4105262756347656
             specular 0.5421052575111389 0.5421052575111389 0.5421052575111389 0.4105262756347656 15.25
-            emissive vertexcolour
+            emissive 0.0 0.0 0.0 1.0
             
             alpha_to_coverage off 
             colour_write on 
