@@ -9,7 +9,7 @@
 
 REGISTER_FACTORY(PlayerController);
 
-PlayerController::PlayerController(GameObject* gameObject) : UserComponent(gameObject), inputSystem(nullptr), movement(nullptr), player()
+PlayerController::PlayerController(GameObject* gameObject) : UserComponent(gameObject), inputSystem(nullptr), movement(nullptr), controllerIndex(-1)
 {
 
 }
@@ -36,14 +36,9 @@ void PlayerController::handleData(ComponentData* data)
 	{
 		std::stringstream ss(prop.second);
 
-		if (prop.first == "id")
+		if (prop.first == "index")
 		{
-			if (!(ss >> player.id))
-				LOG("PLAYER CONTROLLER: Invalid property with name \"%s\"", prop.first.c_str());
-		}
-		else if (prop.first == "index")
-		{
-			if (!(ss >> player.index))
+			if (!(ss >> controllerIndex))
 				LOG("PLAYER CONTROLLER: Invalid property with name \"%s\"", prop.first.c_str());
 		}
 		else
@@ -51,15 +46,14 @@ void PlayerController::handleData(ComponentData* data)
 	}
 }
 
-void PlayerController::setPlayer(int id, int index)
+void PlayerController::setIndex(int index)
 {
-	player.id = id;
-	player.index = index;
+	controllerIndex = index;
 }
 
-Player PlayerController::getPlayer() const
+int PlayerController::getIndex() const
 {
-	return player;
+	return controllerIndex;
 }
 
 void PlayerController::checkInput() const
@@ -81,9 +75,9 @@ void PlayerController::checkInput() const
 
 Vector3 PlayerController::getInputAxis() const
 {
-	if (player.index < 0 || player.index > 4) return Vector3::ZERO;
+	if (controllerIndex < 0 || controllerIndex > 4) return Vector3::ZERO;
 
-	if (player.index == 4)
+	if (controllerIndex == 4)
 		return getKeyboardAxis();
 
 	return getControllerAxis();
@@ -103,11 +97,11 @@ Vector3 PlayerController::getKeyboardAxis() const
 Vector3 PlayerController::getControllerAxis() const
 {
 	Vector3 axis = Vector3::ZERO;
-	std::pair<int, int> leftJoystick = inputSystem->getLeftJoystick(player.index);
-	if (leftJoystick.first < 0 || inputSystem->isButtonPressed(player.index, "Left")) axis.x += -1;	// Left
-	if (leftJoystick.first > 0 || inputSystem->isButtonPressed(player.index, "Right")) axis.x += 1;	// Right
-	if (leftJoystick.second < 0 || inputSystem->isButtonPressed(player.index, "Up")) axis.z += -1;	// Up
-	if (leftJoystick.second > 0 || inputSystem->isButtonPressed(player.index, "Down")) axis.z += 1;	// Down
+	std::pair<int, int> leftJoystick = inputSystem->getLeftJoystick(controllerIndex);
+	if (leftJoystick.first < 0 || inputSystem->isButtonPressed(controllerIndex, "Left")) axis.x += -1;	// Left
+	if (leftJoystick.first > 0 || inputSystem->isButtonPressed(controllerIndex, "Right")) axis.x += 1;	// Right
+	if (leftJoystick.second < 0 || inputSystem->isButtonPressed(controllerIndex, "Up")) axis.z += -1;	// Up
+	if (leftJoystick.second > 0 || inputSystem->isButtonPressed(controllerIndex, "Down")) axis.z += 1;	// Down
 
 	return axis;
 }

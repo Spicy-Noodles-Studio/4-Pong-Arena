@@ -151,56 +151,60 @@ void Game::createLevel()
 
 void Game::createPlayers()
 {
-	std::vector<Player> players = gameManager->getPlayers();
-
+	std::vector<int> indexes = gameManager->getPlayerIndexes();
 	gameManager->getPaddles().clear();
 
-	int nPlayers = players.size();
+	int aux = 0;
 
-	for (int i = 0; i < nPlayers; i++)
+	for (int i = 0; i < indexes.size(); i++)
 	{
-		GameObject* paddle = instantiate("Paddle", playerTransforms[i].first);
-		paddle->getComponent<RigidBody>()->setGravity(Vector3(0, 0, 0));
-		paddle->transform->setRotation(playerTransforms[i].second);
+		if (indexes[i] != -1)
+		{
+			GameObject* paddle = instantiate("Paddle", playerTransforms[i].first);
+			paddle->getComponent<RigidBody>()->setGravity(Vector3(0, 0, 0));
+			paddle->transform->setRotation(playerTransforms[i].second);
 
-		paddle->getComponent<PlayerController>()->setPlayer(players[i].id, players[i].index);
-		paddle->getComponent<PlayerIndex>()->setId(players[i].id);
+			paddle->getComponent<PlayerController>()->setIndex(indexes[i]);
+			paddle->getComponent<PlayerIndex>()->setId(i + 1);
 
-		paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
-		paddle->getComponent<Death>()->setPlayerColour(playerColours[i]);
+			paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
+			paddle->getComponent<Death>()->setPlayerColour(playerColours[i]);
 
-		paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
+			paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
 
-		paddles.push_back(paddle);
-		gameManager->getPaddles().push_back(paddle);
+			paddles.push_back(paddle);
+			gameManager->getPaddles().push_back(paddle);
+
+			aux++;
+		}
 	}
 
-	int nUnfilled = MAX_PLAYERS - nPlayers;
+	int nUnfilled = MAX_PLAYERS - aux;
 
 	if (nUnfilled > 0)
 	{
 		for (int i = 0; i < nUnfilled; i++)
 		{
-			if (gameManager->getIA())
+			if (/*gameManager->getIA()*/false)
 			{
-				GameObject* paddleIA = instantiate("IA", playerTransforms[i + nPlayers].first);
-				paddleIA->transform->setRotation(playerTransforms[i + nPlayers].second);
+				GameObject* paddleIA = instantiate("IA", playerTransforms[i + aux].first);
+				paddleIA->transform->setRotation(playerTransforms[i + aux].second);
 				paddleIA->getComponent<RigidBody>()->setGravity(Vector3(0, 0, 0));
 
-				paddleIA->getComponent<PlayerIndex>()->setId(i + nPlayers + 1);
+				paddleIA->getComponent<PlayerIndex>()->setId(i + aux + 1);
 
 				paddleIA->getComponent<Health>()->setHealth(gameManager->getHealth());
-				paddleIA->getComponent<Death>()->setPlayerColour(playerColours[i + nPlayers]);
+				paddleIA->getComponent<Death>()->setPlayerColour(playerColours[i + aux]);
 
-				paddleIA->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i + nPlayers], 1);
+				paddleIA->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i + aux], 1);
 
 				paddles.push_back(paddleIA);
 				gameManager->getPaddles().push_back(paddleIA);
 			}
 			else
 			{
-				GameObject* wall = instantiate("Wall", playerTransforms[i + nPlayers].first);
-				wall->transform->setRotation(playerTransforms[i + nPlayers].second);
+				GameObject* wall = instantiate("Wall", playerTransforms[i + aux].first);
+				wall->transform->setRotation(playerTransforms[i + aux].second);
 				RigidBody* wallRigidBody = wall->getComponent<RigidBody>();
 
 				wallRigidBody->setStatic(true);
@@ -345,7 +349,10 @@ void Game::chooseWinner()
 		for (int i = 0; i < paddles.size(); i++)
 		{
 			if (i == majorIndex || i == tieIndex)
+			{
+				gameManager->getScore()->setTimeAlive(majorIndex, gameManager->getInitialTime(), gameManager->getTime());
 				gameManager->setPlayerRanking(i + 1, 1);
+			}
 			else
 				gameManager->setPlayerRanking(i + 1, gameManager->getPlayerRanking(i + 1) - 1);
 		}
@@ -353,6 +360,7 @@ void Game::chooseWinner()
 	}
 	else
 	{
+		gameManager->getScore()->setTimeAlive(majorIndex + 1, gameManager->getInitialTime(), gameManager->getTime());
 		gameManager->setPlayerRanking(majorIndex + 1, 1);
 		gameManager->setWinner(majorIndex + 1);
 	}

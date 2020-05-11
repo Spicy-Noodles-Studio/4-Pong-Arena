@@ -6,6 +6,7 @@
 #include <sstream>
 
 #include "Spawner.h"
+#include "Countdown.h"
 
 #include <ComponentRegister.h>
 
@@ -49,7 +50,7 @@ GameObject* SpawnerManager::getBall()
 	return ball;
 }
 
-SpawnerManager::SpawnerManager(GameObject* gameObject) : UserComponent(gameObject), time(0.0f), generationTime(4.0f), minimumTime(1.0f), lastUsed(0)
+SpawnerManager::SpawnerManager(GameObject* gameObject) : UserComponent(gameObject), countdown(nullptr), time(0.0f), generationTime(4.0f), minimumTime(1.0f), lastUsed(0)
 {
 
 }
@@ -61,6 +62,8 @@ SpawnerManager::~SpawnerManager()
 
 void SpawnerManager::start()
 {
+	countdown = findGameObjectWithName("Countdown")->getComponent<Countdown>();
+
 	for (int i = 0; i < 25; i++)
 	{
 		pool.push_back(instantiate("Ball"));
@@ -73,14 +76,17 @@ void SpawnerManager::start()
 
 void SpawnerManager::update(float deltaTime)
 {
-	if (time > 0)
-		time -= deltaTime;
-	else
+	if (!countdown->isCounting())
 	{
-		int index = chooseSpawn();
-		spawners[index]->getComponent<Spawner>()->shoot(getBall());
+		if (time > 0)
+			time -= deltaTime;
+		else
+		{
+			int index = chooseSpawn();
+			spawners[index]->getComponent<Spawner>()->shoot(getBall());
 
-		time = generationTime;
+			time = generationTime;
+		}
 	}
 }
 

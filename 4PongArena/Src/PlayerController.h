@@ -3,7 +3,6 @@
 #define PLAYER_CONTROLLER_H
 
 #include <UserComponent.h>
-#include "Player.h"
 
 class InputSystem;
 class Movement;
@@ -13,7 +12,8 @@ class PlayerController : public UserComponent
 private:
 	InputSystem* inputSystem;
 	Movement* movement;
-	Player player;
+
+	int controllerIndex;
 
 public:
 	PlayerController(GameObject* gameObject);
@@ -23,8 +23,8 @@ public:
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
 
-	void setPlayer(int id, int index);
-	Player getPlayer() const;
+	void setIndex(int index);
+	int getIndex() const;
 
 private:
 	void checkInput() const;

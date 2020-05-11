@@ -4,11 +4,15 @@
 
 #include <UserComponent.h>
 
+class Countdown;
+
 class SpawnerManager : public UserComponent
 {
 private:
 	std::vector<GameObject*> spawners;
 	std::vector<GameObject*> pool;
+
+	Countdown* countdown;
 
 	float time;
 	float generationTime;

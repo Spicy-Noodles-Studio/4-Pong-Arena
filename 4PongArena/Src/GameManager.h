@@ -3,7 +3,6 @@
 #define GAME_MANAGER_H
 
 #include <UserComponent.h>
-#include "Player.h"
 #include "Score.h"
 
 class GameManager : public UserComponent
@@ -14,28 +13,31 @@ private:
 	Score scores;
 
 	std::vector<int> playerRanking;
-	std::vector<Player> players;
+	std::vector<int> playerIndexes;
+
 	std::vector<Vector3> playerColours;
 	std::vector<GameObject*> paddles;
 
+	std::string songName;
+
 	int playersAlive;
 	int initialPlayers;
+	int winner;
 
-	bool IA;
 	bool paused;
 
+	// Remember Configuration Menu's information
 	int health;
 
 	int time;
 	int initialTime;
-
-	int winner;
+	bool timeMode;
 
 	int levelBase;
 	int levelObstacles;
 	int levelForces;
 
-	std::string song;
+	int song;
 
 public:
 	GameManager();
@@ -52,8 +54,8 @@ public:
 	void setPlayerRanking(int index, int rank);
 	int getPlayerRanking(int index) const;
 
-	void setPlayers(std::vector<Player>& players);
-	std::vector<Player> getPlayers() const;
+	void setPlayerIndexes(std::vector<int>& playerIndexes);
+	std::vector<int>& getPlayerIndexes();
 
 	std::vector<Vector3>& getPlayerColours();
 	std::vector<GameObject*>& getPaddles();
@@ -63,9 +65,6 @@ public:
 
 	void setInitialPlayers(int players);
 	int getInitialPlayers() const;
-
-	void setIA(bool IA);
-	bool getIA() const;
 
 	void setPaused(bool paused);
 	bool isPaused();
@@ -79,6 +78,9 @@ public:
 	void setInitialTime(int time);
 	int getInitialTime() const;
 
+	void setTimeMode(bool mode);
+	bool getTimeMode() const;
+
 	void setWinner(int winner);
 	int getWinner() const;
 
@@ -91,8 +93,11 @@ public:
 	void setLevelForces(int levelForces);
 	int getLevelForces() const;
 
-	void setSong(std::string song);
-	std::string getSong() const;
+	void setSong(int song);
+	int getSong() const;
+
+	void setSongName(std::string name);
+	std::string getSongName() const;
 };
 
 #endif

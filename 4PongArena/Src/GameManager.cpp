@@ -11,12 +11,14 @@ GameManager::GameManager() : UserComponent(nullptr)
 
 }
 
-GameManager::GameManager(GameObject* gameObject) : UserComponent(gameObject)
+GameManager::GameManager(GameObject* gameObject) : UserComponent(gameObject), song(0), health(5), time(60), initialTime(time), timeMode(false), levelBase(0), levelForces(0), levelObstacles(0)
 {
 	if (instance == nullptr)
 		instance = this;
 	else
 		destroy(gameObject);
+
+	playerIndexes = std::vector<int>(4, -1);
 }
 
 GameManager::~GameManager()
@@ -33,6 +35,7 @@ GameManager* GameManager::GetInstance()
 void GameManager::start()
 {
 	playerColours = { {1,0,0}, {0,0,1}, {1,1,0}, {0,1,0} };
+
 	dontDestroyOnLoad(gameObject);
 }
 
@@ -60,14 +63,15 @@ int GameManager::getPlayerRanking(int index) const
 	return -1;
 }
 
-void GameManager::setPlayers(std::vector<Player>& players)
+void GameManager::setPlayerIndexes(std::vector<int>& playerIndexes)
 {
-	this->players = players;
+
+	this->playerIndexes = playerIndexes;
 }
 
-std::vector<Player> GameManager::getPlayers() const
+std::vector<int>& GameManager::getPlayerIndexes()
 {
-	return players;
+	return playerIndexes;
 }
 
 std::vector<Vector3>& GameManager::getPlayerColours()
@@ -98,16 +102,6 @@ void GameManager::setInitialPlayers(int players)
 int GameManager::getInitialPlayers() const
 {
 	return initialPlayers;
-}
-
-void GameManager::setIA(bool IA)
-{
-	this->IA = IA;
-}
-
-bool GameManager::getIA() const
-{
-	return IA;
 }
 
 void GameManager::setPaused(bool paused)
@@ -157,6 +151,16 @@ int GameManager::getInitialTime() const
 	return initialTime;
 }
 
+void GameManager::setTimeMode(bool mode)
+{
+	timeMode = mode;
+}
+
+bool GameManager::getTimeMode() const
+{
+	return timeMode;
+}
+
 void GameManager::setWinner(int winner)
 {
 	this->winner = winner;
@@ -197,12 +201,22 @@ int GameManager::getLevelForces() const
 	return levelForces;
 }
 
-void GameManager::setSong(std::string song)
+void GameManager::setSong(int song)
 {
 	this->song = song;
 }
 
-std::string GameManager::getSong() const
+int GameManager::getSong() const
 {
 	return song;
+}
+
+void GameManager::setSongName(std::string name)
+{
+	songName = name;
+}
+
+std::string GameManager::getSongName() const
+{
+	return songName;
 }

@@ -78,9 +78,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Src\Player.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Src\Ball.h">
       <Filter>Archivos de encabezado\Components</Filter>
     </ClInclude>
