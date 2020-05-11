@@ -6,6 +6,7 @@
 
 #include "Movement.h"
 #include "SpawnerManager.h"
+#include "GameManager.h"
 
 #include <ComponentRegister.h>
 #include <SoundEmitter.h>
@@ -26,7 +27,8 @@ void IAPaddle::start()
 {
 	movement = gameObject->getComponent<Movement>();
 	soundEmitter = gameObject->getComponent<SoundEmitter>();
-	soundEmitter->setVolume(0.8);
+	volume = 0.8;
+	soundEmitter->setVolume(volume);
 }
 
 void IAPaddle::update(float deltaTime)
@@ -36,6 +38,11 @@ void IAPaddle::update(float deltaTime)
 	{ 
 		decisionTimer = 0.0f; 
 		takeDecision(); 
+	}
+
+	if (volume > 0 && GameManager::GetInstance()->isGameEnded()) {
+		volume = 0;
+		soundEmitter->setVolume(0);
 	}
 
 	// Simple State Machine Logic

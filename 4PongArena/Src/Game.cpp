@@ -177,12 +177,14 @@ void Game::createForceField()
 
 void Game::playSong()
 {
-	gameManager->playMusic();
-	gameManager->setMusicVolume(0.4);
+	gameManager->playMusic(gameManager->getSong());
+	if(gameManager->getSong() == "DefenseMatrix") gameManager->setMusicVolume(0.5);
+	else gameManager->setMusicVolume(0.4);
 }
 
 void Game::chooseWinner()
 {
+	gameManager->setGameEnded(true);
 	soundEmitter->setVolume(1.5);
 	soundEmitter->playSound("Game_End");
 
@@ -260,6 +262,7 @@ Game::~Game()
 void Game::start()
 {
 	gameManager = GameManager::GetInstance();
+	gameManager->setGameEnded(false);
 	soundEmitter = gameObject->getComponent<SoundEmitter>();
 
 	GameObject* mainCamera = findGameObjectWithName("MainCamera");
@@ -304,6 +307,7 @@ void Game::update(float deltaTime)
 		
 		if (finishTimer <= 0.0f) {
 			gameManager->setMusicVolume(0.2);
+			gameManager->setGameEnded(false);
 			SceneManager::GetInstance()->changeScene("LeaderBoardMenu"); // Cambiar a menu de final de partida
 		}
 	}

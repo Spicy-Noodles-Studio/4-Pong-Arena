@@ -26,6 +26,7 @@ private:
 	int time;
 	int initialTime;
 	bool paused;
+	bool gameEnded;
 
 	std::string level;
 	std::string song;
@@ -75,6 +76,9 @@ public:
 
 	void pause(bool paused);
 	bool isPaused();
+
+	void setGameEnded(bool end);
+	bool isGameEnded();
 
 	Score* getScore();
 

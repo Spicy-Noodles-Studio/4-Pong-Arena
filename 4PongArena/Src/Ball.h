@@ -12,6 +12,7 @@ class Ball : public UserComponent
 private:
 	RigidBody* rigidBody;
 	SoundEmitter* soundEmitter;
+	float volume;
 
 	float velocity;
 	float targetVelocity;

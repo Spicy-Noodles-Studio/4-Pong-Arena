@@ -14,6 +14,7 @@ public:
 
 private:
 	SoundEmitter* soundEmitter;
+	float volume;
 
 	// Properties given to the ball
 	float targetVelocity;

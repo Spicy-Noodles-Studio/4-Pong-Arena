@@ -14,7 +14,9 @@ private:
 	State currentState;
 	GameObject* targetBall;
 	Movement* movement;
+
 	SoundEmitter* soundEmitter;
+	float volume;
 
 	float decisionTime;
 	float decisionTimer;

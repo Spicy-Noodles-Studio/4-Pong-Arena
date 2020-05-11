@@ -2,9 +2,10 @@
 #include <GameObject.h>
 #include <RigidBody.h>
 #include <sstream>
-
 #include <ComponentRegister.h>
 #include <SoundEmitter.h>
+
+#include "GameManager.h"
 
 REGISTER_FACTORY(Ball);
 
@@ -22,7 +23,8 @@ void Ball::start()
 {
 	rigidBody = gameObject->getComponent<RigidBody>();
 	soundEmitter = gameObject->getComponent<SoundEmitter>();
-	soundEmitter->setVolume(0.8);
+	volume = 0.8;
+	soundEmitter->setVolume(volume);
 }
 
 void Ball::update(float deltaTime)
@@ -34,6 +36,11 @@ void Ball::update(float deltaTime)
 
 	if (rigidBody != nullptr)
 		rigidBody->setLinearVelocity(rigidBody->getLinearVelocity().normalized() * velocity);
+
+	if (volume > 0 && GameManager::GetInstance()->isGameEnded()) {
+		volume = 0;
+		soundEmitter->setVolume(0);
+	}
 }
 
 void Ball::setVelocity(float velocity)
@@ -64,6 +71,8 @@ int Ball::getIdPlayerHit()
 void Ball::onCollisionEnter(GameObject* other)
 {
 	if (soundEmitter == nullptr) return;
+
+
 
 	std::string soundToPlay = "NO SOUND";
 	if (other->getTag() == "wall" || other->getTag() == "spawner") {

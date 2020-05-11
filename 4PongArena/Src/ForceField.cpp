@@ -5,6 +5,7 @@
 #include <sstream>
 
 #include "Ball.h"
+#include "GameManager.h"
 
 #include <ComponentRegister.h>
 #include <SoundEmitter.h>
@@ -26,7 +27,8 @@ void ForceField::start()
 	currentState = State::FORWARDS;
 	stateTimer = 0.0f;
 	soundEmitter = gameObject->getComponent<SoundEmitter>();
-	soundEmitter->setVolume(1.5);
+	volume = 1.5;
+	soundEmitter->setVolume(volume);
 }
 	
 void ForceField::update(float deltaTime)
@@ -37,6 +39,11 @@ void ForceField::update(float deltaTime)
 	{
 		changeState();
 		stateTimer = 0;
+	}
+
+	if (volume > 0 && GameManager::GetInstance()->isGameEnded()) {
+		volume = 0;
+		soundEmitter->setVolume(0);
 	}
 }
 
