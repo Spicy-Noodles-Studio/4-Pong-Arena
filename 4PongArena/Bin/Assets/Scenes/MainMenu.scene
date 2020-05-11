@@ -12,7 +12,7 @@
                 }
             ]
         },
-        {
+		{
             "ObjectType": "GAMEOBJECT",
             "ObjectName": "GameManager",
             "Tag": "GameManager",
@@ -34,7 +34,7 @@
                     "ComponentName": "UILayout",
                     "ComponentProperties": [
                         ["layout" , "MainMenu.layout"],
-                        ["event" , "SinglePlayerButton singlePlayerButtonClick | MultiplayerButton multiplayerButtonClick | OptionsButton optionsButtonClick | ExitButton exitButtonClick"]
+                        ["event" , "PlayButton playButtonClick | OptionsButton optionsButtonClick | ExitButton exitButtonClick"]
                     ]
                 }
             ]

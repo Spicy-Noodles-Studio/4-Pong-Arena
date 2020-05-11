@@ -6,10 +6,10 @@ MouseCursor = TaharezLook/MouseArrow
 
 Font = DejaVuSans.ttf Sans 8
 Font = DejaVuSans.ttf Sans72 72
-Font = batang.ttf Batang7 6.8
+Font = batang.ttf Batang7 7
 Font = batang.ttf Batang8 8
 
-Image = 4pongarenatitle.png title
+Image = logo.png logo
 Image = base1.png base1
 Image = base2.png base2
 Image = base3.png base3
