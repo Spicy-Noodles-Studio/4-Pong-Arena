@@ -10,3 +10,21 @@ Bloody_Mary:
 	Music promoted by https://www.free-stock-music.com
 	Creative Commons Attribution-ShareAlike 3.0 Unported
 	https://creativecommons.org/licenses/by-sa/3.0/deed.en_US
+
+Controversia: 
+	Controversia by Electronic Senses | https://soundcloud.com/electronicsenses
+	Music promoted by https://www.free-stock-music.com
+	Creative Commons Attribution-ShareAlike 3.0 Unported
+	https://creativecommons.org/licenses/by-sa/3.0/deed.en_US
+
+Defense_Matrix:
+	Defense Matrix by Vyra | https://soundcloud.com/vyramusic
+	Music promoted by https://www.free-stock-music.com
+	Creative Commons Attribution-ShareAlike 3.0 Unported
+	https://creativecommons.org/licenses/by-sa/3.0/deed.en_US
+
+Chaos:
+	Above All The Chaos by TeknoAXE | http://teknoaxe.com
+	Music promoted by https://www.free-stock-music.com
+	Attribution 4.0 International (CC BY 4.0)
+	https://creativecommons.org/licenses/by/4.0/

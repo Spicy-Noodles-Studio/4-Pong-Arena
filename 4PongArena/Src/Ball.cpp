@@ -22,6 +22,7 @@ void Ball::start()
 {
 	rigidBody = gameObject->getComponent<RigidBody>();
 	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	soundEmitter->setVolume(0.8);
 }
 
 void Ball::update(float deltaTime)

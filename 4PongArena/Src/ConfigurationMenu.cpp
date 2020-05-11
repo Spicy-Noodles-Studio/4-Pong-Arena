@@ -158,7 +158,6 @@ bool ConfigurationMenu::startButtonClick()
 
 	if (!IA && filledSlots > 1 || IA) {
 		gameManager->stopMusic();
-		gameManager->playMusic(songNames[songIndex]);
 		SceneManager::GetInstance()->changeScene("Game");
 	}
 		
@@ -239,7 +238,7 @@ void ConfigurationMenu::start()
 	levelNames = std::vector<std::string>(4, "level"); // Placeholder
 	levelIndex = 0;
 
-	songNames = {"despacito", "BloodyMary", "prueba2"}; // Placeholder
+	songNames = {"Controversia", "BloodyMary", "DefenseMatrix", "Chaos"};
 	songIndex = 0;
 
 	slots = std::vector<std::pair<int, UIElement>>(4, { -1, NULL });

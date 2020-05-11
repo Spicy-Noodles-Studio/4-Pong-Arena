@@ -3,7 +3,7 @@
 #include <SceneManager.h>
 #include <UILayout.h>
 #include <GameObject.h>
-#include <SoundSystem.h>
+#include <SoundEmitter.h>
 
 #include "PlayerController.h"
 #include "IAPaddle.h"
@@ -177,11 +177,16 @@ void Game::createForceField()
 
 void Game::playSong()
 {
-	//findGameObjectWithName("MainCamera")->getComponent<SoundEmitter>()->play(GameManager::GetInstance()->getSong());
+	gameManager->playMusic();
+	gameManager->setMusicVolume(0.4);
 }
 
 void Game::chooseWinner()
 {
+	soundEmitter->setVolume(1.2);
+	soundEmitter->playSound("Game_End");
+	gameManager->setMusicVolume(0.2);
+
 	gameTimer = 0.0f;
 
 	bool tie = false;
@@ -256,6 +261,7 @@ Game::~Game()
 void Game::start()
 {
 	gameManager = GameManager::GetInstance();
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
 
 	GameObject* mainCamera = findGameObjectWithName("MainCamera");
 

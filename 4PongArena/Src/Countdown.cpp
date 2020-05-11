@@ -41,6 +41,7 @@ void Countdown::start()
 		text = cameraLayout->getRoot().getChild("Countdown");
 
 	soundEmitter = findGameObjectWithName("MainCamera")->getComponent<SoundEmitter>();
+	soundEmitter->setVolume(0.8);
 
 }
 
@@ -81,6 +82,8 @@ void Countdown::preUpdate(float deltaTime)
 			startGame();
 			paused = false;
 			text.setText("");
+			soundEmitter->setVolume(1.2);
+			soundEmitter->playSound("Game_Start");
 		}
 		
 	}

@@ -40,11 +40,10 @@ bool MainMenu::exitButtonClick()
 
 void MainMenu::initMusic()
 {
-	if (GameManager::GetInstance()->getSong() != "Menu_loop" && GameManager::GetInstance()->musicEmitterReady()) {
+	if (GameManager::GetInstance()->getSong() != "Menu_loop") {
 		GameManager::GetInstance()->stopMusic();
 		GameManager::GetInstance()->playMusic("Menu_loop");
-		GameManager::GetInstance()->setSong("Menu_loop");
-		GameManager::GetInstance()->setMusicVolume(0.3);
+		GameManager::GetInstance()->setMusicVolume(0.4);
 		musicPlaying = true;
 	}
 	else musicPlaying = false;

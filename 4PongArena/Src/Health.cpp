@@ -20,6 +20,7 @@ Health::~Health()
 void Health::start()
 {
 	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	soundEmitter->setVolume(1.2);
 }
 
 void Health::handleData(ComponentData* data)

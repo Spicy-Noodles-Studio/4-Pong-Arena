@@ -25,6 +25,8 @@ void ForceField::start()
 {
 	currentState = State::FORWARDS;
 	stateTimer = 0.0f;
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	soundEmitter->setVolume(1.5);
 }
 	
 void ForceField::update(float deltaTime)
@@ -74,21 +76,20 @@ void ForceField::onObjectEnter(GameObject* other)
 	if (currentState == State::DISABLED) return;
 
 	RigidBody* rigidBody = other->getComponent<RigidBody>();
-	SoundEmitter* soundEmitter = other->getComponent<SoundEmitter>();
 	Ball* ball = other->getComponent<Ball>();
 
 	if (ball == nullptr || rigidBody == nullptr) return;
 
-	std::string soundToPlay = "Impulse";
+	std::string soundToPlay = "Impulse_02";
 
 	if (currentState != State::FORWARDS) {
 		rigidBody->setLinearVelocity(rigidBody->getLinearVelocity() * -1);
-		soundToPlay = "Force_Bounce";
+		soundToPlay = "Force_Bounce_02";
 	}
 
 	ball->setTargetVelocity(targetVelocity);
 	ball->setAcceleration(acceleration);
-	if(soundEmitter != nullptr)soundEmitter->playSound(soundToPlay);
+	soundEmitter->playSound(soundToPlay);
 }
 
 /// States: "DISABLED" | "FORWARDS" | "BACKWARDS"

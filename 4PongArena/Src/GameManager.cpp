@@ -36,6 +36,7 @@ GameManager* GameManager::GetInstance()
 
 void GameManager::start()
 {
+	if (soundEmitter == nullptr) soundEmitter = gameObject->getComponent<SoundEmitter>();
 	dontDestroyOnLoad(gameObject);
 }
 
@@ -165,26 +166,21 @@ Score* GameManager::getScore()
 
 void GameManager::playMusic(std::string music)
 {
-	soundEmitter->playMusic(music);
+	soundEmitter->stop(music);
+	if(music == "") soundEmitter->playMusic(song);
+	else {
+		soundEmitter->playMusic(music);
+		setSong(music);
+	}
 
 }
 
 void GameManager::stopMusic()
 {
-	soundEmitter->stopMusicAll();
-}
-
-void GameManager::registerMusicEmitter(MusicEmitter* mEmitter)
-{
-	soundEmitter = mEmitter;
+	soundEmitter->stopAll();
 }
 
 void GameManager::setMusicVolume(float volume)
 {
 	soundEmitter->setVolume(volume);
-}
-
-bool GameManager::musicEmitterReady()
-{
-	return (soundEmitter != nullptr);
 }

@@ -20,7 +20,6 @@ void MusicEmitter::start()
 {
 	if (soundEmitter == nullptr) {
 		soundEmitter = gameObject->getComponent<SoundEmitter>();
-		GameManager::GetInstance()->registerMusicEmitter(this);
 	}
 	dontDestroyOnLoad(gameObject);
 }

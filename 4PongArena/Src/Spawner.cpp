@@ -64,4 +64,5 @@ void Spawner::shoot(GameObject* ball)
 void Spawner::start()
 {
 	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	soundEmitter->setVolume(0.7);
 }

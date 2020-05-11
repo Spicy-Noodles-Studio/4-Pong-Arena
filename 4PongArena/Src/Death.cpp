@@ -39,6 +39,7 @@ void Death::start()
 
 	PlayerIndex * playerId= this->gameObject->getComponent<PlayerIndex>();
 	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	soundEmitter->setVolume(1.2);
 
 	id = -1;
 	if (playerId != nullptr)
