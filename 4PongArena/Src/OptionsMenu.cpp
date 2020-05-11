@@ -89,7 +89,6 @@ bool OptionsMenu::changeSoundVolume()
 {
 	volumeText.setText(std::to_string((int)(volumeScroll.getScrollPositionScrollBar() * MAX_VOLUME + 0.5)));
 	soundSystem->setSoundEffectsVolume(volumeScroll.getScrollPositionScrollBar());
-	buttonClick(buttonSound);
 	return false;
 }
 
@@ -97,7 +96,6 @@ bool OptionsMenu::changeMusicVolume()
 {
 	musicText.setText(std::to_string((int)(musicScroll.getScrollPositionScrollBar() * MAX_VOLUME + 0.5)));
 	soundSystem->setMusicVolume(musicScroll.getScrollPositionScrollBar());
-	buttonClick(buttonSound);
 	return false;
 }
 
@@ -106,7 +104,6 @@ bool OptionsMenu::changeGamma()
 	gammaText.setText(std::to_string((int)(gammaScroll.getScrollPositionScrollBar() * MAX_GAMMA + 0.5)));
 	renderSystem->changeParamOfShader("LuminancePS", "brigh", gammaScroll.getScrollPositionScrollBar());
 	windowManager->setBrightness(gammaScroll.getScrollPositionScrollBar());
-	buttonClick(buttonSound);
 	return false;
 }
 

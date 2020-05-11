@@ -184,10 +184,6 @@ void Game::playSong()
 
 void Game::chooseWinner()
 {
-	gameManager->setGameEnded(true);
-	soundEmitter->setVolume(1.5);
-	soundEmitter->playSound("Game_End");
-
 	gameTimer = 0.0f;
 
 	bool tie = false;
@@ -249,6 +245,13 @@ void Game::chooseWinner()
 	}
 }
 
+void Game::endgameHandleSound()
+{
+	gameManager->setGameEnded(true);
+	soundEmitter->setVolume(1.5);
+	soundEmitter->playSound("Game_End");
+}
+
 Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), gameLayout(nullptr), timeText(NULL), winnerPanel(NULL), winnerText(NULL), finishTimer(3.0f), winner(0)
 {
 
@@ -295,8 +298,10 @@ void Game::update(float deltaTime)
 	{
 		gameTimer -= deltaTime;
 		gameManager->setTime((int)gameTimer);
-		if (gameTimer <= 0.0f)
+		if (gameTimer <= 0.0f) {
+			endgameHandleSound();
 			chooseWinner();
+		}
 
 		if (gameLayout != nullptr)
 			timeText.setText(std::to_string((int)gameTimer % 60));
@@ -312,6 +317,8 @@ void Game::update(float deltaTime)
 		}
 	}
 
-	if (gameManager->getPlayersAlive() == 1)
+	if (gameManager->getPlayersAlive() == 1) {
+		endgameHandleSound();
 		chooseWinner();
+	}
 }

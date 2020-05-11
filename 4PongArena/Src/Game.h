@@ -43,6 +43,7 @@ private:
 
 	void playSong();
 	void chooseWinner();
+	void endgameHandleSound();
 
 public:
 	Game(GameObject* gameObject);
