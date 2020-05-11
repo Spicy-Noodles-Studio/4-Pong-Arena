@@ -16,7 +16,7 @@ const int MIN_HEALTH = 1;
 const int MAX_HEALTH = 15;
 const int CHANGE_HEALTH = 1;
 
-const int MIN_PLAYERS = 0;
+const int MIN_PLAYERS = 2;
 
 const int BASE_TYPES = 2;
 const int OBSTACLES_TYPES = 2;
@@ -54,9 +54,8 @@ private:
 private:
 	void checkInput();
 
-	void fillSlot(int slotIndex, int deviceIndex);
+	void fillSlot(int index);
 	void clearSlot(int index);
-	void reorderSlots(int index);
 
 	int isIndexConnected(int index);
 
@@ -72,6 +71,11 @@ private:
 	bool randomizeButtonClick();
 
 	bool changeSong(int value);
+
+	bool slot1ButtonClick();
+	bool slot2ButtonClick();
+	bool slot3ButtonClick();
+	bool slot4ButtonClick();
 
 	bool startButtonClick();
 	bool settingsButtonClick();

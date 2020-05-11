@@ -154,63 +154,52 @@ void Game::createPlayers()
 	std::vector<int> indexes = gameManager->getPlayerIndexes();
 	gameManager->getPaddles().clear();
 
-	int aux = 0;
-
 	for (int i = 0; i < indexes.size(); i++)
 	{
 		if (indexes[i] != -1)
 		{
-			GameObject* paddle = instantiate("Paddle", playerTransforms[i].first);
-			paddle->getComponent<RigidBody>()->setGravity(Vector3(0, 0, 0));
-			paddle->transform->setRotation(playerTransforms[i].second);
+			GameObject* paddle;
 
-			paddle->getComponent<PlayerController>()->setIndex(indexes[i]);
-			paddle->getComponent<PlayerIndex>()->setId(i + 1);
-
-			paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
-			paddle->getComponent<Death>()->setPlayerColour(playerColours[i]);
-
-			paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
-
-			paddles.push_back(paddle);
-			gameManager->getPaddles().push_back(paddle);
-
-			aux++;
-		}
-	}
-
-	int nUnfilled = MAX_PLAYERS - aux;
-
-	if (nUnfilled > 0)
-	{
-		for (int i = 0; i < nUnfilled; i++)
-		{
-			if (/*gameManager->getIA()*/false)
+			if (indexes[i] != 9)
 			{
-				GameObject* paddleIA = instantiate("IA", playerTransforms[i + aux].first);
-				paddleIA->transform->setRotation(playerTransforms[i + aux].second);
-				paddleIA->getComponent<RigidBody>()->setGravity(Vector3(0, 0, 0));
+				paddle = instantiate("Paddle", playerTransforms[i].first);
+				paddle->getComponent<RigidBody>()->setGravity(Vector3(0, 0, 0));
+				paddle->transform->setRotation(playerTransforms[i].second);
 
-				paddleIA->getComponent<PlayerIndex>()->setId(i + aux + 1);
+				paddle->getComponent<PlayerController>()->setIndex(indexes[i]);
+				paddle->getComponent<PlayerIndex>()->setId(i + 1);
 
-				paddleIA->getComponent<Health>()->setHealth(gameManager->getHealth());
-				paddleIA->getComponent<Death>()->setPlayerColour(playerColours[i + aux]);
+				paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
+				paddle->getComponent<Death>()->setPlayerColour(playerColours[i]);
 
-				paddleIA->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i + aux], 1);
-
-				paddles.push_back(paddleIA);
-				gameManager->getPaddles().push_back(paddleIA);
+				paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
 			}
 			else
 			{
-				GameObject* wall = instantiate("Wall", playerTransforms[i + aux].first);
-				wall->transform->setRotation(playerTransforms[i + aux].second);
-				RigidBody* wallRigidBody = wall->getComponent<RigidBody>();
+				paddle = instantiate("IA", playerTransforms[i].first);
+				paddle->transform->setRotation(playerTransforms[i].second);
+				paddle->getComponent<RigidBody>()->setGravity(Vector3(0, 0, 0));
 
-				wallRigidBody->setStatic(true);
-				wallRigidBody->setFriction(0.5f);
-				wallRigidBody->setActive(true);
+				paddle->getComponent<PlayerIndex>()->setId(i + 1);
+
+				paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
+				paddle->getComponent<Death>()->setPlayerColour(playerColours[i]);
+
+				paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
 			}
+
+			paddles.push_back(paddle);
+			gameManager->getPaddles().push_back(paddle);
+		}
+		else
+		{
+			GameObject* wall = instantiate("Wall", playerTransforms[i].first);
+			wall->transform->setRotation(playerTransforms[i].second);
+			RigidBody* wallRigidBody = wall->getComponent<RigidBody>();
+
+			wallRigidBody->setStatic(true);
+			wallRigidBody->setFriction(0.5f);
+			wallRigidBody->setActive(true);
 		}
 	}
 
