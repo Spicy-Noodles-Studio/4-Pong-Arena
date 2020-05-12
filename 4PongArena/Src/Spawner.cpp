@@ -3,6 +3,7 @@
 #include <RigidBody.h>
 #include <MathUtils.h>
 #include <sstream>
+#include <Quaternion.h>
 
 #include "Ball.h"
 
@@ -23,7 +24,8 @@ Spawner::~Spawner()
 void Spawner::start()
 {
 	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
-	gameObject->transform->setWorldRotation(direction);
+	direction.y = 0;
+	gameObject->transform->setDirection(direction);
 }
 
 void Spawner::handleData(ComponentData* data)
@@ -50,13 +52,12 @@ void Spawner::handleData(ComponentData* data)
 void Spawner::shoot(GameObject* ball)
 {
 	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
-	direction.rotateAroundAxis(Vector3::UP, random(-angle, angle));
-
-	//gameObject->transform->setRotation(direction);
-
+	gameObject->transform->setDirection(direction);
+	double rand = random(-angle, angle);
+	direction.rotateAroundAxis(Vector3::UP, rand);
 	direction.y = 0;
 
-	
+	gameObject->transform->rotate({ 0, rand, 0 });
 
 	if (ball != nullptr)
 	{
