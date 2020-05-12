@@ -241,7 +241,13 @@ void Game::createSpawners()
 	for (int i = 0; i < n; i++)
 	{
 		GameObject* spawner = instantiate("Spawner", spawnerTransforms[i].first);
+		MeshRenderer*spawnerMesh = spawner->getComponent<MeshRenderer>();
 		spawner->transform->setRotation(spawnerTransforms[i].second);
+		spawnerMesh->setDiffuse(0, levelColours[levelBase][2], 1);
+		spawnerMesh->setEmissive(0, levelColours[levelBase][3]);
+
+		spawnerMesh->setDiffuse(1, levelColours[levelBase][0], 1);
+		spawnerMesh->setEmissive(1, levelColours[levelBase][1]);
 		spawner->setActive(true);
 
 		aux.push_back(spawner);

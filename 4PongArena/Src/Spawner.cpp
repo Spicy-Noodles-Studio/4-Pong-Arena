@@ -25,7 +25,7 @@ void Spawner::start()
 {
 	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
 	direction.y = 0;
-	gameObject->transform->setDirection(direction);
+	gameObject->transform->setDirection(direction.normalized());
 }
 
 void Spawner::handleData(ComponentData* data)
@@ -52,17 +52,20 @@ void Spawner::handleData(ComponentData* data)
 void Spawner::shoot(GameObject* ball)
 {
 	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
-	gameObject->transform->setDirection(direction);
+	
 	double rand = random(-angle, angle);
 	direction.rotateAroundAxis(Vector3::UP, rand);
-	direction.y = 0;
 
-	gameObject->transform->rotate({ 0, rand, 0 });
+	direction.y = 0;
+	
+	gameObject->transform->resetOrientation();
+	gameObject->transform->setDirection(direction.normalized());
+
+	
 
 	if (ball != nullptr)
 	{
 		ball->transform->setPosition(gameObject->transform->getPosition() + direction.normalized());
-
 		ball->getComponent<Ball>()->setVelocity(velocity);
 		ball->getComponent<Ball>()->setTargetVelocity(velocity);
 
