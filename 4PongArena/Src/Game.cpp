@@ -247,7 +247,7 @@ void Game::chooseWinner()
 
 void Game::endgameHandleSound()
 {
-	gameManager->setGameEnded(true);
+	gameManager->setMusicVolume(0.2);
 	soundEmitter->setVolume(1.5);
 	soundEmitter->playSound("Game_End");
 }
@@ -298,7 +298,8 @@ void Game::update(float deltaTime)
 	{
 		gameTimer -= deltaTime;
 		gameManager->setTime((int)gameTimer);
-		if (gameTimer <= 0.0f) {
+		if (gameTimer <= 0.0f && !gameManager->isGameEnded()) {
+			gameManager->setGameEnded(true);
 			endgameHandleSound();
 			chooseWinner();
 		}
@@ -311,13 +312,13 @@ void Game::update(float deltaTime)
 		finishTimer -= deltaTime;
 		
 		if (finishTimer <= 0.0f) {
-			gameManager->setMusicVolume(0.2);
 			gameManager->setGameEnded(false);
 			SceneManager::GetInstance()->changeScene("LeaderBoardMenu"); // Cambiar a menu de final de partida
 		}
 	}
 
-	if (gameManager->getPlayersAlive() == 1) {
+	if (gameManager->getPlayersAlive() == 1 && !gameManager->isGameEnded()) {
+		gameManager->setGameEnded(true);
 		endgameHandleSound();
 		chooseWinner();
 	}

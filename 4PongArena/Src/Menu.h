@@ -12,6 +12,7 @@ class Menu : public UserComponent
 protected:
 	std::string backSound = "Back_Button";
 	std::string buttonSound = "Button_Click";
+	std::string sliderSound = "Button2";
 	std::string startSound = "Button_Click";
 	std::string playerAddedSound = "Button_Click";
 	std::string menuMusic = "Menu_loop";

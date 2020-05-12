@@ -6,6 +6,7 @@ EXAMPLE: despacito.mp3 scene_1_music 2D true
 ./Assets/Sounds/piano.mp3 piano 3D false
 ./Assets/Sounds/WaterDrop.wav prueba3 3D false
 ./Assets/Sounds/UI/Button_Click.wav Button_Click 2D false
+./Assets/Sounds/UI/Button2.wav Button2 2D false
 ./Assets/Sounds/UI/Focus_Change.wav Focus_Change 2D false
 ./Assets/Sounds/UI/Back_Button.wav Back_Button 2D false
 ./Assets/Sounds/Game_Effects/Ball_bounce.wav Ball_bounce 3D false
