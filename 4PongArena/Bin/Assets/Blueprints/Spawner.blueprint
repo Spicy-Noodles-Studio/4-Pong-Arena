@@ -7,14 +7,13 @@
         {
             "ComponentName": "Transform",
             "ComponentProperties": [
-                ["scale", "1 1 1"]
+                ["scale", "0.5 0.5 0.5"]
             ]
         },
         {
             "ComponentName": "MeshRenderer",
             "ComponentProperties": [
-                ["mesh", "spawner Cylinder.mesh"],
-                ["visible", "0"]
+                ["mesh", "spawner Spawner.mesh"]
             ]
         },
         {

@@ -20,6 +20,12 @@ Spawner::~Spawner()
 
 }
 
+void Spawner::start()
+{
+	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
+	gameObject->transform->setWorldRotation(direction);
+}
+
 void Spawner::handleData(ComponentData* data)
 {
 	for (auto prop : data->getProperties())
@@ -45,7 +51,12 @@ void Spawner::shoot(GameObject* ball)
 {
 	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
 	direction.rotateAroundAxis(Vector3::UP, random(-angle, angle));
+
+	//gameObject->transform->setRotation(direction);
+
 	direction.y = 0;
+
+	
 
 	if (ball != nullptr)
 	{

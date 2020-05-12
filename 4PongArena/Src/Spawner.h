@@ -14,6 +14,7 @@ public:
 	Spawner(GameObject* gameObject);
 	virtual ~Spawner();
 
+	virtual void start();
 	virtual void handleData(ComponentData* data);
 
 	void shoot(GameObject* ball);
