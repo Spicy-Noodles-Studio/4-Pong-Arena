@@ -29,11 +29,21 @@ void Game::createLevel()
 	std::string renderName = levelData[levelBase].find("RenderMesh").getValue();
 	std::string colliderName = levelData[levelBase].find("ColliderMesh").getValue();
 
-	// collider mesh
-	configureLevelCollider(colliderName);
 	// render mesh
 	configureLevelRender(renderName);
 
+	// collider mesh
+	configureLevelCollider(colliderName);
+
+	// wall scale
+	GaiaData wallScaleData = levelData[levelBase].find("WallScale");
+	std::stringstream ss(wallScaleData.getValue());
+	double wEscX, wEscY, wEscZ;
+
+	if (!(ss >> wEscX >> wEscY >> wEscZ))
+		LOG_ERROR("GAME", "invalid wall scale \"%s\"", wallScaleData.getValue().c_str());
+	else
+		wallScale = { wEscX, wEscY, wEscZ };
 
 	// player initial transforms
 	GaiaData playerData = levelData[levelBase].find("PlayerTransforms");
@@ -157,15 +167,17 @@ void Game::createPlayers()
 	for (int i = 0; i < nPlayers; i++)
 	{
 		GameObject* paddle = instantiate("Paddle", playerTransforms[i].first);
-		paddle->getComponent<RigidBody>()->setGravity(Vector3(0, 0, 0));
+		paddle->getComponent<RigidBody>()->setGravity({ 0, 0, 0 });
 		paddle->transform->setRotation(playerTransforms[i].second);
 		paddle->getComponent<PlayerController>()->setPlayer(players[i].id, players[i].index);
 		paddle->getComponent<PlayerIndex>()->setId(players[i].id);
 		paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
 		paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
-		paddle->getComponent<Death>()->setPlayerColour(playerColours[i]);
-		paddle->getComponent<Death>()->setwallColours(levelColours[levelBase][0], levelColours[levelBase][1], levelColours[levelBase][2], levelColours[levelBase][3]);
 
+		Death* death = paddle->getComponent<Death>();
+		death->setPlayerColour(playerColours[i]);
+		death->setwallColours(levelColours[levelBase][0], levelColours[levelBase][1], levelColours[levelBase][2], levelColours[levelBase][3]);
+		death->setWallScale(wallScale);
 
 		paddles.push_back(paddle);
 	}
@@ -176,26 +188,41 @@ void Game::createPlayers()
 	{
 		for (int i = 0; i < nUnfilled; i++)
 		{
-			if (gameManager->getIA())
+			if (gameManager->getIA()) // fill with IA
 			{
 				GameObject* paddleIA = instantiate("IA", playerTransforms[i + nPlayers].first);
 				paddleIA->transform->setRotation(playerTransforms[i + nPlayers].second);
-				paddleIA->getComponent<RigidBody>()->setGravity(Vector3(0, 0, 0));
+				paddleIA->getComponent<RigidBody>()->setGravity({ 0, 0, 0 });
 				paddleIA->getComponent<PlayerIndex>()->setId(i + nPlayers + 1);
 				paddleIA->getComponent<Health>()->setHealth(gameManager->getHealth());
 				paddleIA->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i + nPlayers], 1);
-				paddleIA->getComponent<Death>()->setPlayerColour(playerColours[i + nPlayers]);
-				paddleIA->getComponent<Death>()->setwallColours(levelColours[levelBase][0], levelColours[levelBase][1], levelColours[levelBase][2], levelColours[levelBase][3]);
+
+				Death* deathIA = paddleIA->getComponent<Death>();
+				deathIA->setPlayerColour(playerColours[i + nPlayers]);
+				deathIA->setwallColours(levelColours[levelBase][0], levelColours[levelBase][1], levelColours[levelBase][2], levelColours[levelBase][3]);
+				deathIA->setWallScale(wallScale);
+
 				paddles.push_back(paddleIA);
 			}
-			else
+			else // fill with a wall (no player)
 			{
 				GameObject* wall = instantiate("Wall", playerTransforms[i + nPlayers].first);
 				wall->transform->setRotation(playerTransforms[i + nPlayers].second);
+				wall->transform->setScale(wallScale);
+
 				RigidBody* wallRigidBody = wall->getComponent<RigidBody>();
 				wallRigidBody->setStatic(true);
 				wallRigidBody->setFriction(0.5f);
 				wallRigidBody->setActive(true);
+
+				MeshRenderer* wallMesh = wall->getComponent<MeshRenderer>();
+				wallMesh->setDiffuse(0, playerColours[i + nPlayers], 1);
+
+				wallMesh->setDiffuse(2, levelColours[levelBase][2], 1);
+				wallMesh->setEmissive(2, levelColours[levelBase][3]);
+
+				wallMesh->setDiffuse(1, levelColours[levelBase][0], 1);
+				wallMesh->setEmissive(1, levelColours[levelBase][1]);
 			}
 		}
 	}
@@ -216,7 +243,6 @@ void Game::createSpawners()
 		GameObject* spawner = instantiate("Spawner", spawnerTransforms[i].first);
 		spawner->transform->setRotation(spawnerTransforms[i].second);
 		spawner->setActive(true);
-		//spawner->getChildren()[0]->setActive(true);
 
 		aux.push_back(spawner);
 	}
@@ -246,10 +272,11 @@ void Game::createObstacles()
 		GameObject* obstacle = instantiate("Obstacle", obstacleTransforms[i].first);
 		obstacle->transform->setScale(obstacleTransforms[i].second);
 		obstacle->setActive(true);
-		for (int j = 0; j < 2; j ++)
+
+		for (int j = 0; j < 2; j++)
 		{
-			obstacle->getComponent<MeshRenderer>()->setDiffuse(j, levelColours[levelBase][j*2], 1);
-			obstacle->getComponent<MeshRenderer>()->setEmissive(j, levelColours[levelBase][(j*2) + 1]);
+			obstacle->getComponent<MeshRenderer>()->setDiffuse(j, levelColours[levelBase][j * 2], 1);
+			obstacle->getComponent<MeshRenderer>()->setEmissive(j, levelColours[levelBase][(j * 2) + 1]);
 		}
 	}
 }

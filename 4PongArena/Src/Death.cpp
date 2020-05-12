@@ -33,10 +33,10 @@ void Death::start()
 	meshRenderer = gameObject->getComponent<MeshRenderer>();
 	///Para no repetirlos por el codigo y evitar errores.
 	manager = GameManager::GetInstance();
-	if(manager!=nullptr)
+	if (manager != nullptr)
 		scores = manager->getScore();
 
-	PlayerIndex * playerId= this->gameObject->getComponent<PlayerIndex>();
+	PlayerIndex* playerId = this->gameObject->getComponent<PlayerIndex>();
 
 	id = -1;
 	if (playerId != nullptr)
@@ -80,12 +80,17 @@ void Death::setPlayerColour(Vector3 colour)
 	playerColour = colour;
 }
 
-void Death::setwallColours(Vector3 colourWall,Vector3 colourWallEmissive, Vector3 colourNeon, Vector3 colourNeonEmissive)
+void Death::setwallColours(Vector3 colourWall, Vector3 colourWallEmissive, Vector3 colourNeon, Vector3 colourNeonEmissive)
 {
 	wallColourD = colourWall;
 	wallColourE = colourWallEmissive;
 	neonColourD = colourNeon;
 	neonColourE = colourNeonEmissive;
+}
+
+void Death::setWallScale(const Vector3& wallScale)
+{
+	this->wallScale = wallScale;
 }
 
 void Death::die()
@@ -104,9 +109,6 @@ void Death::die()
 
 			meshRenderer->setDiffuse(1, wallColourD, 1);
 			meshRenderer->setEmissive(1, wallColourE);
-
-
-
 		}
 
 		Vector3 scaleRatio = wallScale / gameObject->transform->getScale();
@@ -115,17 +117,21 @@ void Death::die()
 
 	}
 
-	if (id != -1 && scores!=nullptr)
+	if (id != -1 && scores != nullptr)
 	{
 		scores->setPositionOnLeaderBoard(id, manager->getPlayersAlive());
-		scores->setTimeAlive(id,manager->getInitialTime(), manager->getTime());
+		scores->setTimeAlive(id, manager->getInitialTime(), manager->getTime());
 	}
 	manager->setPlayersAlive(manager->getPlayersAlive() - 1);
 
+	// increase spawner generation frequency
 	SpawnerManager* spawnerManager = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>();
 
-	if (spawnerManager->getGenerationTime() / 2 < spawnerManager->getMinimumTime())
-		spawnerManager->setGenerationTime(spawnerManager->getMinimumTime());
+	float genTime = spawnerManager->getGenerationTime();
+	float minTime = spawnerManager->getMinimumTime();
+
+	if (genTime / 2 < minTime)
+		spawnerManager->setGenerationTime(minTime);
 	else
-		spawnerManager->setGenerationTime(spawnerManager->getGenerationTime() / 2);
+		spawnerManager->setGenerationTime(genTime / 2);
 }

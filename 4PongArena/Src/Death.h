@@ -24,6 +24,7 @@ private:
 	Vector3 wallColourE;
 	Vector3 neonColourD;
 	Vector3 neonColourE;
+
 	MeshRenderer* meshRenderer;
 	Vector3 wallScale;
 	Score* scores;
@@ -42,6 +43,7 @@ public:
 
 	void setPlayerColour(Vector3 colour);
 	void setwallColours(Vector3 colourWall, Vector3 colourWallEmissive, Vector3 colourNeon, Vector3 colourNeonEmissive);
+	void setWallScale(const Vector3& wallScale);
 };
 
 #endif
