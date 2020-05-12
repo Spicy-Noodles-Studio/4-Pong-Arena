@@ -7,6 +7,15 @@
             "Tag": "game",
             "Components":
             [
+				{
+					"ComponentName": "Transform",
+					"ComponentProperties": [
+						["scale", "0.25 0.25 0.25"]
+					]
+				},
+				{
+					"ComponentName": "SoundEmitter"
+				},
                 {
                     "ComponentName" : "Game"
                 }

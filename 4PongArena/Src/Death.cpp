@@ -11,6 +11,7 @@
 #include "PlayerIndex.h"
 
 #include <ComponentRegister.h>
+#include <SoundEmitter.h>
 
 REGISTER_FACTORY(Death);
 
@@ -37,6 +38,8 @@ void Death::start()
 		scores = manager->getScore();
 
 	PlayerIndex * playerId= this->gameObject->getComponent<PlayerIndex>();
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	soundEmitter->setVolume(1.2);
 
 	id = -1;
 	if (playerId != nullptr)
@@ -96,7 +99,7 @@ void Death::die()
 	}
 	manager->setPlayersAlive(manager->getPlayersAlive() - 1);
 
-
+	soundEmitter->playSound("Death");
 
 	SpawnerManager* spawnerManager = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>();
 

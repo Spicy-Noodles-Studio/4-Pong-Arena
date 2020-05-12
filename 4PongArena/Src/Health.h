@@ -4,12 +4,15 @@
 
 #include <UserComponent.h>
 
+class SoundEmitter;
+
 class Health : public UserComponent
 {
 public:
 	Health(GameObject* gameObject);
 	virtual ~Health();
 
+	virtual void start();
 	virtual void handleData(ComponentData* data);
 
 	int getHealth() const;
@@ -20,6 +23,7 @@ public:
 
 private:
 	int health;
+	SoundEmitter* soundEmitter;
 };
 
 #endif

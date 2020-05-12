@@ -3,6 +3,7 @@
 #include <SceneManager.h>
 #include <UILayout.h>
 #include <GameObject.h>
+#include <SoundEmitter.h>
 
 #include "PlayerController.h"
 #include "IAPaddle.h"
@@ -176,7 +177,9 @@ void Game::createForceField()
 
 void Game::playSong()
 {
-	//findGameObjectWithName("MainCamera")->getComponent<SoundEmitter>()->play(GameManager::GetInstance()->getSong());
+	gameManager->playMusic(gameManager->getSong());
+	if(gameManager->getSong() == "DefenseMatrix") gameManager->setMusicVolume(0.5);
+	else gameManager->setMusicVolume(0.4);
 }
 
 void Game::chooseWinner()
@@ -242,6 +245,13 @@ void Game::chooseWinner()
 	}
 }
 
+void Game::endgameHandleSound()
+{
+	gameManager->setMusicVolume(0.2);
+	soundEmitter->setVolume(1.5);
+	soundEmitter->playSound("Game_End");
+}
+
 Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), gameLayout(nullptr), timeText(NULL), winnerPanel(NULL), winnerText(NULL), finishTimer(3.0f), winner(0)
 {
 
@@ -255,6 +265,8 @@ Game::~Game()
 void Game::start()
 {
 	gameManager = GameManager::GetInstance();
+	gameManager->setGameEnded(false);
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
 
 	GameObject* mainCamera = findGameObjectWithName("MainCamera");
 
@@ -286,8 +298,11 @@ void Game::update(float deltaTime)
 	{
 		gameTimer -= deltaTime;
 		gameManager->setTime((int)gameTimer);
-		if (gameTimer <= 0.0f)
+		if (gameTimer <= 0.0f && !gameManager->isGameEnded()) {
+			gameManager->setGameEnded(true);
+			endgameHandleSound();
 			chooseWinner();
+		}
 
 		if (gameLayout != nullptr)
 			timeText.setText(std::to_string((int)gameTimer % 60));
@@ -296,10 +311,15 @@ void Game::update(float deltaTime)
 	{
 		finishTimer -= deltaTime;
 		
-		if (finishTimer <= 0.0f)
+		if (finishTimer <= 0.0f) {
+			gameManager->setGameEnded(false);
 			SceneManager::GetInstance()->changeScene("LeaderBoardMenu"); // Cambiar a menu de final de partida
+		}
 	}
 
-	if (gameManager->getPlayersAlive() == 1)
+	if (gameManager->getPlayersAlive() == 1 && !gameManager->isGameEnded()) {
+		gameManager->setGameEnded(true);
+		endgameHandleSound();
 		chooseWinner();
+	}
 }

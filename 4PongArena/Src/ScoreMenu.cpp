@@ -24,7 +24,8 @@ bool ScoreMenu::resetButtonClick()
 	manager->setTime(manager->getInitialTime());
 	manager->setLevel(manager->getLastLevel());
 	manager->setSong(manager->getLastSong());
-
+	buttonClick(buttonSound);
+	GameManager::GetInstance()->stopMusic();
 	//change scene
 	SceneManager::GetInstance()->changeScene("Game");
 	return false;
@@ -34,10 +35,11 @@ bool ScoreMenu::backButtonClick()
 {
 	
 	SceneManager::GetInstance()->changeScene("MainMenu");
+	buttonClick(backSound);
 	return false;
 }
 
-ScoreMenu::ScoreMenu(GameObject* gameObject) : UserComponent(gameObject)
+ScoreMenu::ScoreMenu(GameObject* gameObject) : Menu(gameObject)
 {
 	InterfaceSystem* interfaceSystem = InterfaceSystem::GetInstance();
 	interfaceSystem->registerEvent("resetButtonClick", UIEvent("ButtonClicked", [this]() {return resetButtonClick(); }));
@@ -55,6 +57,7 @@ ScoreMenu::~ScoreMenu()
 
 void ScoreMenu::start()
 {
+	Menu::start();
 	UIElement root = findGameObjectWithName("MainCamera")->getComponent<UILayout>()->getRoot();
 	for (int i = 0; i < 4; i++)
 	{

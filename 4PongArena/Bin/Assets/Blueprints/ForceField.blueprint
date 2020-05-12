@@ -28,6 +28,9 @@
                 ["trigger", "1"]
             ]
         },
+		{
+            "ComponentName": "SoundEmitter"
+        },
         {
             "ComponentName": "ForceField",
             "ComponentProperties": [

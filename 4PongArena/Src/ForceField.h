@@ -5,6 +5,7 @@
 #include <UserComponent.h>
 
 class RigidBody;
+class SoundEmitter;
 
 class ForceField : public UserComponent
 {
@@ -12,6 +13,9 @@ public:
 	enum class State { DISABLED, FORWARDS, BACKWARDS };
 
 private:
+	SoundEmitter* soundEmitter;
+	float volume;
+
 	// Properties given to the ball
 	float targetVelocity;
 	float acceleration;

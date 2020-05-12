@@ -15,6 +15,7 @@ bool PauseMenu::backButtonClick()
 	pauseMenu.setVisible(false);
 	GameManager::GetInstance()->pause(false);
 	SceneManager::GetInstance()->changeScene("MainMenu");
+	buttonClick(backSound);
 	return false;
 }
 
@@ -29,11 +30,11 @@ bool PauseMenu::optionsButton()
 
 	InterfaceSystem::GetInstance()->clearControllerMenuInput();
 	InterfaceSystem::GetInstance()->initControllerMenuInput(&optionsMenu);
-
+	buttonClick(buttonSound);
 	return false;
 }
 
-PauseMenu::PauseMenu(GameObject* gameObject) : UserComponent(gameObject), pauseMenu(NULL),optionsMenu(NULL)
+PauseMenu::PauseMenu(GameObject* gameObject) : Menu(gameObject), pauseMenu(NULL),optionsMenu(NULL)
 {
 	InterfaceSystem::GetInstance()->registerEvent("resumeButtonClick", UIEvent("ButtonClicked", [this]() {setPaused(false); return false;}));
 	InterfaceSystem::GetInstance()->registerEvent("pauseOptionsButtonClick", UIEvent("ButtonClicked", [this]() {optionsButton(); return false; }));
@@ -50,6 +51,7 @@ PauseMenu::~PauseMenu()
 
 void PauseMenu::start()
 {
+	Menu::start();
 	UILayout* cameraLayout = findGameObjectWithName("MainCamera")->getComponent<UILayout>();
 	optionsMenu = findGameObjectWithName("OptionsMenuScreen")->getComponent<UILayout>()->getRoot();
 	if (cameraLayout != nullptr)
@@ -69,6 +71,7 @@ void PauseMenu::setPaused(bool paused)
 	pauseMenu.setVisible(paused);
 	pauseMenu.setAlwaysOnTop(paused);
 	GameManager::GetInstance()->pause(paused);
+	buttonClick(buttonSound);
 }
 
 bool PauseMenu::isVisible()

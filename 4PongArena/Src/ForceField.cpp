@@ -5,8 +5,10 @@
 #include <sstream>
 
 #include "Ball.h"
+#include "GameManager.h"
 
 #include <ComponentRegister.h>
+#include <SoundEmitter.h>
 
 REGISTER_FACTORY(ForceField);
 
@@ -24,6 +26,9 @@ void ForceField::start()
 {
 	currentState = State::FORWARDS;
 	stateTimer = 0.0f;
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	volume = 1.5;
+	soundEmitter->setVolume(volume);
 }
 	
 void ForceField::update(float deltaTime)
@@ -34,6 +39,11 @@ void ForceField::update(float deltaTime)
 	{
 		changeState();
 		stateTimer = 0;
+	}
+
+	if (volume > 0 && GameManager::GetInstance()->isGameEnded()) {
+		volume = 0;
+		soundEmitter->setVolume(0);
 	}
 }
 
@@ -77,11 +87,16 @@ void ForceField::onObjectEnter(GameObject* other)
 
 	if (ball == nullptr || rigidBody == nullptr) return;
 
-	if (currentState != State::FORWARDS)
+	std::string soundToPlay = "Impulse_02";
+
+	if (currentState != State::FORWARDS) {
 		rigidBody->setLinearVelocity(rigidBody->getLinearVelocity() * -1);
+		soundToPlay = "Force_Bounce_02";
+	}
 
 	ball->setTargetVelocity(targetVelocity);
 	ball->setAcceleration(acceleration);
+	soundEmitter->playSound(soundToPlay);
 }
 
 /// States: "DISABLED" | "FORWARDS" | "BACKWARDS"

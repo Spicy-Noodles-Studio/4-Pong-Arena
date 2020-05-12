@@ -29,6 +29,9 @@
                 ["movementConstraints", "1 0 1"]
             ]
         },
+		{
+            "ComponentName": "SoundEmitter"
+        },
         {
             "ComponentName" : "Ball"
         }
