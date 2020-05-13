@@ -68,8 +68,6 @@ void ConfigurationMenu::clearSlot(int index)
 	slots[index].second.setVisible(false);
 
 	filledSlots--;
-
-
 }
 
 void ConfigurationMenu::reorderSlots(int index)

@@ -164,9 +164,10 @@ void Game::createPlayers()
 
 	int nPlayers = players.size();
 
-	for (int i = 0; i < nPlayers; i++)
+	for (int i = 0; i < nPlayers; i++) // fill with a player
 	{
 		GameObject* paddle = instantiate("Paddle", playerTransforms[i].first);
+		paddle->setName("Paddle" + std::to_string(i) + std::to_string(levelBase));
 		paddle->getComponent<RigidBody>()->setGravity({ 0, 0, 0 });
 		paddle->transform->setRotation(playerTransforms[i].second);
 		paddle->getComponent<PlayerController>()->setPlayer(players[i].id, players[i].index);
@@ -176,7 +177,7 @@ void Game::createPlayers()
 
 		Death* death = paddle->getComponent<Death>();
 		death->setPlayerColour(playerColours[i]);
-		death->setwallColours(levelColours[levelBase][0], levelColours[levelBase][1], levelColours[levelBase][2], levelColours[levelBase][3]);
+		death->setwallColours(baseColour, neonColour);
 		death->setWallScale(wallScale);
 
 		paddles.push_back(paddle);
@@ -191,6 +192,7 @@ void Game::createPlayers()
 			if (gameManager->getIA()) // fill with IA
 			{
 				GameObject* paddleIA = instantiate("IA", playerTransforms[i + nPlayers].first);
+				paddleIA->setName("PaddleIA" + std::to_string(i) + std::to_string(levelBase));
 				paddleIA->transform->setRotation(playerTransforms[i + nPlayers].second);
 				paddleIA->getComponent<RigidBody>()->setGravity({ 0, 0, 0 });
 				paddleIA->getComponent<PlayerIndex>()->setId(i + nPlayers + 1);
@@ -199,7 +201,7 @@ void Game::createPlayers()
 
 				Death* deathIA = paddleIA->getComponent<Death>();
 				deathIA->setPlayerColour(playerColours[i + nPlayers]);
-				deathIA->setwallColours(levelColours[levelBase][0], levelColours[levelBase][1], levelColours[levelBase][2], levelColours[levelBase][3]);
+				deathIA->setwallColours(baseColour, neonColour);
 				deathIA->setWallScale(wallScale);
 
 				paddles.push_back(paddleIA);
@@ -207,25 +209,37 @@ void Game::createPlayers()
 			else // fill with a wall (no player)
 			{
 				GameObject* wall = instantiate("Wall", playerTransforms[i + nPlayers].first);
+				wall->setName("Wall" + std::to_string(levelBase));
 				wall->transform->setRotation(playerTransforms[i + nPlayers].second);
 				wall->transform->setScale(wallScale);
 
 				RigidBody* wallRigidBody = wall->getComponent<RigidBody>();
+				if (wallRigidBody == nullptr)
+				{
+					LOG_ERROR("GAME", "Rigidbody of wall not found"); return;
+				}
+
 				wallRigidBody->setStatic(true);
 				wallRigidBody->setFriction(0.5f);
 				wallRigidBody->setActive(true);
 
 				MeshRenderer* wallMesh = wall->getComponent<MeshRenderer>();
+				if (wallMesh == nullptr)
+				{
+					LOG_ERROR("GAME", "MeshRenderer of wall not found"); return;
+				}
+
 				wallMesh->setDiffuse(0, playerColours[i + nPlayers], 1);
 
-				wallMesh->setDiffuse(2, levelColours[levelBase][2], 1);
-				wallMesh->setEmissive(2, levelColours[levelBase][3]);
+				wallMesh->setDiffuse(2, neonColour.first, 1);
+				wallMesh->setEmissive(2, neonColour.second);
 
-				wallMesh->setDiffuse(1, levelColours[levelBase][0], 1);
-				wallMesh->setEmissive(1, levelColours[levelBase][1]);
+				wallMesh->setDiffuse(1, baseColour.first, 1);
+				wallMesh->setEmissive(1, baseColour.second);
 			}
 		}
 	}
+
 	win = false;
 	gameManager->setPlayersAlive(paddles.size());
 	gameManager->setTotalPlayers(paddles.size());
@@ -241,13 +255,20 @@ void Game::createSpawners()
 	for (int i = 0; i < n; i++)
 	{
 		GameObject* spawner = instantiate("Spawner", spawnerTransforms[i].first);
-		MeshRenderer*spawnerMesh = spawner->getComponent<MeshRenderer>();
+		spawner->setName("Spawner" + std::to_string(levelBase));
 		spawner->transform->setRotation(spawnerTransforms[i].second);
-		spawnerMesh->setDiffuse(0, levelColours[levelBase][2], 1);
-		spawnerMesh->setEmissive(0, levelColours[levelBase][3]);
 
-		spawnerMesh->setDiffuse(1, levelColours[levelBase][0], 1);
-		spawnerMesh->setEmissive(1, levelColours[levelBase][1]);
+		MeshRenderer* spawnerMesh = spawner->getComponent<MeshRenderer>();
+		if (spawnerMesh == nullptr)
+		{
+			LOG_ERROR("GAME", "MeshRenderer of spawner not found"); return;
+		}
+
+		spawnerMesh->setDiffuse(0, neonColour.first, 1);
+		spawnerMesh->setEmissive(0, neonColour.second);
+
+		spawnerMesh->setDiffuse(1, baseColour.first, 1);
+		spawnerMesh->setEmissive(1, baseColour.second);
 		spawner->setActive(true);
 
 		aux.push_back(spawner);
@@ -276,14 +297,21 @@ void Game::createObstacles()
 	for (int i = 0; i < n; i++)
 	{
 		GameObject* obstacle = instantiate("Obstacle", obstacleTransforms[i].first);
+		obstacle->setName("Obstacle" + std::to_string(levelBase));
 		obstacle->transform->setScale(obstacleTransforms[i].second);
 		obstacle->setActive(true);
 
-		for (int j = 0; j < 2; j++)
+		MeshRenderer* obstacleMesh = obstacle->getComponent<MeshRenderer>();
+		if (obstacleMesh == nullptr)
 		{
-			obstacle->getComponent<MeshRenderer>()->setDiffuse(j, levelColours[levelBase][j * 2], 1);
-			obstacle->getComponent<MeshRenderer>()->setEmissive(j, levelColours[levelBase][(j * 2) + 1]);
+			LOG_ERROR("GAME", "MeshRenderer of obstacle not found"); return;
 		}
+
+		obstacleMesh->setDiffuse(0, neonColour.first, 1);
+		obstacleMesh->setEmissive(0, neonColour.second);
+
+		obstacleMesh->setDiffuse(1, baseColour.first, 1);
+		obstacleMesh->setEmissive(1, baseColour.second);
 	}
 }
 
@@ -302,8 +330,14 @@ void Game::configureLevelRender(const std::string& name)
 		LOG_ERROR("GAME", "MeshRenderer not found"); return;
 	}
 
-	meshRenderer->setMesh("levelRender", name);
-	meshRenderer->attachEntityToNode("levelRender");
+	meshRenderer->changeMesh("levelRender", name);
+
+	// get colours of level render
+	baseColour.first = meshRenderer->getDiffuse(4);
+	baseColour.second = meshRenderer->getEmissive(4);
+
+	neonColour.first = meshRenderer->getDiffuse(3);
+	neonColour.second = meshRenderer->getEmissive(3);
 }
 
 void Game::configureLevelCollider(const std::string& name)
@@ -433,7 +467,6 @@ void Game::start()
 	levelBase = gameManager->getLevelBase();
 	levelObstacles = gameManager->getLevelObstacles();
 	levelForces = gameManager->getLevelForces();
-	levelColours = gameManager->getLevelColours();
 
 	createLevel();
 	createPlayers();

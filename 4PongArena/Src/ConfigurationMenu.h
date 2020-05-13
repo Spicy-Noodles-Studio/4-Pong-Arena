@@ -17,7 +17,7 @@ const int BASE_TYPES = 2;
 const int OBSTACLES_TYPES = 2;
 const int FORCES_TYPES = 2;
 
-const int MIN_PLAYERS = 0;
+//const int MIN_PLAYERS = 0;
 
 class InputSystem;
 class UILayout;

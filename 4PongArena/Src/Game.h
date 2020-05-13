@@ -23,7 +23,11 @@ private:
 
 	std::vector<GameObject*> paddles;
 	std::vector<Vector3> playerColours;
-	std::vector<std::vector<Vector3>>levelColours;
+	std::vector<std::vector<Vector3>> levelColours;
+
+	std::pair<Vector3, Vector3> baseColour;
+	std::pair<Vector3, Vector3> neonColour;
+
 	std::vector<std::pair<Vector3, Vector3>> playerTransforms;
 	std::vector<std::pair<Vector3, Vector3>> spawnerTransforms;
 	std::vector<std::pair<Vector3, Vector3>> forceFieldTransforms;

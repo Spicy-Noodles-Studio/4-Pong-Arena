@@ -4,6 +4,7 @@
 #include <MeshRenderer.h>
 #include <sstream>
 #include <MathUtils.h>
+
 #include "Health.h"
 #include "SpawnerManager.h"
 #include "GameManager.h"
@@ -75,17 +76,15 @@ void Death::handleData(ComponentData* data)
 	}
 }
 
-void Death::setPlayerColour(Vector3 colour)
+void Death::setPlayerColour(const Vector3& colour)
 {
 	playerColour = colour;
 }
 
-void Death::setwallColours(Vector3 colourWall, Vector3 colourWallEmissive, Vector3 colourNeon, Vector3 colourNeonEmissive)
+void Death::setwallColours(const std::pair<Vector3, Vector3>& baseColour, const std::pair<Vector3, Vector3>& neonColour)
 {
-	wallColourD = colourWall;
-	wallColourE = colourWallEmissive;
-	neonColourD = colourNeon;
-	neonColourE = colourNeonEmissive;
+	this->baseColour = baseColour;
+	this->neonColour = neonColour;
 }
 
 void Death::setWallScale(const Vector3& wallScale)
@@ -104,17 +103,16 @@ void Death::die()
 			meshRenderer->changeMesh(wallMeshId, wallMeshName);
 			meshRenderer->setDiffuse(0, playerColour, 1);
 
-			meshRenderer->setDiffuse(2, neonColourD, 1);
-			meshRenderer->setEmissive(2, neonColourE);
+			meshRenderer->setDiffuse(2, neonColour.first, 1);
+			meshRenderer->setEmissive(2, neonColour.second);
 
-			meshRenderer->setDiffuse(1, wallColourD, 1);
-			meshRenderer->setEmissive(1, wallColourE);
+			meshRenderer->setDiffuse(1, baseColour.first, 1);
+			meshRenderer->setEmissive(1, baseColour.second);
 		}
 
 		Vector3 scaleRatio = wallScale / gameObject->transform->getScale();
 		gameObject->transform->setScale(wallScale);
 		rigidBody->multiplyScale(scaleRatio);
-
 	}
 
 	if (id != -1 && scores != nullptr)

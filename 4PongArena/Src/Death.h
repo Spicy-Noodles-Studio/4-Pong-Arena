@@ -20,10 +20,8 @@ private:
 
 	std::string wallMeshId, wallMeshName;
 	Vector3 playerColour;
-	Vector3 wallColourD;
-	Vector3 wallColourE;
-	Vector3 neonColourD;
-	Vector3 neonColourE;
+	std::pair<Vector3, Vector3> baseColour;
+	std::pair<Vector3, Vector3> neonColour;
 
 	MeshRenderer* meshRenderer;
 	Vector3 wallScale;
@@ -41,8 +39,8 @@ public:
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
 
-	void setPlayerColour(Vector3 colour);
-	void setwallColours(Vector3 colourWall, Vector3 colourWallEmissive, Vector3 colourNeon, Vector3 colourNeonEmissive);
+	void setPlayerColour(const Vector3& colour);
+	void setwallColours(const std::pair<Vector3, Vector3>& baseColour, const std::pair<Vector3, Vector3>& neonColour);
 	void setWallScale(const Vector3& wallScale);
 };
 

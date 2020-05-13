@@ -5,7 +5,6 @@
 #include <UserComponent.h>
 #include "Player.h"
 #include "Score.h"
-//class Score;
 
 class GameManager : public UserComponent
 {
@@ -13,7 +12,6 @@ private:
 	static GameManager* instance;
 
 	std::vector<Vector3> playerColours;
-	std::vector<std::vector<Vector3>>levelColours;
 	int playersAlive;
 	std::vector<Player> players;
 	int totalPlayers;
@@ -36,7 +34,6 @@ private:
 
 	Score scores;
 
-
 public:
 	GameManager();
 	GameManager(GameObject* gameObject);
@@ -54,7 +51,6 @@ public:
 	void setPlayers(std::vector<Player>& players);
 	std::vector<Player> getPlayers() const;
 	std::vector<Vector3>& getPlayerColours();
-	std::vector< std::vector<Vector3>>& getLevelColours();
 
 	void setIA(bool IA);
 	bool getIA() const;
