@@ -14,21 +14,23 @@ class SoundEmitter;
 class Death : public UserComponent
 {
 private:
+	GameManager* gameManager;
+
+	MeshRenderer* meshRenderer;
 	RigidBody* rigidBody;
 	Health* health;
+	Score* scores;
 	SoundEmitter* soundEmitter;
 
 	Vector3 initialPosition;
 
 	std::string wallMeshId, wallMeshName;
-	Vector3 playerColour;
+	Vector3 wallScale;
+
 	std::pair<Vector3, Vector3> baseColour;
 	std::pair<Vector3, Vector3> neonColour;
+	Vector3 playerColour;
 
-	MeshRenderer* meshRenderer;
-	Vector3 wallScale;
-	Score* scores;
-	GameManager* manager;
 	int id;
 
 	void die();

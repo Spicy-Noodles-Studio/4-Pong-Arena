@@ -1,10 +1,8 @@
 ﻿#include "GameManager.h"
-#include <Timer.h>
 #include <ComponentRegister.h>
-
 #include <SoundEmitter.h>
 #include <GameObject.h>
-
+#include <Timer.h>
 
 REGISTER_FACTORY(GameManager);
 
@@ -15,12 +13,15 @@ GameManager::GameManager() : UserComponent(nullptr)
 
 }
 
-GameManager::GameManager(GameObject* gameObject) : UserComponent(gameObject)
+GameManager::GameManager(GameObject* gameObject) : UserComponent(gameObject), song(""), health(5), time(60), initialTime(time), timeMode(false),
+levelBase(0), levelForces(0), levelObstacles(0), menuMusic(false), paused(false), gameEnded(false)
 {
 	if (instance == nullptr)
 		instance = this;
 	else
 		destroy(gameObject);
+
+	playerIndexes = std::vector<int>(4, -1);
 }
 
 GameManager::~GameManager()
@@ -38,11 +39,55 @@ void GameManager::start()
 {
 	playerColours = { {1,0,0}, {0,0,1}, {1,1,0}, {0,1,0} };
 
-	gameEnded = false;
-	if (soundEmitter == nullptr) {
+	if (soundEmitter == nullptr)
 		soundEmitter = gameObject->getComponent<SoundEmitter>();
-	}
+
 	dontDestroyOnLoad(gameObject);
+}
+
+Score* GameManager::getScore()
+{
+	return &scores;
+}
+
+void GameManager::initPlayerRanking(int tam)
+{
+	playerRanking = std::vector<int>(tam, 0);
+}
+
+void GameManager::setPlayerRanking(int index, int rank)
+{
+	if (index > 0 && (index - 1) < playerRanking.size())
+		playerRanking[index - 1] = rank;
+}
+
+int GameManager::getPlayerRanking(int index) const
+{
+	if (index > 0 && (index - 1) < playerRanking.size())
+		return playerRanking[index - 1];
+
+	return -1;
+}
+
+void GameManager::setPlayerIndexes(std::vector<int>& playerIndexes)
+{
+
+	this->playerIndexes = playerIndexes;
+}
+
+std::vector<int>& GameManager::getPlayerIndexes()
+{
+	return playerIndexes;
+}
+
+std::vector<Vector3>& GameManager::getPlayerColours()
+{
+	return playerColours;
+}
+
+std::vector<GameObject*>& GameManager::getPaddles()
+{
+	return paddles;
 }
 
 void GameManager::setPlayersAlive(int players)
@@ -55,39 +100,29 @@ int GameManager::getPlayersAlive() const
 	return playersAlive;
 }
 
-void GameManager::setTotalPlayers(int players)
+void GameManager::setInitialPlayers(int players)
 {
-	totalPlayers = players;
+	initialPlayers = players;
 }
 
-int GameManager::getTotalPlayers() const
+int GameManager::getInitialPlayers() const
 {
-	return totalPlayers;
+	return initialPlayers;
 }
 
-void GameManager::setPlayers(std::vector<Player>& players)
+void GameManager::setPaused(bool paused)
 {
-	this->players = players;
+	if (paused)
+		Timer::GetInstance()->setTimeScale(0.0f); //Pause the game
+	else
+		Timer::GetInstance()->setTimeScale(1.0f); //Resume the game
+
+	this->paused = paused;
 }
 
-std::vector<Player> GameManager::getPlayers() const
+bool GameManager::isPaused()
 {
-	return players;
-}
-
-std::vector<Vector3>& GameManager::getPlayerColours()
-{
-	return playerColours;
-}
-
-void GameManager::setIA(bool IA)
-{
-	this->IA = IA;
-}
-
-bool GameManager::getIA() const
-{
-	return IA;
+	return paused;
 }
 
 void GameManager::setHealth(int health)
@@ -122,22 +157,29 @@ int GameManager::getInitialTime() const
 	return initialTime;
 }
 
+void GameManager::setTimeMode(bool mode)
+{
+	timeMode = mode;
+}
+
+bool GameManager::getTimeMode() const
+{
+	return timeMode;
+}
+
+void GameManager::setWinner(int winner)
+{
+	this->winner = winner;
+}
+
+int GameManager::getWinner() const
+{
+	return winner;
+}
+
 void GameManager::setLevelBase(int levelBase)
 {
 	this->levelBase = levelBase;
-	//this->lastLevel = level;
-}
-
-void GameManager::setLevelObstacles(int levelObstacles)
-{
-	this->levelObstacles = levelObstacles;
-	//this->lastLevel = level;
-}
-
-void GameManager::setLevelForces(int levelForces)
-{
-	this->levelForces = levelForces;
-	//this->lastLevel = level;
 }
 
 int GameManager::getLevelBase() const
@@ -145,50 +187,24 @@ int GameManager::getLevelBase() const
 	return levelBase;
 }
 
+void GameManager::setLevelObstacles(int levelObstacles)
+{
+	this->levelObstacles = levelObstacles;
+}
+
 int GameManager::getLevelObstacles() const
 {
 	return levelObstacles;
 }
 
+void GameManager::setLevelForces(int levelForces)
+{
+	this->levelForces = levelForces;
+}
+
 int GameManager::getLevelForces() const
 {
 	return levelForces;
-}
-
-std::string GameManager::getLastLevel() const
-{
-	return lastLevel;
-}
-
-void GameManager::setSong(std::string song)
-{
-	lastSong = this->song;
-	this->song = song;
-}
-
-std::string GameManager::getSong() const
-{
-	return song;
-}
-
-std::string GameManager::getLastSong() const
-{
-	return lastSong;
-}
-
-void GameManager::pause(bool paused)
-{
-	if (paused)
-		Timer::GetInstance()->setTimeScale(0.0f); //Pause the game
-	else
-		Timer::GetInstance()->setTimeScale(1.0f); //Resume the game
-
-	this->paused = paused;
-}
-
-bool GameManager::isPaused()
-{
-	return paused;
 }
 
 void GameManager::setGameEnded(bool end)
@@ -201,29 +217,52 @@ bool GameManager::isGameEnded()
 	return gameEnded;
 }
 
-Score* GameManager::getScore()
+void GameManager::setSong(std::string name)
 {
-	return &scores;
+	song = name;
+}
+
+std::string GameManager::getSong() const
+{
+	return song;
 }
 
 void GameManager::playMusic(std::string music)
 {
 	soundEmitter->stop(music);
-	if(music == "") soundEmitter->playMusic(song);
-	else {
-		soundEmitter->playMusic(music);
-		setSong(music);
-	}
 
+	if(music == "")
+		soundEmitter->playMusic(song);
+	else
+		soundEmitter->playMusic(music);
 }
 
-void GameManager::stopMusic()
+void GameManager::stopMusic(std::string music)
 {
-	soundEmitter->stopAll();
+	soundEmitter->stop(music);
+}
+
+void GameManager::resumeMusic(std::string music)
+{
+	soundEmitter->resume(music);
+}
+
+void GameManager::pauseMusic(std::string music)
+{
+	soundEmitter->pause(music);
+}
+
+void GameManager::setMenuMusic(bool value)
+{
+	menuMusic = value;
+}
+
+bool GameManager::isMenuMusicPlaying() const
+{
+	return menuMusic;
 }
 
 void GameManager::setMusicVolume(float volume)
 {
 	soundEmitter->setVolume(volume);
 }
-

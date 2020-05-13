@@ -1,25 +1,16 @@
 #include "PauseMenu.h"
+#include <ComponentRegister.h>
 #include <InputSystem.h>
 #include <InterfaceSystem.h>
-#include <GameObject.h>
 #include <SceneManager.h>
-#include "GameManager.h"
-#include "UILayout.h"
+#include <GameObject.h>
+#include <UILayout.h>
 
-#include <ComponentRegister.h>
+#include "GameManager.h"
 
 REGISTER_FACTORY(PauseMenu);
 
-bool PauseMenu::backButtonClick()
-{
-	pauseMenu.setVisible(false);
-	GameManager::GetInstance()->pause(false);
-	SceneManager::GetInstance()->changeScene("MainMenu");
-	buttonClick(backSound);
-	return false;
-}
-
-bool PauseMenu::optionsButton()
+bool PauseMenu::optionsButtonClick()
 {
 	pauseMenu.setVisible(false);
 	pauseMenu.setAlwaysOnTop(false);
@@ -34,19 +25,29 @@ bool PauseMenu::optionsButton()
 	return false;
 }
 
-PauseMenu::PauseMenu(GameObject* gameObject) : Menu(gameObject), pauseMenu(NULL),optionsMenu(NULL)
+bool PauseMenu::exitButtonClick()
 {
-	InterfaceSystem::GetInstance()->registerEvent("resumeButtonClick", UIEvent("ButtonClicked", [this]() {setPaused(false); return false;}));
-	InterfaceSystem::GetInstance()->registerEvent("pauseOptionsButtonClick", UIEvent("ButtonClicked", [this]() {optionsButton(); return false; }));
-	InterfaceSystem::GetInstance()->registerEvent("pauseBackButtonClick", UIEvent("ButtonClicked", [this]() {backButtonClick(); return false; }));
+	GameManager::GetInstance()->setPaused(false);
+	GameManager::GetInstance()->stopMusic(GameManager::GetInstance()->getSong());
+	SceneManager::GetInstance()->changeScene("MainMenu");
+	buttonClick(backSound);
+	return false;
+}
 
+PauseMenu::PauseMenu(GameObject* gameObject) : Menu(gameObject), inputSystem(nullptr), pauseMenu(NULL), pausePanel(NULL), optionsMenu(NULL)
+{
+	inputSystem = InputSystem::GetInstance();
+
+	InterfaceSystem::GetInstance()->registerEvent("resumeButtonClick", UIEvent("ButtonClicked", [this]() {setPaused(false); return false; }));
+	InterfaceSystem::GetInstance()->registerEvent("pauseOptionsButtonClick", UIEvent("ButtonClicked", [this]() {optionsButtonClick(); return false; }));
+	InterfaceSystem::GetInstance()->registerEvent("pauseExitButtonClick", UIEvent("ButtonClicked", [this]() {return exitButtonClick(); }));
 }
 
 PauseMenu::~PauseMenu()
 {
 	InterfaceSystem::GetInstance()->unregisterEvent("resumeButtonClick");
 	InterfaceSystem::GetInstance()->unregisterEvent("pauseOptionsButtonClick");
-	InterfaceSystem::GetInstance()->unregisterEvent("pauseBackButtonClick");
+	InterfaceSystem::GetInstance()->unregisterEvent("pauseExitButtonClick");
 }
 
 void PauseMenu::start()
@@ -54,23 +55,48 @@ void PauseMenu::start()
 	Menu::start();
 	UILayout* cameraLayout = findGameObjectWithName("MainCamera")->getComponent<UILayout>();
 	optionsMenu = findGameObjectWithName("OptionsMenuScreen")->getComponent<UILayout>()->getRoot();
-	if (cameraLayout != nullptr)
-		pauseMenu = cameraLayout->getRoot().getChild("PauseBackground");
 
-	inputSystem = InputSystem::GetInstance();
+	if (cameraLayout != nullptr)
+	{
+		pauseMenu = cameraLayout->getRoot().getChild("PauseBackground");
+		pausePanel = cameraLayout->getRoot().getChild("Pause");
+	}
 }
 
-void PauseMenu::update(float deltaTime)
+void PauseMenu::preUpdate(float deltaTime)
 {
-	if (inputSystem->getKeyPress("ESCAPE"))
+	if ((inputSystem->getKeyPress("ESCAPE") || checkControllersInput()) && !optionsMenu.isVisible())
 		setPaused(!GameManager::GetInstance()->isPaused());
+}
+
+bool PauseMenu::checkControllersInput()
+{
+	bool result = false;
+
+	int i = 0;
+	while (i < 4 && !result)
+	{
+		if (inputSystem->getButtonPress(i, "START") || (inputSystem->getButtonPress(i, "B") && pauseMenu.isVisible()))
+			result = true;
+
+		i++;
+	}
+
+	return result;
 }
 
 void PauseMenu::setPaused(bool paused)
 {
+	if (paused == GameManager::GetInstance()->isPaused())
+		return;
+
 	pauseMenu.setVisible(paused);
 	pauseMenu.setAlwaysOnTop(paused);
-	GameManager::GetInstance()->pause(paused);
+
+	pausePanel.setVisible(paused);
+	pauseMenu.setAlwaysOnTop(paused);
+
+	GameManager::GetInstance()->setPaused(paused);
 	buttonClick(buttonSound);
 }
 

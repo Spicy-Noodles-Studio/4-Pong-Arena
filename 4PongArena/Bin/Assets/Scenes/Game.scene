@@ -5,7 +5,7 @@
             "ObjectType": "GAMEOBJECT",
             "ObjectName": "Game",
             "Tag": "game",
-            "Components":
+            "Components": 
             [
 				{
 					"ComponentName": "Transform",
@@ -32,20 +32,6 @@
                 }
             ]
         },
-		{
-            "ObjectType": "GAMEOBJECT",
-            "ObjectName": "Countdown",
-            "Tag": "countdown",
-            "Components": 
-            [
-                {
-                    "ComponentName" : "Countdown",
-					"ComponentProperties": [
-                        ["time" , "3"]
-                    ]
-                }
-            ]
-        },
         {
             "ObjectType": "GAMEOBJECT",
             "ObjectName": "OptionsMenu",
@@ -54,21 +40,6 @@
             [
                 {
                     "ComponentName" : "OptionsMenuScreen"
-                }
-            ]
-        },
-        {
-            "ObjectType": "GAMEOBJECT",
-            "ObjectName": "SpawnerManager",
-            "Tag": "spawnerManager",
-            "Components": 
-            [
-                {
-                    "ComponentName" : "SpawnerManager",
-                    "ComponentProperties": [
-                        ["generationTime", "3"],
-                        ["minimumTime", "1"]
-                    ]
                 }
             ]
         },
@@ -83,7 +54,7 @@
                     "ComponentName": "UILayout",
                     "ComponentProperties": [
                         ["layout" , "Game.layout"],
-                        ["event" , "BackButton pauseBackButtonClick | ResumeButton resumeButtonClick |OptionsButton pauseOptionsButtonClick"]
+                        ["event" , "ResumeButton resumeButtonClick | OptionsButton pauseOptionsButtonClick | ExitButton pauseExitButtonClick"]
                     ]
                 }
             ],
@@ -100,9 +71,38 @@
                             "ComponentProperties": 
                             [
                                 ["layout" , "OptionsMenu.layout"],
-                                ["event" ,  "-ResolutionButton -resolutionButtonClick | +ResolutionButton +resolutionButtonClick | FullscreenYesButton fullscreenYesButtonClick | ResolutionApplyButton resolutionApplyButtonClick | BackButton backToMenuButtonClick | SoundScroll volumeScrollChange | MusicScroll volumeMusicScrollChange | GammaScroll gammaScrollChange | DefaultOptionsButton resetConfigurationsButtonClick"]
+                                ["event" ,  "-ResolutionButton -resolutionButtonClick | +ResolutionButton +resolutionButtonClick | -FullscreenButton -fullscreenButtonClick | +FullscreenButton +fullscreenButtonClick | ApplyButton applyButtonClick | RestoreButton restoreButtonClick | BackButton backToMenuButtonClick | BrightnessScroll brightnessScrollChange | SoundScroll soundScrollChange | MusicScroll musicScrollChange"]
                             ]
                         }
+                    ]
+                }
+            ]
+        },
+		{
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "Countdown",
+            "Tag": "countdown",
+            "Components": 
+            [
+                {
+                    "ComponentName" : "Countdown",
+					"ComponentProperties": [
+                        ["time" , "3"]
+                    ]
+                }
+            ]
+        },
+        {
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "SpawnerManager",
+            "Tag": "spawnerManager",
+            "Components": 
+            [
+                {
+                    "ComponentName" : "SpawnerManager",
+                    "ComponentProperties": [
+                        ["generationTime", "3"],
+                        ["minimumTime", "1"]
                     ]
                 }
             ]

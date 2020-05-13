@@ -12,10 +12,7 @@ class MainMenu : public Menu
 private:
 	InputSystem* inputSystem;
 
-	bool musicPlaying;
-
-	bool singlePlayerButtonClick();
-	bool multiplayerButtonClick();
+	bool playButtonClick();
 	bool optionsButtonClick();
 	bool exitButtonClick();
 
@@ -26,7 +23,6 @@ public:
 	virtual ~MainMenu();
 
 	virtual void start();
-	virtual void update(float deltaTime);
 };
 
 #endif

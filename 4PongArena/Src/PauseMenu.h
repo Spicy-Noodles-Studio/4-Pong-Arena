@@ -13,18 +13,23 @@ class PauseMenu : public Menu
 {
 private:
 	InputSystem* inputSystem;
+
 	UIElement pauseMenu;
+	UIElement pausePanel;
+
 	UIElement optionsMenu;
 
-	bool backButtonClick();
-	bool optionsButton();
+	bool optionsButtonClick();
+	bool exitButtonClick();
+
+	bool checkControllersInput();
 
 public:
 	PauseMenu(GameObject* gameObject);
 	virtual ~PauseMenu();
 
 	virtual void start();
-	virtual void update(float deltaTime);
+	virtual void preUpdate(float deltaTime);
 
 	// opens the Pause Menu and pauses the game
 	void setPaused(bool paused);

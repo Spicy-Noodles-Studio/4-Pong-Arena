@@ -1,22 +1,22 @@
 #include "Death.h"
 #include <GameObject.h>
-#include <RigidBody.h>
 #include <MeshRenderer.h>
+#include <RigidBody.h>
 #include <sstream>
 #include <MathUtils.h>
 
+#include "PlayerIndex.h"
 #include "Health.h"
+#include "Score.h"
 #include "SpawnerManager.h"
 #include "GameManager.h"
-#include "Score.h"
-#include "PlayerIndex.h"
 
 #include <ComponentRegister.h>
 #include <SoundEmitter.h>
 
 REGISTER_FACTORY(Death);
 
-Death::Death(GameObject* gameObject) : UserComponent(gameObject), rigidBody(nullptr), health(nullptr)
+Death::Death(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), meshRenderer(nullptr), rigidBody(nullptr), health(nullptr), scores(nullptr), id(-1)
 {
 
 }
@@ -30,23 +30,24 @@ void Death::start()
 {
 	initialPosition = gameObject->transform->getPosition();
 
+	meshRenderer = gameObject->getComponent<MeshRenderer>();
 	rigidBody = gameObject->getComponent<RigidBody>();
 	health = gameObject->getComponent<Health>();
-	meshRenderer = gameObject->getComponent<MeshRenderer>();
-	///Para no repetirlos por el codigo y evitar errores.
-	manager = GameManager::GetInstance();
-	if (manager != nullptr)
-		scores = manager->getScore();
 
-	PlayerIndex* playerId= this->gameObject->getComponent<PlayerIndex>();
-	soundEmitter = gameObject->getComponent<SoundEmitter>();
-	soundEmitter->setVolume(1.2);
+	gameManager = GameManager::GetInstance();
 
-	id = -1;
+	if (gameManager != nullptr)
+		scores = gameManager->getScore();
+
+	PlayerIndex* playerId = gameObject->getComponent<PlayerIndex>();
+
 	if (playerId != nullptr)
-	{
 		id = playerId->getId();
-	}
+		
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	
+	if(soundEmitter != nullptr)
+		soundEmitter->setVolume(1.2);
 }
 
 void Death::update(float deltaTime)
@@ -119,15 +120,12 @@ void Death::die()
 	}
 
 	if (id != -1 && scores != nullptr)
-	{
-		scores->setPositionOnLeaderBoard(id, manager->getPlayersAlive());
-		scores->setTimeAlive(id, manager->getInitialTime(), manager->getTime());
-	}
-	manager->setPlayersAlive(manager->getPlayersAlive() - 1);
+		scores->setTimeAlive(id, gameManager->getInitialTime(), gameManager->getTime());
 
+	gameManager->setPlayerRanking(id, gameManager->getPlayersAlive());
+	gameManager->setPlayersAlive(gameManager->getPlayersAlive() - 1);
 	soundEmitter->playSound("Death");
 
-	// increase spawner generation frequency
 	SpawnerManager* spawnerManager = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>();
 
 	float genTime = spawnerManager->getGenerationTime();

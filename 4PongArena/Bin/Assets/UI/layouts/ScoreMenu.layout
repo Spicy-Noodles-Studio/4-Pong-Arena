@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+     <Window type="DefaultWindow" name="StatsMenu" >
+          <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+          <Property name="MaxSize" value="{{1,0},{1,0}}" />
+          # RESULT TEXT
+          <Window type="TaharezLook/StaticText" name="Result" >
+               <Property name="Area" value="{{0,0},{0,0},{1,0},{0.25,0}}" />
+               <Property name="MaxSize" value="{{1,0},{1,0}}" />
+               <Property name="Text" value="WINNER/TIE" />
+               <Property name="Disabled" value="true" />
+               <Property name="Font" value="Sans32" />
+               <Property name="HorzFormatting" value="CentreAligned" />
+          </Window>
+          # P1 TEXT
+          <Window type="TaharezLook/StaticText" name="P1" >
+               <Property name="Area" value="{{0.15,0},{0.1,0},{1,0},{0.2,0}}" />
+               <Property name="MaxSize" value="{{1,0},{1,0}}" />
+               <Property name="Visible" value="False" />
+               <Property name="Text" value="Player 1" />
+               <Property name="Disabled" value="true" />
+               <Property name="Font" value="Sans" />
+          </Window>
+          # P1 PANEL
+          <Window type="TaharezLook/StaticImage" name="P1Background" >
+               <Property name="Area" value="{{0.1,0},{0.2,0},{0.3,0},{0.8,0}}" />
+               <Property name="MaxSize" value="{{1,0},{1,0}}" />
+               <Property name="Visible" value="False" />
+               <Window type="TaharezLook/StaticText" name="P1NumOfHits" >
+                  <Property name="Area" value="{{0.1,0},{0.05,0},{1,0},{0.15,0}}" />
+                  <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                  <Property name="Text" value="Balls hit: " />
+                  <Property name="Disabled" value="true" />
+                  <Property name="Font" value="Sans" />
+               </Window>
+               <Window type="TaharezLook/StaticText" name="P1NumOfGoals" >
+                  <Property name="Area" value="{{0.1,0},{0.2,0},{1.0,0},{0.3,0}}" />
+                  <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                  <Property name="Text" value="Goals: " />
+                  <Property name="Disabled" value="true" />
+                  <Property name="Font" value="Sans" />
+               </Window>
+               <Window type="TaharezLook/StaticText" name="P1NumOfSelfGoals" >
+                  <Property name="Area" value="{{0.1,0},{0.35,0},{1.0,0},{0.45,0}}" />
+                  <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                  <Property name="Text" value="Self goals: " />
+                  <Property name="Disabled" value="true" />
+                  <Property name="Font" value="Sans" />
+               </Window>
+               <Window type="TaharezLook/StaticText" name="P1TimeAlive" >
+                  <Property name="Area" value="{{0.1,0},{0.5,0},{1,0},{0.6,0}}" />
+                  <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                  <Property name="Text" value="Time alive: " />
+                  <Property name="Disabled" value="true" />
+                  <Property name="Font" value="Sans" />
+               </Window>
+          </Window>
+          # P2 TEXT
+          <Window type="TaharezLook/StaticText" name="P2" >
+               <Property name="Area" value="{{0.15,0},{0.1,0},{1,0},{0.2,0}}" />
+               <Property name="MaxSize" value="{{1,0},{1,0}}" />
+               <Property name="Visible" value="False" />
+               <Property name="Text" value="Player 2" />
+               <Property name="Disabled" value="true" />
+               <Property name="Font" value="Sans" />
+          </Window>
+          # P2 PANEL
+          <Window type="TaharezLook/StaticImage" name="P2Background" >
+               <Property name="Area" value="{{0.1,0},{0.2,0},{0.3,0},{0.8,0}}" />
+               <Property name="MaxSize" value="{{1,0},{1,0}}" />
+               <Property name="Visible" value="False" />
+               <Window type="TaharezLook/StaticText" name="P2NumOfHits" >
+                  <Property name="Area" value="{{0.1,0},{0.05,0},{1,0},{0.15,0}}" />
+                  <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                  <Property name="Text" value="Balls hit: " />
+                  <Property name="Disabled" value="true" />
+                  <Property name="Font" value="Sans" />
+               </Window>
+               <Window type="TaharezLook/StaticText" name="P2NumOfGoals" >
+                  <Property name="Area" value="{{0.1,0},{0.2,0},{1.0,0},{0.3,0}}" />
+                  <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                  <Property name="Text" value="Goals: " />
+                  <Property name="Disabled" value="true" />
+                  <Property name="Font" value="Sans" />
+               </Window>
+               <Window type="TaharezLook/StaticText" name="P2NumOfSelfGoals" >
+                  <Property name="Area" value="{{0.1,0},{0.35,0},{1.0,0},{0.45,0}}" />
+                  <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                  <Property name="Text" value="Self goals: " />
+                  <Property name="Disabled" value="true" />
+                  <Property name="Font" value="Sans" />
+               </Window>
+               <Window type="TaharezLook/StaticText" name="P2TimeAlive" >
+                  <Property name="Area" value="{{0.1,0},{0.5,0},{1,0},{0.6,0}}" />
+                  <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                  <Property name="Text" value="Time alive: " />
+                  <Property name="Disabled" value="true" />
+                  <Property name="Font" value="Sans" />
+               </Window>
+          </Window>
+          # P3 TEXT
+          <Window type="TaharezLook/StaticText" name="P3" >
+               <Property name="Area" value="{{0.15,0},{0.1,0},{1,0},{0.2,0}}" />
+               <Property name="MaxSize" value="{{1,0},{1,0}}" />
+               <Property name="Visible" value="False" />
+               <Property name="Text" value="Player 3" />
+               <Property name="Disabled" value="true" />
+               <Property name="Font" value="Sans" />
+          </Window>
+          # P3 PANEL
+          <Window type="TaharezLook/StaticImage" name="P3Background" >
+               <Property name="Area" value="{{0.1,0},{0.2,0},{0.3,0},{0.8,0}}" />
+               <Property name="MaxSize" value="{{1,0},{1,0}}" />
+               <Property name="Visible" value="False" />
+               <Window type="TaharezLook/StaticText" name="P3NumOfHits" >
+                  <Property name="Area" value="{{0.1,0},{0.05,0},{1,0},{0.15,0}}" />
+                  <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                  <Property name="Text" value="Balls hit: " />
+                  <Property name="Disabled" value="true" />
+                  <Property name="Font" value="Sans" />
+               </Window>
+               <Window type="TaharezLook/StaticText" name="P3NumOfGoals" >
+                  <Property name="Area" value="{{0.1,0},{0.2,0},{1.0,0},{0.3,0}}" />
+                  <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                  <Property name="Text" value="Goals: " />
+                  <Property name="Disabled" value="true" />
+                  <Property name="Font" value="Sans" />
+               </Window>
+               <Window type="TaharezLook/StaticText" name="P3NumOfSelfGoals" >
+                  <Property name="Area" value="{{0.1,0},{0.35,0},{1.0,0},{0.45,0}}" />
+                  <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                  <Property name="Text" value="Self goals: " />
+                  <Property name="Disabled" value="true" />
+                  <Property name="Font" value="Sans" />
+               </Window>
+               <Window type="TaharezLook/StaticText" name="P3TimeAlive" >
+                  <Property name="Area" value="{{0.1,0},{0.5,0},{1,0},{0.6,0}}" />
+                  <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                  <Property name="Text" value="Time alive: " />
+                  <Property name="Disabled" value="true" />
+                  <Property name="Font" value="Sans" />
+               </Window>
+          </Window>
+          # P4 TEXT
+          <Window type="TaharezLook/StaticText" name="P4" >
+               <Property name="Area" value="{{0.15,0},{0.1,0},{1,0},{0.2,0}}" />
+               <Property name="MaxSize" value="{{1,0},{1,0}}" />
+               <Property name="Visible" value="False" />
+               <Property name="Text" value="Player 1" />
+               <Property name="Disabled" value="true" />
+               <Property name="Font" value="Sans" />
+          </Window>
+          # P4 PANEL
+          <Window type="TaharezLook/StaticImage" name="P4Background" >
+               <Property name="Area" value="{{0.1,0},{0.2,0},{0.3,0},{0.8,0}}" />
+               <Property name="MaxSize" value="{{1,0},{1,0}}" />
+               <Property name="Visible" value="False" />
+               <Window type="TaharezLook/StaticText" name="P4NumOfHits" >
+                  <Property name="Area" value="{{0.1,0},{0.05,0},{1,0},{0.15,0}}" />
+                  <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                  <Property name="Text" value="Balls hit: " />
+                  <Property name="Disabled" value="true" />
+                  <Property name="Font" value="Sans" />
+               </Window>
+               <Window type="TaharezLook/StaticText" name="P4NumOfGoals" >
+                  <Property name="Area" value="{{0.1,0},{0.2,0},{1.0,0},{0.3,0}}" />
+                  <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                  <Property name="Text" value="Goals: " />
+                  <Property name="Disabled" value="true" />
+                  <Property name="Font" value="Sans" />
+               </Window>
+               <Window type="TaharezLook/StaticText" name="P4NumOfSelfGoals" >
+                  <Property name="Area" value="{{0.1,0},{0.35,0},{1.0,0},{0.45,0}}" />
+                  <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                  <Property name="Text" value="Self goals: " />
+                  <Property name="Disabled" value="true" />
+                  <Property name="Font" value="Sans" />
+               </Window>
+               <Window type="TaharezLook/StaticText" name="P4TimeAlive" >
+                  <Property name="Area" value="{{0.1,0},{0.5,0},{1,0},{0.6,0}}" />
+                  <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                  <Property name="Text" value="Time alive: " />
+                  <Property name="Disabled" value="true" />
+                  <Property name="Font" value="Sans" />
+               </Window>
+          </Window>
+    </Window>
+</GUILayout>

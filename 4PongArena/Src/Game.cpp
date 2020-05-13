@@ -1,16 +1,19 @@
 #include "Game.h"
 #include <GaiaData.h>
 #include <SceneManager.h>
-#include <UILayout.h>
 #include <GameObject.h>
 #include <RigidBody.h>
 #include <MeshRenderer.h>
 #include <Strider.h>
+#include <UILayout.h>
 #include <SoundEmitter.h>
 
 #include "PlayerController.h"
+#include "PlayerIndex.h"
 #include "IAPaddle.h"
 #include "Health.h"
+#include "Death.h"
+#include "Countdown.h"
 #include "SpawnerManager.h"
 #include "GameManager.h"
 #include "PlayerIndex.h"
@@ -161,89 +164,82 @@ void Game::createLevel()
 
 void Game::createPlayers()
 {
-	std::vector<Player> players = gameManager->getPlayers();
+	std::vector<int> indexes = gameManager->getPlayerIndexes();
+	gameManager->getPaddles().clear();
 
-	int nPlayers = players.size();
-
-	for (int i = 0; i < nPlayers; i++) // fill with a player
+	for (int i = 0; i < indexes.size(); i++)
 	{
-		GameObject* paddle = instantiate("Paddle", playerTransforms[i].first);
-		paddle->setName("Paddle" + std::to_string(i) + std::to_string(levelBase));
-		paddle->getComponent<RigidBody>()->setGravity({ 0, 0, 0 });
-		paddle->transform->setRotation(playerTransforms[i].second);
-		paddle->getComponent<PlayerController>()->setPlayer(players[i].id, players[i].index);
-		paddle->getComponent<PlayerIndex>()->setId(players[i].id);
-		paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
-		paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
-
-		Death* death = paddle->getComponent<Death>();
-		death->setPlayerColour(playerColours[i]);
-		death->setwallColours(baseColour, neonColour);
-		death->setWallScale(wallScale);
-
-		paddles.push_back(paddle);
-	}
-
-	int nUnfilled = MAX_PLAYERS - nPlayers;
-
-	if (nUnfilled > 0)
-	{
-		for (int i = 0; i < nUnfilled; i++)
+		if (indexes[i] != -1)
 		{
-			if (gameManager->getIA()) // fill with IA
+			GameObject* paddle;
+
+			if (indexes[i] != 9)
 			{
-				GameObject* paddleIA = instantiate("IA", playerTransforms[i + nPlayers].first);
-				paddleIA->setName("PaddleIA" + std::to_string(i) + std::to_string(levelBase));
-				paddleIA->transform->setRotation(playerTransforms[i + nPlayers].second);
-				paddleIA->getComponent<RigidBody>()->setGravity({ 0, 0, 0 });
-				paddleIA->getComponent<PlayerIndex>()->setId(i + nPlayers + 1);
-				paddleIA->getComponent<Health>()->setHealth(gameManager->getHealth());
-				paddleIA->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i + nPlayers], 1);
-
-				Death* deathIA = paddleIA->getComponent<Death>();
-				deathIA->setPlayerColour(playerColours[i + nPlayers]);
-				deathIA->setwallColours(baseColour, neonColour);
-				deathIA->setWallScale(wallScale);
-
-				paddles.push_back(paddleIA);
+				paddle = instantiate("Paddle", playerTransforms[i].first);
+				paddle->setName("Paddle" + std::to_string(i) + std::to_string(levelBase));
+				paddle->getComponent<PlayerController>()->setIndex(indexes[i]);
 			}
 			else // fill with a wall (no player)
 			{
-				GameObject* wall = instantiate("Wall", playerTransforms[i + nPlayers].first);
-				wall->setName("Wall" + std::to_string(levelBase));
-				wall->transform->setRotation(playerTransforms[i + nPlayers].second);
-				wall->transform->setScale(wallScale);
-
-				RigidBody* wallRigidBody = wall->getComponent<RigidBody>();
-				if (wallRigidBody == nullptr)
-				{
-					LOG_ERROR("GAME", "Rigidbody of wall not found"); return;
-				}
-
-				wallRigidBody->setStatic(true);
-				wallRigidBody->setFriction(0.5f);
-				wallRigidBody->setActive(true);
-
-				MeshRenderer* wallMesh = wall->getComponent<MeshRenderer>();
-				if (wallMesh == nullptr)
-				{
-					LOG_ERROR("GAME", "MeshRenderer of wall not found"); return;
-				}
-
-				wallMesh->setDiffuse(0, playerColours[i + nPlayers], 1);
-
-				wallMesh->setDiffuse(2, neonColour.first, 1);
-				wallMesh->setEmissive(2, neonColour.second);
-
-				wallMesh->setDiffuse(1, baseColour.first, 1);
-				wallMesh->setEmissive(1, baseColour.second);
+				paddle = instantiate("IA", playerTransforms[i].first);
+				paddle->setName("PaddleIA" + std::to_string(i) + std::to_string(levelBase));
 			}
+
+			paddle->getComponent<RigidBody>()->setGravity(Vector3(0, 0, 0));
+			paddle->transform->setRotation(playerTransforms[i].second);
+
+			paddle->getComponent<PlayerIndex>()->setId(i + 1);
+
+			paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
+
+			paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
+
+			Death* death = paddle->getComponent<Death>();
+			death->setPlayerColour(playerColours[i]);
+			death->setwallColours(baseColour, neonColour);
+			death->setWallScale(wallScale);
+
+			paddles.push_back(paddle);
+			gameManager->getPaddles().push_back(paddle);
+		}
+		else
+		{
+			GameObject* wall = instantiate("Wall", playerTransforms[i].first);
+			wall->setName("Wall" + std::to_string(i) + std::to_string(levelBase));
+			wall->transform->setRotation(playerTransforms[i].second);
+			wall->transform->setScale(wallScale);
+
+			RigidBody* wallRigidBody = wall->getComponent<RigidBody>();
+			if (wallRigidBody == nullptr)
+			{
+				LOG_ERROR("GAME", "Rigidbody of wall not found"); return;
+			}
+
+			wallRigidBody->setStatic(true);
+			wallRigidBody->setFriction(0.5f);
+			wallRigidBody->setActive(true);
+
+			MeshRenderer* wallMesh = wall->getComponent<MeshRenderer>();
+			if (wallMesh == nullptr)
+			{
+				LOG_ERROR("GAME", "MeshRenderer of wall not found"); return;
+			}
+
+			wallMesh->setDiffuse(0, playerColours[i], 1);
+
+			wallMesh->setDiffuse(2, neonColour.first, 1);
+			wallMesh->setEmissive(2, neonColour.second);
+
+			wallMesh->setDiffuse(1, baseColour.first, 1);
+			wallMesh->setEmissive(1, baseColour.second);
 		}
 	}
 
-	win = false;
+	gameManager->initPlayerRanking(paddles.size());
+
 	gameManager->setPlayersAlive(paddles.size());
-	gameManager->setTotalPlayers(paddles.size());
+	gameManager->setInitialPlayers(paddles.size());
+
 	gameManager->getScore()->initScore(paddles.size());
 }
 
@@ -271,7 +267,6 @@ void Game::createSpawners()
 		spawnerMesh->setDiffuse(1, baseColour.first, 1);
 		spawnerMesh->setEmissive(1, baseColour.second);
 		spawner->setActive(true);
-
 		aux.push_back(spawner);
 	}
 
@@ -318,6 +313,7 @@ void Game::createObstacles()
 
 void Game::configureLevelRender(const std::string& name)
 {
+
 	GameObject* levelRender = findGameObjectWithName("LevelRender");
 	if (levelRender == nullptr)
 	{
@@ -377,65 +373,57 @@ void Game::playSong()
 
 void Game::chooseWinner()
 {
-	gameTimer = 0.0f;
-
 	bool tie = false;
 	int majorHealth = 0;
 	int majorIndex = 0;
-	if (!win)
+	int tieIndex = 0;
+
+	for (int i = 0; i < paddles.size(); i++)
 	{
-		for (int i = 0; i < paddles.size(); i++)
+		Health* health = paddles[i]->getComponent<Health>();
+		if (health == nullptr)
+			continue;
+
+		if (health->isAlive())
 		{
-			Health* health = paddles[i]->getComponent<Health>();
-			if (health != nullptr && health->isAlive())
+			if (health->getHealth() > majorHealth)
 			{
-				if (health->getHealth() > majorHealth)
-				{
-					majorHealth = health->getHealth();
-					majorIndex = i;
-					tie = false;
-				}
-				else if (health->getHealth() == majorHealth)
-					tie = true;
+				majorHealth = health->getHealth();
+				majorIndex = i;
+				tie = false;
+			}
+			else if (health->getHealth() == majorHealth)
+			{
+				tieIndex = i;
+				tie = true;
 			}
 		}
 	}
 
-	if (gameLayout != nullptr)
+	if (tie)
 	{
-		winnerPanel.setVisible(true);
 		for (int i = 0; i < paddles.size(); i++)
 		{
-			int pos = 1;
-			Health* health = paddles[i]->getComponent<Health>();
-			if (health->isAlive())
+			if (i == majorIndex || i == tieIndex)
 			{
-				for (int j = 0; j < paddles.size(); j++)
-				{
-					Health* health2 = paddles[j]->getComponent<Health>();
-					if (health2->getHealth() > health->getHealth())
-						pos++;
-				}
-				gameManager->getScore()->setTimeAlive(i + 1, gameManager->getInitialTime(), gameManager->getTime());
-				gameManager->getScore()->setPositionOnLeaderBoard(i + 1, pos);
+				gameManager->getScore()->setTimeAlive(majorIndex + 1, gameManager->getInitialTime(), gameManager->getTime());
+				gameManager->setPlayerRanking(i + 1, 1);
 			}
+			else
+				gameManager->setPlayerRanking(i + 1, gameManager->getPlayerRanking(i + 1) - 1);
 		}
-		if (tie)
-		{
-			winnerText.setText("TIE");
-
-		}
-		else
-		{
-
-			if (!win)
-			{
-				winner = majorIndex;
-			}
-			win = true;
-			winnerText.setText("WINNER: P" + std::to_string(winner + 1));
-		}
+		gameManager->setWinner(-1);
 	}
+	else
+	{
+		gameManager->getScore()->setTimeAlive(majorIndex + 1, gameManager->getInitialTime(), gameManager->getTime());
+		gameManager->setPlayerRanking(majorIndex + 1, 1);
+		gameManager->setWinner(majorIndex + 1);
+	}
+
+	gameManager->stopMusic(gameManager->getSong());
+
+	SceneManager::GetInstance()->changeScene("ScoreMenu");
 }
 
 void Game::endgameHandleSound()
@@ -445,7 +433,7 @@ void Game::endgameHandleSound()
 	soundEmitter->playSound("Game_End");
 }
 
-Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), gameLayout(nullptr), timeText(NULL), winnerPanel(NULL), winnerText(NULL), finishTimer(3.0f), winner(0)
+Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), gameLayout(nullptr), timePanel(NULL), gameTimer(0), levelBase(0), levelForces(0), levelObstacles(0)
 {
 
 }
@@ -467,57 +455,58 @@ void Game::start()
 		gameLayout = mainCamera->getComponent<UILayout>();
 
 	if (gameLayout != nullptr)
-	{
-		timeText = gameLayout->getRoot().getChild("Time");
+		timePanel = gameLayout->getRoot().getChild("TimeBackground");
 
-		winnerPanel = gameLayout->getRoot().getChild("WinnerBackground");
-		winnerPanel.setVisible(false);
+	countdown = findGameObjectWithName("Countdown")->getComponent<Countdown>();
 
-		winnerText = winnerPanel.getChild("Winner");
-	}
 	playerColours = gameManager->getPlayerColours();
+	gameTimer = gameManager->getTime();
+
 	levelBase = gameManager->getLevelBase();
-	levelObstacles = gameManager->getLevelObstacles();
 	levelForces = gameManager->getLevelForces();
+	levelObstacles = gameManager->getLevelObstacles();
 
 	createLevel();
-	createPlayers();
 	createSpawners();
 	createForceField();
 	createObstacles();
-	playSong();
+	createPlayers();
 
-	gameTimer = gameManager->getTime();
+	playSong();
 }
 
 void Game::update(float deltaTime)
 {
-	if (gameTimer > 0)
+	if (!countdown->isCounting() && gameTimer > 0)
 	{
+		if (!timePanel.isVisible())
+		{
+			timePanel.setVisible(true);
+			timePanel.setAlwaysOnTop(true);
+		}
+
+		timePanel.getChild("Time").setText(timeToText().first + " : " + timeToText().second);
+
 		gameTimer -= deltaTime;
 		gameManager->setTime((int)gameTimer);
-		if (gameTimer <= 0.0f && !gameManager->isGameEnded()) {
+		if ((gameTimer <= 0.0f || gameManager->getPlayersAlive() == 1) && !gameManager->isGameEnded())
+		{
 			gameManager->setGameEnded(true);
 			endgameHandleSound();
 			chooseWinner();
 		}
-
-		if (gameLayout != nullptr)
-			timeText.setText(std::to_string((int)gameTimer % 60));
 	}
-	else if (gameTimer == 0)
-	{
-		finishTimer -= deltaTime;
+}
 
-		if (finishTimer <= 0.0f) {
-			gameManager->setGameEnded(false);
-			SceneManager::GetInstance()->changeScene("LeaderBoardMenu"); // Cambiar a menu de final de partida
-		}
-	}
+std::pair<std::string, std::string> Game::timeToText()
+{
+	std::string minutes = std::to_string((int)gameTimer / 60);
+	std::string seconds;
 
-	if (gameManager->getPlayersAlive() == 1 && !gameManager->isGameEnded()) {
-		gameManager->setGameEnded(true);
-		endgameHandleSound();
-		chooseWinner();
-	}
+	if ((int)gameTimer % 60 < 10)
+		seconds = "0" + std::to_string((int)gameTimer % 60);
+	else
+		seconds = std::to_string((int)gameTimer % 60);
+
+	return std::pair<std::string, std::string>(minutes, seconds);
 }

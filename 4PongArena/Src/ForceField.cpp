@@ -30,7 +30,8 @@ void ForceField::start()
 
 void ForceField::update(float deltaTime)
 {
-	if (volume > 0 && GameManager::GetInstance()->isGameEnded()) {
+	if (volume > 0 && GameManager::GetInstance()->isGameEnded())
+	{
 		volume = 0;
 		soundEmitter->setVolume(0);
 	}
@@ -63,7 +64,6 @@ void ForceField::onObjectEnter(GameObject* other)
 	Ball* ball = other->getComponent<Ball>();
 
 	if (ball == nullptr || rigidBody == nullptr) return;
-
 	ball->setTargetVelocity(targetVelocity);
 	ball->setAcceleration(acceleration);
 

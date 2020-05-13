@@ -3,7 +3,6 @@
 #define PLAYER_CONTROLLER_H
 
 #include <UserComponent.h>
-#include "Player.h"
 
 class InputSystem;
 class Movement;
@@ -13,9 +12,10 @@ class PlayerController : public UserComponent
 {
 private:
 	InputSystem* inputSystem;
-	Movement* movement;
 	SoundEmitter* soundEmitter;
-	Player player;
+	Movement* movement;
+
+	int controllerIndex;
 
 	bool hasMoved;
 	bool moving;
@@ -28,8 +28,8 @@ public:
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
 
-	void setPlayer(int id, int index);
-	Player getPlayer() const;
+	void setIndex(int index);
+	int getIndex() const;
 
 private:
 	void checkInput();

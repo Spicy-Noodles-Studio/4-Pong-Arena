@@ -213,7 +213,6 @@
     <ClInclude Include="..\..\Src\PauseMenu.h" />
     <ClInclude Include="..\..\Src\MainMenu.h" />
     <ClInclude Include="..\..\Src\OptionsMenu.h" />
-    <ClInclude Include="..\..\Src\Player.h" />
     <ClInclude Include="..\..\Src\IAPaddle.h" />
     <ClInclude Include="..\..\Src\Movement.h" />
     <ClInclude Include="..\..\Src\PlayerController.h" />

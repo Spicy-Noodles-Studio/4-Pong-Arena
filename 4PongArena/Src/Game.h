@@ -8,9 +8,9 @@
 const int MAX_PLAYERS = 4;
 
 class GameManager;
-class UILayout;
-class InputSystem;
 class SoundEmitter;
+class UILayout;
+class Countdown;
 
 class Game : public UserComponent
 {
@@ -19,9 +19,9 @@ private:
 	SoundEmitter* soundEmitter;
 
 	UILayout* gameLayout;
-	UIElement timeText;
-	UIElement winnerPanel;
-	UIElement winnerText;
+	UIElement timePanel;
+
+	Countdown* countdown;
 
 	std::vector<GameObject*> paddles;
 	std::vector<Vector3> playerColours;
@@ -38,14 +38,10 @@ private:
 	Vector3 wallScale;
 
 	float gameTimer;
-	float finishTimer; // Quitar cuando haya menu de final de partida
-
-	int winner;
-	bool win;
 
 	int levelBase;
-	int levelObstacles;
 	int levelForces;
+	int levelObstacles;
 
 	void createLevel();
 	void createPlayers();
@@ -59,6 +55,8 @@ private:
 	void playSong();
 	void chooseWinner();
 	void endgameHandleSound();
+
+	std::pair<std::string, std::string> timeToText();
 
 public:
 	Game(GameObject* gameObject);
