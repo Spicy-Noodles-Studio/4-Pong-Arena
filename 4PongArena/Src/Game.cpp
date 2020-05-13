@@ -3,6 +3,9 @@
 #include <SceneManager.h>
 #include <UILayout.h>
 #include <GameObject.h>
+#include <RigidBody.h>
+#include <MeshRenderer.h>
+#include <Strider.h>
 #include <SoundEmitter.h>
 
 #include "PlayerController.h"
@@ -11,6 +14,7 @@
 #include "SpawnerManager.h"
 #include "GameManager.h"
 #include "PlayerIndex.h"
+#include "Death.h"
 
 #include <ComponentRegister.h>
 
@@ -19,10 +23,31 @@ REGISTER_FACTORY(Game);
 void Game::createLevel()
 {
 	GaiaData levelData;
-	levelData.load("./Assets/Levels/" + GameManager::GetInstance()->getLevel() + ".level");
+
+	// LEVEL BASE
+	levelData.load("./Assets/Levels/Bases.level");
+
+	std::string renderName = levelData[levelBase].find("RenderMesh").getValue();
+	std::string colliderName = levelData[levelBase].find("ColliderMesh").getValue();
+
+	// render mesh
+	configureLevelRender(renderName);
+
+	// collider mesh
+	configureLevelCollider(colliderName);
+
+	// wall scale
+	GaiaData wallScaleData = levelData[levelBase].find("WallScale");
+	std::stringstream ss(wallScaleData.getValue());
+	double wEscX, wEscY, wEscZ;
+
+	if (!(ss >> wEscX >> wEscY >> wEscZ))
+		LOG_ERROR("GAME", "invalid wall scale \"%s\"", wallScaleData.getValue().c_str());
+	else
+		wallScale = { wEscX, wEscY, wEscZ };
 
 	// player initial transforms
-	GaiaData playerData = levelData.find("PlayerTransforms");
+	GaiaData playerData = levelData[levelBase].find("PlayerTransforms");
 	for (int i = 0; i < playerData.size(); i++)
 	{
 		std::stringstream ss(playerData[i][0].getValue());
@@ -47,7 +72,7 @@ void Game::createLevel()
 	}
 
 	// spawner initial transforms
-	GaiaData spawnerData = levelData.find("SpawnerTransforms");
+	GaiaData spawnerData = levelData[levelBase].find("SpawnerTransforms");
 	for (int i = 0; i < spawnerData.size(); i++)
 	{
 		std::stringstream ss(spawnerData[i][0].getValue());
@@ -71,29 +96,66 @@ void Game::createLevel()
 		spawnerTransforms.push_back({ { posX, posY, posZ }, { rotX, rotY, rotZ } });
 	}
 
-	// force field initial transforms
-	GaiaData forceFieldData = levelData.find("ForceFieldTransforms");
-	for (int i = 0; i < forceFieldData.size(); i++)
+	if (levelObstacles > 0)
 	{
-		std::stringstream ss(forceFieldData[i][0].getValue());
-		double posX, posY, posZ;
+		// LEVEL OBSTACLES
+		levelData.load("./Assets/Levels/Obstacles.level");
 
-		if (!(ss >> posX >> posY >> posZ))
+		// obstacles initial transforms
+		GaiaData obstacleData = levelData[levelObstacles - 1].find("ObstacleTransforms");
+		for (int i = 0; i < obstacleData.size(); i++)
 		{
-			LOG_ERROR("GAME", "invalid player position \"%s\"", forceFieldData[i][0].getValue().c_str());
-			continue;
+			std::stringstream ss(obstacleData[i][0].getValue());
+			double posX, posY, posZ;
+
+			if (!(ss >> posX >> posY >> posZ))
+			{
+				LOG_ERROR("GAME", "invalid obstacle position \"%s\"", obstacleData[i][0].getValue().c_str());
+				continue;
+			}
+
+			ss = std::stringstream(obstacleData[i][1].getValue());
+			double escX, escY, escZ;
+
+			if (!(ss >> escX >> escY >> escZ))
+			{
+				LOG_ERROR("GAME", "invalid obstacle scale \"%s\"", obstacleData[i][1].getValue().c_str());
+				continue;
+			}
+
+			obstacleTransforms.push_back({ { posX, posY, posZ }, { escX, escY, escZ } });
 		}
+	}
 
-		ss = std::stringstream(forceFieldData[i][1].getValue());
-		double rotX, rotY, rotZ;
+	// LEVEL FORCE FIELDS
+	if (levelForces > 0)
+	{
+		levelData.load("./Assets/Levels/ForceFields.level");
 
-		if (!(ss >> rotX >> rotY >> rotZ))
+		// force field initial transforms
+		GaiaData forceFieldData = levelData[levelForces - 1].find("ForceFieldTransforms");
+		for (int i = 0; i < forceFieldData.size(); i++)
 		{
-			LOG_ERROR("GAME", "invalid player rotation \"%s\"", forceFieldData[i][1].getValue().c_str());
-			continue;
-		}
+			std::stringstream ss(forceFieldData[i][0].getValue());
+			double posX, posY, posZ;
 
-		forceFieldTransforms.push_back({ { posX, posY, posZ }, { rotX, rotY, rotZ } });
+			if (!(ss >> posX >> posY >> posZ))
+			{
+				LOG_ERROR("GAME", "invalid force field position \"%s\"", forceFieldData[i][0].getValue().c_str());
+				continue;
+			}
+
+			ss = std::stringstream(forceFieldData[i][1].getValue());
+			double escX, escY, escZ;
+
+			if (!(ss >> escX >> escY >> escZ))
+			{
+				LOG_ERROR("GAME", "invalid force field scale \"%s\"", forceFieldData[i][1].getValue().c_str());
+				continue;
+			}
+
+			forceFieldTransforms.push_back({ { posX, posY, posZ }, { escX, escY, escZ } });
+		}
 	}
 }
 
@@ -103,14 +165,21 @@ void Game::createPlayers()
 
 	int nPlayers = players.size();
 
-	for (int i = 0; i < nPlayers; i++)
+	for (int i = 0; i < nPlayers; i++) // fill with a player
 	{
 		GameObject* paddle = instantiate("Paddle", playerTransforms[i].first);
+		paddle->setName("Paddle" + std::to_string(i) + std::to_string(levelBase));
+		paddle->getComponent<RigidBody>()->setGravity({ 0, 0, 0 });
 		paddle->transform->setRotation(playerTransforms[i].second);
-
 		paddle->getComponent<PlayerController>()->setPlayer(players[i].id, players[i].index);
 		paddle->getComponent<PlayerIndex>()->setId(players[i].id);
 		paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
+		paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
+
+		Death* death = paddle->getComponent<Death>();
+		death->setPlayerColour(playerColours[i]);
+		death->setwallColours(baseColour, neonColour);
+		death->setWallScale(wallScale);
 
 		paddles.push_back(paddle);
 	}
@@ -121,24 +190,57 @@ void Game::createPlayers()
 	{
 		for (int i = 0; i < nUnfilled; i++)
 		{
-			if (gameManager->getIA())
+			if (gameManager->getIA()) // fill with IA
 			{
 				GameObject* paddleIA = instantiate("IA", playerTransforms[i + nPlayers].first);
+				paddleIA->setName("PaddleIA" + std::to_string(i) + std::to_string(levelBase));
 				paddleIA->transform->setRotation(playerTransforms[i + nPlayers].second);
-
+				paddleIA->getComponent<RigidBody>()->setGravity({ 0, 0, 0 });
 				paddleIA->getComponent<PlayerIndex>()->setId(i + nPlayers + 1);
 				paddleIA->getComponent<Health>()->setHealth(gameManager->getHealth());
+				paddleIA->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i + nPlayers], 1);
+
+				Death* deathIA = paddleIA->getComponent<Death>();
+				deathIA->setPlayerColour(playerColours[i + nPlayers]);
+				deathIA->setwallColours(baseColour, neonColour);
+				deathIA->setWallScale(wallScale);
 
 				paddles.push_back(paddleIA);
 			}
-			else
+			else // fill with a wall (no player)
 			{
 				GameObject* wall = instantiate("Wall", playerTransforms[i + nPlayers].first);
+				wall->setName("Wall" + std::to_string(levelBase));
 				wall->transform->setRotation(playerTransforms[i + nPlayers].second);
-				wall->setActive(true);
+				wall->transform->setScale(wallScale);
+
+				RigidBody* wallRigidBody = wall->getComponent<RigidBody>();
+				if (wallRigidBody == nullptr)
+				{
+					LOG_ERROR("GAME", "Rigidbody of wall not found"); return;
+				}
+
+				wallRigidBody->setStatic(true);
+				wallRigidBody->setFriction(0.5f);
+				wallRigidBody->setActive(true);
+
+				MeshRenderer* wallMesh = wall->getComponent<MeshRenderer>();
+				if (wallMesh == nullptr)
+				{
+					LOG_ERROR("GAME", "MeshRenderer of wall not found"); return;
+				}
+
+				wallMesh->setDiffuse(0, playerColours[i + nPlayers], 1);
+
+				wallMesh->setDiffuse(2, neonColour.first, 1);
+				wallMesh->setEmissive(2, neonColour.second);
+
+				wallMesh->setDiffuse(1, baseColour.first, 1);
+				wallMesh->setEmissive(1, baseColour.second);
 			}
 		}
 	}
+
 	win = false;
 	gameManager->setPlayersAlive(paddles.size());
 	gameManager->setTotalPlayers(paddles.size());
@@ -154,9 +256,21 @@ void Game::createSpawners()
 	for (int i = 0; i < n; i++)
 	{
 		GameObject* spawner = instantiate("Spawner", spawnerTransforms[i].first);
+		spawner->setName("Spawner" + std::to_string(levelBase));
 		spawner->transform->setRotation(spawnerTransforms[i].second);
+
+		MeshRenderer* spawnerMesh = spawner->getComponent<MeshRenderer>();
+		if (spawnerMesh == nullptr)
+		{
+			LOG_ERROR("GAME", "MeshRenderer of spawner not found"); return;
+		}
+
+		spawnerMesh->setDiffuse(0, neonColour.first, 1);
+		spawnerMesh->setEmissive(0, neonColour.second);
+
+		spawnerMesh->setDiffuse(1, baseColour.first, 1);
+		spawnerMesh->setEmissive(1, baseColour.second);
 		spawner->setActive(true);
-		spawner->getChildren()[0]->setActive(true);
 
 		aux.push_back(spawner);
 	}
@@ -171,14 +285,93 @@ void Game::createForceField()
 	for (int i = 0; i < n; i++)
 	{
 		GameObject* forceField = instantiate("ForceField", forceFieldTransforms[i].first);
-		forceField->transform->setRotation(forceFieldTransforms[i].second);
+		forceField->transform->setScale(forceFieldTransforms[i].second);
+		forceField->getComponent<RigidBody>()->multiplyScale(forceFieldTransforms[i].second);
+		forceField->setActive(true);
 	}
+}
+
+void Game::createObstacles()
+{
+	int n = obstacleTransforms.size();
+
+	for (int i = 0; i < n; i++)
+	{
+		GameObject* obstacle = instantiate("Obstacle", obstacleTransforms[i].first);
+		obstacle->setName("Obstacle" + std::to_string(levelBase));
+		obstacle->transform->setScale(obstacleTransforms[i].second);
+		obstacle->setActive(true);
+
+		MeshRenderer* obstacleMesh = obstacle->getComponent<MeshRenderer>();
+		if (obstacleMesh == nullptr)
+		{
+			LOG_ERROR("GAME", "MeshRenderer of obstacle not found"); return;
+		}
+
+		obstacleMesh->setDiffuse(0, neonColour.first, 1);
+		obstacleMesh->setEmissive(0, neonColour.second);
+
+		obstacleMesh->setDiffuse(1, baseColour.first, 1);
+		obstacleMesh->setEmissive(1, baseColour.second);
+	}
+}
+
+void Game::configureLevelRender(const std::string& name)
+{
+	GameObject* levelRender = findGameObjectWithName("LevelRender");
+	if (levelRender == nullptr)
+	{
+		LOG_ERROR("GAME", "LevelRender object not found on scene");
+		return;
+	}
+
+	MeshRenderer* meshRenderer = levelRender->getComponent<MeshRenderer>();
+	if (meshRenderer == nullptr)
+	{
+		LOG_ERROR("GAME", "MeshRenderer not found"); return;
+	}
+
+	meshRenderer->changeMesh("levelRender", name);
+
+	// get colours of level render
+	baseColour.first = meshRenderer->getDiffuse(4);
+	baseColour.second = meshRenderer->getEmissive(4);
+
+	neonColour.first = meshRenderer->getDiffuse(3);
+	neonColour.second = meshRenderer->getEmissive(3);
+}
+
+void Game::configureLevelCollider(const std::string& name)
+{
+	GameObject* levelCollider = findGameObjectWithName("LevelCollider");
+	if (levelCollider == nullptr)
+	{
+		LOG_ERROR("GAME", "LevelCollider object not found on scene"); return;
+	}
+
+	MeshRenderer* meshRenderer = levelCollider->getComponent<MeshRenderer>();
+	if (meshRenderer == nullptr)
+	{
+		LOG_ERROR("GAME", "MeshRenderer not found"); return;
+	}
+
+	Strider* strider = levelCollider->getComponent<Strider>();
+	if (strider == nullptr)
+	{
+		LOG_ERROR("GAME", "Strider not found"); return;
+	}
+
+	meshRenderer->setMesh("levelCollider", name);
+	meshRenderer->attachEntityToNode("levelCollider");
+	meshRenderer->setVisible(false);
+	strider->stride("levelCollider");
+	strider->setFriction(0.5f);
 }
 
 void Game::playSong()
 {
 	gameManager->playMusic(gameManager->getSong());
-	if(gameManager->getSong() == "DefenseMatrix") gameManager->setMusicVolume(0.5);
+	if (gameManager->getSong() == "DefenseMatrix") gameManager->setMusicVolume(0.5);
 	else gameManager->setMusicVolume(0.4);
 }
 
@@ -223,18 +416,18 @@ void Game::chooseWinner()
 					if (health2->getHealth() > health->getHealth())
 						pos++;
 				}
-				gameManager->getScore()->setTimeAlive(i + 1,gameManager->getInitialTime(),gameManager->getTime());
+				gameManager->getScore()->setTimeAlive(i + 1, gameManager->getInitialTime(), gameManager->getTime());
 				gameManager->getScore()->setPositionOnLeaderBoard(i + 1, pos);
 			}
 		}
 		if (tie)
 		{
 			winnerText.setText("TIE");
-			
+
 		}
 		else
 		{
-			
+
 			if (!win)
 			{
 				winner = majorIndex;
@@ -282,11 +475,16 @@ void Game::start()
 
 		winnerText = winnerPanel.getChild("Winner");
 	}
+	playerColours = gameManager->getPlayerColours();
+	levelBase = gameManager->getLevelBase();
+	levelObstacles = gameManager->getLevelObstacles();
+	levelForces = gameManager->getLevelForces();
 
 	createLevel();
 	createPlayers();
 	createSpawners();
 	createForceField();
+	createObstacles();
 	playSong();
 
 	gameTimer = gameManager->getTime();
@@ -307,10 +505,10 @@ void Game::update(float deltaTime)
 		if (gameLayout != nullptr)
 			timeText.setText(std::to_string((int)gameTimer % 60));
 	}
-	else
+	else if (gameTimer == 0)
 	{
 		finishTimer -= deltaTime;
-		
+
 		if (finishTimer <= 0.0f) {
 			gameManager->setGameEnded(false);
 			SceneManager::GetInstance()->changeScene("LeaderBoardMenu"); // Cambiar a menu de final de partida

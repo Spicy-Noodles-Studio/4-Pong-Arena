@@ -81,15 +81,15 @@
     <Image height="48" name="VertSliderBody" width="9" xPos="234" yPos="2" />
     <Image height="6" name="VertSliderThumbNormal" width="15" xPos="217" yPos="28" />
     <Image height="6" name="VertSliderThumbHover" width="15" xPos="217" yPos="36" />
-    <Image height="4" name="MiniHorzScrollBarSegment" width="10" xPos="244" yPos="80" />
-    <Image height="7" name="MiniHorzScrollThumbNormal" width="22" xPos="233" yPos="87" />
-    <Image height="7" name="MiniHorzScrollThumbLeftNormal" width="5" xPos="233" yPos="87" />
-    <Image height="7" name="MiniHorzScrollThumbMiddleNormal" width="5" xPos="239" yPos="87" />
-    <Image height="7" name="MiniHorzScrollThumbRightNormal" width="5" xPos="250" yPos="87" />
-    <Image height="7" name="MiniHorzScrollThumbHover" width="22" xPos="233" yPos="96" />
-    <Image height="7" name="MiniHorzScrollThumbLeftHover" width="5" xPos="233" yPos="96" />
-    <Image height="7" name="MiniHorzScrollThumbMiddleHover" width="5" xPos="239" yPos="96" />
-    <Image height="7" name="MiniHorzScrollThumbRightHover" width="5" xPos="250" yPos="96" />
+    <Image height="4" name="MiniHorzScrollBarSegment" width="8" xPos="244" yPos="80" />
+    <Image height="9" name="MiniHorzScrollThumbNormal" width="12" xPos="237" yPos="89" />
+    <Image height="9" name="MiniHorzScrollThumbLeftNormal" width="4" xPos="237" yPos="89" />
+    <Image height="9" name="MiniHorzScrollThumbMiddleNormal" width="4" xPos="241" yPos="89" />
+    <Image height="9" name="MiniHorzScrollThumbRightNormal" width="4" xPos="245" yPos="89" />
+    <Image height="9" name="MiniHorzScrollThumbHover" width="12" xPos="237" yPos="104" />
+    <Image height="9" name="MiniHorzScrollThumbLeftHover" width="4" xPos="237" yPos="104" />
+    <Image height="9" name="MiniHorzScrollThumbMiddleHover" width="4" xPos="241" yPos="104" />
+    <Image height="9" name="MiniHorzScrollThumbRightHover" width="4" xPos="245" yPos="104" />
     <Image height="10" name="MiniHorzScrollLeftNormal" width="9" xPos="246" yPos="55" />
     <Image height="10" name="MiniHorzScrollRightNormal" width="9" xPos="245" yPos="67" />
     <Image height="10" name="MiniHorzScrollLeftHover" width="9" xPos="236" yPos="55" />
@@ -169,7 +169,7 @@
     <Image height="6" name="MultiLineEditboxBackdrop" width="6" xPos="52" yPos="89" />
     <Image height="14" name="MultiLineEditboxSelectionBrush" width="14" xPos="9" yPos="71" />
     <Image height="17" name="MouseTarget" width="17" xOffset="-8" xPos="182" yOffset="-8" yPos="127" />
-    <Image height="25" name="MouseArrow" width="31" xPos="138" yPos="127" />
+    <Image height="30" name="MouseArrow" width="31" xPos="138" yPos="127" />
     <Image height="18" name="MouseMoveCursor" width="18" xOffset="-8" xPos="201" yOffset="-8" yPos="127" />
     <Image height="18" name="MouseNoSoCursor" width="8" xOffset="-3" xPos="221" yOffset="-8" yPos="127" />
     <Image height="8" name="MouseEsWeCursor" width="18" xOffset="-8" xPos="182" yOffset="-3" yPos="150" />

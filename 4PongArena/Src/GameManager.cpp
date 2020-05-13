@@ -36,6 +36,8 @@ GameManager* GameManager::GetInstance()
 
 void GameManager::start()
 {
+	playerColours = { {1,0,0}, {0,0,1}, {1,1,0}, {0,1,0} };
+
 	gameEnded = false;
 	if (soundEmitter == nullptr) {
 		soundEmitter = gameObject->getComponent<SoundEmitter>();
@@ -71,6 +73,11 @@ void GameManager::setPlayers(std::vector<Player>& players)
 std::vector<Player> GameManager::getPlayers() const
 {
 	return players;
+}
+
+std::vector<Vector3>& GameManager::getPlayerColours()
+{
+	return playerColours;
 }
 
 void GameManager::setIA(bool IA)
@@ -115,15 +122,37 @@ int GameManager::getInitialTime() const
 	return initialTime;
 }
 
-void GameManager::setLevel(std::string level)
+void GameManager::setLevelBase(int levelBase)
 {
-	this->level = level;
-	this->lastLevel = level;
+	this->levelBase = levelBase;
+	//this->lastLevel = level;
 }
 
-std::string GameManager::getLevel() const
+void GameManager::setLevelObstacles(int levelObstacles)
 {
-	return level;
+	this->levelObstacles = levelObstacles;
+	//this->lastLevel = level;
+}
+
+void GameManager::setLevelForces(int levelForces)
+{
+	this->levelForces = levelForces;
+	//this->lastLevel = level;
+}
+
+int GameManager::getLevelBase() const
+{
+	return levelBase;
+}
+
+int GameManager::getLevelObstacles() const
+{
+	return levelObstacles;
+}
+
+int GameManager::getLevelForces() const
+{
+	return levelForces;
 }
 
 std::string GameManager::getLastLevel() const

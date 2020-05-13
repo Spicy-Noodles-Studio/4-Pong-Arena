@@ -1,0 +1,19 @@
+Scheme = VanillaSkin.scheme
+Scheme = TaharezLook.scheme
+Scheme = Generic.scheme
+
+MouseCursor = TaharezLook/MouseArrow
+
+Font = DejaVuSans.ttf Sans 8
+Font = DejaVuSans.ttf Sans72 72
+Font = batang.ttf Batang7 6.8
+Font = batang.ttf Batang8 8
+
+Image = 4pongarenatitle.png title
+Image = base1.png base1
+Image = base2.png base2
+Image = base3.png base3
+Image = obstacles1.png obstacles1
+Image = obstacles2.png obstacles2
+Image = forces1.png forces1
+Image = forces2.png forces2

@@ -13,16 +13,14 @@ private:
 
 	float velocity;
 	double angle;
-	
+
 public:
 	Spawner(GameObject* gameObject);
 	virtual ~Spawner();
 
+	virtual void start();
 	virtual void handleData(ComponentData* data);
 
 	void shoot(GameObject* ball);
-
-	virtual void start();
 };
-
 #endif

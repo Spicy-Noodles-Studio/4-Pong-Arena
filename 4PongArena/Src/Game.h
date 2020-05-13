@@ -24,9 +24,16 @@ private:
 	UIElement winnerText;
 
 	std::vector<GameObject*> paddles;
+	std::vector<Vector3> playerColours;
+	std::vector<std::vector<Vector3>> levelColours;
+
+	std::pair<Vector3, Vector3> baseColour;
+	std::pair<Vector3, Vector3> neonColour;
+
 	std::vector<std::pair<Vector3, Vector3>> playerTransforms;
 	std::vector<std::pair<Vector3, Vector3>> spawnerTransforms;
 	std::vector<std::pair<Vector3, Vector3>> forceFieldTransforms;
+	std::vector<std::pair<Vector3, Vector3>> obstacleTransforms;
 
 	Vector3 wallScale;
 
@@ -36,10 +43,18 @@ private:
 	int winner;
 	bool win;
 
+	int levelBase;
+	int levelObstacles;
+	int levelForces;
+
 	void createLevel();
 	void createPlayers();
 	void createSpawners();
 	void createForceField();
+	void createObstacles();
+
+	void configureLevelRender(const std::string& name);
+	void configureLevelCollider(const std::string& name);
 
 	void playSong();
 	void chooseWinner();

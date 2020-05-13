@@ -9,7 +9,7 @@
 
 REGISTER_FACTORY(Ball);
 
-Ball::Ball(GameObject* gameObject): UserComponent(gameObject), rigidBody(nullptr), velocity(0.0f), targetVelocity(0.0f), acceleration(0.0f),idPlayer(-1)
+Ball::Ball(GameObject* gameObject) : UserComponent(gameObject), rigidBody(nullptr), velocity(0.0f), targetVelocity(0.0f), acceleration(0.0f), idPlayer(-1)
 {
 
 }
@@ -72,8 +72,6 @@ void Ball::onCollisionEnter(GameObject* other)
 {
 	if (soundEmitter == nullptr) return;
 
-
-
 	std::string soundToPlay = "NO SOUND";
 	if (other->getTag() == "wall" || other->getTag() == "spawner") {
 		soundToPlay = "Wall_Bounce";
@@ -84,6 +82,9 @@ void Ball::onCollisionEnter(GameObject* other)
 	else if (other->getTag() == "paddle" || other->getTag() == "paddleIA") {
 		soundToPlay = "Ball_bounce";
 	}
+	else if (other->getTag() == "obstacle") {
+		soundToPlay = "Ball_obstacle";
+	}
 
-	if(soundToPlay != "NO SOUND") soundEmitter->playSound(soundToPlay);
+	if (soundToPlay != "NO SOUND") soundEmitter->playSound(soundToPlay);
 }

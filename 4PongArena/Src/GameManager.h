@@ -6,7 +6,6 @@
 #include "Player.h"
 #include "Score.h"
 
-//class Score;
 class SoundEmitter;
 
 class GameManager : public UserComponent
@@ -14,6 +13,7 @@ class GameManager : public UserComponent
 private:
 	static GameManager* instance;
 
+	std::vector<Vector3> playerColours;
 	SoundEmitter* soundEmitter;
 
 	int playersAlive;
@@ -28,7 +28,10 @@ private:
 	bool paused;
 	bool gameEnded;
 
-	std::string level;
+	int levelBase;
+	int levelObstacles;
+	int levelForces;
+
 	std::string song;
 
 	std::string lastLevel;
@@ -54,6 +57,7 @@ public:
 
 	void setPlayers(std::vector<Player>& players);
 	std::vector<Player> getPlayers() const;
+	std::vector<Vector3>& getPlayerColours();
 
 	void setIA(bool IA);
 	bool getIA() const;
@@ -66,8 +70,14 @@ public:
 	void setInitialTime(int time);
 	int getInitialTime() const;
 
-	void setLevel(std::string level);
-	std::string getLevel() const;
+	void setLevelBase(int levelBase);
+	void setLevelObstacles(int levelObstacles);
+	void setLevelForces(int levelForces);
+
+	int getLevelBase() const;
+	int getLevelObstacles() const;
+	int getLevelForces() const;
+
 	std::string getLastLevel() const;
 
 	void setSong(std::string song);

@@ -3,6 +3,7 @@
 #include <RigidBody.h>
 #include <MathUtils.h>
 #include <sstream>
+#include <Quaternion.h>
 
 #include "Ball.h"
 
@@ -19,6 +20,16 @@ Spawner::Spawner(GameObject* gameObject) : UserComponent(gameObject), velocity(3
 Spawner::~Spawner()
 {
 
+}
+
+void Spawner::start()
+{
+	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
+	direction.y = 0;
+	gameObject->transform->setDirection(direction.normalized());
+
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	soundEmitter->setVolume(0.7);
 }
 
 void Spawner::handleData(ComponentData* data)
@@ -45,13 +56,18 @@ void Spawner::handleData(ComponentData* data)
 void Spawner::shoot(GameObject* ball)
 {
 	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
-	direction.rotateAroundAxis(Vector3::UP, random(-angle, angle));
+
+	double rand = random(-angle, angle);
+	direction.rotateAroundAxis(Vector3::UP, rand);
+
 	direction.y = 0;
+
+	gameObject->transform->resetOrientation();
+	gameObject->transform->setDirection(direction.normalized());
 
 	if (ball != nullptr)
 	{
 		ball->transform->setPosition(gameObject->transform->getPosition() + direction.normalized());
-
 		ball->getComponent<Ball>()->setVelocity(velocity);
 		ball->getComponent<Ball>()->setTargetVelocity(velocity);
 
@@ -59,10 +75,4 @@ void Spawner::shoot(GameObject* ball)
 
 		if (soundEmitter != nullptr) soundEmitter->playSound("Ball_Launch");
 	}
-}
-
-void Spawner::start()
-{
-	soundEmitter = gameObject->getComponent<SoundEmitter>();
-	soundEmitter->setVolume(0.7);
 }

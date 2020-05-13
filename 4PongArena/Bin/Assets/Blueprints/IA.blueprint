@@ -8,26 +8,26 @@
             "ComponentName": "Transform",
             "ComponentProperties": [
                 ["position", "0 1 0"],
-                ["scale", "0.75 1 0.25"],
+                ["scale", "0.2 0.3 0.2"],
                 ["rotation", "0 0 0"]
             ]
         },
         {
             "ComponentName": "MeshRenderer",
             "ComponentProperties": [
-                ["mesh", "paddle Cube.mesh"]
+                ["mesh", "paddle Paddle.mesh"]
             ]
         },
         {
             "ComponentName": "RigidBody",
             "ComponentProperties": [
-                ["shape", "Box"],
+                ["shape", "Capsule"],
                 ["mass", "1"],
                 ["friction", "0"],
                 ["restitution", "1"],
                 ["damping", "0"],
                 ["angularDamping", "0"],
-                ["scale", "1 1 1"]
+                ["scale", "2 3 2"]
             ]
         },
         {
@@ -51,8 +51,8 @@
         {
             "ComponentName": "Death",
             "ComponentProperties": [
-                ["wallMesh", "wall Cube.mesh"],
-                ["wallScale", "3 1 0.25"]
+                ["wallMesh", "wall Wall.mesh"],
+                ["wallScale", "0.2 3 0.25"]
             ]
         },
         {

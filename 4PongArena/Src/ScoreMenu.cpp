@@ -22,7 +22,7 @@ bool ScoreMenu::resetButtonClick()
 	manager->setPlayersAlive(manager->getTotalPlayers());
 
 	manager->setTime(manager->getInitialTime());
-	manager->setLevel(manager->getLastLevel());
+	//manager->setLevel(manager->getLastLevel());
 	manager->setSong(manager->getLastSong());
 	buttonClick(buttonSound);
 	GameManager::GetInstance()->stopMusic();

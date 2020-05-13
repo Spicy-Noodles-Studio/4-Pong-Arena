@@ -8,6 +8,7 @@
 #include "GameManager.h"
 #include "Score.h"
 #include <ComponentRegister.h>
+#include <MathUtils.h>
 #include <SoundEmitter.h>
 
 REGISTER_FACTORY(ConfigurationMenu);
@@ -47,6 +48,9 @@ void ConfigurationMenu::fillSlot(int slotIndex, int deviceIndex)
 		slots[slotIndex].second.getChild("TypeText").setText("Controller");
 
 	filledSlots++;
+
+	/*if (!startButton.isVisible() && (!IA && filledSlots > 1 || IA))
+		startButton.setVisible(true);*/
 }
 
 int ConfigurationMenu::isSlotFilled(int index)
@@ -106,20 +110,13 @@ bool ConfigurationMenu::changeTime(int value)
 	if (time < MIN_TIME) time = MIN_TIME;
 	if (time > MAX_TIME) time = MAX_TIME;
 
-	configurationLayout->getRoot().getChild("Time").setText(std::to_string(time));
+	if (time == MAX_TIME)
+		configurationLayout->getRoot().getChild("Time").setText("INFINITE");
+	else
+		configurationLayout->getRoot().getChild("Time").setText(std::to_string(time));
+
 	buttonClick(buttonSound);
-	return false;
-}
 
-bool ConfigurationMenu::changeLevel(int value)
-{
-	levelIndex += value;
-
-	if (levelIndex < 0) levelIndex = 0;
-	if (levelIndex > levelNames.size() - 1) levelIndex = levelNames.size() - 1;
-
-	configurationLayout->getRoot().getChild("Level").setText(levelNames[levelIndex]);
-	buttonClick(buttonSound);
 	return false;
 }
 
@@ -131,7 +128,78 @@ bool ConfigurationMenu::changeSong(int value)
 	if (songIndex > songNames.size() - 1) songIndex = songNames.size() - 1;
 
 	configurationLayout->getRoot().getChild("Song").setText(songNames[songIndex]);
+	//configurationLayout->getRoot().getChild("Level").setText(levelNames[levelIndex]);
+
 	buttonClick(buttonSound);
+
+	return false;
+}
+
+bool ConfigurationMenu::changeLevelBase(int value)
+{
+	levelBaseType += value;
+
+	if (levelBaseType < 0) levelBaseType = 0;
+	if (levelBaseType > BASE_TYPES) levelBaseType = BASE_TYPES;
+
+	configurationLayout->getRoot().getChild("BaseImage").setVisible(true);
+	configurationLayout->getRoot().getChild("BaseImage").setProperty("Image", "base" + std::to_string(levelBaseType + 1));
+
+	buttonClick(buttonSound);
+
+	return false;
+}
+
+bool ConfigurationMenu::changeLevelObstacles(int value)
+{
+	levelObstaclesType += value;
+
+	if (levelObstaclesType < 0) levelObstaclesType = 0;
+	if (levelObstaclesType > OBSTACLES_TYPES) levelObstaclesType = OBSTACLES_TYPES;
+
+	if (levelObstaclesType == 0)
+		configurationLayout->getRoot().getChild("ObstaclesImage").setVisible(false);
+	else
+	{
+		configurationLayout->getRoot().getChild("ObstaclesImage").setVisible(true);
+		configurationLayout->getRoot().getChild("ObstaclesImage").setProperty("Image", "obstacles" + std::to_string(levelObstaclesType));
+	}
+
+	buttonClick(buttonSound);
+
+	return false;
+}
+
+bool ConfigurationMenu::changeLevelForces(int value)
+{
+	levelForcesType += value;
+
+	if (levelForcesType < 0) levelForcesType = 0;
+	if (levelForcesType > FORCES_TYPES) levelForcesType = FORCES_TYPES;
+
+	if (levelForcesType == 0)
+		configurationLayout->getRoot().getChild("ForcesImage").setVisible(false);
+	else
+	{
+		configurationLayout->getRoot().getChild("ForcesImage").setVisible(true);
+		configurationLayout->getRoot().getChild("ForcesImage").setProperty("Image", "forces" + std::to_string(levelForcesType));
+	}
+
+	buttonClick(buttonSound);
+
+	return false;
+}
+
+bool ConfigurationMenu::randomizeLevel()
+{
+	levelBaseType = random(0, BASE_TYPES);
+	levelObstaclesType = random(0, OBSTACLES_TYPES + 1);
+	levelForcesType = random(0, FORCES_TYPES + 1);
+
+	changeLevelBase(0);
+	changeLevelObstacles(0);
+	changeLevelForces(0);
+
 	return false;
 }
 
@@ -152,17 +220,23 @@ bool ConfigurationMenu::startButtonClick()
 	gameManager->setHealth(health);
 	gameManager->setInitialTime(time);
 
-	gameManager->setLevel(levelNames[levelIndex]);
-	gameManager->setSong(songNames[songIndex]);
-	
+	gameManager->setLevelBase(levelBaseType);
+	gameManager->setLevelObstacles(levelObstaclesType);
+	gameManager->setLevelForces(levelForcesType);
 
-	if (!IA && filledSlots > 1 || IA) {
-		gameManager->stopMusic();
-		SceneManager::GetInstance()->changeScene("Game");
-	}
-		
+	gameManager->setSong(songNames[songIndex]);
+
+	if (time != MAX_TIME)
+		gameManager->setTime(time);
+	else
+		gameManager->setTime(-1);
+
+	gameManager->stopMusic();
+
+	SceneManager::GetInstance()->changeScene("Game");
 
 	buttonClick(startSound);
+	
 	return false;
 }
 
@@ -179,17 +253,23 @@ ConfigurationMenu::ConfigurationMenu(GameObject* gameObject) : Menu(gameObject),
 
 	interfaceSystem->registerEvent("checkBoxClick", UIEvent("ToggleClicked", [this]() {return changeFiller(!IA); }));
 
-	interfaceSystem->registerEvent("-healthButtonClick", UIEvent("ButtonClicked", [this]() {return changeHealth(-1); }));
-	interfaceSystem->registerEvent("+healthButtonClick", UIEvent("ButtonClicked", [this]() {return changeHealth(+1); }));
+	interfaceSystem->registerEvent("-healthButtonClick", UIEvent("ButtonClicked", [this]() {return changeHealth(-CHANGE_HEALTH); }));
+	interfaceSystem->registerEvent("+healthButtonClick", UIEvent("ButtonClicked", [this]() {return changeHealth(+CHANGE_HEALTH); }));
 
-	interfaceSystem->registerEvent("-timeButtonClick", UIEvent("ButtonClicked", [this]() {return changeTime(-10); }));
-	interfaceSystem->registerEvent("+timeButtonClick", UIEvent("ButtonClicked", [this]() {return changeTime(+10); }));
+	interfaceSystem->registerEvent("-timeButtonClick", UIEvent("ButtonClicked", [this]() {return changeTime(-CHANGE_TIME); }));
+	interfaceSystem->registerEvent("+timeButtonClick", UIEvent("ButtonClicked", [this]() {return changeTime(+CHANGE_TIME); }));
 
 	interfaceSystem->registerEvent("-songButtonClick", UIEvent("ButtonClicked", [this]() {return changeSong(-1); }));
 	interfaceSystem->registerEvent("+songButtonClick", UIEvent("ButtonClicked", [this]() {return changeSong(+1); }));
 
-	interfaceSystem->registerEvent("-levelButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevel(-1); }));
-	interfaceSystem->registerEvent("+levelButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevel(+1); }));
+	interfaceSystem->registerEvent("-levelBaseButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevelBase(-1); }));
+	interfaceSystem->registerEvent("+levelBaseButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevelBase(+1); }));
+	interfaceSystem->registerEvent("-levelObstaclesButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevelObstacles(-1); }));
+	interfaceSystem->registerEvent("+levelObstaclesButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevelObstacles(+1); }));
+	interfaceSystem->registerEvent("-levelForcesButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevelForces(-1); }));
+	interfaceSystem->registerEvent("+levelForcesButtonClick", UIEvent("ButtonClicked", [this]() {return changeLevelForces(+1); }));
+
+	interfaceSystem->registerEvent("randomizeButtonClick", UIEvent("ButtonClicked", [this]() {return randomizeLevel(); }));
 
 	interfaceSystem->registerEvent("startButtonClick", UIEvent("ButtonClicked", [this]() {return startButtonClick(); }));
 	interfaceSystem->registerEvent("backButtonClick", UIEvent("ButtonClicked", [this]() {return backButtonClick(); }));
@@ -210,8 +290,15 @@ ConfigurationMenu::~ConfigurationMenu()
 	interfaceSystem->unregisterEvent("-songButtonClick");
 	interfaceSystem->unregisterEvent("+songButtonClick");
 
-	interfaceSystem->unregisterEvent("-levelButtonClick");
-	interfaceSystem->unregisterEvent("+levelButtonClick");
+	interfaceSystem->unregisterEvent("-levelBaseButtonClick");
+	interfaceSystem->unregisterEvent("+levelBaseButtonClick");
+	interfaceSystem->unregisterEvent("-levelObstaclesButtonClick");
+	interfaceSystem->unregisterEvent("+levelObstaclesButtonClick");
+	interfaceSystem->unregisterEvent("-levelForcesButtonClick");
+	interfaceSystem->unregisterEvent("+levelForcesButtonClick");
+
+	interfaceSystem->unregisterEvent("randomizeButtonClick");
+
 
 	interfaceSystem->unregisterEvent("startButtonClick");
 	interfaceSystem->unregisterEvent("backButtonClick");
@@ -235,8 +322,12 @@ void ConfigurationMenu::start()
 	health = 5;
 	time = 60;
 
-	levelNames = std::vector<std::string>(4, "level"); // Placeholder
-	levelIndex = 0;
+	//levelNames = std::vector<std::string>(4, "level"); // Placeholder
+	//levelIndex = 0;
+
+	levelBaseType = 0;
+	levelObstaclesType = 0;
+	levelForcesType = 0;
 
 	songNames = {"Controversia", "BloodyMary", "DefenseMatrix", "Chaos"};
 	songIndex = 0;
@@ -252,4 +343,16 @@ void ConfigurationMenu::start()
 void ConfigurationMenu::update(float deltaTime)
 {
 	checkInput();
+
+	if (!IA && filledSlots > 1 || IA)
+	{
+		if (!startButton.isVisible())
+			startButton.setVisible(true);
+	}
+	else
+	{
+		if (startButton.isVisible())
+			startButton.setVisible(false);
+	}
+
 }

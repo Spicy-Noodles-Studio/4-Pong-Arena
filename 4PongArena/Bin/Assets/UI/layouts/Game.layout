@@ -94,7 +94,7 @@
             <Window type="TaharezLook/StaticText" name="Player3Text" >
                 <Property name="Area" value="{{0.1,0},{0,0},{1,0},{1,0}}" />
                 <Property name="MaxSize" value="{{1,0},{0.05,0}}" />
-                <Property name="Text" value="[colour='FFFF0000']P3" />
+                <Property name="Text" value="[colour='FFFFFF00']P3" />
                 <Property name="Disabled" value="true" />
                 <Property name="Font" value="Batang8" />
             </Window>
@@ -112,7 +112,7 @@
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="Visible" value="False" />
             <Property name="Disabled" value="true" />
-            <Property name="Text" value="[colour='FFFF0000']P3" />
+            <Property name="Text" value="[colour='FFFFFF00']P3" />
             <Property name="Font" value="Batang8" />
         </Window>
         ## PLAYER 4 INFO
@@ -125,7 +125,7 @@
                 <Property name="Area" value="{{0.1,0},{0,0},{1,0},{1,0}}" />
                 <Property name="MaxSize" value="{{1,0},{0.05,0}}" />
                 <Property name="Disabled" value="true" />
-                <Property name="Text" value="[colour='FF00FFFF']P4" />
+                <Property name="Text" value="[colour='FF00FF00']P4" />
                 <Property name="Font" value="Batang8" />
             </Window>
             <Window type="TaharezLook/StaticText" name="Player4HealthText" >
@@ -142,7 +142,7 @@
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="Visible" value="False" />
             <Property name="Disabled" value="true" />
-            <Property name="Text" value="[colour='FF00FFFF']P4" />
+            <Property name="Text" value="[colour='FF00FF00']P4" />
             <Property name="Font" value="Batang8" />
         </Window>
 		# COUNTDOWN

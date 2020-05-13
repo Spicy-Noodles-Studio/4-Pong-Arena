@@ -9,11 +9,17 @@
 
 const int MIN_TIME = 60;
 const int MAX_TIME = 300;
+const int CHANGE_TIME = 10;
 
 const int MIN_HEALTH = 1;
 const int MAX_HEALTH = 15;
+const int CHANGE_HEALTH = 1;
 
-const int MIN_PLAYERS = 0;
+const int BASE_TYPES = 2;
+const int OBSTACLES_TYPES = 2;
+const int FORCES_TYPES = 2;
+
+//const int MIN_PLAYERS = 0;
 
 class InputSystem;
 class UILayout;
@@ -33,8 +39,9 @@ private:
 	int health;
 	int time;
 
-	std::vector<std::string> levelNames;
-	int levelIndex;
+	int levelBaseType;
+	int levelObstaclesType;
+	int levelForcesType;
 
 	std::vector<std::string> songNames;
 	int songIndex;
@@ -50,8 +57,13 @@ private:
 	bool changeFiller(bool value);
 	bool changeHealth(int value);
 	bool changeTime(int value);
-	bool changeLevel(int value);
 	bool changeSong(int value);
+
+	bool changeLevelBase(int value);
+	bool changeLevelObstacles(int value);
+	bool changeLevelForces(int value);
+
+	bool randomizeLevel();
 
 	bool startButtonClick();
 	bool backButtonClick();

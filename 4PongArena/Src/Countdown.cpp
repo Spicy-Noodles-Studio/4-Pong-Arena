@@ -47,6 +47,7 @@ void Countdown::start()
 
 void Countdown::preUpdate(float deltaTime)
 {
+
 	if (charged && !started) {
 		pauseGame();
 		started = true;
