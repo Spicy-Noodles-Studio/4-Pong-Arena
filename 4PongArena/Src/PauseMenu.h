@@ -13,7 +13,7 @@ private:
 	InputSystem* inputSystem;
 
 	UIElement pauseMenu;
-	UIElement pauseText;
+	UIElement pausePanel;
 
 	UIElement optionsMenu;
 

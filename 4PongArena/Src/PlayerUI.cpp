@@ -10,7 +10,7 @@
 
 REGISTER_FACTORY(PlayerUI);
 
-PlayerUI::PlayerUI(GameObject* gameObject) : UserComponent(gameObject), mainCamera(nullptr), health(nullptr), name(""), playerHUD(nullptr), playerIndicator(nullptr)
+PlayerUI::PlayerUI(GameObject* gameObject) : UserComponent(gameObject), mainCamera(nullptr), health(nullptr), name(""), playerHUD(nullptr)
 {
 
 }
@@ -23,7 +23,7 @@ PlayerUI::~PlayerUI()
 void PlayerUI::start()
 {
 	// Initialize name to search through layout
-	PlayerIndex* playerIndex= gameObject->getComponent<PlayerIndex>();
+	playerIndex = gameObject->getComponent<PlayerIndex>();
 
 	if (playerIndex != nullptr)
 		name = "Player" + std::to_string(playerIndex->getId());
@@ -45,16 +45,9 @@ void PlayerUI::start()
 
 	// Get UI elements for PlayerIndicator and PlayerStatsPanel
 	if (cameraLayout != nullptr)
-	{
 		playerHUD = cameraLayout->getRoot().getChild(name + "Background");
-		playerIndicator = cameraLayout->getRoot().getChild(name + "Indicator");
-	}
 
 	playerHUD.setVisible(true);
-	playerIndicator.setVisible(true);
-
-	for (int i = 0; i < playerHUD.getChildCount(); i++)
-		playerHUD.getChildAtIndex(i).setInheritsAlpha(false);
 
 	//Initialize layout aspect
 	updateHealth();
@@ -62,21 +55,22 @@ void PlayerUI::start()
 
 void PlayerUI::update(float deltaTime)
 {
-	updateIndicator();
 	updateHealth();
-}
-
-void PlayerUI::updateIndicator()
-{
-	if (mainCamera == nullptr)
-		return;
-
-	Vector3 pos = mainCamera->worldToScreen(gameObject->transform->getPosition());
-	playerIndicator.setPosition((float)pos.x - 0.025f, (float)pos.y - 0.025f);
 }
 
 void PlayerUI::updateHealth()
 {
-	if (health != nullptr)
-		playerHUD.getChild(name + "HealthText").setText("Health: " + std::to_string(health->getHealth()));
+	std::string color;
+
+	if (playerIndex->getId() == 1)
+		color = "[colour = 'FFFF0000']";
+	else if (playerIndex->getId() == 2)
+		color = "[colour='FF0000FF']";
+	else if (playerIndex->getId() == 3)
+		color = "[colour='FFFFFF00']";
+	else
+		color = "[colour='FF00FF00']";
+
+	if (playerIndex != nullptr && health != nullptr)
+		playerHUD.getChild(name + "Text").setText(color + "P" + std::to_string(playerIndex->getId()) + ": " + std::to_string(health->getHealth()));
 }

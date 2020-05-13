@@ -349,7 +349,7 @@ void Game::chooseWinner()
 	}
 	else
 	{
-		gameManager->getScore()->setTimeAlive(majorIndex + 1, gameManager->getInitialTime(), gameManager->getTime());
+		gameManager->getScore()->setTimeAlive(majorIndex, gameManager->getInitialTime(), gameManager->getTime());
 		gameManager->setPlayerRanking(majorIndex + 1, 1);
 		gameManager->setWinner(majorIndex + 1);
 	}
@@ -357,7 +357,7 @@ void Game::chooseWinner()
 	SceneManager::GetInstance()->changeScene("ScoreMenu");
 }
 
-Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), gameLayout(nullptr), timeText(NULL), gameTimer(0), levelBase(0), levelForces(0), levelObstacles(0)
+Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), gameLayout(nullptr), timePanel(NULL), gameTimer(0), levelBase(0), levelForces(0), levelObstacles(0)
 {
 
 }
@@ -377,7 +377,7 @@ void Game::start()
 		gameLayout = mainCamera->getComponent<UILayout>();
 
 	if (gameLayout != nullptr)
-		timeText = gameLayout->getRoot().getChild("Time");
+		timePanel = gameLayout->getRoot().getChild("TimeBackground");
 
 	countdown = findGameObjectWithName("Countdown")->getComponent<Countdown>();
 
@@ -401,16 +401,31 @@ void Game::update(float deltaTime)
 {
 	if (!countdown->isCounting() && gameTimer > 0)
 	{
+		if (!timePanel.isVisible())
+		{
+			timePanel.setVisible(true);
+			timePanel.setAlwaysOnTop(true);
+		}
+
+		timePanel.getChild("Time").setText(timeToText().first + " : " + timeToText().second);
+
 		gameTimer -= deltaTime;
 		gameManager->setTime((int)gameTimer);
 
-		if (gameTimer <= 0.0f)
+		if (gameTimer <= 0.0f || gameManager->getPlayersAlive() == 1)
 			chooseWinner();
-
-		if (gameLayout != nullptr)
-			timeText.setText(std::to_string((int)gameTimer % 60));
 	}
+}
 
-	if (gameManager->getPlayersAlive() == 1)
-		chooseWinner();
+std::pair<std::string, std::string> Game::timeToText()
+{
+	std::string minutes = std::to_string((int)gameTimer / 60);
+	std::string seconds;
+
+	if ((int)gameTimer % 60 < 10)
+		seconds = "0" + std::to_string((int)gameTimer % 60);
+	else
+		seconds = std::to_string((int)gameTimer % 60);
+
+	return std::pair<std::string, std::string>(minutes, seconds);
 }

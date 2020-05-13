@@ -44,10 +44,10 @@ nPlayers(0), health(4), time(60), mode(false), levelBaseType(0), levelForcesType
 	interfaceSystem->registerEvent("settingsButtonClick", UIEvent("ButtonClicked", [this]() {return settingsButtonClick(); }));
 	interfaceSystem->registerEvent("backButtonClick", UIEvent("ButtonClicked", [this]() {return backButtonClick(); }));
 
-	interfaceSystem->registerEvent("slot1ButtonClick", UIEvent("ButtonClicked", [this]() {return slot1ButtonClick(); }));
-	interfaceSystem->registerEvent("slot2ButtonClick", UIEvent("ButtonClicked", [this]() {return slot2ButtonClick(); }));
-	interfaceSystem->registerEvent("slot3ButtonClick", UIEvent("ButtonClicked", [this]() {return slot3ButtonClick(); }));
-	interfaceSystem->registerEvent("slot4ButtonClick", UIEvent("ButtonClicked", [this]() {return slot4ButtonClick(); }));
+	interfaceSystem->registerEvent("slot1ButtonClick", UIEvent("ButtonClicked", [this]() {return slotButtonClick(0, "Slot1"); }));
+	interfaceSystem->registerEvent("slot2ButtonClick", UIEvent("ButtonClicked", [this]() {return slotButtonClick(1, "Slot2"); }));
+	interfaceSystem->registerEvent("slot3ButtonClick", UIEvent("ButtonClicked", [this]() {return slotButtonClick(2, "Slot3"); }));
+	interfaceSystem->registerEvent("slot4ButtonClick", UIEvent("ButtonClicked", [this]() {return slotButtonClick(3, "Slot4"); }));
 
 	timeModes = { "Time", "Infinite" };
 	songNames = { "Canción 1", "Canción 2", "Canción 3" };
@@ -97,13 +97,13 @@ void ConfigurationMenu::start()
 	GameObject* mainCamera = findGameObjectWithName("MainCamera");
 
 	if (mainCamera != nullptr)
+	{
 		configurationLayout = mainCamera->getComponent<UILayout>();
+		settingsPanel = mainCamera->getChildren()[0]->getComponent<UILayout>()->getRoot();
+	}
 
 	if (configurationLayout != nullptr)
-	{
-		settingsPanel = configurationLayout->getRoot().getChild("SettingsBackground");
 		startButton = configurationLayout->getRoot().getChild("StartButton");
-	}
 
 	slots = std::vector<std::pair<int, UIElement>>(4, { -1, NULL });
 	std::vector<int> indexes = gameManager->getPlayerIndexes();
@@ -162,15 +162,27 @@ void ConfigurationMenu::checkInput()
 	int i = 0;
 	while (i < 5 && !pressed)
 	{
-		// Clear or reorder Slots
+		// Fill or clear slots
 		int slotIndex = isIndexConnected(i);
-		bool enterButton = isIndexConnected(i) == -1 && (i < 4 && inputSystem->getButtonPress(i, "X")) || (i == 4 && inputSystem->getKeyPress("SPACE"));
-		bool exitButton = isIndexConnected(i) != -1 && (i < 4 && (inputSystem->getButtonPress(i, "X") || !inputSystem->isControllerConnected(i))) || (i == 4 && inputSystem->getKeyPress("SPACE"));
+		bool enterButton = (i < 4 && inputSystem->getButtonPress(i, "X")) || (i == 4 && inputSystem->getKeyPress("SPACE"));
+		bool exitButton = (i < 4 && (inputSystem->getButtonPress(i, "X") || !inputSystem->isControllerConnected(i))) || (i == 4 && inputSystem->getKeyPress("SPACE"));
 
 		if (nPlayers < 4 && slotIndex == -1 && enterButton)
 			fillSlot(i);
 		else if (slotIndex != -1 && exitButton)
 			clearSlot(slotIndex);
+
+		// Fill or clear with IA
+		int enterIASlot = isIndexConnected(-1);
+		bool enterIAButton = (i < 4 && inputSystem->getButtonPress(i, "RB"));
+
+		int exitIASlot = isIndexConnected(9);
+		bool exitIAButton = (i < 4 && inputSystem->getButtonPress(i, "LB"));
+
+		if (nPlayers < 4 && enterIASlot != -1 && enterIAButton)
+			slotButtonClick(enterIASlot, "Slot" + std::to_string(enterIASlot + 1));
+		else if (exitIASlot != -1 && exitIAButton)
+			slotButtonClick(exitIASlot, "Slot" + std::to_string(exitIASlot + 1));
 
 		// Close Settings Panel or back to Main Menu
 		bool escape = i == 4 && inputSystem->getKeyPress("ESCAPE");
@@ -239,9 +251,19 @@ void ConfigurationMenu::clearSlot(int index)
 int ConfigurationMenu::isIndexConnected(int index)
 {
 	int i = 0;
-	while (i < nPlayers - 1 && slots[i].first != index) i++;
 
-	if (slots[i].first == index)
+	if (index == 9)
+	{
+		i = slots.size() - 1;
+		while (i >= 0 && slots[i].first != index) i--;
+	}
+	else
+	{
+		i = 0;
+		while (i < slots.size() && slots[i].first != index) i++;
+	}
+
+	if (i < slots.size() && slots[i].first == index)
 		return i;
 
 	return -1;
@@ -254,7 +276,7 @@ bool ConfigurationMenu::changeHealth(int value)
 	if (health < MIN_HEALTH) health = MIN_HEALTH;
 	if (health > MAX_HEALTH) health = MAX_HEALTH;
 
-	settingsPanel.getChild("Health").setText(std::to_string(health));
+	settingsPanel.getChild("Background").getChild("Health").setText(std::to_string(health));
 
 	return false;
 }
@@ -262,7 +284,7 @@ bool ConfigurationMenu::changeHealth(int value)
 bool ConfigurationMenu::changeTimeMode(int value)
 {
 	mode = value;
-	settingsPanel.getChild("TimeMode").setText(timeModes[mode]);
+	settingsPanel.getChild("Background").getChild("TimeMode").setText(timeModes[mode]);
 
 	return false;
 }
@@ -274,7 +296,7 @@ bool ConfigurationMenu::changeTime(int value)
 	if (time < MIN_TIME) time = MIN_TIME;
 	if (time > MAX_TIME) time = MAX_TIME;
 
-	settingsPanel.getChild("Time").setText(std::to_string(time));
+	settingsPanel.getChild("Background").getChild("Time").setText(std::to_string(time));
 
 	return false;
 }
@@ -283,7 +305,7 @@ bool ConfigurationMenu::changeLevelBase(int value)
 {
 	levelBaseType += value;
 
-	int index = levelBaseType % (BASE_TYPES + 1);
+	int index = abs(levelBaseType) % (BASE_TYPES + 1);
 
 	configurationLayout->getRoot().getChild("BaseImage").setVisible(true);
 	configurationLayout->getRoot().getChild("BaseImage").setProperty("Image", "base" + std::to_string(index + 1));
@@ -297,7 +319,7 @@ bool ConfigurationMenu::changeLevelObstacles(int value)
 {
 	levelObstaclesType += value;
 
-	int index = levelObstaclesType % (OBSTACLES_TYPES + 1);
+	int index = abs(levelObstaclesType) % (OBSTACLES_TYPES + 1);
 
 	if (index == 0)
 		configurationLayout->getRoot().getChild("ObstaclesImage").setVisible(false);
@@ -316,7 +338,7 @@ bool ConfigurationMenu::changeLevelForces(int value)
 {
 	levelForcesType += value;
 
-	int index = levelForcesType % (FORCES_TYPES + 1);
+	int index = abs(levelForcesType) % (FORCES_TYPES + 1);
 
 	if (index == 0)
 		configurationLayout->getRoot().getChild("ForcesImage").setVisible(false);
@@ -348,8 +370,8 @@ bool ConfigurationMenu::changeSong(int value)
 {
 	songIndex += value;
 
-	int index = songIndex % songNames.size();
-	configurationLayout->getRoot().getChild("Song").setText(songNames[index]);
+	int index = abs(songIndex) % songNames.size();
+	configurationLayout->getRoot().getChild("PreviewSongButton").setText(songNames[index]);
 
 	GameManager::GetInstance()->setSong(index);
 	GameManager::GetInstance()->setSongName(songNames[index]);
@@ -357,13 +379,13 @@ bool ConfigurationMenu::changeSong(int value)
 	return false;
 }
 
-bool ConfigurationMenu::slot1ButtonClick()
+bool ConfigurationMenu::slotButtonClick(int index, std::string name)
 {
-	if (slots[0].first == -1)
+	if (slots[index].first == -1)
 	{
-		slots[0].first = 9;
-		slots[0].second.getChild("Slot1Text").setText("IA");
-		slots[0].second.getChild("Slot1Button").setText("Clear IA");
+		slots[index].first = 9;
+		slots[index].second.getChild(name + "Text").setText("IA");
+		slots[index].second.getChild(name + "Button").setText("Clear IA");
 
 		nPlayers++;
 
@@ -372,93 +394,9 @@ bool ConfigurationMenu::slot1ButtonClick()
 	}
 	else
 	{
-		slots[0].first = -1;
-		slots[0].second.getChild("Slot1Text").setText("Press SPACE or X");
-		slots[0].second.getChild("Slot1Button").setText("Insert IA");
-
-		nPlayers--;
-
-		if (startButton.isVisible() && nPlayers < MIN_PLAYERS)
-			startButton.setVisible(false);
-	}
-
-	return false;
-}
-
-bool ConfigurationMenu::slot2ButtonClick()
-{
-	if (slots[1].first == -1)
-	{
-		slots[1].first = 9;
-		slots[1].second.getChild("Slot2Text").setText("IA");
-		slots[1].second.getChild("Slot2Button").setText("Clear IA");
-
-		nPlayers++;
-
-		if (!startButton.isVisible() && nPlayers >= MIN_PLAYERS)
-			startButton.setVisible(true);
-	}
-	else
-	{
-		slots[1].first = -1;
-		slots[1].second.getChild("Slot2Text").setText("Press SPACE or X");
-		slots[1].second.getChild("Slot2Button").setText("Insert IA");
-
-		nPlayers--;
-
-		if (startButton.isVisible() && nPlayers < MIN_PLAYERS)
-			startButton.setVisible(false);
-	}
-
-	return false;
-}
-
-bool ConfigurationMenu::slot3ButtonClick()
-{
-	if (slots[2].first == -1)
-	{
-		slots[2].first = 9;
-		slots[2].second.getChild("Slot3Text").setText("IA");
-		slots[2].second.getChild("Slot3Button").setText("Clear IA");
-
-		nPlayers++;
-
-		if (!startButton.isVisible() && nPlayers >= MIN_PLAYERS)
-			startButton.setVisible(true);
-	}
-	else
-	{
-		slots[2].first = -1;
-		slots[2].second.getChild("Slot3Text").setText("Press SPACE or X");
-		slots[2].second.getChild("Slot3Button").setText("Insert IA");
-
-		nPlayers--;
-
-		if (startButton.isVisible() && nPlayers < MIN_PLAYERS)
-			startButton.setVisible(false);
-	}
-
-	return false;
-}
-
-bool ConfigurationMenu::slot4ButtonClick()
-{
-	if (slots[3].first == -1)
-	{
-		slots[3].first = 9;
-		slots[3].second.getChild("Slot4Text").setText("IA");
-		slots[3].second.getChild("Slot4Button").setText("Clear IA");
-
-		nPlayers++;
-
-		if (!startButton.isVisible() && nPlayers >= MIN_PLAYERS)
-			startButton.setVisible(true);
-	}
-	else
-	{
-		slots[3].first = -1;
-		slots[3].second.getChild("Slot4Text").setText("Press SPACE or X");
-		slots[3].second.getChild("Slot4Button").setText("Insert IA");
+		slots[index].first = -1;
+		slots[index].second.getChild(name + "Text").setText("Press SPACE or X");
+		slots[index].second.getChild(name + "Button").setText("Insert IA");
 
 		nPlayers--;
 
@@ -500,15 +438,17 @@ bool ConfigurationMenu::settingsButtonClick()
 	{
 		settingsPanel.setVisible(true);
 		settingsPanel.setAlwaysOnTop(true);
+
+		InterfaceSystem::GetInstance()->clearControllerMenuInput();
+		InterfaceSystem::GetInstance()->initControllerMenuInput(&settingsPanel);
 	}
 	else
 	{
 		settingsPanel.setVisible(false);
 		settingsPanel.setAlwaysOnTop(false);
-	}
 
-	InterfaceSystem::GetInstance()->clearControllerMenuInput();
-	InterfaceSystem::GetInstance()->initControllerMenuInput(&settingsPanel);
+		InterfaceSystem::GetInstance()->clearControllerMenuInput();
+	}
 
 	return false;
 }

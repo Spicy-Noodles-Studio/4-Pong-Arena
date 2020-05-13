@@ -23,7 +23,26 @@
                     "ComponentName": "UILayout",
                     "ComponentProperties": [
                         ["layout" , "ConfigurationMenu.layout"],
-                        ["event" , "-HealthButton -healthButtonClick | +HealthButton +healthButtonClick | -TimeModeButton -timeModeButtonClick | +TimeModeButton +timeModeButtonClick | -TimeButton -timeButtonClick | +TimeButton +timeButtonClick | -LevelBaseButton -levelBaseButtonClick | -LevelObstaclesButton -levelObstaclesButtonClick | -LevelForcesButton -levelForcesButtonClick | +LevelBaseButton +levelBaseButtonClick | +LevelObstaclesButton +levelObstaclesButtonClick | +LevelForcesButton +levelForcesButtonClick | -SongButton -songButtonClick | +SongButton +songButtonClick | RandomizeButton randomizeButtonClick | StartButton startButtonClick | SettingsButton settingsButtonClick | BackButton backButtonClick | Slot1Button slot1ButtonClick | Slot2Button slot2ButtonClick | Slot3Button slot3ButtonClick | Slot4Button slot4ButtonClick"]
+                        ["event" , "-LevelBaseButton -levelBaseButtonClick | -LevelObstaclesButton -levelObstaclesButtonClick | -LevelForcesButton -levelForcesButtonClick | +LevelBaseButton +levelBaseButtonClick | +LevelObstaclesButton +levelObstaclesButtonClick | +LevelForcesButton +levelForcesButtonClick | -SongButton -songButtonClick | +SongButton +songButtonClick | RandomizeButton randomizeButtonClick | StartButton startButtonClick | SettingsButton settingsButtonClick | BackButton backButtonClick | Slot1Button slot1ButtonClick | Slot2Button slot2ButtonClick | Slot3Button slot3ButtonClick | Slot4Button slot4ButtonClick"]
+                    ]
+                }
+            ],
+            "Children": 
+            [
+                {
+                    "ObjectType": "GAMEOBJECT",
+                    "ObjectName": "CustomSettings",
+                    "Tag": "customSettings",
+                    "Components":
+                    [
+                        {
+                            "ComponentName": "UILayout",
+                            "ComponentProperties": 
+                            [
+                                ["layout" , "CustomSettings.layout"],
+                                ["event" ,  "-HealthButton -healthButtonClick | +HealthButton +healthButtonClick | -TimeModeButton -timeModeButtonClick | +TimeModeButton +timeModeButtonClick | -TimeButton -timeButtonClick | +TimeButton +timeButtonClick"]
+                            ]
+                        }
                     ]
                 }
             ]

@@ -18,7 +18,7 @@ private:
 	GameManager* gameManager;
 
 	UILayout* gameLayout;
-	UIElement timeText;
+	UIElement timePanel;
 
 	Countdown* countdown;
 
@@ -47,6 +47,8 @@ private:
 
 	void playSong();
 	void chooseWinner();
+
+	std::pair<std::string, std::string> timeToText();
 
 public:
 	Game(GameObject* gameObject);

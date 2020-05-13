@@ -72,10 +72,7 @@ private:
 
 	bool changeSong(int value);
 
-	bool slot1ButtonClick();
-	bool slot2ButtonClick();
-	bool slot3ButtonClick();
-	bool slot4ButtonClick();
+	bool slotButtonClick(int index, std::string name);
 
 	bool startButtonClick();
 	bool settingsButtonClick();

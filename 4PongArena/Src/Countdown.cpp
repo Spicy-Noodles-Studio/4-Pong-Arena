@@ -14,7 +14,7 @@
 
 REGISTER_FACTORY(Countdown);
 
-Countdown::Countdown(GameObject* gameObject) : UserComponent(gameObject), text(NULL), players(), time(0), startCounting(false), countingDown(false)
+Countdown::Countdown(GameObject* gameObject) : UserComponent(gameObject), panel(NULL), players(), time(0), startCounting(false), countingDown(false)
 {
 
 }
@@ -26,10 +26,14 @@ Countdown::~Countdown()
 
 void Countdown::start()
 {
-	UILayout* cameraLayout = findGameObjectWithName("MainCamera")->getComponent<UILayout>();
+	GameObject* mainCamera = findGameObjectWithName("MainCamera");
 
-	if (cameraLayout != nullptr)
-		text = cameraLayout->getRoot().getChild("Countdown");
+	if (mainCamera != nullptr)
+	{
+		UILayout* cameraLayout = mainCamera->getComponent<UILayout>();
+		if (cameraLayout != nullptr)
+			panel = cameraLayout->getRoot().getChild("CountdownBackground");
+	}
 
 	players = GameManager::GetInstance()->getPaddles();
 }
@@ -48,21 +52,23 @@ void Countdown::update(float deltaTime)
 
 		startCounting = true;
 		countingDown = true;
+		panel.setVisible(true);
+		panel.setAlwaysOnTop(true);
+
+		last = std::chrono::steady_clock::now();
 	}
 
 	if (countingDown)
 	{
 		time -= deltaTime;
 
-		if (time + 1 >= 1)
-			text.setText(std::to_string((int)time));
+		if (time >= 1)
+			panel.getChild("Countdown").setText(std::to_string((int)time));
 		else
-			text.setText("SURVIVE!");
+			panel.getChild("Countdown").setText("SURVIVE!");
 
-		if (time + 1 <= 0)
+		if (time < 0)
 		{
-			text.setText("");
-
 			for (int i = 0; i < players.size(); i++)
 			{
 				if (players[i]->getComponent<PlayerController>() != nullptr)
@@ -72,7 +78,15 @@ void Countdown::update(float deltaTime)
 			}
 
 			countingDown = false;
+			panel.setVisible(false);
+			panel.setAlwaysOnTop(false);
 		}
+
+		std::chrono::steady_clock::time_point current = std::chrono::steady_clock::now();
+		std::chrono::duration<float> elapsed = std::chrono::duration_cast<std::chrono::duration<float>>(current - last);
+
+		last = current;
+		time -= elapsed.count();
 	}
 }
 

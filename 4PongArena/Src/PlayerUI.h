@@ -6,20 +6,20 @@
 #include <UIElement.h>
 
 class Camera;
+class PlayerIndex;
 class Health;
 
 class PlayerUI : public UserComponent
 {
 private:
 	Camera* mainCamera;
+	PlayerIndex* playerIndex;
 	Health* health;
 
 	std::string name;
 
 	UIElement playerHUD;
-	UIElement playerIndicator;
 
-	void updateIndicator();
 	void updateHealth();
 
 public:

@@ -5,16 +5,19 @@
 #include <UserComponent.h>
 #include <UIElement.h>
 
+#include <chrono>
+
 class UILayout;
 
 class Countdown : public UserComponent
 {
 private:
-	UIElement text;
+	UIElement panel;
 
 	std::vector<GameObject*> players;
 
 	float time;
+	std::chrono::steady_clock::time_point last;
 
 	bool startCounting;
 	bool countingDown;
