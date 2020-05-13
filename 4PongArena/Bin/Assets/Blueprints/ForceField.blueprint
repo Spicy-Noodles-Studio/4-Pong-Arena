@@ -30,13 +30,14 @@
                 ["collidesWith", "Default"]
             ]
         },
+		{
+            "ComponentName": "SoundEmitter"
+        },
         {
             "ComponentName": "ForceField",
             "ComponentProperties": [
-                ["targetVelocity", "8"],
-                ["acceleration", "2"],
-                ["stateTime", "5"],
-                ["random", "0"]
+                ["targetVelocity", "6"],
+                ["acceleration", "2"]
             ]
         },
         {

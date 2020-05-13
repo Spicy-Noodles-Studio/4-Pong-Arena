@@ -7,8 +7,8 @@
 
 const int MAX_PLAYERS = 4;
 
-class InputSystem;
 class GameManager;
+class SoundEmitter;
 class UILayout;
 class Countdown;
 
@@ -16,6 +16,7 @@ class Game : public UserComponent
 {
 private:
 	GameManager* gameManager;
+	SoundEmitter* soundEmitter;
 
 	UILayout* gameLayout;
 	UIElement timePanel;
@@ -24,11 +25,17 @@ private:
 
 	std::vector<GameObject*> paddles;
 	std::vector<Vector3> playerColours;
+	std::vector<std::vector<Vector3>> levelColours;
+
+	std::pair<Vector3, Vector3> baseColour;
+	std::pair<Vector3, Vector3> neonColour;
 
 	std::vector<std::pair<Vector3, Vector3>> playerTransforms;
 	std::vector<std::pair<Vector3, Vector3>> spawnerTransforms;
 	std::vector<std::pair<Vector3, Vector3>> forceFieldTransforms;
 	std::vector<std::pair<Vector3, Vector3>> obstacleTransforms;
+
+	Vector3 wallScale;
 
 	float gameTimer;
 
@@ -47,6 +54,7 @@ private:
 
 	void playSong();
 	void chooseWinner();
+	void endgameHandleSound();
 
 	std::pair<std::string, std::string> timeToText();
 

@@ -6,14 +6,16 @@
 #include <GameObject.h>
 #include <UILayout.h>
 #include <UIElement.h>
+#include <SoundEmitter.h>
 #include <MathUtils.h>
 
 #include "GameManager.h"
+#include "Score.h"
 
 REGISTER_FACTORY(ConfigurationMenu);
 
-ConfigurationMenu::ConfigurationMenu(GameObject* gameObject) : UserComponent(gameObject), inputSystem(nullptr), configurationLayout(nullptr), startButton(NULL), settingsPanel(NULL),
-nPlayers(0), health(4), time(60), mode(false), levelBaseType(0), levelForcesType(0), levelObstaclesType(0), songIndex(0)
+ConfigurationMenu::ConfigurationMenu(GameObject* gameObject) : Menu(gameObject), inputSystem(nullptr), configurationLayout(nullptr), startButton(NULL), settingsPanel(NULL),
+nPlayers(0), health(4), time(60), mode(false), levelBaseType(0), levelForcesType(0), levelObstaclesType(0), song(""), previewTime(50), timer(0), songPreview(false)
 {
 	InterfaceSystem* interfaceSystem = InterfaceSystem::GetInstance();
 
@@ -39,6 +41,7 @@ nPlayers(0), health(4), time(60), mode(false), levelBaseType(0), levelForcesType
 
 	interfaceSystem->registerEvent("-songButtonClick", UIEvent("ButtonClicked", [this]() {return changeSong(-1); }));
 	interfaceSystem->registerEvent("+songButtonClick", UIEvent("ButtonClicked", [this]() {return changeSong(+1); }));
+	interfaceSystem->registerEvent("previewSongButtonClick", UIEvent("ButtonClicked", [this]() {return previewSong(!songPreview); }));
 
 	interfaceSystem->registerEvent("startButtonClick", UIEvent("ButtonClicked", [this]() {return startButtonClick(); }));
 	interfaceSystem->registerEvent("settingsButtonClick", UIEvent("ButtonClicked", [this]() {return settingsButtonClick(); }));
@@ -50,7 +53,7 @@ nPlayers(0), health(4), time(60), mode(false), levelBaseType(0), levelForcesType
 	interfaceSystem->registerEvent("slot4ButtonClick", UIEvent("ButtonClicked", [this]() {return slotButtonClick(3, "Slot4"); }));
 
 	timeModes = { "Time", "Infinite" };
-	songNames = { "Canción 1", "Canción 2", "Canción 3" };
+	songNames = { {"Controversia","Controversia"}, {"Bloody Mary","BloodyMary"}, {"Defense Matrix","DefenseMatrix"}, {"Chaos","Chaos"} };
 }
 
 ConfigurationMenu::~ConfigurationMenu()
@@ -78,6 +81,7 @@ ConfigurationMenu::~ConfigurationMenu()
 
 	interfaceSystem->unregisterEvent("-songButtonClick");
 	interfaceSystem->unregisterEvent("+songButtonClick");
+	interfaceSystem->unregisterEvent("previewSongButtonClick");
 
 	interfaceSystem->unregisterEvent("startButtonClick");
 	interfaceSystem->unregisterEvent("settingsButtonClick");
@@ -91,9 +95,18 @@ ConfigurationMenu::~ConfigurationMenu()
 
 void ConfigurationMenu::start()
 {
+	Menu::start();
+
 	inputSystem = InputSystem::GetInstance();
 
 	GameManager* gameManager = GameManager::GetInstance();
+
+	if (!gameManager->isMenuMusicPlaying())
+	{
+		gameManager->playMusic(menuMusic);
+		gameManager->setMenuMusic(true);
+	}
+
 	GameObject* mainCamera = findGameObjectWithName("MainCamera");
 
 	if (mainCamera != nullptr)
@@ -145,7 +158,10 @@ void ConfigurationMenu::start()
 	changeLevelForces(0);
 	changeLevelObstacles(0);
 
-	songIndex = gameManager->getSong();
+	song = gameManager->getSong();
+
+	if (songNames.find(song) == songNames.end())
+		song = "Controversia";
 
 	changeSong(0);
 }
@@ -234,6 +250,8 @@ void ConfigurationMenu::fillSlot(int index)
 
 	if (!startButton.isVisible() && nPlayers >= MIN_PLAYERS)
 		startButton.setVisible(true);
+
+	buttonClick(playerAddedSound);
 }
 
 void ConfigurationMenu::clearSlot(int index)
@@ -246,6 +264,8 @@ void ConfigurationMenu::clearSlot(int index)
 
 	if (startButton.isVisible() && nPlayers < MIN_PLAYERS)
 		startButton.setVisible(false);
+
+	buttonClick(playerAddedSound);
 }
 
 int ConfigurationMenu::isIndexConnected(int index)
@@ -277,6 +297,7 @@ bool ConfigurationMenu::changeHealth(int value)
 	if (health > MAX_HEALTH) health = MAX_HEALTH;
 
 	settingsPanel.getChild("Background").getChild("Health").setText(std::to_string(health));
+	buttonClick(buttonSound);
 
 	return false;
 }
@@ -285,6 +306,7 @@ bool ConfigurationMenu::changeTimeMode(int value)
 {
 	mode = value;
 	settingsPanel.getChild("Background").getChild("TimeMode").setText(timeModes[mode]);
+	buttonClick(buttonSound);
 
 	return false;
 }
@@ -297,6 +319,7 @@ bool ConfigurationMenu::changeTime(int value)
 	if (time > MAX_TIME) time = MAX_TIME;
 
 	settingsPanel.getChild("Background").getChild("Time").setText(std::to_string(time));
+	buttonClick(buttonSound);
 
 	return false;
 }
@@ -309,6 +332,7 @@ bool ConfigurationMenu::changeLevelBase(int value)
 
 	configurationLayout->getRoot().getChild("BaseImage").setVisible(true);
 	configurationLayout->getRoot().getChild("BaseImage").setProperty("Image", "base" + std::to_string(index + 1));
+	buttonClick(buttonSound);
 
 	GameManager::GetInstance()->setLevelBase(index);
 
@@ -330,6 +354,7 @@ bool ConfigurationMenu::changeLevelObstacles(int value)
 	}
 
 	GameManager::GetInstance()->setLevelObstacles(index);
+	buttonClick(buttonSound);
 
 	return false;
 }
@@ -349,6 +374,7 @@ bool ConfigurationMenu::changeLevelForces(int value)
 	}
 
 	GameManager::GetInstance()->setLevelForces(index);
+	buttonClick(startSound);
 
 	return false;
 }
@@ -363,20 +389,64 @@ bool ConfigurationMenu::randomizeButtonClick()
 	changeLevelObstacles(0);
 	changeLevelForces(0);
 
+	buttonClick(buttonSound);
+
 	return false;
 }
 
 bool ConfigurationMenu::changeSong(int value)
 {
-	songIndex += value;
+	stopPreview();
 
-	int index = abs(songIndex) % songNames.size();
-	configurationLayout->getRoot().getChild("PreviewSongButton").setText(songNames[index]);
+	auto it = songNames.find(song);
+	if (it == songNames.end())
+		return false;
 
-	GameManager::GetInstance()->setSong(index);
-	GameManager::GetInstance()->setSongName(songNames[index]);
+	if (value == -1 && it != songNames.begin())
+		it--;
+	else if (value == -1)
+		it = prev(songNames.end());
+
+	if (value == 1 && it != prev(songNames.end()))
+		it++;
+	else if (value == 1)
+		it = songNames.begin();
+
+	song = (*it).first;
+	configurationLayout->getRoot().getChild("PreviewSongButton").setText(song);
+
+	GameManager::GetInstance()->setSong(songNames[song]);
+
+	buttonClick(buttonSound);
 
 	return false;
+}
+
+bool ConfigurationMenu::previewSong(bool value)
+{
+	if (value)
+	{
+		GameManager::GetInstance()->pauseMusic(menuMusic);
+		GameManager::GetInstance()->playMusic(songNames[song]);
+		GameManager::GetInstance()->setMenuMusic(false);
+		songPreview = true;
+		timer = previewTime;
+	}
+	else
+		stopPreview();
+
+	return false;
+}
+
+void ConfigurationMenu::stopPreview()
+{
+	if (songPreview)
+	{
+		GameManager::GetInstance()->stopMusic(songNames[song]);
+		GameManager::GetInstance()->resumeMusic(menuMusic);
+		GameManager::GetInstance()->setMenuMusic(true);
+		songPreview = false;
+	}
 }
 
 bool ConfigurationMenu::slotButtonClick(int index, std::string name)
@@ -404,12 +474,20 @@ bool ConfigurationMenu::slotButtonClick(int index, std::string name)
 			startButton.setVisible(false);
 	}
 
+	buttonClick(playerAddedSound);
+
 	return false;
 }
 
 bool ConfigurationMenu::startButtonClick()
 {
+	stopPreview();
+
+	inputSystem = InputSystem::GetInstance();
 	GameManager* gameManager = GameManager::GetInstance();
+
+	gameManager->stopMusic(menuMusic);
+	gameManager->setMenuMusic(false);
 
 	gameManager->setPlayersAlive(nPlayers);
 	gameManager->initPlayerRanking(nPlayers);
@@ -427,6 +505,8 @@ bool ConfigurationMenu::startButtonClick()
 		gameManager->setTime(-1);
 	else
 		gameManager->setTime(time);
+
+	buttonClick(startSound);
 
 	SceneManager::GetInstance()->changeScene("Game");
 	return false;
@@ -450,11 +530,15 @@ bool ConfigurationMenu::settingsButtonClick()
 		InterfaceSystem::GetInstance()->clearControllerMenuInput();
 	}
 
+	buttonClick(buttonSound);
+
 	return false;
 }
 
 bool ConfigurationMenu::backButtonClick()
 {
+	stopPreview();
+	buttonClick(backSound);
 	SceneManager::GetInstance()->changeScene("MainMenu");
 	return false;
 }

@@ -5,11 +5,14 @@
 #include <UserComponent.h>
 #include "Score.h"
 
+class SoundEmitter;
+
 class GameManager : public UserComponent
 {
 private:
 	static GameManager* instance;
 
+	SoundEmitter* soundEmitter;
 	Score scores;
 
 	std::vector<int> playerRanking;
@@ -18,13 +21,13 @@ private:
 	std::vector<Vector3> playerColours;
 	std::vector<GameObject*> paddles;
 
-	std::string songName;
-
 	int playersAlive;
 	int initialPlayers;
 	int winner;
 
+	bool menuMusic;
 	bool paused;
+	bool gameEnded;
 
 	// Remember Configuration Menu's information
 	int health;
@@ -37,7 +40,7 @@ private:
 	int levelObstacles;
 	int levelForces;
 
-	int song;
+	std::string song;
 
 public:
 	GameManager();
@@ -93,11 +96,22 @@ public:
 	void setLevelForces(int levelForces);
 	int getLevelForces() const;
 
-	void setSong(int song);
-	int getSong() const;
+	void setSong(std::string name);
+	std::string getSong() const;
 
-	void setSongName(std::string name);
-	std::string getSongName() const;
+	void setGameEnded(bool end);
+	bool isGameEnded();
+
+	void setMusicVolume(float volume);
+
+	void playMusic(std::string music);
+	void stopMusic(std::string music);
+
+	void resumeMusic(std::string music);
+	void pauseMusic(std::string music);
+
+	void setMenuMusic(bool value);
+	bool isMenuMusicPlaying() const;
 };
 
 #endif

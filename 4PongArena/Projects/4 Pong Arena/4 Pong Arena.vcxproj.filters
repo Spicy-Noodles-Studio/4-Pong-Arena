@@ -76,6 +76,9 @@
     <ClCompile Include="..\..\Src\Score.cpp">
       <Filter>Archivos de código fuente\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\Menu.cpp">
+      <Filter>Archivos de código fuente\Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Ball.h">
@@ -149,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\Score.h">
       <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Menu.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

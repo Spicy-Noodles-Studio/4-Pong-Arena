@@ -13,7 +13,7 @@
 
 REGISTER_FACTORY(ScoreMenu);
 
-ScoreMenu::ScoreMenu(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), texts(), panels()
+ScoreMenu::ScoreMenu(GameObject* gameObject) : Menu(gameObject), gameManager(nullptr), texts(), panels()
 {
 
 }
@@ -25,6 +25,8 @@ ScoreMenu::~ScoreMenu()
 
 void ScoreMenu::start()
 {
+	Menu::start();
+	
 	gameManager = GameManager::GetInstance();
 
 	GameObject* camera = findGameObjectWithName("MainCamera");
@@ -43,7 +45,7 @@ void ScoreMenu::start()
 	{
 		std::string name = "P" + std::to_string(i + 1);
 		texts.push_back(root.getChild(name));
-		root.getChild(name).setText(name + ": " + std::to_string(gameManager->getPlayerRanking(i + 1)) + "º");
+		root.getChild(name).setText(name + ": " + std::to_string(gameManager->getPlayerRanking(i + 1)));
 
 		name = name + "Background";
 		panels.push_back(root.getChild(name));

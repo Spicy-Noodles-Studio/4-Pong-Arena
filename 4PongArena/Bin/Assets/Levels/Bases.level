@@ -2,6 +2,7 @@
     {
         "RenderMesh" : "Base1Render.mesh",
         "ColliderMesh" : "Base1.mesh",
+        "WallScale" : "0.2 3 0.25",
         "PlayerTransforms": [
             ["0 1.0 3.5", "0 0 -90"],
             ["0 1.0 -3.5", "180 0 -90"],
@@ -18,6 +19,7 @@
     {
         "RenderMesh" : "Base2Render.mesh",
         "ColliderMesh" : "Base2.mesh",
+        "WallScale" : "0.2 2 0.25",
         "PlayerTransforms": [
             ["0 1.0 3.5", "0 0 -90"],
             ["0 1.0 -3.5", "180 0 -90"],
@@ -34,6 +36,7 @@
     {
         "RenderMesh" : "Base3Render.mesh",
         "ColliderMesh" : "Base3.mesh",
+        "WallScale" : "0.2 2 0.25",
         "PlayerTransforms": [
             ["0 1.0 3.5", "0 0 -90"],
             ["0 1.0 -3.5", "180 0 -90"],

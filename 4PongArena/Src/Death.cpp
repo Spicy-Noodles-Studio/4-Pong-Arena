@@ -3,6 +3,7 @@
 #include <MeshRenderer.h>
 #include <RigidBody.h>
 #include <sstream>
+#include <MathUtils.h>
 
 #include "PlayerIndex.h"
 #include "Health.h"
@@ -11,6 +12,7 @@
 #include "GameManager.h"
 
 #include <ComponentRegister.h>
+#include <SoundEmitter.h>
 
 REGISTER_FACTORY(Death);
 
@@ -41,6 +43,11 @@ void Death::start()
 
 	if (playerId != nullptr)
 		id = playerId->getId();
+		
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	
+	if(soundEmitter != nullptr)
+		soundEmitter->setVolume(1.2);
 }
 
 void Death::update(float deltaTime)
@@ -73,9 +80,20 @@ void Death::handleData(ComponentData* data)
 	}
 }
 
-void Death::setPlayerColour(Vector3 colour)
+void Death::setPlayerColour(const Vector3& colour)
 {
 	playerColour = colour;
+}
+
+void Death::setwallColours(const std::pair<Vector3, Vector3>& baseColour, const std::pair<Vector3, Vector3>& neonColour)
+{
+	this->baseColour = baseColour;
+	this->neonColour = neonColour;
+}
+
+void Death::setWallScale(const Vector3& wallScale)
+{
+	this->wallScale = wallScale;
 }
 
 void Death::die()
@@ -85,10 +103,15 @@ void Death::die()
 
 	if (wallMeshId != "" || wallMeshName != "")
 	{
-		if (meshRenderer != nullptr)
-		{
+		if (meshRenderer != nullptr) {
 			meshRenderer->changeMesh(wallMeshId, wallMeshName);
 			meshRenderer->setDiffuse(0, playerColour, 1);
+
+			meshRenderer->setDiffuse(2, neonColour.first, 1);
+			meshRenderer->setEmissive(2, neonColour.second);
+
+			meshRenderer->setDiffuse(1, baseColour.first, 1);
+			meshRenderer->setEmissive(1, baseColour.second);
 		}
 
 		Vector3 scaleRatio = wallScale / gameObject->transform->getScale();
@@ -101,11 +124,15 @@ void Death::die()
 
 	gameManager->setPlayerRanking(id, gameManager->getPlayersAlive());
 	gameManager->setPlayersAlive(gameManager->getPlayersAlive() - 1);
+	soundEmitter->playSound("Death");
 
 	SpawnerManager* spawnerManager = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>();
 
-	if (spawnerManager->getGenerationTime() / 2 < spawnerManager->getMinimumTime())
-		spawnerManager->setGenerationTime(spawnerManager->getMinimumTime());
+	float genTime = spawnerManager->getGenerationTime();
+	float minTime = spawnerManager->getMinimumTime();
+
+	if (genTime / 2 < minTime)
+		spawnerManager->setGenerationTime(minTime);
 	else
-		spawnerManager->setGenerationTime(spawnerManager->getGenerationTime() / 2);
+		spawnerManager->setGenerationTime(genTime / 2);
 }

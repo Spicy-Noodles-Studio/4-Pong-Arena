@@ -2,12 +2,14 @@
 #ifndef PAUSE_MENU_H
 #define PAUSE_MENU_H
 
+#include "Menu.h"
+
 #include <UserComponent.h>
 #include <UIElement.h>
 
 class InputSystem;
 
-class PauseMenu : public UserComponent
+class PauseMenu : public Menu
 {
 private:
 	InputSystem* inputSystem;

@@ -2,6 +2,8 @@
 #ifndef SCORE_MENU_H
 #define SCORE_MENU_H
 
+#include "Menu.h"
+
 #include <UserComponent.h>
 #include <UIElement.h>
 #include <vector>
@@ -9,7 +11,7 @@
 
 class GameManager;
 
-class ScoreMenu : public UserComponent
+class ScoreMenu : public Menu
 {
 private:
 	GameManager* gameManager;

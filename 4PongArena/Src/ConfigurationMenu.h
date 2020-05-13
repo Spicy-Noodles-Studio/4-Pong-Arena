@@ -2,6 +2,8 @@
 #ifndef CONFIGURATION_MENU_H
 #define CONFIGURATION_MENU_H
 
+#include "Menu.h"
+
 #include <UserComponent.h>
 #include <UIElement.h>
 
@@ -25,7 +27,7 @@ const int FORCES_TYPES = 2;
 class InputSystem;
 class UILayout;
 
-class ConfigurationMenu : public UserComponent
+class ConfigurationMenu : public Menu
 {
 private:
 	InputSystem* inputSystem;
@@ -42,14 +44,19 @@ private:
 	int time;
 	bool mode;
 
+	float previewTime;
+	float timer;
+
+	bool songPreview;
+
 	std::vector<std::string> timeModes;
-	std::vector<std::string> songNames;
+	std::map<std::string, std::string> songNames;
 
 	int levelBaseType;
 	int levelObstaclesType;
 	int levelForcesType;
 
-	int songIndex;
+	std::string song;
 
 private:
 	void checkInput();
@@ -71,6 +78,9 @@ private:
 	bool randomizeButtonClick();
 
 	bool changeSong(int value);
+	bool previewSong(bool value);
+
+	void stopPreview();
 
 	bool slotButtonClick(int index, std::string name);
 

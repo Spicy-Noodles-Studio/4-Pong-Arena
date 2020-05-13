@@ -28,6 +28,9 @@
             "ComponentName": "SoundListener"
         },
 		{
+            "ComponentName": "SoundEmitter"
+        },
+		{
             "ComponentName": "CameraEffects",
 			"ComponentProperties": [
                 ["vel" , "2"],

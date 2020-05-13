@@ -18,6 +18,7 @@ REGISTER_FACTORY(OptionsMenu);
 bool OptionsMenu::backButtonClick()
 {
 	SceneManager::GetInstance()->changeScene("MainMenu");
+	buttonClick(backSound);
 	return false;
 }
 
@@ -34,7 +35,8 @@ bool OptionsMenu::applyButtonClick()
 
 	if (fullscreen)
 		windowManager->setFullscreen(true);
-
+		
+	buttonClick(buttonSound);
 	return false;
 }
 
@@ -54,6 +56,7 @@ bool OptionsMenu::restoreButtonClick()
 	soundScroll.setScrollPositionScrollBar(soundVolume);
 	musicScroll.setScrollPositionScrollBar(musicVolume);
 
+	buttonClick(buttonSound);
 	return false;
 }
 
@@ -69,6 +72,7 @@ bool OptionsMenu::changeResolution(int value)
 
 	resolutionText.setText(resolutionNames[resolution]);
 
+	buttonClick(buttonSound);
 	return false;
 }
 
@@ -84,6 +88,7 @@ bool OptionsMenu::changeFullscreen(int value)
 
 	fullscreenText.setText(screenNames[fullscreen]);
 
+	buttonClick(buttonSound);
 	return false;
 }
 
@@ -92,7 +97,8 @@ bool OptionsMenu::changeBrightness()
 	brightnessText.setText(std::to_string((int)(brightnessScroll.getScrollPositionScrollBar() * MAX_VALUE + 0.5)));
 	renderSystem->changeParamOfShader("LuminancePS", "brigh", brightnessScroll.getScrollPositionScrollBar());
 	windowManager->setBrightness(brightnessScroll.getScrollPositionScrollBar());
-
+	
+	buttonClick(sliderSound);
 	return false;
 }
 
@@ -101,6 +107,7 @@ bool OptionsMenu::changeSoundVolume()
 	soundText.setText(std::to_string((int)(soundScroll.getScrollPositionScrollBar() * MAX_VALUE + 0.5)));
 	soundSystem->setSoundEffectsVolume(soundScroll.getScrollPositionScrollBar());
 
+	buttonClick(sliderSound);
 	return false;
 }
 
@@ -109,10 +116,11 @@ bool OptionsMenu::changeMusicVolume()
 	musicText.setText(std::to_string((int)(musicScroll.getScrollPositionScrollBar() * MAX_VALUE + 0.5)));
 	soundSystem->setMusicVolume(musicScroll.getScrollPositionScrollBar());
 
+	buttonClick(sliderSound);
 	return false;
 }
 
-OptionsMenu::OptionsMenu(GameObject* gameObject) : UserComponent(gameObject), applyButton(NULL), restoreButton(NULL), brightnessScroll(NULL), soundScroll(NULL), musicScroll(NULL),
+OptionsMenu::OptionsMenu(GameObject* gameObject) : Menu(gameObject), applyButton(NULL), restoreButton(NULL), brightnessScroll(NULL), soundScroll(NULL), musicScroll(NULL),
 interfaceSystem(nullptr), inputSystem(nullptr), renderSystem(nullptr), soundSystem(nullptr), windowManager(nullptr),
 resolutionText(NULL), fullscreenText(NULL), brightnessText(NULL), soundText(NULL), musicText(NULL), root(NULL)
 {
@@ -137,8 +145,8 @@ resolutionText(NULL), fullscreenText(NULL), brightnessText(NULL), soundText(NULL
 	interfaceSystem->registerEvent("backButtonClick", UIEvent("ButtonClicked", [this]() {return backButtonClick(); }));
 
 	resolutionNames = windowManager->getAvailableResolutionsStrings();
-	screenNames = { "Windowed", "Fullscreen" };
 	resolutions = windowManager->getAvailableResolutionsForWindow();
+	screenNames = { "Windowed", "Fullscreen" };
 }
 
 OptionsMenu::~OptionsMenu()
@@ -160,6 +168,7 @@ OptionsMenu::~OptionsMenu()
 
 void OptionsMenu::start()
 {
+	Menu::start();
 	root = findGameObjectWithName("MainCamera")->getComponent<UILayout>()->getRoot().getChild("OptionsBackground");
 	root.setVisible(true);
 

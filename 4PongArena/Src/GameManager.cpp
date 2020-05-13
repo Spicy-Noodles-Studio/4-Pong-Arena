@@ -1,5 +1,7 @@
 ﻿#include "GameManager.h"
 #include <ComponentRegister.h>
+#include <SoundEmitter.h>
+#include <GameObject.h>
 #include <Timer.h>
 
 REGISTER_FACTORY(GameManager);
@@ -11,7 +13,8 @@ GameManager::GameManager() : UserComponent(nullptr)
 
 }
 
-GameManager::GameManager(GameObject* gameObject) : UserComponent(gameObject), song(0), health(5), time(60), initialTime(time), timeMode(false), levelBase(0), levelForces(0), levelObstacles(0)
+GameManager::GameManager(GameObject* gameObject) : UserComponent(gameObject), song(""), health(5), time(60), initialTime(time), timeMode(false),
+levelBase(0), levelForces(0), levelObstacles(0), menuMusic(false), paused(false), gameEnded(false)
 {
 	if (instance == nullptr)
 		instance = this;
@@ -35,6 +38,9 @@ GameManager* GameManager::GetInstance()
 void GameManager::start()
 {
 	playerColours = { {1,0,0}, {0,0,1}, {1,1,0}, {0,1,0} };
+
+	if (soundEmitter == nullptr)
+		soundEmitter = gameObject->getComponent<SoundEmitter>();
 
 	dontDestroyOnLoad(gameObject);
 }
@@ -201,22 +207,62 @@ int GameManager::getLevelForces() const
 	return levelForces;
 }
 
-void GameManager::setSong(int song)
+void GameManager::setGameEnded(bool end)
 {
-	this->song = song;
+	gameEnded = end;
 }
 
-int GameManager::getSong() const
+bool GameManager::isGameEnded()
+{
+	return gameEnded;
+}
+
+void GameManager::setSong(std::string name)
+{
+	song = name;
+}
+
+std::string GameManager::getSong() const
 {
 	return song;
 }
 
-void GameManager::setSongName(std::string name)
+void GameManager::playMusic(std::string music)
 {
-	songName = name;
+	soundEmitter->stop(music);
+
+	if(music == "")
+		soundEmitter->playMusic(song);
+	else
+		soundEmitter->playMusic(music);
 }
 
-std::string GameManager::getSongName() const
+void GameManager::stopMusic(std::string music)
 {
-	return songName;
+	soundEmitter->stop(music);
+}
+
+void GameManager::resumeMusic(std::string music)
+{
+	soundEmitter->resume(music);
+}
+
+void GameManager::pauseMusic(std::string music)
+{
+	soundEmitter->pause(music);
+}
+
+void GameManager::setMenuMusic(bool value)
+{
+	menuMusic = value;
+}
+
+bool GameManager::isMenuMusicPlaying() const
+{
+	return menuMusic;
+}
+
+void GameManager::setMusicVolume(float volume)
+{
+	soundEmitter->setVolume(volume);
 }

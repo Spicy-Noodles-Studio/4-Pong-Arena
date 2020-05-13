@@ -2,6 +2,8 @@
 #ifndef OPTIONS_MENU_H
 #define OPTIONS_MENU_H
 
+#include "Menu.h"
+
 #include <UserComponent.h>
 #include <UIElement.h>
 
@@ -16,7 +18,7 @@ class RenderSystem;
 class SoundSystem;
 class WindowManager;
 
-class OptionsMenu : public UserComponent
+class OptionsMenu : public Menu
 {
 protected:
 	InterfaceSystem* interfaceSystem;

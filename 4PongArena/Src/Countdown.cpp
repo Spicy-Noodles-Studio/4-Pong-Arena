@@ -5,8 +5,10 @@
 #include <SceneManager.h>
 #include <WindowManager.h>
 #include <GameObject.h>
+#include <SoundEmitter.h>
 #include <UILayout.h>
 
+#include "GameManager.h"
 #include "PlayerController.h"
 #include "IAPaddle.h"
 #include "GameManager.h"
@@ -14,7 +16,7 @@
 
 REGISTER_FACTORY(Countdown);
 
-Countdown::Countdown(GameObject* gameObject) : UserComponent(gameObject), panel(NULL), players(), time(0), startCounting(false), countingDown(false)
+Countdown::Countdown(GameObject* gameObject) : UserComponent(gameObject), soundEmitter(nullptr), panel(NULL), players(), time(0), startCounting(false), countingDown(false)
 {
 
 }
@@ -27,12 +29,20 @@ Countdown::~Countdown()
 void Countdown::start()
 {
 	GameObject* mainCamera = findGameObjectWithName("MainCamera");
+	GameObject* game = findGameObjectWithName("Game");
 
 	if (mainCamera != nullptr)
 	{
 		UILayout* cameraLayout = mainCamera->getComponent<UILayout>();
 		if (cameraLayout != nullptr)
 			panel = cameraLayout->getRoot().getChild("CountdownBackground");
+	}
+
+	if (game != nullptr)
+	{
+		soundEmitter = game->getComponent<SoundEmitter>();
+		if (soundEmitter != nullptr)
+			soundEmitter->setVolume(0.8);
 	}
 
 	players = GameManager::GetInstance()->getPaddles();
@@ -60,12 +70,24 @@ void Countdown::update(float deltaTime)
 
 	if (countingDown)
 	{
-		time -= deltaTime;
-
 		if (time >= 1)
+		{
 			panel.getChild("Countdown").setText(std::to_string((int)time));
+			if (previousCount != std::to_string((int)time))
+			{
+				previousCount = std::to_string((int)time);
+				soundEmitter->playSound("Countdown");
+			}
+		}
 		else
+		{
 			panel.getChild("Countdown").setText("SURVIVE!");
+			if (previousCount != "SURVIVE!")
+			{
+				previousCount = "SURVIVE!";
+				soundEmitter->playSound("Countdown_end");
+			}
+		}
 
 		if (time < 0)
 		{

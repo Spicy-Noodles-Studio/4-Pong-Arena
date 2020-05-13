@@ -6,6 +6,7 @@
 #include "Movement.h"
 
 #include <ComponentRegister.h>
+#include <SoundEmitter.h>
 
 REGISTER_FACTORY(PlayerController);
 
@@ -23,11 +24,20 @@ void PlayerController::start()
 {
 	inputSystem = InputSystem::GetInstance();
 	movement = gameObject->getComponent<Movement>();
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	soundEmitter->setVolume(0.8);
+	moving = false;
+	hasMoved = false;
 }
 
 void PlayerController::update(float deltaTime)
 {
 	checkInput();
+	if (hasMoved && !moving) {
+		moving = true;
+		soundEmitter->playSound("Paddle_Move");
+	}
+	else if (moving && !hasMoved) moving = false;
 }
 
 void PlayerController::handleData(ComponentData* data)
@@ -56,7 +66,7 @@ int PlayerController::getIndex() const
 	return controllerIndex;
 }
 
-void PlayerController::checkInput() const
+void PlayerController::checkInput()
 {
 	if (movement == nullptr) return;
 
@@ -66,11 +76,11 @@ void PlayerController::checkInput() const
 	Vector3 axis = getInputAxis();
 	axis *= directionMask; axis *= motionDirection;
 
-	if (axis.x > 0.0) movement->moveRight();
-	else if (axis.x < 0.0) movement->moveLeft();
-	else if (axis.z > 0.0) movement->moveRight();
-	else if (axis.z < 0.0) movement->moveLeft();
-	else movement->stop();
+	if (axis.x > 0.0) { movement->moveRight(); hasMoved = true; }
+	else if (axis.x < 0.0) { movement->moveLeft(); hasMoved = true; }
+	else if (axis.z > 0.0) { movement->moveRight(); hasMoved = true; }
+	else if (axis.z < 0.0) { movement->moveLeft(); hasMoved = true; }
+	else { movement->stop(); hasMoved = false; }
 }
 
 Vector3 PlayerController::getInputAxis() const

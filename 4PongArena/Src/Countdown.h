@@ -7,11 +7,12 @@
 
 #include <chrono>
 
-class UILayout;
+class SoundEmitter;
 
 class Countdown : public UserComponent
 {
 private:
+	SoundEmitter* soundEmitter;
 	UIElement panel;
 
 	std::vector<GameObject*> players;
@@ -21,6 +22,8 @@ private:
 
 	bool startCounting;
 	bool countingDown;
+
+	std::string previousCount;
 
 public:
 	Countdown(GameObject* gameObject);

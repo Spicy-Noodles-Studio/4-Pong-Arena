@@ -152,7 +152,7 @@
             <Property name="UpButton" value="-LevelForcesButton" />
             <Property name="DownButton" value="StartButton" />
             <Property name="LeftButton" value="-SongButton" />
-            <Property name="RightButton" value="+SongButton" />
+            <Property name="RightButton" value="PreviewSongButton" />
             <Property name="Font" value="Sans" />
         </Window>
         # SONG PREVIEW BUTTON
@@ -173,7 +173,7 @@
             <Property name="Text" value="}" />
             <Property name="UpButton" value="+LevelForcesButton" />
             <Property name="DownButton" value="StartButton" />
-            <Property name="LeftButton" value="-SongButton" />
+            <Property name="LeftButton" value="PreviewSongButton" />
             <Property name="RightButton" value="+SongButton" />
             <Property name="Font" value="Sans" />
         </Window>
