@@ -9,12 +9,14 @@ class Health;
 class Score;
 class GameManager;
 class MeshRenderer;
+class SoundEmitter;
 
 class Death : public UserComponent
 {
 private:
 	RigidBody* rigidBody;
 	Health* health;
+	SoundEmitter* soundEmitter;
 
 	Vector3 initialPosition;
 

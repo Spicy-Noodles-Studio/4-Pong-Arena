@@ -1,10 +1,9 @@
 ﻿#include "GameManager.h"
 #include <Timer.h>
-
-
-
-
 #include <ComponentRegister.h>
+
+#include <SoundEmitter.h>
+#include <GameObject.h>
 
 
 REGISTER_FACTORY(GameManager);
@@ -39,6 +38,10 @@ void GameManager::start()
 {
 	playerColours = { {1,0,0}, {0,0,1}, {1,1,0}, {0,1,0} };
 
+	gameEnded = false;
+	if (soundEmitter == nullptr) {
+		soundEmitter = gameObject->getComponent<SoundEmitter>();
+	}
 	dontDestroyOnLoad(gameObject);
 }
 
@@ -159,8 +162,8 @@ std::string GameManager::getLastLevel() const
 
 void GameManager::setSong(std::string song)
 {
+	lastSong = this->song;
 	this->song = song;
-	this->lastSong = song;
 }
 
 std::string GameManager::getSong() const
@@ -188,7 +191,39 @@ bool GameManager::isPaused()
 	return paused;
 }
 
+void GameManager::setGameEnded(bool end)
+{
+	gameEnded = end;
+}
+
+bool GameManager::isGameEnded()
+{
+	return gameEnded;
+}
+
 Score* GameManager::getScore()
 {
 	return &scores;
 }
+
+void GameManager::playMusic(std::string music)
+{
+	soundEmitter->stop(music);
+	if(music == "") soundEmitter->playMusic(song);
+	else {
+		soundEmitter->playMusic(music);
+		setSong(music);
+	}
+
+}
+
+void GameManager::stopMusic()
+{
+	soundEmitter->stopAll();
+}
+
+void GameManager::setMusicVolume(float volume)
+{
+	soundEmitter->setVolume(volume);
+}
+

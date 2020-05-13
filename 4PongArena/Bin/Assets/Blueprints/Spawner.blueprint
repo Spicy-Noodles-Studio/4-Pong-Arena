@@ -16,6 +16,9 @@
                 ["mesh", "spawner Spawner.mesh"]
             ]
         },
+		{
+            "ComponentName": "SoundEmitter"
+        },
         {
             "ComponentName": "Spawner",
             "ComponentProperties": [

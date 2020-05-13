@@ -2,6 +2,8 @@
 #ifndef CONFIGURATION_MENU_H
 #define CONFIGURATION_MENU_H
 
+#include "Menu.h"
+
 #include <UserComponent.h>
 #include <UIElement.h>
 
@@ -22,7 +24,7 @@ const int FORCES_TYPES = 2;
 class InputSystem;
 class UILayout;
 
-class ConfigurationMenu : public UserComponent
+class ConfigurationMenu : public Menu
 {
 private:
 	InputSystem* inputSystem;

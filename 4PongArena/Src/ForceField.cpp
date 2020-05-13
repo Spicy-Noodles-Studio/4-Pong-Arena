@@ -4,8 +4,10 @@
 #include <sstream>
 
 #include "Ball.h"
+#include "GameManager.h"
 
 #include <ComponentRegister.h>
+#include <SoundEmitter.h>
 
 REGISTER_FACTORY(ForceField);
 
@@ -17,6 +19,21 @@ ForceField::ForceField(GameObject* gameObject) : UserComponent(gameObject), targ
 ForceField::~ForceField()
 {
 
+}
+
+void ForceField::start()
+{
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	volume = 1.5;
+	soundEmitter->setVolume(volume);
+}
+
+void ForceField::update(float deltaTime)
+{
+	if (volume > 0 && GameManager::GetInstance()->isGameEnded()) {
+		volume = 0;
+		soundEmitter->setVolume(0);
+	}
 }
 
 void ForceField::handleData(ComponentData* data)
@@ -49,6 +66,8 @@ void ForceField::onObjectEnter(GameObject* other)
 
 	ball->setTargetVelocity(targetVelocity);
 	ball->setAcceleration(acceleration);
+
+	if (soundEmitter != nullptr) soundEmitter->playSound("Impulse_02");
 }
 
 void ForceField::setTargetVelocity(float targetVelocity)

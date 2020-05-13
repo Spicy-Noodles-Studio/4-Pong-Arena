@@ -9,6 +9,7 @@
 #include "Score.h"
 #include <ComponentRegister.h>
 #include <MathUtils.h>
+#include <SoundEmitter.h>
 
 REGISTER_FACTORY(ConfigurationMenu);
 
@@ -21,8 +22,10 @@ void ConfigurationMenu::checkInput()
 		bool enterButton = (i < 4 && inputSystem->getButtonPress(i, "A")) || (i == 4 && inputSystem->getKeyPress("Space"));
 		bool exitButton = (i < 4 && (inputSystem->getButtonPress(i, "B") || !inputSystem->isControllerConnected(i))) || (i == 4 && inputSystem->getKeyPress("ESCAPE"));
 
-		if (filledSlots < 4 && slotIndex == -1 && enterButton)
+		if (filledSlots < 4 && slotIndex == -1 && enterButton) {
 			fillSlot(filledSlots, i);
+			buttonClick(playerAddedSound);
+		}
 		else if (slotIndex != -1 && exitButton)
 		{
 			clearSlot(slotIndex);
@@ -83,6 +86,7 @@ bool ConfigurationMenu::changeFiller(bool value)
 {
 	IA = value;
 	GameManager::GetInstance()->setIA(value);
+	buttonClick(buttonSound);
 
 	return false;
 }
@@ -95,7 +99,7 @@ bool ConfigurationMenu::changeHealth(int value)
 	if (health > MAX_HEALTH) health = MAX_HEALTH;
 
 	configurationLayout->getRoot().getChild("Health").setText(std::to_string(health));
-
+	buttonClick(buttonSound);
 	return false;
 }
 
@@ -111,6 +115,8 @@ bool ConfigurationMenu::changeTime(int value)
 	else
 		configurationLayout->getRoot().getChild("Time").setText(std::to_string(time));
 
+	buttonClick(buttonSound);
+
 	return false;
 }
 
@@ -122,6 +128,9 @@ bool ConfigurationMenu::changeSong(int value)
 	if (songIndex > songNames.size() - 1) songIndex = songNames.size() - 1;
 
 	configurationLayout->getRoot().getChild("Song").setText(songNames[songIndex]);
+	//configurationLayout->getRoot().getChild("Level").setText(levelNames[levelIndex]);
+
+	buttonClick(buttonSound);
 
 	return false;
 }
@@ -135,6 +144,8 @@ bool ConfigurationMenu::changeLevelBase(int value)
 
 	configurationLayout->getRoot().getChild("BaseImage").setVisible(true);
 	configurationLayout->getRoot().getChild("BaseImage").setProperty("Image", "base" + std::to_string(levelBaseType + 1));
+
+	buttonClick(buttonSound);
 
 	return false;
 }
@@ -154,6 +165,8 @@ bool ConfigurationMenu::changeLevelObstacles(int value)
 		configurationLayout->getRoot().getChild("ObstaclesImage").setProperty("Image", "obstacles" + std::to_string(levelObstaclesType));
 	}
 
+	buttonClick(buttonSound);
+
 	return false;
 }
 
@@ -171,6 +184,8 @@ bool ConfigurationMenu::changeLevelForces(int value)
 		configurationLayout->getRoot().getChild("ForcesImage").setVisible(true);
 		configurationLayout->getRoot().getChild("ForcesImage").setProperty("Image", "forces" + std::to_string(levelForcesType));
 	}
+
+	buttonClick(buttonSound);
 
 	return false;
 }
@@ -191,7 +206,6 @@ bool ConfigurationMenu::randomizeLevel()
 bool ConfigurationMenu::startButtonClick()
 {
 	GameManager* gameManager = GameManager::GetInstance();
-
 	std::vector<Player> players;
 	for (int i = 0; i < filledSlots; i++)
 	{
@@ -217,18 +231,23 @@ bool ConfigurationMenu::startButtonClick()
 	else
 		gameManager->setTime(-1);
 
+	gameManager->stopMusic();
+
 	SceneManager::GetInstance()->changeScene("Game");
 
+	buttonClick(startSound);
+	
 	return false;
 }
 
 bool ConfigurationMenu::backButtonClick()
 {
 	SceneManager::GetInstance()->changeScene("MainMenu");
+	buttonClick(backSound);
 	return false;
 }
 
-ConfigurationMenu::ConfigurationMenu(GameObject* gameObject) : UserComponent(gameObject), inputSystem(nullptr), configurationLayout(nullptr), startButton(NULL)
+ConfigurationMenu::ConfigurationMenu(GameObject* gameObject) : Menu(gameObject), inputSystem(nullptr), configurationLayout(nullptr), startButton(NULL)
 {
 	InterfaceSystem* interfaceSystem = InterfaceSystem::GetInstance();
 
@@ -287,6 +306,7 @@ ConfigurationMenu::~ConfigurationMenu()
 
 void ConfigurationMenu::start()
 {
+	Menu::start();
 	inputSystem = InputSystem::GetInstance();
 
 	GameObject* mainCamera = findGameObjectWithName("MainCamera");
@@ -309,7 +329,7 @@ void ConfigurationMenu::start()
 	levelObstaclesType = 0;
 	levelForcesType = 0;
 
-	songNames = std::vector<std::string>(4, "song"); // Placeholder
+	songNames = {"Controversia", "BloodyMary", "DefenseMatrix", "Chaos"};
 	songIndex = 0;
 
 	slots = std::vector<std::pair<int, UIElement>>(4, { -1, NULL });

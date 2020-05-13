@@ -30,6 +30,9 @@
                 ["collidesWith", "Default"]
             ]
         },
+		{
+            "ComponentName": "SoundEmitter"
+        },
         {
             "ComponentName": "ForceField",
             "ComponentProperties": [

@@ -8,6 +8,7 @@
 #include "GameManager.h"
 
 #include <ComponentRegister.h>
+#include <SoundEmitter.h>
 
 #include <ctime>
 
@@ -32,10 +33,15 @@ void Countdown::start()
 	charged = false;
 	paused = false;
 
+	previousCount = "NO COUNT";
+
 	UILayout* cameraLayout = findGameObjectWithName("MainCamera")->getComponent<UILayout>();
 
 	if (cameraLayout != nullptr)
 		text = cameraLayout->getRoot().getChild("Countdown");
+
+	soundEmitter = findGameObjectWithName("MainCamera")->getComponent<SoundEmitter>();
+	soundEmitter->setVolume(0.8);
 
 }
 
@@ -57,17 +63,28 @@ void Countdown::preUpdate(float deltaTime)
 		last = current;
 
 		time -= deltaTime;
-		if (time >= 1)
-		text.setText(std::to_string((int)time));
+		if (time >= 1) {
+			text.setText(std::to_string((int)time));
+			if (previousCount != std::to_string((int)time)) {
+				previousCount = std::to_string((int)time);
+				soundEmitter->playSound("Countdown");
+			}
+		}
 		else { 
 			text.setPosition(0.3f, 0.25f);
-			text.setText("FIGHT!"); 
+			text.setText("FIGHT!");
+			if (previousCount != "FIGHT!") {
+				previousCount = "FIGHT!";
+				soundEmitter->playSound("Countdown_end");
+			}
 		}
 
 		if (time <= 0) { 
-			startGame(); 
+			startGame();
 			paused = false;
 			text.setText("");
+			/*soundEmitter->setVolume(1.2);
+			soundEmitter->playSound("Game_Start");*/
 		}
 		
 	}

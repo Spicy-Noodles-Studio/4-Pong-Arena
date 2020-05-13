@@ -8,6 +8,7 @@
 #include "Ball.h"
 
 #include <ComponentRegister.h>
+#include <SoundEmitter.h>
 
 REGISTER_FACTORY(Spawner);
 
@@ -26,6 +27,9 @@ void Spawner::start()
 	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
 	direction.y = 0;
 	gameObject->transform->setDirection(direction.normalized());
+
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	soundEmitter->setVolume(0.7);
 }
 
 void Spawner::handleData(ComponentData* data)
@@ -52,16 +56,14 @@ void Spawner::handleData(ComponentData* data)
 void Spawner::shoot(GameObject* ball)
 {
 	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
-	
+
 	double rand = random(-angle, angle);
 	direction.rotateAroundAxis(Vector3::UP, rand);
 
 	direction.y = 0;
-	
+
 	gameObject->transform->resetOrientation();
 	gameObject->transform->setDirection(direction.normalized());
-
-	
 
 	if (ball != nullptr)
 	{
@@ -70,5 +72,7 @@ void Spawner::shoot(GameObject* ball)
 		ball->getComponent<Ball>()->setTargetVelocity(velocity);
 
 		ball->getComponent<RigidBody>()->setLinearVelocity(direction.normalized() * velocity);
+
+		if (soundEmitter != nullptr) soundEmitter->playSound("Ball_Launch");
 	}
 }

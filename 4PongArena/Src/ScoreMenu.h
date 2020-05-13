@@ -2,6 +2,8 @@
 #ifndef SCORE_MENU_H
 #define SCORE_MENU_H
 
+#include "Menu.h"
+
 #include <UserComponent.h>
 #include <vector>
 #include <string>
@@ -10,7 +12,7 @@
 class GameManager;
 
 class ScoreMenu :
-	public UserComponent
+	public Menu
 {
 	GameManager* manager;
 	std::vector<UIElement> texts;

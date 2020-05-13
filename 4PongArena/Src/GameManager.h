@@ -6,12 +6,16 @@
 #include "Player.h"
 #include "Score.h"
 
+class SoundEmitter;
+
 class GameManager : public UserComponent
 {
 private:
 	static GameManager* instance;
 
 	std::vector<Vector3> playerColours;
+	SoundEmitter* soundEmitter;
+
 	int playersAlive;
 	std::vector<Player> players;
 	int totalPlayers;
@@ -22,6 +26,7 @@ private:
 	int time;
 	int initialTime;
 	bool paused;
+	bool gameEnded;
 
 	int levelBase;
 	int levelObstacles;
@@ -33,6 +38,8 @@ private:
 	std::string lastSong;
 
 	Score scores;
+
+	std::string currentMusic;
 
 public:
 	GameManager();
@@ -80,8 +87,14 @@ public:
 	void pause(bool paused);
 	bool isPaused();
 
+	void setGameEnded(bool end);
+	bool isGameEnded();
+
 	Score* getScore();
 
+	void playMusic(std::string music = "");
+	void stopMusic();
+	void setMusicVolume(float volume);
 };
 
 #endif

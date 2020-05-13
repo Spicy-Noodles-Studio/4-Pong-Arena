@@ -4,12 +4,16 @@
 
 #include <UserComponent.h>
 
+class SoundEmitter;
+
 class Spawner : public UserComponent
 {
 private:
+	SoundEmitter* soundEmitter;
+
 	float velocity;
 	double angle;
-	
+
 public:
 	Spawner(GameObject* gameObject);
 	virtual ~Spawner();
@@ -19,5 +23,4 @@ public:
 
 	void shoot(GameObject* ball);
 };
-
 #endif

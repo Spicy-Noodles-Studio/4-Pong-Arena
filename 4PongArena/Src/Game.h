@@ -10,11 +10,13 @@ const int MAX_PLAYERS = 4;
 class GameManager;
 class UILayout;
 class InputSystem;
+class SoundEmitter;
 
 class Game : public UserComponent
 {
 private:
 	GameManager* gameManager;
+	SoundEmitter* soundEmitter;
 
 	UILayout* gameLayout;
 	UIElement timeText;
@@ -56,6 +58,7 @@ private:
 
 	void playSong();
 	void chooseWinner();
+	void endgameHandleSound();
 
 public:
 	Game(GameObject* gameObject);
