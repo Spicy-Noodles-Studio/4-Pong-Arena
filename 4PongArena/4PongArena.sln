@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "4 Pong Arena", "Projects\4 Pong Arena\4 Pong Arena.vcxproj", "{96D6FBEF-005E-477B-AA4D-76BB0842B942}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "4PongArena", "Projects\4 Pong Arena\4 Pong Arena.vcxproj", "{96D6FBEF-005E-477B-AA4D-76BB0842B942}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DLLCopier", "Projects\DLLCopier\DLLCopier.vcxproj", "{46268E84-8914-4597-851E-5918277C9524}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "4PongArenaSetup", "4PongArenaSetup\4PongArenaSetup.vdproj", "{2BEFCBDF-EDFD-460B-A4BE-8E32F8A9D4F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{46268E84-8914-4597-851E-5918277C9524}.Release|x64.Build.0 = Release|x64
 		{46268E84-8914-4597-851E-5918277C9524}.Release|x86.ActiveCfg = Release|Win32
 		{46268E84-8914-4597-851E-5918277C9524}.Release|x86.Build.0 = Release|Win32
+		{2BEFCBDF-EDFD-460B-A4BE-8E32F8A9D4F2}.Debug|x64.ActiveCfg = Debug
+		{2BEFCBDF-EDFD-460B-A4BE-8E32F8A9D4F2}.Debug|x86.ActiveCfg = Debug
+		{2BEFCBDF-EDFD-460B-A4BE-8E32F8A9D4F2}.Release|x64.ActiveCfg = Release
+		{2BEFCBDF-EDFD-460B-A4BE-8E32F8A9D4F2}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

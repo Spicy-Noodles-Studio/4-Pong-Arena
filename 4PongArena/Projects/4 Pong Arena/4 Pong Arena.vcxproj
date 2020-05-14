@@ -143,6 +143,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>Gaia_$(Platform).lib</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -162,6 +163,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>Gaia_$(Platform).lib</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -218,6 +220,13 @@
     <ClInclude Include="..\..\Src\PlayerController.h" />
     <ClInclude Include="..\..\Src\Death.h" />
     <ClInclude Include="..\..\Src\SpawnerManager.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="4PongArena.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\Bin\Assets\logo.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

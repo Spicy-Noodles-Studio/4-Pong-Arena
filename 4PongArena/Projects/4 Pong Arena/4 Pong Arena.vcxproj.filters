@@ -156,6 +156,7 @@
     <ClInclude Include="..\..\Src\Menu.h">
       <Filter>Archivos de encabezado\Menus</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Archivos de código fuente">
@@ -182,5 +183,11 @@
     <Filter Include="Archivos de encabezado\Managers">
       <UniqueIdentifier>{762d026e-ba34-44db-beaa-e52c183d57b0}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="4PongArena.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\Bin\Assets\logo.ico" />
   </ItemGroup>
 </Project>
