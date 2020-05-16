@@ -6,12 +6,14 @@
 
 class RigidBody;
 class SoundEmitter;
+class ParticleManager;
 
 class Ball : public UserComponent
 {
 private:
 	RigidBody* rigidBody;
 	SoundEmitter* soundEmitter;
+	ParticleManager* particleManager;
 	float volume;
 
 	float velocity;

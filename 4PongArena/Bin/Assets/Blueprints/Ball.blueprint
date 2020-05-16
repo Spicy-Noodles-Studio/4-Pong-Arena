@@ -34,6 +34,12 @@
             "ComponentName": "SoundEmitter"
         },
         {
+            "ComponentName": "ParticleManager"
+             "ComponentProperties": [
+                ["particleName", "Crash"]
+            ]
+        },
+        {
             "ComponentName" : "Ball"
         }
     ]

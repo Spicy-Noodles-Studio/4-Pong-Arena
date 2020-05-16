@@ -20,6 +20,12 @@
             "ComponentName": "SoundEmitter"
         },
         {
+            "ComponentName": "ParticleManager"
+             "ComponentProperties": [
+                ["particleName", "Generate"]
+            ]
+        },
+        {
             "ComponentName": "Spawner",
             "ComponentProperties": [
                 ["velocity", "4"]

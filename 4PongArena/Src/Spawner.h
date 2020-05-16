@@ -5,11 +5,13 @@
 #include <UserComponent.h>
 
 class SoundEmitter;
+class ParticleManager;
 
 class Spawner : public UserComponent
 {
 private:
 	SoundEmitter* soundEmitter;
+	ParticleManager* particleManager;
 
 	float velocity;
 	double angle;

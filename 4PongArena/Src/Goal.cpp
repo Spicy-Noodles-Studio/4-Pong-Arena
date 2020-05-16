@@ -2,6 +2,7 @@
 #include <GameObject.h>
 #include <MeshRenderer.h>
 
+#include"ParticleManager.h"
 #include "Health.h"
 #include "GameManager.h"
 #include "Score.h"
@@ -28,7 +29,7 @@ void Goal::start()
 		scores = manager->getScore();
 
 	PlayerIndex* playerId = this->gameObject->getComponent<PlayerIndex>();
-
+	particleManager = gameObject->getComponent<ParticleManager>();
 	id = -1;
 	if (playerId != nullptr)
 	{
@@ -54,6 +55,10 @@ void Goal::onObjectEnter(GameObject* other)
 				{
 					scores->goalSelfMade(ball->getIdPlayerHit());
 				}
+			}
+			if (particleManager != nullptr)
+			{
+				particleManager->playParticles(0.6);
 			}
 		}
 

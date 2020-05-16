@@ -4,7 +4,7 @@
 #include <sstream>
 #include <ComponentRegister.h>
 #include <SoundEmitter.h>
-
+#include "ParticleManager.h"
 #include "GameManager.h"
 
 REGISTER_FACTORY(Ball);
@@ -23,6 +23,7 @@ void Ball::start()
 {
 	rigidBody = gameObject->getComponent<RigidBody>();
 	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	particleManager= gameObject->getComponent<ParticleManager>();
 	volume = 0.8;
 	soundEmitter->setVolume(volume);
 }
@@ -72,6 +73,7 @@ void Ball::onCollisionEnter(GameObject* other)
 {
 	if (soundEmitter == nullptr) return;
 
+
 	std::string soundToPlay = "NO SOUND";
 	if (other->getTag() == "wall" || other->getTag() == "spawner") {
 		soundToPlay = "Wall_Bounce";
@@ -87,4 +89,9 @@ void Ball::onCollisionEnter(GameObject* other)
 	}
 
 	if (soundToPlay != "NO SOUND") soundEmitter->playSound(soundToPlay);
+
+	if (particleManager != nullptr)
+	{
+		particleManager->playParticles(0.3);
+	}
 }
