@@ -3,21 +3,30 @@ particle_system Generate
   material Generate
   particle_width 0.5
   particle_height 0.3
-  quota 20
+  quota 120
 
   emitter Point
   { 
     direction 0 0 -1
-    position 0 0 -1.2
-    emission_rate 120
-    time_to_live 0.4
-    velocity_min 1
-    velocity_max 3
+    position 0 0 -1.4
+    angle 60
+    emission_rate 480
+    time_to_live 1.5
+    velocity_min 0.75
+    velocity_max 1.25
+  }
+
+  affector ColourFader
+  { 
+    red 1.0
+    green 1.0
+    blue 1.0
+    alpha -1.0
   }
 
   affector LinearForce
   { 
-    force_vector 0 -5 0
+    force_vector 0 0 0
   }
 
   affector Rotator

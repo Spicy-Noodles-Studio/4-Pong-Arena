@@ -43,8 +43,9 @@ void ParticleManager::playParticles(float time, const Vector3& position)
 {
 	duration = time;
 	initialTime = 0;
-	particleEmi->start();
 	particlesObject->transform->setPosition(position);
+	particleEmi->start();
+	
 }
 
 void ParticleManager::preUpdate(float deltaTime)

@@ -1,7 +1,7 @@
 #include "Goal.h"
 #include <GameObject.h>
 #include <MeshRenderer.h>
-
+#include <MathUtils.h>
 #include"ParticleManager.h"
 #include "Health.h"
 #include "GameManager.h"
@@ -58,7 +58,16 @@ void Goal::onObjectEnter(GameObject* other)
 			}
 			if (particleManager != nullptr)
 			{
-				particleManager->playParticles(0.6);
+				double Z= other->transform->getPosition().z - gameObject->transform->getPosition().z;
+				double X = (other->transform->getPosition().x - gameObject->transform->getPosition().x);
+
+				Vector3 x;
+				
+				x.x = (other->transform->getPosition().y - gameObject->transform->getPosition().y);
+				x.y = (X/ gameObject->transform->getScale().y)*cos( gameObject->transform->getRotation().x * DEG_TO_RAD) + (Z / gameObject->transform->getScale().y) * sin(gameObject->transform->getRotation().x * DEG_TO_RAD);
+				x.z = Z * cos(gameObject->transform->getRotation().x * DEG_TO_RAD) + X * -sin(gameObject->transform->getRotation().x * DEG_TO_RAD);
+
+				particleManager->playParticles(0.6,x);
 			}
 		}
 
