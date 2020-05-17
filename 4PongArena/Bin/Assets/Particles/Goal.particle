@@ -1,0 +1,59 @@
+particle_system Goal
+{ 
+  material Goal
+  particle_width 0.1
+  particle_height 0.1
+  quota 800
+
+   emitter Box
+    { 
+      width 0.1
+      height 0.1
+      depth 0.1
+      position -2 0.5 -1.2
+      direction 0 1 0
+      angle 180
+      emission_rate 1000
+      time_to_live 0.5
+      velocity_min 1
+      velocity_max 4
+      colour 1.0 0.0 0.0 0.75
+    }
+
+
+    emitter Box
+    { 
+      width 0.1
+      height 0.1
+      depth 0.1
+      position -2 -0.5 -1.2
+      direction 0 1 0
+      angle 180
+      emission_rate 500
+      time_to_live 0.5
+      velocity_min 1
+      velocity_max 4
+      colour 1.0 0.0 0.0 0.75
+    }
+    
+    affector ColourFader
+    { 
+      red 1.0
+      green 3.0
+      blue 0.0
+      alpha -1.5
+    }
+
+  affector LinearForce
+  { 
+    force_vector 0 -5 0
+  }
+
+  affector Rotator
+  { 
+    rotation_range_start 0
+    rotation_range_end 360
+    rotation_speed_range_start -10
+    rotation_speed_range_end 10
+  }
+}

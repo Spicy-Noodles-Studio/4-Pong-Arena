@@ -75,7 +75,7 @@ void Spawner::shoot(GameObject* ball)
 
 		if (particleManager != nullptr)
 		{
-			particleManager->playParticles(0.5, gameObject->transform->getPosition() + direction.normalized());
+			particleManager->playParticles(0.2);
 		}
 
 		if (soundEmitter != nullptr) soundEmitter->playSound("Ball_Launch");

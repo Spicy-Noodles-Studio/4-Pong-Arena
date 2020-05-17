@@ -20,7 +20,7 @@
             "ComponentName": "SoundEmitter"
         },
         {
-            "ComponentName": "ParticleManager"
+            "ComponentName": "ParticleManager",
              "ComponentProperties": [
                 ["particleName", "Generate"]
             ]
