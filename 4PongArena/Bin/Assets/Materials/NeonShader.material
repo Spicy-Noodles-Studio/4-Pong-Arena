@@ -25,7 +25,7 @@ fragment_program NeonFS glsl
 
 
 
-material Neon {
+material NeonShader {
     receive_shadows off
     transparency_casts_shadows off
     technique {

@@ -4,6 +4,7 @@
 #include <MathUtils.h>
 #include <sstream>
 #include <Quaternion.h>
+#include <Trail.h>
 
 #include "Ball.h"
 #include "ParticleManager.h"
@@ -72,6 +73,8 @@ void Spawner::shoot(GameObject* ball)
 		ball->getComponent<Ball>()->setTargetVelocity(velocity);
 
 		ball->getComponent<RigidBody>()->setLinearVelocity(direction.normalized() * velocity);
+		ball->getComponent<Trail>()->start();
+		ball->getComponent<Trail>()->setColour({1.0,1.0,1.0 }, 0.7);
 
 		if (particleManager != nullptr)
 		{

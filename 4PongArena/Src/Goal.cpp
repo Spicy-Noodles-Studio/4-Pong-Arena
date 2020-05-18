@@ -2,6 +2,8 @@
 #include <GameObject.h>
 #include <MeshRenderer.h>
 #include <MathUtils.h>
+#include <Trail.h>
+
 #include"ParticleManager.h"
 #include "Health.h"
 #include "GameManager.h"
@@ -9,6 +11,7 @@
 #include "PlayerIndex.h"
 #include "Ball.h"
 #include <ComponentRegister.h>
+
 
 REGISTER_FACTORY(Goal);
 
@@ -67,10 +70,13 @@ void Goal::onObjectEnter(GameObject* other)
 				x.y = (X/ gameObject->transform->getScale().y)*cos( gameObject->transform->getRotation().x * DEG_TO_RAD) + (Z / gameObject->transform->getScale().y) * sin(gameObject->transform->getRotation().x * DEG_TO_RAD);
 				x.z = Z * cos(gameObject->transform->getRotation().x * DEG_TO_RAD) + X * -sin(gameObject->transform->getRotation().x * DEG_TO_RAD);
 
+				other->getComponent<Trail>()->stop();
+
+				
 				particleManager->playParticles(0.6,x);
 			}
 		}
-
+		other->transform->setPosition({ 0,-10,0 });
 		other->setActive(false);
 		other->getComponent<MeshRenderer>()->setVisible(false);
 	}
