@@ -49,11 +49,14 @@ void Goal::onObjectEnter(GameObject* other)
 		score++;
 		Ball* ball = other->getComponent<Ball>();
 
-		cameraEffects->shake(Vector3(0, 1, 0));
+		
 
 		if (health != nullptr)
 		{
 			health->receiveDamage(1);
+
+			if (!health->isAlive())cameraEffects->shake(Vector3(1, 0, 1));
+
 			if (ball != nullptr)
 			{
 				if (ball->getIdPlayerHit() != -1 && ball->getIdPlayerHit() != id)
