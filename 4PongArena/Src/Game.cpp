@@ -380,8 +380,7 @@ void Game::chooseWinner()
 	int tieIndex = 0;
 
 
-	cameraEffects->fadeOut();
-	end = true;
+	
 
 	for (int i = 0; i < paddles.size(); i++)
 	{
@@ -428,7 +427,8 @@ void Game::chooseWinner()
 
 	gameManager->stopMusic(gameManager->getSong());
 
-	
+	cameraEffects->fadeOut();
+	end = true;
 }
 
 void Game::endgameHandleSound()

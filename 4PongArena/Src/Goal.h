@@ -7,6 +7,7 @@
 class Health;
 class Score;
 class GameManager;
+class CameraEffects;
 
 class Goal : public UserComponent
 {
@@ -29,6 +30,7 @@ private:
 	Score* scores;
 	GameManager* manager;
 	int id;
+	CameraEffects* cameraEffects;
 };
 
 #endif
