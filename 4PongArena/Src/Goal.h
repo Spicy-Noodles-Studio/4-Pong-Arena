@@ -7,6 +7,7 @@
 class Health;
 class Score;
 class GameManager;
+class CameraEffects;
 class ParticleManager;
 
 class Goal : public UserComponent
@@ -31,6 +32,7 @@ private:
 	GameManager* manager;
 	ParticleManager* particleManager;
 	int id;
+	CameraEffects* cameraEffects;
 };
 
 #endif

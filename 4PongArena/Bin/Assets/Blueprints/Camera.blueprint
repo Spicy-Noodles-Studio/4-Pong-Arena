@@ -33,10 +33,10 @@
 		{
             "ComponentName": "CameraEffects",
 			"ComponentProperties": [
-                ["vel" , "2"],
-				["minRange" , "-5"],
-				["maxRange" , "5"],
-                ["duration" , "1500"]
+                ["vel" , "0.03"],
+				["minRange" , "-0.05"],
+				["maxRange" , "0.05"],
+                ["duration" , "1000"]
             ]
         }
     ]

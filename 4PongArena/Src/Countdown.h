@@ -34,6 +34,7 @@ public:
 	virtual void handleData(ComponentData* data);
 
 	bool isCounting() const;
+	float getRemainingTime();
 };
 
 #endif

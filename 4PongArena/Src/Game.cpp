@@ -19,6 +19,7 @@
 #include "GameManager.h"
 #include "PlayerIndex.h"
 #include "Death.h"
+#include "CameraEffects.h"
 
 #include <ComponentRegister.h>
 
@@ -380,6 +381,9 @@ void Game::chooseWinner()
 	int majorIndex = 0;
 	int tieIndex = 0;
 
+
+	
+
 	for (int i = 0; i < paddles.size(); i++)
 	{
 		Health* health = paddles[i]->getComponent<Health>();
@@ -425,7 +429,8 @@ void Game::chooseWinner()
 
 	gameManager->stopMusic(gameManager->getSong());
 
-	SceneManager::GetInstance()->changeScene("ScoreMenu");
+	cameraEffects->fadeOut();
+	end = true;
 }
 
 void Game::endgameHandleSound()
@@ -435,7 +440,8 @@ void Game::endgameHandleSound()
 	soundEmitter->playSound("Game_End");
 }
 
-Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), gameLayout(nullptr), timePanel(NULL), gameTimer(0), levelBase(0), levelForces(0), levelObstacles(0)
+Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), gameLayout(nullptr), timePanel(NULL), gameTimer(0), levelBase(0), levelForces(0), levelObstacles(0),
+fadeIn(true), darkness(false), end(false)
 {
 
 }
@@ -453,8 +459,10 @@ void Game::start()
 
 	GameObject* mainCamera = findGameObjectWithName("MainCamera");
 
-	if (mainCamera != nullptr)
+	if (mainCamera != nullptr) {
 		gameLayout = mainCamera->getComponent<UILayout>();
+		cameraEffects = mainCamera->getComponent<CameraEffects>();
+	}
 
 	if (gameLayout != nullptr)
 		timePanel = gameLayout->getRoot().getChild("TimeBackground");
@@ -479,6 +487,7 @@ void Game::start()
 
 void Game::update(float deltaTime)
 {
+
 	if (!countdown->isCounting() && gameTimer > 0)
 	{
 		if (!timePanel.isVisible())
@@ -498,6 +507,16 @@ void Game::update(float deltaTime)
 			chooseWinner();
 		}
 	}
+	if (!darkness) {
+		cameraEffects->setDarkness();
+		darkness = true;
+	}
+	else if (fadeIn && countdown->getRemainingTime() < 2.6) {
+		cameraEffects->fadeIn();
+		fadeIn = false;
+	}
+
+	if (end && !cameraEffects->isFading()) SceneManager::GetInstance()->changeScene("ScoreMenu");
 }
 
 std::pair<std::string, std::string> Game::timeToText()

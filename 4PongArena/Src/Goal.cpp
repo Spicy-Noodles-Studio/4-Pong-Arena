@@ -10,12 +10,15 @@
 #include "Score.h"
 #include "PlayerIndex.h"
 #include "Ball.h"
+#include "CameraEffects.h"
+#include "Camera.h"
+#include "Scene.h"
 #include <ComponentRegister.h>
 
 
 REGISTER_FACTORY(Goal);
 
-Goal::Goal(GameObject* gameObject) : UserComponent(gameObject), health(nullptr), score(0)
+Goal::Goal(GameObject* gameObject) : UserComponent(gameObject), health(nullptr),cameraEffects(nullptr), score(0)
 {
 
 }
@@ -38,6 +41,9 @@ void Goal::start()
 	{
 		id = playerId->getId();
 	}
+	Camera* cam = gameObject->getScene()->getMainCamera();
+	if (cam != nullptr) cameraEffects = cam->gameObject->getComponent<CameraEffects>();
+
 }
 
 void Goal::onObjectEnter(GameObject* other)
@@ -47,9 +53,14 @@ void Goal::onObjectEnter(GameObject* other)
 		score++;
 		Ball* ball = other->getComponent<Ball>();
 
+		
+
 		if (health != nullptr)
 		{
 			health->receiveDamage(1);
+
+			if (!health->isAlive())cameraEffects->shake(Vector3(1, 0, 1));
+
 			if (ball != nullptr)
 			{
 				if (ball->getIdPlayerHit() != -1 && ball->getIdPlayerHit() != id)

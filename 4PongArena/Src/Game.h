@@ -11,6 +11,7 @@ class GameManager;
 class SoundEmitter;
 class UILayout;
 class Countdown;
+class CameraEffects;
 
 class Game : public UserComponent
 {
@@ -22,6 +23,11 @@ private:
 	UIElement timePanel;
 
 	Countdown* countdown;
+	bool fadeIn;
+	bool darkness;
+	bool end;
+
+	CameraEffects* cameraEffects;
 
 	std::vector<GameObject*> paddles;
 	std::vector<Vector3> playerColours;
