@@ -3,6 +3,7 @@
 #include <RigidBody.h>
 #include <MathUtils.h>
 #include <sstream>
+#include <Trail.h>
 
 #include "Movement.h"
 #include "SpawnerManager.h"
@@ -29,6 +30,7 @@ void IAPaddle::start()
 	soundEmitter = gameObject->getComponent<SoundEmitter>();
 	volume = 0.8;
 	soundEmitter->setVolume(volume);
+	gameObject->getComponent<Trail>()->start();
 }
 
 void IAPaddle::update(float deltaTime)

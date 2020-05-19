@@ -7,6 +7,7 @@
 class Health;
 class Score;
 class GameManager;
+class ParticleManager;
 
 class Goal : public UserComponent
 {
@@ -28,6 +29,7 @@ private:
 	int score;
 	Score* scores;
 	GameManager* manager;
+	ParticleManager* particleManager;
 	int id;
 };
 

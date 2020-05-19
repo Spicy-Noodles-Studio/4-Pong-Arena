@@ -4,9 +4,10 @@
 #include <MathUtils.h>
 #include <sstream>
 #include <Quaternion.h>
+#include <Trail.h>
 
 #include "Ball.h"
-
+#include "ParticleManager.h"
 #include <ComponentRegister.h>
 #include <SoundEmitter.h>
 
@@ -27,7 +28,7 @@ void Spawner::start()
 	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
 	direction.y = 0;
 	gameObject->transform->setDirection(direction.normalized());
-
+	particleManager = gameObject->getComponent<ParticleManager>();
 	soundEmitter = gameObject->getComponent<SoundEmitter>();
 	soundEmitter->setVolume(0.7);
 }
@@ -72,6 +73,13 @@ void Spawner::shoot(GameObject* ball)
 		ball->getComponent<Ball>()->setTargetVelocity(velocity);
 
 		ball->getComponent<RigidBody>()->setLinearVelocity(direction.normalized() * velocity);
+		ball->getComponent<Trail>()->start();
+		ball->getComponent<Trail>()->setColour({1.0,1.0,1.0 }, 0.7);
+
+		if (particleManager != nullptr)
+		{
+			particleManager->playParticles(1);
+		}
 
 		if (soundEmitter != nullptr) soundEmitter->playSound("Ball_Launch");
 	}

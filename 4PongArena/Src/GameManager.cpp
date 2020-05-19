@@ -3,6 +3,7 @@
 #include <SoundEmitter.h>
 #include <GameObject.h>
 #include <Timer.h>
+#include <WindowManager.h>
 
 REGISTER_FACTORY(GameManager);
 
@@ -14,10 +15,12 @@ GameManager::GameManager() : UserComponent(nullptr)
 }
 
 GameManager::GameManager(GameObject* gameObject) : UserComponent(gameObject), song(""), health(5), time(60), initialTime(time), timeMode(false),
-levelBase(0), levelForces(0), levelObstacles(0), menuMusic(false), paused(false), gameEnded(false)
+levelBase(0), levelForces(0), levelObstacles(0), menuMusic(false), paused(false), gameEnded(false), initialBrightness(0.5)
 {
-	if (instance == nullptr)
+	if (instance == nullptr) {
 		instance = this;
+		WindowManager::GetInstance()->setBrightness(initialBrightness);
+	}
 	else
 		destroy(gameObject);
 
@@ -260,6 +263,11 @@ void GameManager::setMenuMusic(bool value)
 bool GameManager::isMenuMusicPlaying() const
 {
 	return menuMusic;
+}
+
+float GameManager::getInitialBrightness() const
+{
+	return initialBrightness;
 }
 
 void GameManager::setMusicVolume(float volume)
