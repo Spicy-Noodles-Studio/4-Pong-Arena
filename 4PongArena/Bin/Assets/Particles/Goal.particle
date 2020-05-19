@@ -17,15 +17,13 @@ particle_system Goal
       time_to_live 0.5
       velocity_min 1
       velocity_max 4
-      colour 1.0 0.0 0.0 0.75
+      colour_range_start 1 0.5 1
+      colour_range_end 0.5 1 0.5
     }
 
     
     affector ColourFader
     { 
-      red 1.0
-      green 3.0
-      blue 0.0
       alpha -1.5
     }
 
