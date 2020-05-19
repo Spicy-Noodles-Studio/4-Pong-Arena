@@ -9,3 +9,5 @@
 ./Assets/Blueprints/ForceField.blueprint
 ./Assets/Blueprints/Obstacle.blueprint
 ./Assets/Blueprints/ParticleEmitter.blueprint
+./Assets/Blueprints/CursorMenu.blueprint
+./Assets/Blueprints/CursorGame.blueprint
