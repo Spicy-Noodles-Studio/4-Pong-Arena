@@ -4,7 +4,7 @@
 #include <sstream>
 
 #include "Movement.h"
-
+#include <Trail.h>
 #include <ComponentRegister.h>
 #include <SoundEmitter.h>
 
@@ -26,6 +26,7 @@ void PlayerController::start()
 	movement = gameObject->getComponent<Movement>();
 	soundEmitter = gameObject->getComponent<SoundEmitter>();
 	soundEmitter->setVolume(0.8);
+	gameObject->getComponent<Trail>()->start();
 	moving = false;
 	hasMoved = false;
 }

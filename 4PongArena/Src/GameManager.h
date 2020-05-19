@@ -40,6 +40,8 @@ private:
 	int levelObstacles;
 	int levelForces;
 
+	float initialBrightness;
+
 	std::string song;
 
 public:
@@ -112,6 +114,8 @@ public:
 
 	void setMenuMusic(bool value);
 	bool isMenuMusicPlaying() const;
+
+	float getInitialBrightness() const;
 };
 
 #endif

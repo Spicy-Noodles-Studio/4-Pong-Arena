@@ -7,6 +7,7 @@
 #include <Strider.h>
 #include <UILayout.h>
 #include <SoundEmitter.h>
+#include <Trail.h>
 
 #include "PlayerController.h"
 #include "PlayerIndex.h"
@@ -194,7 +195,8 @@ void Game::createPlayers()
 			paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
 
 			paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
-
+			paddle->getComponent<Trail>()->setColour(playerColours[i], 1.0);
+			
 			Death* death = paddle->getComponent<Death>();
 			death->setPlayerColour(playerColours[i]);
 			death->setwallColours(baseColour, neonColour);

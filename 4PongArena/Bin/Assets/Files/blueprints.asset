@@ -8,3 +8,4 @@
 ./Assets/Blueprints/Goal.blueprint
 ./Assets/Blueprints/ForceField.blueprint
 ./Assets/Blueprints/Obstacle.blueprint
+./Assets/Blueprints/ParticleEmitter.blueprint

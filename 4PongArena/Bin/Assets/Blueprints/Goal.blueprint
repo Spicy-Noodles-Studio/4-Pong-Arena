@@ -32,6 +32,12 @@
             ]
         },
         {
+            "ComponentName": "ParticleManager",
+             "ComponentProperties": [
+                ["particleName", "Goal"]
+            ]
+        },
+        {
             "ComponentName" : "Goal"
         }
     ]
