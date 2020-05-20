@@ -166,6 +166,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\CameraEffects.cpp" />
+    <ClCompile Include="..\..\Src\CursorGame.cpp" />
+    <ClCompile Include="..\..\Src\CursorMenu.cpp" />
     <ClCompile Include="..\..\Src\Menu.cpp" />
     <ClCompile Include="..\..\Src\OptionsMenuScreen.cpp" />
     <ClCompile Include="..\..\Src\Countdown.cpp" />
@@ -195,6 +197,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\CameraEffects.h" />
+    <ClInclude Include="..\..\Src\CursorGame.h" />
+    <ClInclude Include="..\..\Src\CursorMenu.h" />
     <ClInclude Include="..\..\Src\Menu.h" />
     <ClInclude Include="..\..\Src\OptionsMenuScreen.h" />
     <ClInclude Include="..\..\Src\Countdown.h" />
