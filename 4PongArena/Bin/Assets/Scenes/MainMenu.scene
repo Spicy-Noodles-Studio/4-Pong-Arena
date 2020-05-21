@@ -49,7 +49,7 @@
                     "ComponentName": "UILayout",
                     "ComponentProperties": [
                         ["layout" , "MainMenu.layout"],
-                        ["event" , "PlayButton playButtonClick | OptionsButton optionsButtonClick | ExitButton exitButtonClick"]
+                        ["event" , "PlayButton playButtonClick | OptionsButton optionsButtonClick | ExitButton exitButtonClick | CreditsButton creditsButtonClick"]
                     ]
                 }
             ]

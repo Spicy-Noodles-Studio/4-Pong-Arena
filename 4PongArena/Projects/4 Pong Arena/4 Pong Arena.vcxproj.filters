@@ -88,6 +88,12 @@
     <ClCompile Include="..\..\Src\CursorGame.cpp">
       <Filter>Archivos de código fuente\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\Credits.cpp">
+      <Filter>Archivos de código fuente\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\MusicEmitter.cpp">
+      <Filter>Archivos de código fuente\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Ball.h">
@@ -172,6 +178,12 @@
       <Filter>Archivos de encabezado\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\CursorGame.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Credits.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\MusicEmitter.h">
       <Filter>Archivos de encabezado\Components</Filter>
     </ClInclude>
   </ItemGroup>

@@ -16,6 +16,9 @@ private:
 	bool optionsButtonClick();
 	bool exitButtonClick();
 
+	bool controlsButtonClick();
+	bool creditsButtonClick();
+
 	void initMusic();
 
 public:

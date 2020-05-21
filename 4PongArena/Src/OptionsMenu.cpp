@@ -98,7 +98,7 @@ bool OptionsMenu::changeBrightness()
 	if (renderSystem != nullptr) renderSystem->changeParamOfShader("Brightness", "bright", brightnessScroll.getScrollPositionScrollBar() + 0.5);
 	if (windowManager != nullptr) windowManager->setBrightness(brightnessScroll.getScrollPositionScrollBar());
 	
-	buttonClick(sliderSound);
+	buttonClick(buttonSound);
 	return false;
 }
 
@@ -107,7 +107,7 @@ bool OptionsMenu::changeSoundVolume()
 	soundText.setText(std::to_string((int)(soundScroll.getScrollPositionScrollBar() * MAX_VALUE + 0.5)));
 	if (soundSystem != nullptr) soundSystem->setSoundEffectsVolume(soundScroll.getScrollPositionScrollBar());
 
-	buttonClick(sliderSound);
+	buttonClick(buttonSound);
 	return false;
 }
 
@@ -116,7 +116,7 @@ bool OptionsMenu::changeMusicVolume()
 	musicText.setText(std::to_string((int)(musicScroll.getScrollPositionScrollBar() * MAX_VALUE + 0.5)));
 	if (soundSystem != nullptr) soundSystem->setMusicVolume(musicScroll.getScrollPositionScrollBar());
 
-	buttonClick(sliderSound);
+	buttonClick(buttonSound);
 	return false;
 }
 

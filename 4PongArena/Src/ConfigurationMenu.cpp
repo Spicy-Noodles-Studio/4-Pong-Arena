@@ -260,7 +260,7 @@ void ConfigurationMenu::fillSlot(int index)
 	if (!startButton.isVisible() && nPlayers >= MIN_PLAYERS)
 		startButton.setVisible(true);
 
-	buttonClick(playerAddedSound);
+	buttonClick(buttonSound);
 }
 
 void ConfigurationMenu::clearSlot(int index)
@@ -274,7 +274,7 @@ void ConfigurationMenu::clearSlot(int index)
 	if (startButton.isVisible() && nPlayers < MIN_PLAYERS)
 		startButton.setVisible(false);
 
-	buttonClick(playerAddedSound);
+	buttonClick(buttonSound);
 }
 
 int ConfigurationMenu::isIndexConnected(int index)
@@ -387,7 +387,7 @@ bool ConfigurationMenu::changeLevelForces(int value)
 		}
 	}
 	GameManager::GetInstance()->setLevelForces(index);
-	buttonClick(startSound);
+	buttonClick(buttonSound);
 
 	return false;
 }
@@ -487,7 +487,7 @@ bool ConfigurationMenu::slotButtonClick(int index, std::string name)
 			startButton.setVisible(false);
 	}
 
-	buttonClick(playerAddedSound);
+	buttonClick(buttonSound);
 
 	return false;
 }
@@ -521,7 +521,7 @@ bool ConfigurationMenu::startButtonClick()
 			gameManager->setTime(time);
 	}
 
-	buttonClick(startSound);
+	buttonClick(buttonSound);
 
 	SceneManager::GetInstance()->changeScene("Game");
 	return false;
