@@ -2,11 +2,12 @@
 
 void Score::initScorePlayer(ScorePlayer* player)
 {
-	player->timeAlive = 0;
-	player->numOfGoals = 0;
-	player->numOfSelfGoals = 0;
-	player->numOfBallsHit = 0;
-
+	if (player != nullptr) {
+		player->timeAlive = 0;
+		player->numOfGoals = 0;
+		player->numOfSelfGoals = 0;
+		player->numOfBallsHit = 0;
+	}
 }
 
 Score::Score()

@@ -19,14 +19,17 @@ Movement::~Movement()
 
 void Movement::start()
 {
-	rigidBody = gameObject->getComponent<RigidBody>();
-	normal = Vector3::ZERO - gameObject->transform->getPosition();
-	normal *= Vector3(1.0, 0.0, 1.0);
-	normal.normalize();
-
-	// Cancel rotations and translations through normal vector
-	rigidBody->setRotationConstraints(Vector3::ZERO);
-	rigidBody->setMovementConstraints(Vector3(abs(normal.z), 0.0, abs(normal.x)));
+	if (gameObject != nullptr) {
+		rigidBody = gameObject->getComponent<RigidBody>();
+		normal = Vector3::ZERO - gameObject->transform->getPosition();
+		normal *= Vector3(1.0, 0.0, 1.0);
+		normal.normalize();
+	}
+	if (rigidBody != nullptr) {
+		// Cancel rotations and translations through normal vector
+		rigidBody->setRotationConstraints(Vector3::ZERO);
+		rigidBody->setMovementConstraints(Vector3(abs(normal.z), 0.0, abs(normal.x)));
+	}
 }
 
 void Movement::update(float deltaTime)
@@ -36,6 +39,8 @@ void Movement::update(float deltaTime)
 
 void Movement::handleData(ComponentData* data)
 {
+	if (data == nullptr) return;
+
 	for (auto prop : data->getProperties())
 	{
 		std::stringstream ss(prop.second);
@@ -67,7 +72,7 @@ void Movement::stop()
 
 void Movement::move()
 {
-	rigidBody->setLinearVelocity(direction.normalized() * velocity);
+	if (rigidBody != nullptr) rigidBody->setLinearVelocity(direction.normalized() * velocity);
 }
 
 void Movement::setNormal(const Vector3& normal)

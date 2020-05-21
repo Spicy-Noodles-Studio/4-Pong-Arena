@@ -24,14 +24,14 @@ ForceField::~ForceField()
 
 void ForceField::start()
 {
-	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	if (gameObject != nullptr) soundEmitter = gameObject->getComponent<SoundEmitter>();
 	volume = 1.5;
-	soundEmitter->setVolume(volume);
+	if (soundEmitter != nullptr) soundEmitter->setVolume(volume);
 }
 
 void ForceField::update(float deltaTime)
 {
-	if (volume > 0 && GameManager::GetInstance()->isGameEnded())
+	if (volume > 0 && GameManager::GetInstance()->isGameEnded() && soundEmitter != nullptr)
 	{
 		volume = 0;
 		soundEmitter->setVolume(0);
@@ -40,6 +40,8 @@ void ForceField::update(float deltaTime)
 
 void ForceField::handleData(ComponentData* data)
 {
+	if (data == nullptr) return;
+
 	for (auto prop : data->getProperties())
 	{
 		std::stringstream ss(prop.second);
@@ -61,6 +63,8 @@ void ForceField::handleData(ComponentData* data)
 
 void ForceField::onObjectEnter(GameObject* other)
 {
+	if (other == nullptr) return;
+
 	RigidBody* rigidBody = other->getComponent<RigidBody>();
 	Ball* ball = other->getComponent<Ball>();
 

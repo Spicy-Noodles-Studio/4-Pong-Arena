@@ -28,26 +28,28 @@ Death::~Death()
 
 void Death::start()
 {
-	initialPosition = gameObject->transform->getPosition();
+	if (gameObject != nullptr) {
+		initialPosition = gameObject->transform->getPosition();
 
-	meshRenderer = gameObject->getComponent<MeshRenderer>();
-	rigidBody = gameObject->getComponent<RigidBody>();
-	health = gameObject->getComponent<Health>();
+		meshRenderer = gameObject->getComponent<MeshRenderer>();
+		rigidBody = gameObject->getComponent<RigidBody>();
+		health = gameObject->getComponent<Health>();
 
-	gameManager = GameManager::GetInstance();
+		gameManager = GameManager::GetInstance();
 
-	if (gameManager != nullptr)
-		scores = gameManager->getScore();
+		if (gameManager != nullptr)
+			scores = gameManager->getScore();
 
-	PlayerIndex* playerId = gameObject->getComponent<PlayerIndex>();
+		PlayerIndex* playerId = gameObject->getComponent<PlayerIndex>();
 
-	if (playerId != nullptr)
-		id = playerId->getId();
-		
-	soundEmitter = gameObject->getComponent<SoundEmitter>();
-	
-	if(soundEmitter != nullptr)
-		soundEmitter->setVolume(1.2);
+		if (playerId != nullptr)
+			id = playerId->getId();
+
+		soundEmitter = gameObject->getComponent<SoundEmitter>();
+
+		if (soundEmitter != nullptr)
+			soundEmitter->setVolume(1.2);
+	}
 }
 
 void Death::update(float deltaTime)
@@ -61,6 +63,8 @@ void Death::update(float deltaTime)
 
 void Death::handleData(ComponentData* data)
 {
+	if (data == nullptr) return;
+
 	for (auto prop : data->getProperties())
 	{
 		std::stringstream ss(prop.second);
@@ -98,8 +102,8 @@ void Death::setWallScale(const Vector3& wallScale)
 
 void Death::die()
 {
-	gameObject->transform->setPosition(initialPosition);
-	rigidBody->setStatic(true);
+	if (gameObject != nullptr) gameObject->transform->setPosition(initialPosition);
+	if (rigidBody != nullptr) rigidBody->setStatic(true);
 
 	if (wallMeshId != "" || wallMeshName != "")
 	{
@@ -115,24 +119,29 @@ void Death::die()
 		}
 
 		Vector3 scaleRatio = wallScale / gameObject->transform->getScale();
-		gameObject->transform->setScale(wallScale);
-		rigidBody->multiplyScale(scaleRatio);
+		if (gameObject != nullptr) gameObject->transform->setScale(wallScale);
+		if (rigidBody != nullptr) rigidBody->multiplyScale(scaleRatio);
 	}
 
 	if (id != -1 && scores != nullptr)
 		scores->setTimeAlive(id, gameManager->getInitialTime(), gameManager->getTime());
 
-	gameManager->setPlayerRanking(id, gameManager->getPlayersAlive());
-	gameManager->setPlayersAlive(gameManager->getPlayersAlive() - 1);
-	soundEmitter->playSound("Death");
+	if (gameManager != nullptr) {
+		gameManager->setPlayerRanking(id, gameManager->getPlayersAlive());
+		gameManager->setPlayersAlive(gameManager->getPlayersAlive() - 1);
+	}
+	
+	if (soundEmitter != nullptr)soundEmitter->playSound("Death");
 
 	SpawnerManager* spawnerManager = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>();
 
 	float genTime = spawnerManager->getGenerationTime();
 	float minTime = spawnerManager->getMinimumTime();
 
-	if (genTime / 2 < minTime)
-		spawnerManager->setGenerationTime(minTime);
-	else
-		spawnerManager->setGenerationTime(genTime / 2);
+	if (spawnerManager != nullptr) {
+		if (genTime / 2 < minTime)
+			spawnerManager->setGenerationTime(minTime);
+		else
+			spawnerManager->setGenerationTime(genTime / 2);
+	}
 }

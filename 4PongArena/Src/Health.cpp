@@ -19,12 +19,14 @@ Health::~Health()
 
 void Health::start()
 {
-	soundEmitter = gameObject->getComponent<SoundEmitter>();
-	soundEmitter->setVolume(1.2);
+	if (gameObject != nullptr) soundEmitter = gameObject->getComponent<SoundEmitter>();
+	if (soundEmitter != nullptr) soundEmitter->setVolume(1.2);
 }
 
 void Health::handleData(ComponentData* data)
 {
+	if (data == nullptr) return;
+
 	for (auto prop : data->getProperties())
 	{
 		std::stringstream ss(prop.second);

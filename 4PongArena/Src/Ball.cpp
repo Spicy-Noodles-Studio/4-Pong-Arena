@@ -21,11 +21,13 @@ Ball::~Ball()
 
 void Ball::start()
 {
-	rigidBody = gameObject->getComponent<RigidBody>();
-	soundEmitter = gameObject->getComponent<SoundEmitter>();
-	particleManager= gameObject->getComponent<ParticleManager>();
-	volume = 0.8;
-	soundEmitter->setVolume(volume);
+	if (gameObject != nullptr){
+		rigidBody = gameObject->getComponent<RigidBody>();
+		soundEmitter = gameObject->getComponent<SoundEmitter>();
+		particleManager = gameObject->getComponent<ParticleManager>();
+		volume = 0.8;
+		soundEmitter->setVolume(volume);
+	}
 }
 
 void Ball::update(float deltaTime)
@@ -40,7 +42,7 @@ void Ball::update(float deltaTime)
 
 	if (volume > 0 && GameManager::GetInstance()->isGameEnded()) {
 		volume = 0;
-		soundEmitter->setVolume(0);
+		if (soundEmitter != nullptr) soundEmitter->setVolume(0);
 	}
 }
 

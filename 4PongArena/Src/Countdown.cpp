@@ -114,6 +114,8 @@ void Countdown::update(float deltaTime)
 
 void Countdown::handleData(ComponentData* data)
 {
+	if (data == nullptr) return;
+
 	for (auto prop : data->getProperties())
 	{
 		std::stringstream ss(prop.second);

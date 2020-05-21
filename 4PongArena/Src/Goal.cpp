@@ -30,25 +30,27 @@ Goal::~Goal()
 
 void Goal::start()
 {
-	manager = GameManager::GetInstance();
-	if (manager != nullptr)
-		scores = manager->getScore();
+	if (gameObject != nullptr) {
+		manager = GameManager::GetInstance();
+		if (manager != nullptr)
+			scores = manager->getScore();
 
-	PlayerIndex* playerId = this->gameObject->getComponent<PlayerIndex>();
-	particleManager = gameObject->getComponent<ParticleManager>();
-	id = -1;
-	if (playerId != nullptr)
-	{
-		id = playerId->getId();
+		PlayerIndex* playerId = this->gameObject->getComponent<PlayerIndex>();
+		particleManager = gameObject->getComponent<ParticleManager>();
+		id = -1;
+		if (playerId != nullptr)
+		{
+			id = playerId->getId();
+		}
+		Camera* cam = gameObject->getScene()->getMainCamera();
+		if (cam != nullptr) cameraEffects = cam->gameObject->getComponent<CameraEffects>();
 	}
-	Camera* cam = gameObject->getScene()->getMainCamera();
-	if (cam != nullptr) cameraEffects = cam->gameObject->getComponent<CameraEffects>();
 
 }
 
 void Goal::onObjectEnter(GameObject* other)
 {
-	if (other->getTag() == "ball")
+	if (other != nullptr && other->getTag() == "ball")
 	{
 		score++;
 		Ball* ball = other->getComponent<Ball>();

@@ -26,11 +26,13 @@ IAPaddle::~IAPaddle()
 
 void IAPaddle::start()
 {
-	movement = gameObject->getComponent<Movement>();
-	soundEmitter = gameObject->getComponent<SoundEmitter>();
-	volume = 0.8;
-	soundEmitter->setVolume(volume);
-	gameObject->getComponent<Trail>()->start();
+	if (gameObject != nullptr) {
+		movement = gameObject->getComponent<Movement>();
+		soundEmitter = gameObject->getComponent<SoundEmitter>();
+		volume = 0.8;
+		if (soundEmitter != nullptr) soundEmitter->setVolume(volume);
+		gameObject->getComponent<Trail>()->start();
+	}
 }
 
 void IAPaddle::update(float deltaTime)
@@ -44,7 +46,7 @@ void IAPaddle::update(float deltaTime)
 
 	if (volume > 0 && GameManager::GetInstance()->isGameEnded()) {
 		volume = 0;
-		soundEmitter->setVolume(0);
+		if (soundEmitter != nullptr) soundEmitter->setVolume(0);
 	}
 
 	// Simple State Machine Logic
@@ -61,6 +63,8 @@ void IAPaddle::update(float deltaTime)
 
 void IAPaddle::handleData(ComponentData* data)
 {
+	if (data == nullptr) return;
+
 	for (auto prop : data->getProperties())
 	{
 		std::stringstream ss(prop.second);
@@ -105,7 +109,7 @@ void IAPaddle::processChooseTargetState()
 
 	//De todas las que se dirigen a mi, elijo una random
 	targetBall = validBalls[rand() % validBalls.size()];
-	soundEmitter->playSound("Paddle_Move");
+	if (soundEmitter != nullptr) soundEmitter->playSound("Paddle_Move");
 	currentState = State::MOVE;
 }
 

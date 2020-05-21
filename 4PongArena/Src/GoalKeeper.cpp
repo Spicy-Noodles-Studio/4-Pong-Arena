@@ -24,34 +24,39 @@ GoalKeeper::~GoalKeeper()
 
 void GoalKeeper::start()
 {
-	Vector3 position = gameObject->transform->getPosition();
-	Vector3 normal = Vector3::ZERO - position;
+	if (gameObject != nullptr) {
+		Vector3 position = gameObject->transform->getPosition();
+		Vector3 normal = Vector3::ZERO - position;
 
-	normal *= Vector3(1.0, 0.0, 1.0); 
-	normal.normalize();
+		normal *= Vector3(1.0, 0.0, 1.0);
+		normal.normalize();
 
-	goal = instantiate("Goal", position - normal * offset);
+		goal = instantiate("Goal", position - normal * offset);
 
-	goal->transform->setRotation(gameObject->transform->getRotation());
-	goal->getComponent<Goal>()->setKeeper(gameObject);
+		if (goal != nullptr) {
+			goal->transform->setRotation(gameObject->transform->getRotation());
+			goal->getComponent<Goal>()->setKeeper(gameObject);
+		}
 
-	manager = GameManager::GetInstance();
-	if (manager != nullptr)
-		scores = manager->getScore();
+		manager = GameManager::GetInstance();
+		if (manager != nullptr)
+			scores = manager->getScore();
 
-	health = this->gameObject->getComponent<Health>();
-	PlayerIndex* playerId = this->gameObject->getComponent<PlayerIndex>();
+		health = this->gameObject->getComponent<Health>();
+		PlayerIndex* playerId = this->gameObject->getComponent<PlayerIndex>();
 
-	id = -1;
-	if (playerId != nullptr)
-	{
-		id = playerId->getId();
+		id = -1;
+		if (playerId != nullptr)
+		{
+			id = playerId->getId();
+		}
 	}
-
 }
 
 void GoalKeeper::handleData(ComponentData* data)
 {
+	if (data == nullptr) return;
+
 	for (auto prop : data->getProperties())
 	{
 		std::stringstream ss(prop.second);
@@ -68,7 +73,7 @@ void GoalKeeper::handleData(ComponentData* data)
 
 void GoalKeeper::onCollisionEnter(GameObject* other)
 {
-	if (other->getTag() == "ball")
+	if (other != nullptr && other->getTag() == "ball")
 	{
 		if (health != nullptr)
 		{

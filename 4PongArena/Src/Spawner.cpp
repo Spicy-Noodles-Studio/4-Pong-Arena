@@ -25,16 +25,20 @@ Spawner::~Spawner()
 
 void Spawner::start()
 {
-	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
-	direction.y = 0;
-	gameObject->transform->setDirection(direction.normalized());
-	particleManager = gameObject->getComponent<ParticleManager>();
-	soundEmitter = gameObject->getComponent<SoundEmitter>();
-	soundEmitter->setVolume(0.7);
+	if (gameObject != nullptr) {
+		Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
+		direction.y = 0;
+		gameObject->transform->setDirection(direction.normalized());
+		particleManager = gameObject->getComponent<ParticleManager>();
+		soundEmitter = gameObject->getComponent<SoundEmitter>();
+		if (soundEmitter != nullptr) soundEmitter->setVolume(0.7);
+	}
 }
 
 void Spawner::handleData(ComponentData* data)
 {
+	if (data == nullptr) return;
+
 	for (auto prop : data->getProperties())
 	{
 		std::stringstream ss(prop.second);
@@ -63,8 +67,10 @@ void Spawner::shoot(GameObject* ball)
 
 	direction.y = 0;
 
-	gameObject->transform->resetOrientation();
-	gameObject->transform->setDirection(direction.normalized());
+	if (gameObject != nullptr) {
+		gameObject->transform->resetOrientation();
+		gameObject->transform->setDirection(direction.normalized());
+	}
 
 	if (ball != nullptr)
 	{

@@ -22,11 +22,13 @@ PlayerController::~PlayerController()
 
 void PlayerController::start()
 {
-	inputSystem = InputSystem::GetInstance();
-	movement = gameObject->getComponent<Movement>();
-	soundEmitter = gameObject->getComponent<SoundEmitter>();
-	soundEmitter->setVolume(0.8);
-	gameObject->getComponent<Trail>()->start();
+	if (gameObject != nullptr) {
+		inputSystem = InputSystem::GetInstance();
+		movement = gameObject->getComponent<Movement>();
+		soundEmitter = gameObject->getComponent<SoundEmitter>();
+		if (soundEmitter != nullptr) soundEmitter->setVolume(0.8);
+		gameObject->getComponent<Trail>()->start();
+	}
 	moving = false;
 	hasMoved = false;
 }
@@ -36,13 +38,15 @@ void PlayerController::update(float deltaTime)
 	checkInput();
 	if (hasMoved && !moving) {
 		moving = true;
-		soundEmitter->playSound("Paddle_Move");
+		if (soundEmitter != nullptr) soundEmitter->playSound("Paddle_Move");
 	}
 	else if (moving && !hasMoved) moving = false;
 }
 
 void PlayerController::handleData(ComponentData* data)
 {
+	if (data == nullptr) return;
+
 	for (auto prop : data->getProperties())
 	{
 		std::stringstream ss(prop.second);
@@ -97,10 +101,12 @@ Vector3 PlayerController::getInputAxis() const
 Vector3 PlayerController::getKeyboardAxis() const
 {
 	Vector3 axis = Vector3::ZERO;
-	if (inputSystem->isKeyPressed("A")) axis.x += -1;	// Left
-	if (inputSystem->isKeyPressed("D")) axis.x += 1;	// Right
-	if (inputSystem->isKeyPressed("W")) axis.z += -1;	// Up
-	if (inputSystem->isKeyPressed("S")) axis.z += 1;	// Down
+	if (inputSystem != nullptr) {
+		if (inputSystem->isKeyPressed("A")) axis.x += -1;	// Left
+		if (inputSystem->isKeyPressed("D")) axis.x += 1;	// Right
+		if (inputSystem->isKeyPressed("W")) axis.z += -1;	// Up
+		if (inputSystem->isKeyPressed("S")) axis.z += 1;	// Down
+	}
 
 	return axis;
 }
@@ -108,11 +114,13 @@ Vector3 PlayerController::getKeyboardAxis() const
 Vector3 PlayerController::getControllerAxis() const
 {
 	Vector3 axis = Vector3::ZERO;
-	std::pair<int, int> leftJoystick = inputSystem->getLeftJoystick(controllerIndex);
-	if (leftJoystick.first < 0 || inputSystem->isButtonPressed(controllerIndex, "Left")) axis.x += -1;	// Left
-	if (leftJoystick.first > 0 || inputSystem->isButtonPressed(controllerIndex, "Right")) axis.x += 1;	// Right
-	if (leftJoystick.second < 0 || inputSystem->isButtonPressed(controllerIndex, "Up")) axis.z += -1;	// Up
-	if (leftJoystick.second > 0 || inputSystem->isButtonPressed(controllerIndex, "Down")) axis.z += 1;	// Down
+	if (inputSystem != nullptr) {
+		std::pair<int, int> leftJoystick = inputSystem->getLeftJoystick(controllerIndex);
+		if (leftJoystick.first < 0 || inputSystem->isButtonPressed(controllerIndex, "Left")) axis.x += -1;	// Left
+		if (leftJoystick.first > 0 || inputSystem->isButtonPressed(controllerIndex, "Right")) axis.x += 1;	// Right
+		if (leftJoystick.second < 0 || inputSystem->isButtonPressed(controllerIndex, "Up")) axis.z += -1;	// Up
+		if (leftJoystick.second > 0 || inputSystem->isButtonPressed(controllerIndex, "Down")) axis.z += 1;	// Down
+	}
 
 	return axis;
 }

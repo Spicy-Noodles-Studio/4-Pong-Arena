@@ -22,14 +22,17 @@ PlayerUI::~PlayerUI()
 
 void PlayerUI::start()
 {
-	// Initialize name to search through layout
-	playerIndex = gameObject->getComponent<PlayerIndex>();
+	if (gameObject != nullptr) {
+		// Initialize name to search through layout
+		playerIndex = gameObject->getComponent<PlayerIndex>();
 
-	if (playerIndex != nullptr)
-		name = "Player" + std::to_string(playerIndex->getId());
+		if (playerIndex != nullptr)
+			name = "Player" + std::to_string(playerIndex->getId());
 
-	// Get health component to update stats
-	health = gameObject->getComponent<Health>();
+
+		// Get health component to update stats
+		health = gameObject->getComponent<Health>();
+	}
 
 	// Get camera
 	GameObject* cameraObject = findGameObjectWithName("MainCamera");
@@ -61,16 +64,17 @@ void PlayerUI::update(float deltaTime)
 void PlayerUI::updateHealth()
 {
 	std::string color;
+	if (playerIndex != nullptr) {
+		if (playerIndex->getId() == 1)
+			color = "[colour = 'FFFF0000']";
+		else if (playerIndex->getId() == 2)
+			color = "[colour='FF0000FF']";
+		else if (playerIndex->getId() == 3)
+			color = "[colour='FFFFFF00']";
+		else
+			color = "[colour='FF00FF00']";
 
-	if (playerIndex->getId() == 1)
-		color = "[colour = 'FFFF0000']";
-	else if (playerIndex->getId() == 2)
-		color = "[colour='FF0000FF']";
-	else if (playerIndex->getId() == 3)
-		color = "[colour='FFFFFF00']";
-	else
-		color = "[colour='FF00FF00']";
-
-	if (playerIndex != nullptr && health != nullptr)
-		playerHUD.getChild(name + "Text").setText(color + "P" + std::to_string(playerIndex->getId()) + ": " + std::to_string(health->getHealth()));
+		if (health != nullptr)
+			playerHUD.getChild(name + "Text").setText(color + "P" + std::to_string(playerIndex->getId()) + ": " + std::to_string(health->getHealth()));
+	}
 }
