@@ -30,18 +30,18 @@ bool OptionsMenuScreen::backToMenuButtonClick()
 
 OptionsMenuScreen::OptionsMenuScreen(GameObject* gameObject) : OptionsMenu(gameObject), screen(nullptr), pauseMenu(NULL), optionsMenu(NULL)
 {
-	interfaceSystem->registerEvent("backToMenuButtonClick", UIEvent("ButtonClicked", [this]() {return backToMenuButtonClick(); }));
+	if (interfaceSystem != nullptr) interfaceSystem->registerEvent("backToMenuButtonClick", UIEvent("ButtonClicked", [this]() {return backToMenuButtonClick(); }));
 }
 
 OptionsMenuScreen::~OptionsMenuScreen()
 {
-	interfaceSystem->unregisterEvent("backToMenuButtonClick");
+	if (interfaceSystem != nullptr) interfaceSystem->unregisterEvent("backToMenuButtonClick");
 }
 
 void OptionsMenuScreen::start()
 {
 	screen = findGameObjectWithName("OptionsMenuScreen");
-	root = screen->getComponent<UILayout>()->getRoot();
+	if (screen != nullptr) root = screen->getComponent<UILayout>()->getRoot();
 
 	optionsMenu = root.getChild("OptionsBackground");
 	optionsMenu.setVisible(true);
@@ -67,7 +67,7 @@ void OptionsMenuScreen::start()
 	soundText = optionsMenu.getChild("SoundVolume");
 	musicText = optionsMenu.getChild("MusicVolume");
 
-	brightness = windowManager->getBrightness();
+	if (windowManager != nullptr) brightness = windowManager->getBrightness();
 	soundVolume = soundSystem->getSoundVolume();
 	musicVolume = soundSystem->getMusicVolume();
 
@@ -75,13 +75,16 @@ void OptionsMenuScreen::start()
 	soundScroll.setScrollPositionScrollBar(soundVolume);
 	musicScroll.setScrollPositionScrollBar(musicVolume);
 
-	fullscreen = windowManager->getFullscreen();
-	resolution = windowManager->getActualResolutionId();
-	currentResolution = resolution;
-	initialResolution = resolution;
+	if (windowManager != nullptr) {
+		fullscreen = windowManager->getFullscreen();
+		resolution = windowManager->getActualResolutionId();
+		currentResolution = resolution;
+		initialResolution = resolution;
+	}
 
 	changeFullscreen(fullscreen);
 	changeResolution(0);
+
 }
 
 void OptionsMenuScreen::preUpdate(float deltaTime)

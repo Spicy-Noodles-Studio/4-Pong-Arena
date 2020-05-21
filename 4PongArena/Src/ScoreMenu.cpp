@@ -45,19 +45,21 @@ void ScoreMenu::start()
 	{
 		std::string name = "P" + std::to_string(i + 1);
 		texts.push_back(root.getChild(name));
-		root.getChild(name).setText(name + ": " + std::to_string(gameManager->getPlayerRanking(i + 1)));
+		if (gameManager != nullptr) root.getChild(name).setText(name + ": " + std::to_string(gameManager->getPlayerRanking(i + 1)));
 
 		name = name + "Background";
 		panels.push_back(root.getChild(name));
 	}
 
-	if (gameManager->getWinner() != -1)
+	if (gameManager != nullptr && gameManager->getWinner() != -1)
 		root.getChild("Result").setText("WINNER: PLAYER " + std::to_string(gameManager->getWinner()));
 	else
 		root.getChild("Result").setText("TIE");
 
-	reposition(gameManager->getInitialPlayers());
-	initStatistics(gameManager->getInitialPlayers());
+	if (gameManager != nullptr) {
+		reposition(gameManager->getInitialPlayers());
+		initStatistics(gameManager->getInitialPlayers());
+	}
 }
 
 void ScoreMenu::update(float deltaTime)
@@ -117,6 +119,8 @@ void ScoreMenu::initStatistics(int numOfPlayers)
 
 void ScoreMenu::setNumOfHits(int playerIndex)
 {
+	if (gameManager == nullptr) return;
+
 	Score* score = gameManager->getScore();
 	std::string name = "P" + std::to_string(playerIndex);
 	name = name + "NumOfHits";
@@ -127,6 +131,8 @@ void ScoreMenu::setNumOfHits(int playerIndex)
 
 void ScoreMenu::setNumOfGoals(int playerIndex)
 {
+	if (gameManager == nullptr) return;
+
 	Score* score = gameManager->getScore();
 	std::string name = "P" + std::to_string(playerIndex);
 	name = name + "NumOfGoals";
@@ -137,6 +143,8 @@ void ScoreMenu::setNumOfGoals(int playerIndex)
 
 void ScoreMenu::setNumOfSelfGoals(int playerIndex)
 {
+	if (gameManager == nullptr) return;
+
 	Score* score = gameManager->getScore();
 	std::string name = "P" + std::to_string(playerIndex);
 	name = name + "NumOfSelfGoals";
@@ -147,6 +155,8 @@ void ScoreMenu::setNumOfSelfGoals(int playerIndex)
 
 void ScoreMenu::setTimeAlive(int playerIndex)
 {
+	if (gameManager == nullptr) return;
+
 	Score* score = gameManager->getScore();
 	std::string name = "P" + std::to_string(playerIndex);
 	name = name + "TimeAlive";

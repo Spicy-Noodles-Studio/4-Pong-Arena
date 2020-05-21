@@ -76,7 +76,7 @@ bool PauseMenu::checkControllersInput()
 	int i = 0;
 	while (i < 4 && !result)
 	{
-		if (inputSystem->getButtonPress(i, "START") || (inputSystem->getButtonPress(i, "B") && pauseMenu.isVisible()))
+		if (inputSystem != nullptr && (inputSystem->getButtonPress(i, "START") || (inputSystem->getButtonPress(i, "B") && pauseMenu.isVisible())))
 			result = true;
 
 		i++;

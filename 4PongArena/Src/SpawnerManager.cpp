@@ -76,7 +76,7 @@ void SpawnerManager::start()
 
 void SpawnerManager::update(float deltaTime)
 {
-	if (!countdown->isCounting())
+	if (countdown != nullptr && !countdown->isCounting())
 	{
 		if (time > 0)
 			time -= deltaTime;
@@ -92,6 +92,8 @@ void SpawnerManager::update(float deltaTime)
 
 void SpawnerManager::handleData(ComponentData* data)
 {
+	if (data == nullptr) return;
+
 	for (auto prop : data->getProperties())
 	{
 		std::stringstream ss(prop.second);

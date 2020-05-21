@@ -24,6 +24,8 @@ void ParticleManager::start()
 
 void ParticleManager::handleData(ComponentData* data)
 {
+	if (data == nullptr) return;
+
 	for (auto prop : data->getProperties())
 	{
 		std::stringstream ss(prop.second);
@@ -43,8 +45,8 @@ void ParticleManager::playParticles(float time, const Vector3& position)
 {
 	duration = time;
 	initialTime = 0;
-	particlesObject->transform->setPosition(position);
-	particleEmi->start();
+	if (particlesObject != nullptr) particlesObject->transform->setPosition(position);
+	if (particleEmi != nullptr) particleEmi->start();
 	
 }
 

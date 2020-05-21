@@ -46,18 +46,22 @@ MainMenu::MainMenu(GameObject* gameObject) : Menu(gameObject), inputSystem(nullp
 {
 	InterfaceSystem* interfaceSystem = InterfaceSystem::GetInstance();
 
-	interfaceSystem->registerEvent("playButtonClick", UIEvent("ButtonClicked", [this]() {return playButtonClick(); }));
-	interfaceSystem->registerEvent("optionsButtonClick", UIEvent("ButtonClicked", [this]() {return optionsButtonClick(); }));
-	interfaceSystem->registerEvent("exitButtonClick", UIEvent("ButtonClicked", [this]() {return exitButtonClick(); }));
+	if (interfaceSystem != nullptr) {
+		interfaceSystem->registerEvent("playButtonClick", UIEvent("ButtonClicked", [this]() {return playButtonClick(); }));
+		interfaceSystem->registerEvent("optionsButtonClick", UIEvent("ButtonClicked", [this]() {return optionsButtonClick(); }));
+		interfaceSystem->registerEvent("exitButtonClick", UIEvent("ButtonClicked", [this]() {return exitButtonClick(); }));
+	}
 }
 
 MainMenu::~MainMenu()
 {
 	InterfaceSystem* interfaceSystem = InterfaceSystem::GetInstance();
-
-	interfaceSystem->unregisterEvent("playButtonClick");
-	interfaceSystem->unregisterEvent("optionsButtonClick");
-	interfaceSystem->unregisterEvent("exitButtonClick");
+	
+	if (interfaceSystem != nullptr) {
+		interfaceSystem->unregisterEvent("playButtonClick");
+		interfaceSystem->unregisterEvent("optionsButtonClick");
+		interfaceSystem->unregisterEvent("exitButtonClick");
+	}
 }
 
 void MainMenu::start()

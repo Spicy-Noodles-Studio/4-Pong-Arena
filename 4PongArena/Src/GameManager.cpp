@@ -42,7 +42,7 @@ void GameManager::start()
 {
 	playerColours = { {1,0,0}, {0,0,1}, {1,1,0}, {0,1,0} };
 
-	if (soundEmitter == nullptr)
+	if (soundEmitter == nullptr && gameObject != nullptr)
 		soundEmitter = gameObject->getComponent<SoundEmitter>();
 
 	dontDestroyOnLoad(gameObject);
@@ -232,6 +232,8 @@ std::string GameManager::getSong() const
 
 void GameManager::playMusic(std::string music)
 {
+	if (soundEmitter == nullptr) return;
+
 	soundEmitter->stop(music);
 
 	if(music == "")
@@ -242,17 +244,17 @@ void GameManager::playMusic(std::string music)
 
 void GameManager::stopMusic(std::string music)
 {
-	soundEmitter->stop(music);
+	if (soundEmitter != nullptr) soundEmitter->stop(music);
 }
 
 void GameManager::resumeMusic(std::string music)
 {
-	soundEmitter->resume(music);
+	if (soundEmitter != nullptr) soundEmitter->resume(music);
 }
 
 void GameManager::pauseMusic(std::string music)
 {
-	soundEmitter->pause(music);
+	if (soundEmitter != nullptr) soundEmitter->pause(music);
 }
 
 void GameManager::setMenuMusic(bool value)
@@ -272,5 +274,5 @@ float GameManager::getInitialBrightness() const
 
 void GameManager::setMusicVolume(float volume)
 {
-	soundEmitter->setVolume(volume);
+	if (soundEmitter != nullptr) soundEmitter->setVolume(volume);
 }
