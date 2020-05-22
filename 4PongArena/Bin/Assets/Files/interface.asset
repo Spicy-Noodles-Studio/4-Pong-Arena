@@ -10,7 +10,10 @@ Font = DejaVuSans.ttf Sans72 72
 Font = batang.ttf Batang7 7
 Font = batang.ttf Batang8 8
 
-Image = logo.png logo
+Image = background.png background
+Image = gameLogo.png pong
+Image = engineLogo.png gaia
+Image = studioLogo.png noodles
 Image = base1.png base1
 Image = base2.png base2
 Image = base3.png base3

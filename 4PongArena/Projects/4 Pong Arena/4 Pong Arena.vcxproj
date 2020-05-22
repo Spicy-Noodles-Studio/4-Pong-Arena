@@ -169,6 +169,7 @@
     <ClCompile Include="..\..\Src\Credits.cpp" />
     <ClCompile Include="..\..\Src\CursorGame.cpp" />
     <ClCompile Include="..\..\Src\CursorMenu.cpp" />
+    <ClCompile Include="..\..\Src\LogoScreen.cpp" />
     <ClCompile Include="..\..\Src\Menu.cpp" />
     <ClCompile Include="..\..\Src\MusicEmitter.cpp" />
     <ClCompile Include="..\..\Src\OptionsMenuScreen.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="..\..\Src\Credits.h" />
     <ClInclude Include="..\..\Src\CursorGame.h" />
     <ClInclude Include="..\..\Src\CursorMenu.h" />
+    <ClInclude Include="..\..\Src\LogoScreen.h" />
     <ClInclude Include="..\..\Src\Menu.h" />
     <ClInclude Include="..\..\Src\MusicEmitter.h" />
     <ClInclude Include="..\..\Src\OptionsMenuScreen.h" />

@@ -8,6 +8,7 @@
 class InputSystem;
 class InterfaceSystem;
 class SoundEmitter;
+class SceneManager;
 
 class Menu : public UserComponent
 {
@@ -19,6 +20,7 @@ protected:
 	InputSystem* inputSystem;
 	InterfaceSystem* interfaceSystem;
 	SoundEmitter* soundEmitter;
+	SceneManager* sceneManager;
 	GameObject* mainCamera;
 
 	virtual void start();

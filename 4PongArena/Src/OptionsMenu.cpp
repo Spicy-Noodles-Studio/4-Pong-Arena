@@ -155,7 +155,7 @@ resolutionText(NULL), fullscreenText(NULL), brightnessText(NULL), soundText(NULL
 
 OptionsMenu::~OptionsMenu()
 {
-	if (interfaceSystem != nullptr) return;
+	if (interfaceSystem == nullptr) return;
 
 	interfaceSystem->unregisterEvent("-resolutionButtonClick");
 	interfaceSystem->unregisterEvent("+resolutionButtonClick");
