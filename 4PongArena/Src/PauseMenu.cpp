@@ -6,6 +6,7 @@
 #include <GameObject.h>
 #include <UILayout.h>
 
+#include "Countdown.h"
 #include "GameManager.h"
 
 REGISTER_FACTORY(PauseMenu);
@@ -34,7 +35,7 @@ bool PauseMenu::exitButtonClick()
 	return false;
 }
 
-PauseMenu::PauseMenu(GameObject* gameObject) : Menu(gameObject), inputSystem(nullptr), pauseMenu(NULL), pausePanel(NULL), optionsMenu(NULL)
+PauseMenu::PauseMenu(GameObject* gameObject) : Menu(gameObject), inputSystem(nullptr), countdown(nullptr), pauseMenu(NULL), pausePanel(NULL), optionsMenu(NULL)
 {
 	inputSystem = InputSystem::GetInstance();
 
@@ -53,19 +54,21 @@ PauseMenu::~PauseMenu()
 void PauseMenu::start()
 {
 	Menu::start();
-	UILayout* cameraLayout = findGameObjectWithName("MainCamera")->getComponent<UILayout>();
-	optionsMenu = findGameObjectWithName("OptionsMenuScreen")->getComponent<UILayout>()->getRoot();
 
+	UILayout* cameraLayout = findGameObjectWithName("MainCamera")->getComponent<UILayout>();
 	if (cameraLayout != nullptr)
 	{
 		pauseMenu = cameraLayout->getRoot().getChild("PauseBackground");
 		pausePanel = cameraLayout->getRoot().getChild("Pause");
 	}
+
+	countdown = findGameObjectWithName("Countdown")->getComponent<Countdown>();
+	optionsMenu = findGameObjectWithName("OptionsMenuScreen")->getComponent<UILayout>()->getRoot();
 }
 
 void PauseMenu::preUpdate(float deltaTime)
 {
-	if ((inputSystem->getKeyPress("ESCAPE") || checkControllersInput()) && !optionsMenu.isVisible())
+	if (countdown != nullptr && countdown->hasStarted() && !countdown->isCounting() && (inputSystem->getKeyPress("ESCAPE") || checkControllersInput()) && !optionsMenu.isVisible())
 		setPaused(!GameManager::GetInstance()->isPaused());
 }
 

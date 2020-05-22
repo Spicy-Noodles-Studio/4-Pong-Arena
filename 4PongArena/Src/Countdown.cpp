@@ -70,12 +70,12 @@ void Countdown::update(float deltaTime)
 
 	if (countingDown)
 	{
-		if (time >= 1)
+		if (time + 1 >= 1)
 		{
-			panel.getChild("Countdown").setText(std::to_string((int)time));
-			if (previousCount != std::to_string((int)time))
+			panel.getChild("Countdown").setText(std::to_string((int)time + 1));
+			if (previousCount != std::to_string((int)time + 1))
 			{
-				previousCount = std::to_string((int)time);
+				previousCount = std::to_string((int)time + 1);
 				soundEmitter->playSound("Countdown");
 			}
 		}
@@ -89,7 +89,7 @@ void Countdown::update(float deltaTime)
 			}
 		}
 
-		if (time < 0)
+		if (time + 1 < 0)
 		{
 			for (int i = 0; i < players.size(); i++)
 			{
@@ -129,12 +129,17 @@ void Countdown::handleData(ComponentData* data)
 	}
 }
 
+bool Countdown::hasStarted() const
+{
+	return startCounting;
+}
+
 bool Countdown::isCounting() const
 {
 	return countingDown;
 }
 
-float Countdown::getRemainingTime()
+float Countdown::getRemainingTime() const
 {
 	return time;
 }

@@ -8,11 +8,13 @@
 #include <UIElement.h>
 
 class InputSystem;
+class Countdown;
 
 class PauseMenu : public Menu
 {
 private:
 	InputSystem* inputSystem;
+	Countdown* countdown;
 
 	UIElement pauseMenu;
 	UIElement pausePanel;
@@ -35,7 +37,6 @@ public:
 protected:
 	virtual void start();
 	virtual void preUpdate(float deltaTime);
-
 };
 
 #endif
