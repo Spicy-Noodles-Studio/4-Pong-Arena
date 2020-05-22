@@ -51,8 +51,6 @@ public:
 
 	static GameManager* GetInstance();
 
-	virtual void start();
-
 	Score* getScore();
 
 	void initPlayerRanking(int tam);
@@ -116,6 +114,10 @@ public:
 	bool isMenuMusicPlaying() const;
 
 	float getInitialBrightness() const;
+
+	protected:
+		virtual void start();
+
 };
 
 #endif

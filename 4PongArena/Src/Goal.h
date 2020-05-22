@@ -15,10 +15,6 @@ class Goal : public UserComponent
 public:
 	Goal(GameObject* gameObject);
 	virtual ~Goal();
-
-	virtual void start();
-	virtual void onObjectEnter(GameObject* other);
-
 	void setScore(int score);
 	int getScore() const;
 
@@ -33,6 +29,11 @@ private:
 	ParticleManager* particleManager;
 	int id;
 	CameraEffects* cameraEffects;
+
+protected:
+	virtual void start();
+	virtual void onObjectEnter(GameObject* other);
+
 };
 
 #endif

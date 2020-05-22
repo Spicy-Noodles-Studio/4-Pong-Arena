@@ -34,6 +34,7 @@ public:
 	ScoreMenu(GameObject* gameObject);
 	virtual ~ScoreMenu();
 
+protected:
 	virtual void start();
 	virtual void update(float deltaTime);
 };

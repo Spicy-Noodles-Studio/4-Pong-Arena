@@ -39,17 +39,18 @@ private:
 public: 
 	CameraEffects(GameObject* gameObject);
 	virtual ~CameraEffects();
-
-	virtual void start();
-	virtual void update(float deltaTime);
-	virtual void handleData(ComponentData* data);
-
 	void fadeOut();
 	void fadeIn();
 	void setDarkness();
 	bool isFading();
 
 	void shake(Vector3 rotDir);
+
+protected:
+	virtual void start();
+	virtual void update(float deltaTime);
+	virtual void handleData(ComponentData* data);
+
 };
 
 #endif

@@ -18,6 +18,7 @@ public:
 	Credits(GameObject* gameObject);
 	virtual ~Credits();
 
+protected:
 	virtual void start();
 	virtual void update(float deltaTime);
 };

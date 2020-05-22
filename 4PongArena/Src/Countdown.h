@@ -29,12 +29,15 @@ public:
 	Countdown(GameObject* gameObject);
 	virtual ~Countdown();
 
+	bool isCounting() const;
+	float getRemainingTime();
+
+protected:
 	virtual void start();
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
 
-	bool isCounting() const;
-	float getRemainingTime();
+
 };
 
 #endif

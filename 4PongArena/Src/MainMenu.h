@@ -25,6 +25,7 @@ public:
 	MainMenu(GameObject* gameObject);
 	virtual ~MainMenu();
 
+protected:
 	virtual void start();
 };
 

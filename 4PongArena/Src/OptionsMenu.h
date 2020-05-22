@@ -73,6 +73,7 @@ public:
 	OptionsMenu(GameObject* gameObject);
 	virtual ~OptionsMenu();
 
+protected:
 	virtual void start();
 	virtual void update(float deltaTime);
 };

@@ -92,6 +92,7 @@ public:
 	ConfigurationMenu(GameObject* gameObject);
 	virtual ~ConfigurationMenu();
 
+protected:
 	virtual void start();
 	virtual void update(float deltaTime);
 };

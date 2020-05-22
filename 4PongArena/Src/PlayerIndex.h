@@ -11,11 +11,11 @@ private:
 public:
 	PlayerIndex(GameObject* gameObject);
 	virtual ~PlayerIndex();
-
-	virtual void handleData(ComponentData* data);
-
 	int getId();
 	void setId(int ind);
+
+protected:
+	virtual void handleData(ComponentData* data);
 };
 #endif
 

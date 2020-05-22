@@ -68,6 +68,7 @@ public:
 	Game(GameObject* gameObject);
 	virtual ~Game();
 
+protected:
 	virtual void start();
 	virtual void update(float deltaTime);
 };

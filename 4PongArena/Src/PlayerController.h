@@ -24,10 +24,6 @@ public:
 	PlayerController(GameObject* gameObject);
 	virtual ~PlayerController();
 
-	virtual void start();
-	virtual void update(float deltaTime);
-	virtual void handleData(ComponentData* data);
-
 	void setIndex(int index);
 	int getIndex() const;
 
@@ -36,6 +32,12 @@ private:
 	Vector3 getInputAxis() const;
 	Vector3 getKeyboardAxis() const;
 	Vector3 getControllerAxis() const;
+
+protected:
+
+	virtual void start();
+	virtual void update(float deltaTime);
+	virtual void handleData(ComponentData* data);
 };
 
 #endif

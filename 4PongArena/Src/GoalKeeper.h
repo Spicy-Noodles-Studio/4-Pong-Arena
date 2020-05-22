@@ -20,12 +20,13 @@ private:
 public:
 	GoalKeeper(GameObject* gameObject);
 	virtual ~GoalKeeper();
+	GameObject* getGoal() const;
 
+protected:
 	virtual void start();
 	virtual void handleData(ComponentData* data);
 	virtual void onCollisionEnter(GameObject* other);
 
-	GameObject* getGoal() const;
 };
 
 #endif

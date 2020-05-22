@@ -27,11 +27,6 @@ public:
 	IAPaddle(GameObject* gameObject);
 	virtual ~IAPaddle();
 
-	virtual void start();
-	virtual void update(float deltaTime);
-
-	virtual void handleData(ComponentData* data);
-
 	void setId(int id);
 	int getId() const;
 
@@ -43,6 +38,13 @@ private:
 
 	bool isBallBehind(const Vector3& ballPosition);
 	bool isBallHeadingToMe(const Vector3& ballDirection);
+
+protected:
+
+	virtual void start();
+	virtual void update(float deltaTime);
+
+	virtual void handleData(ComponentData* data);
 };
 
 #endif

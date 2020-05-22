@@ -25,10 +25,6 @@ private:
 public:
 	Ball(GameObject* gameObject);
 	virtual ~Ball();
-
-	virtual void start();
-	virtual void update(float deltaTime);
-
 	void setVelocity(float velocity);
 	void setTargetVelocity(float targetVelocity);
 	void setAcceleration(float acceleration);
@@ -36,7 +32,10 @@ public:
 	void setIdPlayerHit(int id);
 	int getIdPlayerHit();
 
+protected:
 	virtual void onCollisionEnter(GameObject* other);
+	virtual void start();
+	virtual void update(float deltaTime);
 };
 
 #endif

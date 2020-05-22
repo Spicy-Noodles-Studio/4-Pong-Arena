@@ -21,6 +21,7 @@ protected:
 	SoundEmitter* soundEmitter;
 	GameObject* mainCamera;
 
+	virtual void start();
 	virtual void buttonClick(const std::string& sound);
 	virtual bool backButtonClick();
 
@@ -28,7 +29,6 @@ public:
 	Menu(GameObject* gameObject);
 	~Menu();
 
-	virtual void start();
 };
 
 #endif

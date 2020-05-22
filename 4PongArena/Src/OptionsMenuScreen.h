@@ -20,6 +20,7 @@ public:
 	OptionsMenuScreen(GameObject* gameObject);
 	virtual ~OptionsMenuScreen();
 
+protected:
 	virtual void start();
 	virtual void preUpdate(float deltaTime);
 };
