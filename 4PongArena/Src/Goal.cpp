@@ -34,14 +34,18 @@ void Goal::start()
 		manager = GameManager::GetInstance();
 		if (manager != nullptr)
 			scores = manager->getScore();
-
-		PlayerIndex* playerId = this->gameObject->getComponent<PlayerIndex>();
-		particleManager = gameObject->getComponent<ParticleManager>();
-		id = -1;
-		if (playerId != nullptr)
+		
+		if (health != nullptr)
 		{
-			id = playerId->getPosVector();
+			PlayerIndex* playerId = health->gameObject->getComponent<PlayerIndex>();
+
+			id = -1;
+			if (playerId != nullptr)
+			{
+				id = playerId->getPosVector();
+			}
 		}
+		particleManager = gameObject->getComponent<ParticleManager>();
 		Camera* cam = gameObject->getScene()->getMainCamera();
 		if (cam != nullptr) cameraEffects = cam->gameObject->getComponent<CameraEffects>();
 	}
@@ -65,11 +69,14 @@ void Goal::onObjectEnter(GameObject* other)
 
 			if (ball != nullptr)
 			{
-				if (ball->getIdPlayerHit() != -1 && ball->getIdPlayerHit() != id)
-					scores->goalMade(ball->getIdPlayerHit());
-				else if (ball->getIdPlayerHit() != -1 && ball->getIdPlayerHit() == id)
+				if (scores != nullptr)
 				{
-					scores->goalSelfMade(ball->getIdPlayerHit());
+					if (ball->getIdPlayerHit() != -1 && ball->getIdPlayerHit() != id)
+						scores->goalMade(ball->getIdPlayerHit());
+					else if (ball->getIdPlayerHit() != -1 && ball->getIdPlayerHit() == id)
+					{
+						scores->goalSelfMade(ball->getIdPlayerHit());
+					}
 				}
 			}
 			if (particleManager != nullptr)

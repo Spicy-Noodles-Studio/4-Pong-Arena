@@ -125,13 +125,14 @@ void ScoreMenu::reposition(int numOfPlayers)
 		float textPos = iTextPos + size * i;
 		float panelPos = iPanelPos + size * i;
 
+		if (i < texts.size()) {
+			texts.at(i).setVisible(true);
+			texts.at(i).setPosition(textPos, 0.2);
 
-		texts.at(i).setVisible(true);
-		texts.at(i).setPosition(textPos, 0.2);
-
-		panels.at(i).setVisible(true);
-		panels.at(i).setPosition(panelPos, 0.3);
-		panels.at(i).setSize(size, 0.4);
+			panels.at(i).setVisible(true);
+			panels.at(i).setPosition(panelPos, 0.3);
+			panels.at(i).setSize(size, 0.4);
+		}
 	}
 }
 
@@ -153,6 +154,7 @@ void ScoreMenu::setNumOfHits(int playerIndex)
 	if (gameManager == nullptr) return;
 
 	Score* score = gameManager->getScore();
+	if (score == nullptr)return;
 	std::string name = "P" + std::to_string(score->getPlayerId(playerIndex));
 	name = name + "NumOfHits";
 
@@ -165,6 +167,7 @@ void ScoreMenu::setNumOfGoals(int playerIndex)
 	if (gameManager == nullptr) return;
 
 	Score* score = gameManager->getScore();
+	if (score == nullptr)return;
 	std::string name = "P" + std::to_string(score->getPlayerId(playerIndex));
 	name = name + "NumOfGoals";
 
@@ -177,6 +180,7 @@ void ScoreMenu::setNumOfSelfGoals(int playerIndex)
 	if (gameManager == nullptr) return;
 
 	Score* score = gameManager->getScore();
+	if (score == nullptr)return;
 	std::string name = "P" + std::to_string(score->getPlayerId(playerIndex));
 	name = name + "NumOfSelfGoals";
 
@@ -189,6 +193,7 @@ void ScoreMenu::setTimeAlive(int playerIndex)
 	if (gameManager == nullptr) return;
 
 	Score* score = gameManager->getScore();
+	if (score == nullptr)return;
 	std::string name = "P" + std::to_string(score->getPlayerId(playerIndex));
 	name = name + "TimeAlive";
 

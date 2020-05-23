@@ -15,7 +15,7 @@ public:
 	int getId();
 	void setId(int ind);
 
-	int getPosVector();
+	int getPosVector() const;
 	void setPos(int posVector);
 
 protected:

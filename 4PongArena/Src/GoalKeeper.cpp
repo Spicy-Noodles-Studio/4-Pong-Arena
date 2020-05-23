@@ -84,6 +84,7 @@ void GoalKeeper::onCollisionEnter(GameObject* other)
 					ball->setIdPlayerHit(id);
 					if (id != -1)
 					{
+						if(scores!=nullptr)
 						scores->ballHit(id);
 					}
 				}

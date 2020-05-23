@@ -41,7 +41,7 @@ void PlayerIndex::setId(int ind)
 	id = ind;
 }
 
-int PlayerIndex::getPosVector()
+int PlayerIndex::getPosVector() const
 {
 	return pos;
 }

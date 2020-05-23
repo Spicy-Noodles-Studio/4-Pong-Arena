@@ -46,42 +46,62 @@ void Score::clearIds()
 
 void Score::setTimeAlive(int playerIndex, int originalTime, int timeOfDeath)
 {
+	if (playerIndex < playerScores.size())
 	playerScores.at(playerIndex)->timeAlive = originalTime - timeOfDeath;
+	
 }
 
 void Score::goalMade(int playerIndex)
 {
+	if (playerIndex < playerScores.size())
 	playerScores.at(playerIndex)->numOfGoals++;
+	
 }
 
 void Score::goalSelfMade(int playerIndex)
 {
+	if (playerIndex < playerScores.size())
 	playerScores.at(playerIndex)->numOfSelfGoals++;
+
 }
 
 void Score::ballHit(int playerIndex)
 {
+	if (playerIndex < playerScores.size())
 	playerScores.at(playerIndex)->numOfBallsHit++;
+	
 }
 
 int Score::getTimeAlive(int playerIndex)
 {
-	return playerScores.at(playerIndex)->timeAlive;
+	if (playerIndex < playerScores.size())
+		return playerScores.at(playerIndex)->timeAlive;
+	else
+		return -1;
 }
 
 int Score::getNumOfGoals(int playerIndex)
 {
+	if (playerIndex < playerScores.size())
 	return playerScores.at(playerIndex)->numOfGoals;
+	else
+		return -1;
 }
 
 int Score::getNumOfSelfGoals(int playerIndex)
 {
+	if (playerIndex < playerScores.size())
 	return playerScores.at(playerIndex)->numOfSelfGoals;
+	else
+		return -1;
 }
 
 int Score::getNumOfBallsHit(int playerIndex)
 {
+	if (playerIndex < playerScores.size())
 	return playerScores.at(playerIndex)->numOfBallsHit;
+	else
+		return -1;
 }
 
 void Score::pushPlayerId(int id)

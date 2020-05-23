@@ -196,9 +196,12 @@ void Game::createPlayers()
 				paddle->getComponent<RigidBody>()->setGravity(Vector3(0, 0, 0));
 				paddle->transform->setRotation(playerTransforms[i].second);
 
-				paddle->getComponent<PlayerIndex>()->setId(i + 1);
-				paddle->getComponent<PlayerIndex>()->setPos(posInScore);
-				posInScore++;
+				if (paddle->getComponent<PlayerIndex>() != nullptr)
+				{
+					paddle->getComponent<PlayerIndex>()->setId(i + 1);
+					paddle->getComponent<PlayerIndex>()->setPos(posInScore);
+					posInScore++;
+				}
 				paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
 
 				paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
@@ -450,7 +453,10 @@ void Game::chooseWinner()
 	}
 	else
 	{
-		gameManager->getScore()->setTimeAlive(majorIndex, gameManager->getInitialTime(), gameManager->getTime());
+		if (gameManager->getScore() != nullptr)
+		{
+			gameManager->getScore()->setTimeAlive(majorIndex, gameManager->getInitialTime(), gameManager->getTime());
+		}
 		gameManager->setPlayerRanking(majorIndex + 1, 1);
 		gameManager->setWinner(majorIndex + 1);
 	}
