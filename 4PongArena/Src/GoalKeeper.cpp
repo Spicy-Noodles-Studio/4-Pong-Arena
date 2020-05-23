@@ -48,7 +48,7 @@ void GoalKeeper::start()
 		id = -1;
 		if (playerId != nullptr)
 		{
-			id = playerId->getId();
+			id = playerId->getPosVector();
 		}
 	}
 }

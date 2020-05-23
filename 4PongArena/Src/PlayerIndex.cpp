@@ -40,3 +40,13 @@ void PlayerIndex::setId(int ind)
 {
 	id = ind;
 }
+
+int PlayerIndex::getPosVector()
+{
+	return pos;
+}
+
+void PlayerIndex::setPos(int posVector)
+{
+	pos = posVector;
+}

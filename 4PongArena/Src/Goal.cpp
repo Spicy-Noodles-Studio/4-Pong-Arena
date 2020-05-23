@@ -40,7 +40,7 @@ void Goal::start()
 		id = -1;
 		if (playerId != nullptr)
 		{
-			id = playerId->getId();
+			id = playerId->getPosVector();
 		}
 		Camera* cam = gameObject->getScene()->getMainCamera();
 		if (cam != nullptr) cameraEffects = cam->gameObject->getComponent<CameraEffects>();

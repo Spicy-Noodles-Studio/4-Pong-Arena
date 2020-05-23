@@ -170,7 +170,8 @@ void Game::createPlayers()
 
 	std::vector<int> indexes = gameManager->getPlayerIndexes();
 	gameManager->getPaddles().clear();
-
+	gameManager->getScore()->clearIds();
+	int posInScore = 0;
 	for (int i = 0; i < indexes.size(); i++)
 	{
 		if (indexes[i] != -1)
@@ -196,7 +197,8 @@ void Game::createPlayers()
 				paddle->transform->setRotation(playerTransforms[i].second);
 
 				paddle->getComponent<PlayerIndex>()->setId(i + 1);
-
+				paddle->getComponent<PlayerIndex>()->setPos(posInScore);
+				posInScore++;
 				paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
 
 				paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
@@ -211,7 +213,11 @@ void Game::createPlayers()
 			}
 
 			if (paddle != nullptr) paddles.push_back(paddle);
-			if (gameManager != nullptr) gameManager->getPaddles().push_back(paddle);
+			if (gameManager != nullptr)
+			{
+				gameManager->getPaddles().push_back(paddle);
+				gameManager->getScore()->pushPlayerId(i + 1);
+			}
 		}
 		else
 		{
@@ -434,7 +440,7 @@ void Game::chooseWinner()
 		{
 			if (i == majorIndex || i == tieIndex)
 			{
-				gameManager->getScore()->setTimeAlive(majorIndex + 1, gameManager->getInitialTime(), gameManager->getTime());
+				gameManager->getScore()->setTimeAlive(majorIndex, gameManager->getInitialTime(), gameManager->getTime());
 				gameManager->setPlayerRanking(i + 1, 1);
 			}
 			else
@@ -444,7 +450,7 @@ void Game::chooseWinner()
 	}
 	else
 	{
-		gameManager->getScore()->setTimeAlive(majorIndex + 1, gameManager->getInitialTime(), gameManager->getTime());
+		gameManager->getScore()->setTimeAlive(majorIndex, gameManager->getInitialTime(), gameManager->getTime());
 		gameManager->setPlayerRanking(majorIndex + 1, 1);
 		gameManager->setWinner(majorIndex + 1);
 	}
