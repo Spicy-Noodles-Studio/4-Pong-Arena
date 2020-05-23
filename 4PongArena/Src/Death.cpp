@@ -127,7 +127,7 @@ void Death::die()
 		scores->setTimeAlive(id, gameManager->getInitialTime(), gameManager->getTime());
 
 	if (gameManager != nullptr) {
-		gameManager->setPlayerRanking(id, gameManager->getPlayersAlive());
+		gameManager->setPlayerRanking(id+1, gameManager->getPlayersAlive());
 		gameManager->setPlayersAlive(gameManager->getPlayersAlive() - 1);
 	}
 	
