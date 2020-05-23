@@ -34,7 +34,7 @@ void Menu::buttonClick(const std::string& sound)
 
 bool Menu::backButtonClick()
 {
-	sceneManager->changeScene("MainMenu");
+	if (sceneManager != nullptr) sceneManager->changeScene("MainMenu");
 	buttonClick(backSound);
 	return false;
 }

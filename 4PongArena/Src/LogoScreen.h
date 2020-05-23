@@ -18,6 +18,7 @@ public:
 	LogoScreen(GameObject* gameObject);
 	virtual ~LogoScreen();
 
+protected:
 	virtual void start();
 	virtual void update(float deltaTime);
 };
