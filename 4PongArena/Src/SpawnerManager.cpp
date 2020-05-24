@@ -6,7 +6,9 @@
 #include <sstream>
 
 #include "Spawner.h"
+#include "Game.h"
 #include "Countdown.h"
+#include "ParticleManager.h"
 
 #include <ComponentRegister.h>
 
@@ -62,6 +64,7 @@ SpawnerManager::~SpawnerManager()
 
 void SpawnerManager::start()
 {
+	game = findGameObjectWithName("Game")->getComponent<Game>();
 	countdown = findGameObjectWithName("Countdown")->getComponent<Countdown>();
 
 	for (int i = 0; i < 25; i++)
@@ -76,7 +79,7 @@ void SpawnerManager::start()
 
 void SpawnerManager::update(float deltaTime)
 {
-	if (countdown != nullptr && !countdown->isCounting())
+	if (countdown != nullptr && !countdown->isCounting() && game != nullptr && game->getTime() > 0)
 	{
 		if (time > 0)
 			time -= deltaTime;
@@ -121,6 +124,20 @@ void SpawnerManager::setSpawners(std::vector<GameObject*>& spawners)
 std::vector<GameObject*> SpawnerManager::getPool() const
 {
 	return pool;
+}
+
+void SpawnerManager::deactivateAll()
+{
+	for (int i = 0; i < pool.size(); i++)
+	{
+		if (pool[i]->isActive())
+		{
+			pool[i]->getComponent<ParticleManager>()->stop();
+
+			pool[i]->setActive(false);
+			pool[i]->getComponent<MeshRenderer>()->setVisible(false);
+		}
+	}
 }
 
 void SpawnerManager::setGenerationTime(float generationTime)

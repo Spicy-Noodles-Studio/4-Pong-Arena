@@ -4,6 +4,7 @@
 
 #include <UserComponent.h>
 
+class Game;
 class Countdown;
 
 class SpawnerManager : public UserComponent
@@ -12,6 +13,7 @@ private:
 	std::vector<GameObject*> spawners;
 	std::vector<GameObject*> pool;
 
+	Game* game;
 	Countdown* countdown;
 
 	float time;
@@ -27,9 +29,11 @@ public:
 	SpawnerManager(GameObject* gameObject);
 	virtual ~SpawnerManager();
 
-	
+
 	void setSpawners(std::vector<GameObject*>& spawners);
 	std::vector<GameObject*> getPool() const;
+
+	void deactivateAll();
 
 	void setGenerationTime(float generationTime);
 	float getGenerationTime() const;

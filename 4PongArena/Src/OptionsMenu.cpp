@@ -35,16 +35,19 @@ bool OptionsMenu::applyButtonClick()
 
 	if (fullscreen && windowManager != nullptr)
 		windowManager->setFullscreen(true);
-		
+
 	buttonClick(buttonSound);
 	return false;
 }
 
 bool OptionsMenu::restoreButtonClick()
 {
-	brightness = GameManager::GetInstance()->getInitialBrightness();
-	soundVolume = 100;
-	musicVolume = 100;
+	if (GameManager::GetInstance() != nullptr)
+	{
+		brightness = GameManager::GetInstance()->getInitialBrightness();
+		soundVolume = GameManager::GetInstance()->getInitialSoundVolume();
+		musicVolume = GameManager::GetInstance()->getInitialMusicVolume();
+	}
 
 	fullscreen = false;
 	resolution = initialResolution;
@@ -97,7 +100,7 @@ bool OptionsMenu::changeBrightness()
 	brightnessText.setText(std::to_string((int)(brightnessScroll.getScrollPositionScrollBar() * MAX_VALUE + 0.5)));
 	if (renderSystem != nullptr) renderSystem->changeParamOfShader("Brightness", "bright", brightnessScroll.getScrollPositionScrollBar() + 0.5);
 	if (windowManager != nullptr) windowManager->setBrightness(brightnessScroll.getScrollPositionScrollBar());
-	
+
 	buttonClick(buttonSound);
 	return false;
 }

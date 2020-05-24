@@ -461,6 +461,14 @@ void Game::chooseWinner()
 	end = true;
 	setRanking();
 
+	GameObject* spawnerObject = findGameObjectWithName("SpawnerManager");
+	if (spawnerObject != nullptr)
+	{
+		SpawnerManager* spawnerManager = spawnerObject->getComponent<SpawnerManager>();
+		if (spawnerManager != nullptr)
+			spawnerManager->deactivateAll();
+	}
+
 	gameManager->setGameEnded(true);
 	gameManager->stopMusic(gameManager->getSong());
 

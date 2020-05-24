@@ -1,6 +1,7 @@
 ﻿#include "GameManager.h"
 #include <ComponentRegister.h>
 #include <WindowManager.h>
+#include <SoundSystem.h>
 #include <SoundEmitter.h>
 #include <GameObject.h>
 #include <Timer.h>
@@ -15,12 +16,19 @@ GameManager::GameManager() : UserComponent(nullptr)
 }
 
 GameManager::GameManager(GameObject* gameObject) : UserComponent(gameObject), song(""), songName(""), health(5), time(60), initialTime(time), timeMode(false),
-levelBase(0), levelForces(0), levelObstacles(0), menuMusic(false), paused(false), gameEnded(false), initialBrightness(0.5)
+levelBase(0), levelForces(0), levelObstacles(0), menuMusic(false), paused(false), gameEnded(false), initialBrightness(0.5), initialSoundVolume(0.5), initialMusicVolume(0.5)
 {
 	if (instance == nullptr)
 	{
 		instance = this;
-		WindowManager::GetInstance()->setBrightness(initialBrightness);
+		if (WindowManager::GetInstance() != nullptr)
+			WindowManager::GetInstance()->setBrightness(initialBrightness);
+
+		if (SoundSystem::GetInstance() != nullptr)
+		{
+			SoundSystem::GetInstance()->setSoundEffectsVolume(initialSoundVolume);
+			SoundSystem::GetInstance()->setMusicVolume(initialMusicVolume);
+		}
 	}
 	else
 		destroy(gameObject);
@@ -283,6 +291,16 @@ bool GameManager::isMenuMusicPlaying() const
 float GameManager::getInitialBrightness() const
 {
 	return initialBrightness;
+}
+
+float GameManager::getInitialSoundVolume() const
+{
+	return initialSoundVolume;
+}
+
+float GameManager::getInitialMusicVolume() const
+{
+	return initialMusicVolume;
 }
 
 void GameManager::setMusicVolume(float volume)

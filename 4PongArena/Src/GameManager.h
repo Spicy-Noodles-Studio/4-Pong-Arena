@@ -54,6 +54,8 @@ private:
 	int levelForces;
 
 	float initialBrightness;
+	float initialSoundVolume;
+	float initialMusicVolume;
 
 	std::string song;
 	std::string songName;
@@ -135,6 +137,8 @@ public:
 	bool isMenuMusicPlaying() const;
 
 	float getInitialBrightness() const;
+	float getInitialSoundVolume() const;
+	float getInitialMusicVolume() const;
 };
 
 #endif

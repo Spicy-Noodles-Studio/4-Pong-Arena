@@ -1,6 +1,7 @@
 #pragma once
 #ifndef PARTICLE_MANAGER
 #define PARTICLE_MANAGER
+
 #include <UserComponent.h>
 
 class ParticleEmitter;
@@ -8,20 +9,17 @@ class PlayerState;
 
 class ParticleManager : public UserComponent
 {
-
 private:
-
 	GameObject* particlesObject;
-	/* PARTICLE SYSTEMS */
 	ParticleEmitter* particleEmi;
-	
+
 	float duration;
 	float initialTime;
-	
 
 public:
 	ParticleManager(GameObject* gameObject);
 	virtual ~ParticleManager();
+
 	void playParticles(float time, const Vector3& position = Vector3::ZERO);
 	void stop();
 
