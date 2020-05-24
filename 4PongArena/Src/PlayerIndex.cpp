@@ -31,7 +31,7 @@ void PlayerIndex::handleData(ComponentData* data)
 	}
 }
 
-int PlayerIndex::getId()
+int PlayerIndex::getId() const
 {
 	return id;
 }

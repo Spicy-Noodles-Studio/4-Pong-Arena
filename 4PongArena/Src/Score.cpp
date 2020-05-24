@@ -34,8 +34,10 @@ void Score::initScore(int numOfPlayers)
 	for (int i = 0; i < numOfPlayers; i++)
 	{
 		ScorePlayer* score = new ScorePlayer();
-		initScorePlayer(score);
-		this->playerScores.push_back(score);
+		if (score != nullptr) {
+			initScorePlayer(score);
+			this->playerScores.push_back(score);
+		}
 	}
 }
 

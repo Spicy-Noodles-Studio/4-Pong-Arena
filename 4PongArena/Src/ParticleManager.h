@@ -8,7 +8,6 @@ class PlayerState;
 
 class ParticleManager : public UserComponent
 {
-public:
 
 private:
 

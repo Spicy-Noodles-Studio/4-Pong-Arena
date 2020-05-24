@@ -8,7 +8,6 @@
 #include <UIElement.h>
 
 #include <vector>
-#include <string>
 
 const int MIN_TIME = 60;
 const int MAX_TIME = 300;

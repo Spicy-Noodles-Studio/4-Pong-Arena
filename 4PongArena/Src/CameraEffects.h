@@ -38,7 +38,7 @@ public:
 	void fadeOut();
 	void fadeIn();
 	void setDarkness();
-	bool isFading();
+	bool isFading() const;
 
 	void shake(Vector3 rotDir);
 

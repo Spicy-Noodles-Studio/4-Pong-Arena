@@ -12,7 +12,7 @@ private:
 public:
 	PlayerIndex(GameObject* gameObject);
 	virtual ~PlayerIndex();
-	int getId();
+	int getId() const;
 	void setId(int ind);
 
 	int getPosVector() const;

@@ -155,7 +155,7 @@ void CameraEffects::setDarkness()
 	current = 0;
 }
 
-bool CameraEffects::isFading()
+bool CameraEffects::isFading() const
 {
 	return state != IDLE;
 }

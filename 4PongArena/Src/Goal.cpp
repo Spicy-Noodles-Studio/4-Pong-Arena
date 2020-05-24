@@ -81,6 +81,8 @@ void Goal::onObjectEnter(GameObject* other)
 			}
 			if (particleManager != nullptr)
 			{
+				checkNull(gameObject);
+
 				double Z= other->transform->getPosition().z - gameObject->transform->getPosition().z;
 				double X = (other->transform->getPosition().x - gameObject->transform->getPosition().x);
 

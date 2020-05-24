@@ -29,7 +29,7 @@ protected:
 
 public:
 	Menu(GameObject* gameObject);
-	~Menu();
+	virtual ~Menu();
 
 };
 

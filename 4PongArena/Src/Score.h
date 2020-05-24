@@ -3,7 +3,6 @@
 #define SCORE_H
 
 #include <vector>
-#include <string>
 
 class Score
 {
@@ -23,7 +22,7 @@ private:
 
 public:
 	Score();
-	~Score();
+	virtual ~Score();
 
 	void initScore(int numOfPlayers);
 	void clearIds();

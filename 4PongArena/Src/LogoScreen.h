@@ -4,8 +4,6 @@
 
 #include "Menu.h"
 
-#include <vector>
-#include <string>
 
 class LogoScreen : public Menu
 {

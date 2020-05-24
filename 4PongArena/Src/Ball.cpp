@@ -66,7 +66,7 @@ void Ball::setIdPlayerHit(int id)
 	idPlayer = id;
 }
 
-int Ball::getIdPlayerHit()
+int Ball::getIdPlayerHit() const
 {
 	return idPlayer;
 }

@@ -30,7 +30,7 @@ public:
 	void setAcceleration(float acceleration);
 	
 	void setIdPlayerHit(int id);
-	int getIdPlayerHit();
+	int getIdPlayerHit() const;
 
 protected:
 	virtual void onCollisionEnter(GameObject* other);

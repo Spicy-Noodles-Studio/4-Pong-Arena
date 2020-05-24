@@ -5,7 +5,6 @@
 #include "Menu.h"
 
 #include <vector>
-#include <string>
 
 class Credits : public Menu
 {
