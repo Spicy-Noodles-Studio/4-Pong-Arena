@@ -10,6 +10,7 @@
 #include "Score.h"
 #include "SpawnerManager.h"
 #include "GameManager.h"
+#include "Game.h"
 
 #include <ComponentRegister.h>
 #include <SoundEmitter.h>
@@ -126,11 +127,10 @@ void Death::die()
 	if (id != -1 && scores != nullptr)
 		scores->setTimeAlive(id, gameManager->getInitialTime(), gameManager->getTime());
 
-	if (gameManager != nullptr) {
-		gameManager->setPlayerRanking(id+1, gameManager->getPlayersAlive());
-		gameManager->setPlayersAlive(gameManager->getPlayersAlive() - 1);
-	}
-	
+	Game* game = findGameObjectWithName("Game")->getComponent<Game>();
+	if (game != nullptr)
+		game->playerDeath();
+
 	if (soundEmitter != nullptr)soundEmitter->playSound("Death");
 
 	SpawnerManager* spawnerManager = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>();

@@ -1,9 +1,9 @@
 ﻿#include "GameManager.h"
 #include <ComponentRegister.h>
+#include <WindowManager.h>
 #include <SoundEmitter.h>
 #include <GameObject.h>
 #include <Timer.h>
-#include <WindowManager.h>
 
 REGISTER_FACTORY(GameManager);
 
@@ -14,10 +14,11 @@ GameManager::GameManager() : UserComponent(nullptr)
 
 }
 
-GameManager::GameManager(GameObject* gameObject) : UserComponent(gameObject), song(""), health(5), time(60), initialTime(time), timeMode(false),
+GameManager::GameManager(GameObject* gameObject) : UserComponent(gameObject), song(""), songName(""), health(5), time(60), initialTime(time), timeMode(false),
 levelBase(0), levelForces(0), levelObstacles(0), menuMusic(false), paused(false), gameEnded(false), initialBrightness(0.5)
 {
-	if (instance == nullptr) {
+	if (instance == nullptr)
+	{
 		instance = this;
 		WindowManager::GetInstance()->setBrightness(initialBrightness);
 	}
@@ -25,6 +26,7 @@ levelBase(0), levelForces(0), levelObstacles(0), menuMusic(false), paused(false)
 		destroy(gameObject);
 
 	playerIndexes = std::vector<int>(4, -1);
+	playerRanking = std::vector<int>(4, 0);
 }
 
 GameManager::~GameManager()
@@ -53,9 +55,15 @@ Score* GameManager::getScore()
 	return &scores;
 }
 
-void GameManager::initPlayerRanking(int tam)
+void GameManager::setPlayerIndexes(std::vector<int>& playerIndexes)
 {
-	playerRanking = std::vector<int>(tam, 0);
+
+	this->playerIndexes = playerIndexes;
+}
+
+std::vector<int>& GameManager::getPlayerIndexes()
+{
+	return playerIndexes;
 }
 
 void GameManager::setPlayerRanking(int index, int rank)
@@ -72,15 +80,15 @@ int GameManager::getPlayerRanking(int index) const
 	return -1;
 }
 
-void GameManager::setPlayerIndexes(std::vector<int>& playerIndexes)
+std::priority_queue<ii, std::vector<ii>, Less>& GameManager::getRanking()
 {
-
-	this->playerIndexes = playerIndexes;
+	return ranking;
 }
 
-std::vector<int>& GameManager::getPlayerIndexes()
+void GameManager::emptyRanking()
 {
-	return playerIndexes;
+	while (!ranking.empty())
+		ranking.pop();
 }
 
 std::vector<Vector3>& GameManager::getPlayerColours()
@@ -93,14 +101,9 @@ std::vector<GameObject*>& GameManager::getPaddles()
 	return paddles;
 }
 
-void GameManager::setPlayersAlive(int players)
+void GameManager::emptyPaddles()
 {
-	this->playersAlive = players;
-}
-
-int GameManager::getPlayersAlive() const
-{
-	return playersAlive;
+	paddles.clear();
 }
 
 void GameManager::setInitialPlayers(int players)
@@ -246,7 +249,7 @@ void GameManager::playMusic(std::string music)
 
 	soundEmitter->stop(music);
 
-	if(music == "")
+	if (music == "")
 		soundEmitter->playMusic(song);
 	else
 		soundEmitter->playMusic(music);

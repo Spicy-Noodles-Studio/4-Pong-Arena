@@ -176,6 +176,7 @@ void Game::createPlayers()
 	{
 		if (indexes[i] != -1)
 		{
+			players++;
 			GameObject* paddle;
 
 			if (indexes[i] != 9)
@@ -188,8 +189,8 @@ void Game::createPlayers()
 			}
 			else // fill with a wall (no player)
 			{
-					paddle = instantiate("IA", playerTransforms[i].first);
-					paddle->setName("PaddleIA" + std::to_string(i) + std::to_string(levelBase));
+				paddle = instantiate("IA", playerTransforms[i].first);
+				paddle->setName("PaddleIA" + std::to_string(i) + std::to_string(levelBase));
 			}
 
 			if (paddle != nullptr) {
@@ -207,7 +208,7 @@ void Game::createPlayers()
 				paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
 				paddle->getComponent<Trail>()->setColour(playerColours[i], 1.0);
 			}
-			
+
 			Death* death = paddle->getComponent<Death>();
 			if (paddle != nullptr) {
 				death->setPlayerColour(playerColours[i]);
@@ -258,12 +259,10 @@ void Game::createPlayers()
 			}
 		}
 	}
-	if (gameManager != nullptr) {
-		gameManager->initPlayerRanking(paddles.size());
 
-		gameManager->setPlayersAlive(paddles.size());
+	if (gameManager != nullptr)
+	{
 		gameManager->setInitialPlayers(paddles.size());
-
 		gameManager->getScore()->initScore(paddles.size());
 	}
 }
@@ -405,69 +404,7 @@ void Game::playSong()
 	else gameManager->setMusicVolume(0.4);
 }
 
-void Game::chooseWinner()
-{
-	bool tie = false;
-	int majorHealth = 0;
-	int majorIndex = 0;
-	int tieIndex = 0;
-
-	if (gameManager == nullptr) return;
-	
-
-	for (int i = 0; i < paddles.size(); i++)
-	{
-		Health* health = paddles[i]->getComponent<Health>();
-		if (health == nullptr)
-			continue;
-
-		if (health->isAlive())
-		{
-			if (health->getHealth() > majorHealth)
-			{
-				majorHealth = health->getHealth();
-				majorIndex = i;
-				tie = false;
-			}
-			else if (health->getHealth() == majorHealth)
-			{
-				tieIndex = i;
-				tie = true;
-			}
-		}
-	}
-
-	if (tie)
-	{
-		for (int i = 0; i < paddles.size(); i++)
-		{
-			if (i == majorIndex || i == tieIndex)
-			{
-				gameManager->getScore()->setTimeAlive(majorIndex, gameManager->getInitialTime(), gameManager->getTime());
-				gameManager->setPlayerRanking(i + 1, 1);
-			}
-			else
-				gameManager->setPlayerRanking(i + 1, gameManager->getPlayerRanking(i + 1) - 1);
-		}
-		gameManager->setWinner(-1);
-	}
-	else
-	{
-		if (gameManager->getScore() != nullptr)
-		{
-			gameManager->getScore()->setTimeAlive(majorIndex, gameManager->getInitialTime(), gameManager->getTime());
-		}
-		gameManager->setPlayerRanking(majorIndex + 1, 1);
-		gameManager->setWinner(majorIndex + 1);
-	}
-
-	gameManager->stopMusic(gameManager->getSong());
-
-	cameraEffects->fadeOut();
-	end = true;
-}
-
-void Game::endgameHandleSound()
+void Game::endHandleSound()
 {
 	if (gameManager == nullptr || soundEmitter == nullptr) return;
 	gameManager->setMusicVolume(0.2);
@@ -475,8 +412,58 @@ void Game::endgameHandleSound()
 	soundEmitter->playSound("Game_End");
 }
 
-Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), gameLayout(nullptr), timePanel(NULL), gameTimer(0), levelBase(0), levelForces(0), levelObstacles(0),
-fadeIn(true), darkness(false), end(false)
+void Game::setRanking()
+{
+	if (gameManager == nullptr) return;
+
+	for (int i = 0; i < paddles.size(); i++)
+	{
+		Health* health = paddles[i]->getComponent<Health>();
+		if (health != nullptr)
+			gameManager->getRanking().push(ii(i + 1, health->getHealth()));
+
+		//Parar input
+	}
+
+	std::priority_queue<ii, std::vector<ii>, Less> aux = gameManager->getRanking();
+
+	int cont = 0;
+	bool tie = false;
+	ii last = ii(0, 0);
+
+	while (!aux.empty())
+	{
+		ii info = aux.top();
+		aux.pop();
+
+		if (info.second != 0 && info.second == last.second)
+			tie = true;
+		else
+			cont++;
+
+		gameManager->setPlayerRanking(info.first, cont);
+		last = info;
+	}
+
+	if (tie)
+		gameManager->setWinner(-1);
+	else
+		gameManager->setWinner(gameManager->getRanking().top().first);
+
+	gameManager->emptyRanking();
+}
+
+void Game::chooseWinner()
+{
+	end = true;
+	setRanking();
+
+	cameraEffects->fadeOut();
+	gameManager->stopMusic(gameManager->getSong());
+}
+
+Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), soundEmitter(nullptr), countdown(nullptr), cameraEffects(nullptr), gameLayout(nullptr), timePanel(NULL),
+players(0), winner(0), gameTimer(0), levelBase(0), levelForces(0), levelObstacles(0), fadeIn(true), darkness(false), end(false)
 {
 
 }
@@ -484,6 +471,19 @@ fadeIn(true), darkness(false), end(false)
 Game::~Game()
 {
 
+}
+
+void Game::playerDeath()
+{
+	players--;
+
+	if (players <= 1)
+		chooseWinner();
+}
+
+float Game::getTime()
+{
+	return gameTimer;
 }
 
 void Game::start()
@@ -528,7 +528,7 @@ void Game::start()
 void Game::update(float deltaTime)
 {
 
-	if (countdown != nullptr )
+	if (countdown != nullptr)
 	{
 		if (!countdown->isCounting() && gameTimer > 0)
 		{
@@ -539,33 +539,37 @@ void Game::update(float deltaTime)
 			}
 
 			timePanel.getChild("Time").setText(timeToText().first + " : " + timeToText().second);
-
-
 			gameTimer -= deltaTime;
 		}
-		if (gameManager != nullptr) {
-			if (!countdown->isCounting() && gameTimer > 0) {
+
+		if (gameManager != nullptr)
+		{
+			if (!countdown->isCounting() && gameTimer > 0)
+			{
 				gameManager->setTime((int)gameTimer);
-				if ((gameTimer <= 0.0f || gameManager->getPlayersAlive() == 1) && !gameManager->isGameEnded())
+				if ((gameTimer <= 0.0f || players == 1) && !gameManager->isGameEnded())
 				{
 					gameManager->setGameEnded(true);
-					endgameHandleSound();
+					endHandleSound();
 					chooseWinner();
 				}
 			}
-			else if((gameManager->getPlayersAlive() == 1 && !gameManager->isGameEnded())&& !countdown->isCounting())
+			else if ((players == 1 && !gameManager->isGameEnded()) && !countdown->isCounting())
 			{
 				gameManager->setGameEnded(true);
-				endgameHandleSound();
+				endHandleSound();
 				chooseWinner();
 			}
 		}
 	}
-	if (!darkness && cameraEffects != nullptr) {
+
+	if (!darkness && cameraEffects != nullptr)
+	{
 		cameraEffects->setDarkness();
 		darkness = true;
 	}
-	else if (cameraEffects != nullptr && countdown != nullptr && fadeIn && countdown->getRemainingTime() < 2.6) {
+	else if (cameraEffects != nullptr && countdown != nullptr && fadeIn && countdown->getRemainingTime() < 2.6)
+	{
 		cameraEffects->fadeIn();
 		fadeIn = false;
 	}

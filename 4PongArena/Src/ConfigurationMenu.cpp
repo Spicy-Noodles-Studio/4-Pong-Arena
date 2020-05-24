@@ -510,9 +510,6 @@ bool ConfigurationMenu::startButtonClick()
 		gameManager->stopMusic(menuMusic);
 		gameManager->setMenuMusic(false);
 
-		gameManager->setPlayersAlive(nPlayers);
-		gameManager->initPlayerRanking(nPlayers);
-
 		std::vector<int> indexes;
 		for (int i = 0; i < 4; i++)
 			indexes.push_back(slots[i].first);

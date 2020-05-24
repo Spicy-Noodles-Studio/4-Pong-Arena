@@ -7,6 +7,7 @@
 #include <UILayout.h>
 
 #include "Countdown.h"
+#include "Game.h"
 #include "GameManager.h"
 
 REGISTER_FACTORY(PauseMenu);
@@ -63,12 +64,14 @@ void PauseMenu::start()
 	}
 
 	countdown = findGameObjectWithName("Countdown")->getComponent<Countdown>();
+	game = findGameObjectWithName("Game")->getComponent<Game>();
+
 	optionsMenu = findGameObjectWithName("OptionsMenuScreen")->getComponent<UILayout>()->getRoot();
 }
 
 void PauseMenu::preUpdate(float deltaTime)
 {
-	if (countdown != nullptr && countdown->hasStarted() && !countdown->isCounting() && (inputSystem->getKeyPress("ESCAPE") || checkControllersInput()) && !optionsMenu.isVisible())
+	if (countdown != nullptr && countdown->hasStarted() && !countdown->isCounting() && game != nullptr && game->getTime() > 0 && (inputSystem->getKeyPress("ESCAPE") || checkControllersInput()) && !optionsMenu.isVisible())
 		setPaused(!GameManager::GetInstance()->isPaused());
 }
 
