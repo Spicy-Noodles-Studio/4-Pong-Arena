@@ -422,7 +422,10 @@ void Game::setRanking()
 		if (health != nullptr)
 			gameManager->getRanking().push(ii(i + 1, health->getHealth()));
 
-		//Parar input
+		if (paddles[i]->getComponent<PlayerController>() != nullptr)
+			paddles[i]->getComponent<PlayerController>()->setActive(false);
+		else if (paddles[i]->getComponent<IAPaddle>() != nullptr)
+			paddles[i]->getComponent<IAPaddle>()->setActive(false);
 	}
 
 	std::priority_queue<ii, std::vector<ii>, Less> aux = gameManager->getRanking();
@@ -458,8 +461,11 @@ void Game::chooseWinner()
 	end = true;
 	setRanking();
 
-	cameraEffects->fadeOut();
+	gameManager->setGameEnded(true);
 	gameManager->stopMusic(gameManager->getSong());
+
+	endHandleSound();
+	cameraEffects->fadeOut();
 }
 
 Game::Game(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), soundEmitter(nullptr), countdown(nullptr), cameraEffects(nullptr), gameLayout(nullptr), timePanel(NULL),
@@ -527,8 +533,7 @@ void Game::start()
 
 void Game::update(float deltaTime)
 {
-
-	if (countdown != nullptr)
+	if (countdown != nullptr && gameManager != nullptr)
 	{
 		if (!countdown->isCounting() && gameTimer > 0)
 		{
@@ -539,42 +544,31 @@ void Game::update(float deltaTime)
 			}
 
 			timePanel.getChild("Time").setText(timeToText().first + " : " + timeToText().second);
+
 			gameTimer -= deltaTime;
-		}
+			gameManager->setTime((int)gameTimer);
 
-		if (gameManager != nullptr)
-		{
-			if (!countdown->isCounting() && gameTimer > 0)
-			{
-				gameManager->setTime((int)gameTimer);
-				if ((gameTimer <= 0.0f || players == 1) && !gameManager->isGameEnded())
-				{
-					gameManager->setGameEnded(true);
-					endHandleSound();
-					chooseWinner();
-				}
-			}
-			else if ((players == 1 && !gameManager->isGameEnded()) && !countdown->isCounting())
-			{
-				gameManager->setGameEnded(true);
-				endHandleSound();
+			if (gameTimer <= 0.0f && !gameManager->isGameEnded())
 				chooseWinner();
-			}
 		}
 	}
 
-	if (!darkness && cameraEffects != nullptr)
+	if (cameraEffects != nullptr)
 	{
-		cameraEffects->setDarkness();
-		darkness = true;
-	}
-	else if (cameraEffects != nullptr && countdown != nullptr && fadeIn && countdown->getRemainingTime() < 2.6)
-	{
-		cameraEffects->fadeIn();
-		fadeIn = false;
-	}
+		if (!darkness)
+		{
+			cameraEffects->setDarkness();
+			darkness = true;
+		}
+		else if (countdown != nullptr && countdown->getRemainingTime() < 2.6 && fadeIn)
+		{
+			cameraEffects->fadeIn();
+			fadeIn = false;
+		}
 
-	if (cameraEffects != nullptr && end && !cameraEffects->isFading()) SceneManager::GetInstance()->changeScene("ScoreMenu");
+		if (end && !cameraEffects->isFading())
+			SceneManager::GetInstance()->changeScene("ScoreMenu");
+	}
 }
 
 std::pair<std::string, std::string> Game::timeToText()
