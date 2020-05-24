@@ -528,20 +528,32 @@ void Game::start()
 void Game::update(float deltaTime)
 {
 
-	if (countdown != nullptr && !countdown->isCounting() && gameTimer > 0)
+	if (countdown != nullptr )
 	{
-		if (!timePanel.isVisible())
+		if (!countdown->isCounting() && gameTimer > 0)
 		{
-			timePanel.setVisible(true);
-			timePanel.setAlwaysOnTop(true);
+			if (!timePanel.isVisible())
+			{
+				timePanel.setVisible(true);
+				timePanel.setAlwaysOnTop(true);
+			}
+
+			timePanel.getChild("Time").setText(timeToText().first + " : " + timeToText().second);
+
+
+			gameTimer -= deltaTime;
 		}
-
-		timePanel.getChild("Time").setText(timeToText().first + " : " + timeToText().second);
-
-		gameTimer -= deltaTime;
 		if (gameManager != nullptr) {
-			gameManager->setTime((int)gameTimer);
-			if ((gameTimer <= 0.0f || gameManager->getPlayersAlive() == 1) && !gameManager->isGameEnded())
+			if (!countdown->isCounting() && gameTimer > 0) {
+				gameManager->setTime((int)gameTimer);
+				if ((gameTimer <= 0.0f || gameManager->getPlayersAlive() == 1) && !gameManager->isGameEnded())
+				{
+					gameManager->setGameEnded(true);
+					endgameHandleSound();
+					chooseWinner();
+				}
+			}
+			else if((gameManager->getPlayersAlive() == 1 && !gameManager->isGameEnded())&& !countdown->isCounting())
 			{
 				gameManager->setGameEnded(true);
 				endgameHandleSound();

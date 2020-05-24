@@ -230,6 +230,16 @@ std::string GameManager::getSong() const
 	return song;
 }
 
+void GameManager::setSongName(std::string name)
+{
+	songName = name;
+}
+
+std::string GameManager::getSongName() const
+{
+	return songName;
+}
+
 void GameManager::playMusic(std::string music)
 {
 	if (soundEmitter == nullptr) return;

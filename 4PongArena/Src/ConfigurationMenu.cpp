@@ -135,7 +135,10 @@ void ConfigurationMenu::start()
 			if (indexes[i] != -1)
 			{
 				if (indexes[i] == 9)
+				{
 					slots[i].second.getChild("Slot" + std::to_string(i + 1) + "Text").setText("IA");
+					slots[i].second.getChild("Slot" + std::to_string(i + 1) + "Button").setText("Clear IA");
+				}
 				else
 				{
 					slots[i].second.getChild("Slot" + std::to_string(i + 1) + "Text").setText("Player " + std::to_string(i + 1));
@@ -168,7 +171,7 @@ void ConfigurationMenu::start()
 	changeLevelForces(0);
 	changeLevelObstacles(0);
 
-	if (gameManager != nullptr) song = gameManager->getSong();
+	if (gameManager != nullptr) song = gameManager->getSongName();
 
 	if (songNames.find(song) == songNames.end())
 		song = "Controversia";
@@ -432,6 +435,7 @@ bool ConfigurationMenu::changeSong(int value)
 	if (configurationLayout != nullptr) configurationLayout->getRoot().getChild("PreviewSongButton").setText(song);
 
 	GameManager::GetInstance()->setSong(songNames[song]);
+	GameManager::GetInstance()->setSongName(song);
 
 	buttonClick(buttonSound);
 

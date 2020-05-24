@@ -20,7 +20,7 @@ WinMain(HINSTANCE hinstance, HINSTANCE prevInstance, LPSTR lpCmdLine, int nCmdSh
 #endif	
 
 	GaiaCore* g = new GaiaCore();
-	g->init("4 Pong Arena");
+	g->init("4 Pong Arena",1280,720);
 	g->run();
 	g->close();
 	

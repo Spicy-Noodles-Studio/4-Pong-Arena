@@ -3,6 +3,7 @@
 #include <RenderSystem.h>
 #include <InputSystem.h>
 #include <GameObject.h>
+#include <sstream>
 #include <Camera.h>
 #include "WindowManager.h"
 #include "MathUtils.h"

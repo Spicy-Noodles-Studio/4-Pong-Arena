@@ -43,6 +43,7 @@ private:
 	float initialBrightness;
 
 	std::string song;
+	std::string songName;
 
 public:
 	GameManager();
@@ -98,6 +99,9 @@ public:
 
 	void setSong(std::string name);
 	std::string getSong() const;
+
+	void setSongName(std::string name);
+	std::string getSongName() const;
 
 	void setGameEnded(bool end);
 	bool isGameEnded();
