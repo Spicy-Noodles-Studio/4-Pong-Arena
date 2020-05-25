@@ -89,7 +89,7 @@ void Goal::onObjectEnter(GameObject* other)
 
 				Vector3 finalPos, scale, rotation;
 				
-				if (gameObject == nullptr || gameObject->transform) return;
+				if (gameObject == nullptr || gameObject->transform==nullptr) return;
 
 				scale = gameObject->transform->getScale();
 				rotation = gameObject->transform->getRotation();
