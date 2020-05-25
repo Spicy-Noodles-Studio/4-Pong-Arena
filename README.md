@@ -1,4 +1,4 @@
-# Ultimate-Ghost-Punch
+# 4-Pong Arena
 ![4Pong Logo](Other/logo.png)
 
 # Game Concept
