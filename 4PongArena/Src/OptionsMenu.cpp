@@ -107,8 +107,14 @@ bool OptionsMenu::changeBrightness()
 
 bool OptionsMenu::changeSoundVolume()
 {
+	float pos;
 	soundText.setText(std::to_string((int)(soundScroll.getScrollPositionScrollBar() * MAX_VALUE + 0.5)));
-	if (soundSystem != nullptr) soundSystem->setSoundEffectsVolume(soundScroll.getScrollPositionScrollBar());
+
+	if (soundScroll.getScrollPositionScrollBar() < 0.01)
+		pos = 0;
+	else
+		pos = soundScroll.getScrollPositionScrollBar();
+	if (soundSystem != nullptr) soundSystem->setSoundEffectsVolume(pos);
 
 	buttonClick(buttonSound);
 	return false;
@@ -116,8 +122,13 @@ bool OptionsMenu::changeSoundVolume()
 
 bool OptionsMenu::changeMusicVolume()
 {
+	float pos;
 	musicText.setText(std::to_string((int)(musicScroll.getScrollPositionScrollBar() * MAX_VALUE + 0.5)));
-	if (soundSystem != nullptr) soundSystem->setMusicVolume(musicScroll.getScrollPositionScrollBar());
+	if (musicScroll.getScrollPositionScrollBar() < 0.01)
+		pos = 0;
+	else
+		pos = musicScroll.getScrollPositionScrollBar();
+	if (soundSystem != nullptr) soundSystem->setMusicVolume(pos);
 
 	buttonClick(buttonSound);
 	return false;
