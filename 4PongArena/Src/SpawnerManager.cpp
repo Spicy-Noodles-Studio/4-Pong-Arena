@@ -83,7 +83,7 @@ void SpawnerManager::start()
 
 void SpawnerManager::update(float deltaTime)
 {
-	if (countdown != nullptr && !countdown->isCounting() && game != nullptr && game->getTime() > 0)
+	if (countdown != nullptr && !countdown->isCounting() && game != nullptr && game->getTime() != 0)
 	{
 		if (time > 0)
 			time -= deltaTime;

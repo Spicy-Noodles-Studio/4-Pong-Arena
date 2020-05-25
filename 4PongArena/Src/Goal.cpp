@@ -87,11 +87,12 @@ void Goal::onObjectEnter(GameObject* other)
 				double midZ= otherPos.z - thisPos.z;
 				double midX = (otherPos.x - thisPos.x);
 
-				if (gameObject != nullptr && gameObject->transform != nullptr)
-				{
-					Vector3 finalPos, scale, rotation;
-					scale = gameObject->transform->getScale();
-					rotation = gameObject->transform->getRotation();
+				Vector3 finalPos, scale, rotation;
+				
+				if (gameObject == nullptr || gameObject->transform==nullptr) return;
+
+				scale = gameObject->transform->getScale();
+				rotation = gameObject->transform->getRotation();
 
 					finalPos.x = (otherPos.y - thisPos.y);
 					finalPos.y = (midX / scale.y) * cos(rotation.x * DEG_TO_RAD) + (midZ / scale.y) * sin(rotation.x * DEG_TO_RAD);
