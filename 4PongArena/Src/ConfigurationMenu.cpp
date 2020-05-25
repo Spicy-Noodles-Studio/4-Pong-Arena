@@ -117,13 +117,17 @@ void ConfigurationMenu::start()
 	if (mainCamera != nullptr)
 	{
 		configurationLayout = mainCamera->getComponent<UILayout>();
-		settingsPanel = mainCamera->getChildren()[0]->getComponent<UILayout>()->getRoot();
+		if (mainCamera->getChildren()[0] != nullptr && mainCamera->getChildren()[0]->getComponent<UILayout>() != nullptr) 
+			settingsPanel = mainCamera->getChildren()[0]->getComponent<UILayout>()->getRoot();
 	}
 
 	if (configurationLayout != nullptr)
 		startButton = configurationLayout->getRoot().getChild("StartButton");
 
 	slots = std::vector<std::pair<int, UIElement>>(4, { -1, NULL });
+
+	if (gameManager == nullptr) return;
+
 	std::vector<int> indexes = gameManager->getPlayerIndexes();
 
 	for (int i = 0; i < 4; i++)
@@ -148,30 +152,30 @@ void ConfigurationMenu::start()
 		}
 	}
 
-	if (gameManager != nullptr) {
-		nPlayers = gameManager->getInitialPlayers();
+	
+	nPlayers = gameManager->getInitialPlayers();
 
-		if (!startButton.isVisible() && nPlayers >= MIN_PLAYERS)
-			startButton.setVisible(true);
+	if (!startButton.isVisible() && nPlayers >= MIN_PLAYERS)
+		startButton.setVisible(true);
 
-		health = gameManager->getHealth();
-		mode = gameManager->getTimeMode();
-		time = gameManager->getInitialTime();
+	health = gameManager->getHealth();
+	mode = gameManager->getTimeMode();
+	time = gameManager->getInitialTime();
 
-		changeHealth(0);
-		changeTimeMode(mode);
-		changeTime(0);
+	changeHealth(0);
+	changeTimeMode(mode);
+	changeTime(0);
 
-		levelBaseType = gameManager->getLevelBase();
-		levelForcesType = gameManager->getLevelForces();
-		levelObstaclesType = gameManager->getLevelObstacles();
-	}
+	levelBaseType = gameManager->getLevelBase();
+	levelForcesType = gameManager->getLevelForces();
+	levelObstaclesType = gameManager->getLevelObstacles();
+	
 
 	changeLevelBase(0);
 	changeLevelForces(0);
 	changeLevelObstacles(0);
 
-	if (gameManager != nullptr) song = gameManager->getSongName();
+	song = gameManager->getSongName();
 
 	if (songNames.find(song) == songNames.end())
 		song = "Controversia";
@@ -356,7 +360,7 @@ bool ConfigurationMenu::changeLevelBase(int value)
 	}
 	buttonClick(buttonSound);
 
-	GameManager::GetInstance()->setLevelBase(index);
+	if (GameManager::GetInstance() != nullptr) GameManager::GetInstance()->setLevelBase(index);
 
 	return false;
 }
@@ -376,7 +380,7 @@ bool ConfigurationMenu::changeLevelObstacles(int value)
 			configurationLayout->getRoot().getChild("ObstaclesImage").setProperty("Image", "obstacles" + std::to_string(index));
 		}
 	}
-	GameManager::GetInstance()->setLevelObstacles(index);
+	if (GameManager::GetInstance() != nullptr) GameManager::GetInstance()->setLevelObstacles(index);
 	buttonClick(buttonSound);
 
 	return false;
@@ -397,7 +401,7 @@ bool ConfigurationMenu::changeLevelForces(int value)
 			configurationLayout->getRoot().getChild("ForcesImage").setProperty("Image", "forces" + std::to_string(index));
 		}
 	}
-	GameManager::GetInstance()->setLevelForces(index);
+	if (GameManager::GetInstance() != nullptr) GameManager::GetInstance()->setLevelForces(index);
 	buttonClick(buttonSound);
 
 	return false;
@@ -439,8 +443,10 @@ bool ConfigurationMenu::changeSong(int value)
 	song = (*it).first;
 	if (configurationLayout != nullptr) configurationLayout->getRoot().getChild("PreviewSongButton").setText(song);
 
-	GameManager::GetInstance()->setSong(songNames[song]);
-	GameManager::GetInstance()->setSongName(song);
+	if (GameManager::GetInstance() != nullptr) {
+		GameManager::GetInstance()->setSong(songNames[song]);
+		GameManager::GetInstance()->setSongName(song);
+	}
 
 	buttonClick(buttonSound);
 
@@ -449,7 +455,7 @@ bool ConfigurationMenu::changeSong(int value)
 
 bool ConfigurationMenu::previewSong(bool value)
 {
-	if (value)
+	if (value && GameManager::GetInstance() != nullptr)
 	{
 		GameManager::GetInstance()->pauseMusic(menuMusic);
 		GameManager::GetInstance()->playMusic(songNames[song]);
@@ -465,7 +471,7 @@ bool ConfigurationMenu::previewSong(bool value)
 
 void ConfigurationMenu::stopPreview()
 {
-	if (songPreview)
+	if (songPreview && GameManager::GetInstance() != nullptr)
 	{
 		GameManager::GetInstance()->stopMusic(songNames[song]);
 		GameManager::GetInstance()->resumeMusic(menuMusic);
@@ -538,6 +544,8 @@ bool ConfigurationMenu::startButtonClick()
 
 bool ConfigurationMenu::settingsButtonClick()
 {
+	if (InterfaceSystem::GetInstance() == nullptr) return false;
+
 	if (!settingsPanel.isVisible())
 	{
 		settingsPanel.setVisible(true);
@@ -563,6 +571,6 @@ bool ConfigurationMenu::backButtonClick()
 {
 	stopPreview();
 	buttonClick(backSound);
-	SceneManager::GetInstance()->changeScene("MainMenu");
+	if (SceneManager:: GetInstance() != nullptr) SceneManager::GetInstance()->changeScene("MainMenu");
 	return false;
 }

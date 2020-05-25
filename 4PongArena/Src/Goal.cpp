@@ -18,7 +18,7 @@
 
 REGISTER_FACTORY(Goal);
 
-Goal::Goal(GameObject* gameObject) : UserComponent(gameObject), health(nullptr),cameraEffects(nullptr), score(0)
+Goal::Goal(GameObject* gameObject) : UserComponent(gameObject), health(nullptr),cameraEffects(nullptr), gameManager(nullptr), particleManager(nullptr),scoreManager(nullptr), id(0), score(0)
 {
 
 }
@@ -31,11 +31,11 @@ Goal::~Goal()
 void Goal::start()
 {
 	if (gameObject != nullptr) {
-		manager = GameManager::GetInstance();
-		if (manager != nullptr)
-			scores = manager->getScore();
+		gameManager = GameManager::GetInstance();
+		if (gameManager != nullptr)
+			scoreManager = gameManager->getScore();
 		
-		if (health != nullptr)
+		if (health != nullptr && health->gameObject != nullptr)
 		{
 			PlayerIndex* playerId = health->gameObject->getComponent<PlayerIndex>();
 
@@ -46,8 +46,9 @@ void Goal::start()
 			}
 		}
 		particleManager = gameObject->getComponent<ParticleManager>();
-		Camera* cam = gameObject->getScene()->getMainCamera();
-		if (cam != nullptr) cameraEffects = cam->gameObject->getComponent<CameraEffects>();
+		
+		GameObject* cam = findGameObjectWithName("MainCamera");
+		if (cam != nullptr) cameraEffects = cam->getComponent<CameraEffects>();
 	}
 
 }
@@ -59,46 +60,50 @@ void Goal::onObjectEnter(GameObject* other)
 		score++;
 		Ball* ball = other->getComponent<Ball>();
 
-		
-
 		if (health != nullptr)
 		{
 			health->receiveDamage(1);
 
-			if (!health->isAlive())cameraEffects->shake(Vector3(1, 0, 1));
+			if (!health->isAlive() && cameraEffects != nullptr) cameraEffects->shake(Vector3(1, 0, 1));
 
 			if (ball != nullptr)
 			{
-				if (scores != nullptr)
+				if (scoreManager != nullptr)
 				{
-					if (ball->getIdPlayerHit() != -1 && ball->getIdPlayerHit() != id)
-						scores->goalMade(ball->getIdPlayerHit());
-					else if (ball->getIdPlayerHit() != -1 && ball->getIdPlayerHit() == id)
+					int aux = ball->getIdPlayerHit();
+					if (aux != -1 && aux != id)
+						scoreManager->goalMade(aux);
+					else if (aux != -1 && aux == id)
 					{
-						scores->goalSelfMade(ball->getIdPlayerHit());
+						scoreManager->goalSelfMade(aux);
 					}
 				}
 			}
 			if (particleManager != nullptr)
 			{
-				checkNull(gameObject);
+				Vector3 thisPos, otherPos;
+				if (gameObject != nullptr && gameObject->transform != nullptr) thisPos = gameObject->transform->getPosition();
+				if (other->transform != nullptr) otherPos = other->transform->getPosition();
+				double midZ= otherPos.z - thisPos.z;
+				double midX = (otherPos.x - thisPos.x);
 
-				double Z= other->transform->getPosition().z - gameObject->transform->getPosition().z;
-				double X = (other->transform->getPosition().x - gameObject->transform->getPosition().x);
-
-				Vector3 x;
+				Vector3 finalPos, scale, rotation;
 				
-				x.x = (other->transform->getPosition().y - gameObject->transform->getPosition().y);
-				x.y = (X/ gameObject->transform->getScale().y)*cos( gameObject->transform->getRotation().x * DEG_TO_RAD) + (Z / gameObject->transform->getScale().y) * sin(gameObject->transform->getRotation().x * DEG_TO_RAD);
-				x.z = Z * cos(gameObject->transform->getRotation().x * DEG_TO_RAD) + X * -sin(gameObject->transform->getRotation().x * DEG_TO_RAD);
+				if (gameObject == nullptr || gameObject->transform) return;
 
-				other->getComponent<Trail>()->stop();
+				scale = gameObject->transform->getScale();
+				rotation = gameObject->transform->getRotation();
 
-				
-				particleManager->playParticles(0.6,x);
+				finalPos.x = (otherPos.y - thisPos.y);
+				finalPos.y = (midX / scale.y)*cos( rotation.x * DEG_TO_RAD) + (midZ / scale.y) * sin(rotation.x * DEG_TO_RAD);
+				finalPos.z = midZ * cos(rotation.x * DEG_TO_RAD) + midX * -sin(rotation.x * DEG_TO_RAD);
+
+				if (other->getComponent<Trail>() != nullptr) other->getComponent<Trail>()->stop();
+
+				particleManager->playParticles(0.6,finalPos);
 			}
 		}
-		other->transform->setPosition({ 0,-10,0 });
+		if (other->transform != nullptr) other->transform->setPosition({ 0,-10,0 });
 		other->setActive(false);
 		other->getComponent<MeshRenderer>()->setVisible(false);
 	}
@@ -106,7 +111,7 @@ void Goal::onObjectEnter(GameObject* other)
 
 void Goal::setScore(int score)
 {
-	this->score = score;
+	if (this != nullptr) this->score = score;
 }
 
 int Goal::getScore() const

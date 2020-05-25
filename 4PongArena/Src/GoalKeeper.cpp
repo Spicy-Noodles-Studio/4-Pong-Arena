@@ -25,7 +25,8 @@ GoalKeeper::~GoalKeeper()
 void GoalKeeper::start()
 {
 	if (gameObject != nullptr) {
-		Vector3 position = gameObject->transform->getPosition();
+		Vector3 position;
+		if (gameObject->transform != nullptr) position = gameObject->transform->getPosition();
 		Vector3 normal = Vector3::ZERO - position;
 
 		normal *= Vector3(1.0, 0.0, 1.0);
@@ -34,16 +35,18 @@ void GoalKeeper::start()
 		goal = instantiate("Goal", position - normal * offset);
 
 		if (goal != nullptr) {
-			goal->transform->setRotation(gameObject->transform->getRotation());
-			goal->getComponent<Goal>()->setKeeper(gameObject);
+			if (goal->transform != nullptr && gameObject->transform != nullptr) 
+				goal->transform->setRotation(gameObject->transform->getRotation());
+			if (goal->getComponent<Goal>() != nullptr) goal->getComponent<Goal>()->setKeeper(gameObject);
 		}
 
 		manager = GameManager::GetInstance();
 		if (manager != nullptr)
 			scores = manager->getScore();
 
-		health = this->gameObject->getComponent<Health>();
-		PlayerIndex* playerId = this->gameObject->getComponent<PlayerIndex>();
+		if (this != nullptr && this->gameObject) health = this->gameObject->getComponent<Health>();
+		PlayerIndex* playerId = nullptr;
+		if (this != nullptr && this->gameObject) playerId = this->gameObject->getComponent<PlayerIndex>();
 
 		id = -1;
 		if (playerId != nullptr)

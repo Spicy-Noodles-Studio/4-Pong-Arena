@@ -184,13 +184,13 @@ void Game::createPlayers()
 				paddle = instantiate("Paddle", playerTransforms[i].first);
 				if (paddle != nullptr) {
 					paddle->setName("Paddle" + std::to_string(i) + std::to_string(levelBase));
-					paddle->getComponent<PlayerController>()->setIndex(indexes[i]);
+					if (paddle->getComponent<PlayerController>() != nullptr) paddle->getComponent<PlayerController>()->setIndex(indexes[i]);
 				}
 			}
 			else // fill with a wall (no player)
 			{
 				paddle = instantiate("IA", playerTransforms[i].first);
-				paddle->setName("PaddleIA" + std::to_string(i) + std::to_string(levelBase));
+				if (paddle != nullptr) paddle->setName("PaddleIA" + std::to_string(i) + std::to_string(levelBase));
 			}
 
 			if (paddle != nullptr) {
@@ -203,14 +203,14 @@ void Game::createPlayers()
 					paddle->getComponent<PlayerIndex>()->setPos(posInScore);
 					posInScore++;
 				}
-				paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
-
-				paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
-				paddle->getComponent<Trail>()->setColour(playerColours[i], 1.0);
+				if (paddle->getComponent<Health>() != nullptr) paddle->getComponent<Health>()->setHealth(gameManager->getHealth());
+				if (paddle->getComponent<MeshRenderer>() != nullptr) paddle->getComponent<MeshRenderer>()->setDiffuse(0, playerColours[i], 1);
+				if (paddle->getComponent<Trail>() != nullptr) paddle->getComponent<Trail>()->setColour(playerColours[i], 1.0);
 			}
 
-			Death* death = paddle->getComponent<Death>();
+			
 			if (paddle != nullptr) {
+				Death* death = paddle->getComponent<Death>();
 				death->setPlayerColour(playerColours[i]);
 				death->setwallColours(baseColour, neonColour);
 				death->setWallScale(wallScale);
@@ -220,7 +220,7 @@ void Game::createPlayers()
 			if (gameManager != nullptr)
 			{
 				gameManager->getPaddles().push_back(paddle);
-				gameManager->getScore()->pushPlayerId(i + 1);
+				if (gameManager->getScore() != nullptr) gameManager->getScore()->pushPlayerId(i + 1);
 			}
 		}
 		else
@@ -237,7 +237,7 @@ void Game::createPlayers()
 			{
 				LOG_ERROR("GAME", "Rigidbody of wall not found"); return;
 			}
-			if (wall != nullptr) {
+			if (wallRigidBody != nullptr) {
 				wallRigidBody->setStatic(true);
 				wallRigidBody->setFriction(0.5f);
 				wallRigidBody->setActive(true);
@@ -263,7 +263,7 @@ void Game::createPlayers()
 	if (gameManager != nullptr)
 	{
 		gameManager->setInitialPlayers(paddles.size());
-		gameManager->getScore()->initScore(paddles.size());
+		if (gameManager->getScore() != nullptr) gameManager->getScore()->initScore(paddles.size());
 	}
 }
 
@@ -292,12 +292,15 @@ void Game::createSpawners()
 				spawnerMesh->setDiffuse(1, baseColour.first, 1);
 				spawnerMesh->setEmissive(1, baseColour.second);
 			}
-			spawner->setActive(true);
-			aux.push_back(spawner);
+			if (spawner != nullptr) {
+				spawner->setActive(true);
+				aux.push_back(spawner);
+			}
 		}
 	}
 
-	findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>()->setSpawners(aux);
+	if (findGameObjectWithName("SpawnerManager") != nullptr && findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>() != nullptr) 
+		findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>()->setSpawners(aux);
 }
 
 void Game::createForceField()
@@ -309,7 +312,7 @@ void Game::createForceField()
 		GameObject* forceField = instantiate("ForceField", forceFieldTransforms[i].first);
 		if (forceField != nullptr) {
 			forceField->transform->setScale(forceFieldTransforms[i].second);
-			forceField->getComponent<RigidBody>()->multiplyScale(forceFieldTransforms[i].second);
+			if (forceField->getComponent<RigidBody>() != nullptr) forceField->getComponent<RigidBody>()->multiplyScale(forceFieldTransforms[i].second);
 			forceField->setActive(true);
 		}
 	}
@@ -324,7 +327,7 @@ void Game::createObstacles()
 		GameObject* obstacle = instantiate("Obstacle", obstacleTransforms[i].first);
 		if (obstacle != nullptr) {
 			obstacle->setName("Obstacle" + std::to_string(levelBase));
-			obstacle->transform->setScale(obstacleTransforms[i].second);
+			if (obstacle->transform != nullptr) obstacle->transform->setScale(obstacleTransforms[i].second);
 			obstacle->setActive(true);
 		}
 		MeshRenderer* obstacleMesh = obstacle->getComponent<MeshRenderer>();
@@ -521,7 +524,7 @@ void Game::start()
 	if (gameLayout != nullptr)
 		timePanel = gameLayout->getRoot().getChild("TimeBackground");
 
-	countdown = findGameObjectWithName("Countdown")->getComponent<Countdown>();
+	if (findGameObjectWithName("Countdown") != nullptr) countdown = findGameObjectWithName("Countdown")->getComponent<Countdown>();
 
 	playerColours = gameManager->getPlayerColours();
 	gameTimer = gameManager->getTime();
@@ -575,7 +578,7 @@ void Game::update(float deltaTime)
 		}
 
 		if (end && !cameraEffects->isFading())
-			SceneManager::GetInstance()->changeScene("ScoreMenu");
+			if (SceneManager::GetInstance() != nullptr) SceneManager::GetInstance()->changeScene("ScoreMenu");
 	}
 }
 

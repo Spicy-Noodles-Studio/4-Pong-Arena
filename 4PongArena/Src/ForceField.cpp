@@ -12,7 +12,7 @@
 
 REGISTER_FACTORY(ForceField);
 
-ForceField::ForceField(GameObject* gameObject) : UserComponent(gameObject), targetVelocity(0.0f), acceleration(0.0f)
+ForceField::ForceField(GameObject* gameObject) : UserComponent(gameObject), soundEmitter(nullptr), targetVelocity(0.0f), acceleration(0.0f), volume(0.0f)
 {
 
 }
@@ -31,7 +31,7 @@ void ForceField::start()
 
 void ForceField::update(float deltaTime)
 {
-	if (volume > 0 && GameManager::GetInstance()->isGameEnded() && soundEmitter != nullptr)
+	if (volume > 0 && GameManager::GetInstance() != nullptr && GameManager::GetInstance()->isGameEnded() && soundEmitter != nullptr)
 	{
 		volume = 0;
 		soundEmitter->setVolume(0);
@@ -79,10 +79,10 @@ void ForceField::onObjectEnter(GameObject* other)
 
 void ForceField::setTargetVelocity(float targetVelocity)
 {
-	this->targetVelocity = targetVelocity;
+	if (this != nullptr) this->targetVelocity = targetVelocity;
 }
 
 void ForceField::setAcceleration(float acceleration)
 {
-	this->acceleration = acceleration;
+	if (this != nullptr) this->acceleration = acceleration;
 }

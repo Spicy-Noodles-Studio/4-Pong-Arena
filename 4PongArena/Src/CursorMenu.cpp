@@ -19,7 +19,7 @@ CursorMenu::~CursorMenu()
 void CursorMenu::start()
 {
 	inputSystem = InputSystem::GetInstance();
-	cursor = gameObject->getComponent<Cursor>();
+	if (gameObject != nullptr) cursor = gameObject->getComponent<Cursor>();
 
 	if (cursor == nullptr) {
 		LOG("Cursor not found");
@@ -58,11 +58,13 @@ bool CursorMenu::controllerUsed() const
 void CursorMenu::hideCursor()
 {
 	if (cursor == nullptr) return;
+
 	cursor->setSpriteVisible(false);
 }
 
 void CursorMenu::showCursor()
 {
 	if (cursor == nullptr) return;
+
 	cursor->setSpriteVisible(true);
 }

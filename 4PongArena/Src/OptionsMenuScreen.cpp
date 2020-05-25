@@ -20,7 +20,7 @@ bool OptionsMenuScreen::backToMenuButtonClick()
 	root.setVisible(false);
 	root.setEnabled(false);
 
-	InterfaceSystem::GetInstance()->clearControllerMenuInput();
+	if (InterfaceSystem::GetInstance() != nullptr) InterfaceSystem::GetInstance()->clearControllerMenuInput();
 
 	pauseMenu.setAlwaysOnTop(true);
 	pauseMenu.setVisible(true);
@@ -49,7 +49,8 @@ void OptionsMenuScreen::start()
 	root.setVisible(false);
 	root.setEnabled(false);
 
-	UILayout* cameraLayout = findGameObjectWithName("MainCamera")->getComponent<UILayout>();
+	UILayout* cameraLayout = nullptr;
+	if (findGameObjectWithName("MainCamera") != nullptr) cameraLayout = findGameObjectWithName("MainCamera")->getComponent<UILayout>();
 
 	if (cameraLayout != nullptr)
 		pauseMenu = cameraLayout->getRoot().getChild("PauseBackground");
@@ -68,8 +69,11 @@ void OptionsMenuScreen::start()
 	musicText = optionsMenu.getChild("MusicVolume");
 
 	if (windowManager != nullptr) brightness = windowManager->getBrightness();
-	soundVolume = soundSystem->getSoundVolume();
-	musicVolume = soundSystem->getMusicVolume();
+
+	if (soundSystem != nullptr) {
+		soundVolume = soundSystem->getSoundVolume();
+		musicVolume = soundSystem->getMusicVolume();
+	}
 
 	brightnessScroll.setScrollPositionScrollBar(brightness);
 	soundScroll.setScrollPositionScrollBar(soundVolume);
@@ -89,6 +93,6 @@ void OptionsMenuScreen::start()
 
 void OptionsMenuScreen::preUpdate(float deltaTime)
 {
-	if ((inputSystem->getKeyPress("ESCAPE") || checkControllersInput()) && root.isVisible())
+	if (inputSystem != nullptr && (inputSystem->getKeyPress("ESCAPE") || checkControllersInput()) && root.isVisible())
 		backToMenuButtonClick();
 }

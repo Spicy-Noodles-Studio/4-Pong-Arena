@@ -75,7 +75,6 @@ void ScoreMenu::start()
 		}
 	}
 
-
 	if (gameManager != nullptr && score!=nullptr && gameManager->getWinner() != -1)
 		root.getChild("Result").setText("WINNER: PLAYER " + std::to_string(score->getPlayerId(gameManager->getWinner()-1)));
 	else
@@ -89,8 +88,8 @@ void ScoreMenu::start()
 
 void ScoreMenu::update(float deltaTime)
 {
-	if (InputSystem::GetInstance()->getKeyPress("ESCAPE") || checkControllersInput())
-		SceneManager::GetInstance()->changeScene("ConfigurationMenu");
+	if (InputSystem::GetInstance() != nullptr && (InputSystem::GetInstance()->getKeyPress("ESCAPE") || checkControllersInput()))
+		if (SceneManager::GetInstance() != nullptr) SceneManager::GetInstance()->changeScene("ConfigurationMenu");
 }
 
 bool ScoreMenu::checkControllersInput()
@@ -100,7 +99,7 @@ bool ScoreMenu::checkControllersInput()
 	int i = 0;
 	while (i < 4 && !result)
 	{
-		if (InputSystem::GetInstance()->getButtonPress(i, "B"))
+		if (InputSystem::GetInstance() != nullptr && InputSystem::GetInstance()->getButtonPress(i, "B"))
 			result = true;
 
 		i++;
@@ -140,11 +139,9 @@ void ScoreMenu::initStatistics(int numOfPlayers)
 {
 	for (int i = 0; i < numOfPlayers; i++)
 	{
-		setNumOfHits(i );
-
-		setNumOfGoals(i );
-		setNumOfSelfGoals(i );
-
+		setNumOfHits(i);
+		setNumOfGoals(i);
+		setNumOfSelfGoals(i);
 		setTimeAlive(i);
 	}
 }

@@ -9,7 +9,7 @@
 
 REGISTER_FACTORY(Ball);
 
-Ball::Ball(GameObject* gameObject) : UserComponent(gameObject), rigidBody(nullptr), velocity(0.0f), targetVelocity(0.0f), acceleration(0.0f), idPlayer(-1)
+Ball::Ball(GameObject* gameObject) : UserComponent(gameObject), rigidBody(nullptr), velocity(0.0f), targetVelocity(0.0f), particleManager(nullptr), soundEmitter(nullptr), acceleration(0.0f), idPlayer(-1), volume(0.0f)
 {
 
 }
@@ -26,7 +26,7 @@ void Ball::start()
 		soundEmitter = gameObject->getComponent<SoundEmitter>();
 		particleManager = gameObject->getComponent<ParticleManager>();
 		volume = 0.8;
-		soundEmitter->setVolume(volume);
+		if (soundEmitter != nullptr) soundEmitter->setVolume(volume);
 	}
 }
 
@@ -40,7 +40,7 @@ void Ball::update(float deltaTime)
 	if (rigidBody != nullptr)
 		rigidBody->setLinearVelocity(rigidBody->getLinearVelocity().normalized() * velocity);
 
-	if (volume > 0 && GameManager::GetInstance()->isGameEnded()) {
+	if (volume > 0 && GameManager::GetInstance() != nullptr && GameManager::GetInstance()->isGameEnded()) {
 		volume = 0;
 		if (soundEmitter != nullptr) soundEmitter->setVolume(0);
 	}
@@ -48,17 +48,17 @@ void Ball::update(float deltaTime)
 
 void Ball::setVelocity(float velocity)
 {
-	this->velocity = velocity;
+	if (this != nullptr) this->velocity = velocity;
 }
 
 void Ball::setTargetVelocity(float targetVelocity)
 {
-	this->targetVelocity = targetVelocity;
+	if (this != nullptr) this->targetVelocity = targetVelocity;
 }
 
 void Ball::setAcceleration(float acceleration)
 {
-	this->acceleration = acceleration;
+	if (this != nullptr) this->acceleration = acceleration;
 }
 
 void Ball::setIdPlayerHit(int id)
@@ -74,7 +74,8 @@ int Ball::getIdPlayerHit() const
 void Ball::onCollisionEnter(GameObject* other)
 {
 	if (soundEmitter == nullptr) return;
-
+	
+	if (other == nullptr) return;
 
 	std::string soundToPlay = "NO SOUND";
 	if (other->getTag() == "wall" || other->getTag() == "spawner") {
@@ -90,7 +91,7 @@ void Ball::onCollisionEnter(GameObject* other)
 		soundToPlay = "Ball_obstacle";
 	}
 
-	if (soundToPlay != "NO SOUND") soundEmitter->playSound(soundToPlay);
+	if (soundToPlay != "NO SOUND" && soundEmitter != nullptr) soundEmitter->playSound(soundToPlay);
 
 	if (particleManager != nullptr)
 	{

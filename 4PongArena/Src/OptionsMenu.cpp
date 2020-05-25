@@ -17,7 +17,7 @@ REGISTER_FACTORY(OptionsMenu);
 
 bool OptionsMenu::backButtonClick()
 {
-	SceneManager::GetInstance()->changeScene("MainMenu");
+	if (SceneManager::GetInstance() != nullptr) SceneManager::GetInstance()->changeScene("MainMenu");
 	buttonClick(backSound);
 	return false;
 }
@@ -178,7 +178,10 @@ OptionsMenu::~OptionsMenu()
 void OptionsMenu::start()
 {
 	Menu::start();
-	root = findGameObjectWithName("MainCamera")->getComponent<UILayout>()->getRoot().getChild("OptionsBackground");
+	if (findGameObjectWithName("MainCamera") != nullptr && findGameObjectWithName("MainCamera")->getComponent<UILayout>() != nullptr) 
+		root = findGameObjectWithName("MainCamera")->getComponent<UILayout>()->getRoot().getChild("OptionsBackground");
+	
+
 	root.setVisible(true);
 
 	applyButton = root.getChild("ApplyButton");

@@ -21,7 +21,7 @@ void Movement::start()
 {
 	if (gameObject != nullptr) {
 		rigidBody = gameObject->getComponent<RigidBody>();
-		normal = Vector3::ZERO - gameObject->transform->getPosition();
+		if (gameObject->transform != nullptr) normal = Vector3::ZERO - gameObject->transform->getPosition();
 		normal *= Vector3(1.0, 0.0, 1.0);
 		normal.normalize();
 	}
@@ -77,7 +77,7 @@ void Movement::move()
 
 void Movement::setNormal(const Vector3& normal)
 {
-	this->normal = normal;
+	if (this != nullptr) this->normal = normal;
 }
 
 const Vector3& Movement::getNormal() const
@@ -87,7 +87,7 @@ const Vector3& Movement::getNormal() const
 
 void Movement::setVelocity(float velocity)
 {
-	this->velocity = velocity;
+	if (this != nullptr) this->velocity = velocity;
 }
 
 float Movement::getVelocity() const

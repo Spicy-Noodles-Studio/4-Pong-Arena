@@ -13,42 +13,42 @@ REGISTER_FACTORY(MainMenu);
 
 bool MainMenu::playButtonClick()
 {
-	SceneManager::GetInstance()->changeScene("ConfigurationMenu");
+	if (SceneManager::GetInstance != nullptr) SceneManager::GetInstance()->changeScene("ConfigurationMenu");
 	buttonClick(buttonSound);
 	return false;
 }
 
 bool MainMenu::optionsButtonClick()
 {
-	SceneManager::GetInstance()->changeScene("OptionsMenu");
+	if (SceneManager::GetInstance != nullptr) SceneManager::GetInstance()->changeScene("OptionsMenu");
 	buttonClick(buttonSound);
 	return false;
 }
 
 bool MainMenu::exitButtonClick()
 {
-	WindowManager::GetInstance()->closeWindow();
+	if (WindowManager::GetInstance != nullptr) WindowManager::GetInstance()->closeWindow();
 	buttonClick(backSound);
 	return false;
 }
 
 bool MainMenu::controlsButtonClick()
 {
-	SceneManager::GetInstance()->changeScene("ControlsMenu");
+	if (SceneManager::GetInstance != nullptr) SceneManager::GetInstance()->changeScene("ControlsMenu");
 	buttonClick(buttonSound);
 	return false;
 }
 
 bool MainMenu::creditsButtonClick()
 {
-	SceneManager::GetInstance()->changeScene("Credits");
+	if (SceneManager::GetInstance != nullptr) SceneManager::GetInstance()->changeScene("Credits");
 	buttonClick(buttonSound);
 	return false;
 }
 
 void MainMenu::initMusic()
 {
-	if (!GameManager::GetInstance()->isMenuMusicPlaying())
+	if (GameManager::GetInstance != nullptr && !GameManager::GetInstance()->isMenuMusicPlaying())
 	{
 		GameManager::GetInstance()->setMenuMusic(true);
 		GameManager::GetInstance()->playMusic("Menu_loop");

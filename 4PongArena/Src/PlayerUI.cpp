@@ -10,7 +10,7 @@
 
 REGISTER_FACTORY(PlayerUI);
 
-PlayerUI::PlayerUI(GameObject* gameObject) : UserComponent(gameObject), mainCamera(nullptr), health(nullptr), name(""), playerHUD(nullptr)
+PlayerUI::PlayerUI(GameObject* gameObject) : UserComponent(gameObject), mainCamera(nullptr), health(nullptr), name(""), playerHUD(nullptr), playerIndex(nullptr)
 {
 
 }
@@ -28,7 +28,6 @@ void PlayerUI::start()
 
 		if (playerIndex != nullptr)
 			name = "Player" + std::to_string(playerIndex->getId());
-
 
 		// Get health component to update stats
 		health = gameObject->getComponent<Health>();

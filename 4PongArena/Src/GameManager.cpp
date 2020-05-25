@@ -126,6 +126,8 @@ int GameManager::getInitialPlayers() const
 
 void GameManager::setPaused(bool paused)
 {
+	if (Timer::GetInstance() == nullptr) return;
+
 	if (paused)
 		Timer::GetInstance()->setTimeScale(0.0f); //Pause the game
 	else
@@ -141,7 +143,7 @@ bool GameManager::isPaused()
 
 void GameManager::setHealth(int health)
 {
-	this->health = health;
+	if (this != nullptr) this->health = health;
 }
 
 int GameManager::getHealth() const
@@ -151,8 +153,7 @@ int GameManager::getHealth() const
 
 void GameManager::setTime(int time)
 {
-	this->time = time;
-
+	if (this != nullptr) this->time = time;
 }
 
 int GameManager::getTime() const
@@ -162,6 +163,8 @@ int GameManager::getTime() const
 
 void GameManager::setInitialTime(int time)
 {
+	if (this == nullptr) return;
+
 	this->initialTime = time;
 	this->time = time;
 }
@@ -183,7 +186,7 @@ bool GameManager::getTimeMode() const
 
 void GameManager::setWinner(int winner)
 {
-	this->winner = winner;
+	if (this != nullptr) this->winner = winner;
 }
 
 int GameManager::getWinner() const
@@ -193,7 +196,7 @@ int GameManager::getWinner() const
 
 void GameManager::setLevelBase(int levelBase)
 {
-	this->levelBase = levelBase;
+	if (this != nullptr) this->levelBase = levelBase;
 }
 
 int GameManager::getLevelBase() const
@@ -203,7 +206,7 @@ int GameManager::getLevelBase() const
 
 void GameManager::setLevelObstacles(int levelObstacles)
 {
-	this->levelObstacles = levelObstacles;
+	if (this != nullptr) this->levelObstacles = levelObstacles;
 }
 
 int GameManager::getLevelObstacles() const
@@ -213,7 +216,7 @@ int GameManager::getLevelObstacles() const
 
 void GameManager::setLevelForces(int levelForces)
 {
-	this->levelForces = levelForces;
+	if (this != nullptr) this->levelForces = levelForces;
 }
 
 int GameManager::getLevelForces() const

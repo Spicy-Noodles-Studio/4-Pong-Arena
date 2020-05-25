@@ -48,13 +48,13 @@ int Health::getHealth() const
 
 void Health::setHealth(int health)
 {
-	this->health = health;
+	if (this != nullptr) this->health = health;
 }
 
 void Health::receiveDamage(int damage)
 {
 	health -= damage;
-	if (health > 0) soundEmitter->playSound("Damage");
+	if (health > 0 && soundEmitter != nullptr) soundEmitter->playSound("Damage");
 	if (health < 0) health = 0;
 }
 

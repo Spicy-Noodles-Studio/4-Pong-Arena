@@ -36,8 +36,10 @@ GameObject* SpawnerManager::getBall()
 			found = true;
 			ball = pool[i];
 
-			ball->setActive(true);
-			ball->getComponent<MeshRenderer>()->setVisible(true);
+			if (ball != nullptr) {
+				ball->setActive(true);
+				ball->getComponent<MeshRenderer>()->setVisible(true);
+			}
 		}
 		else
 			i++;
@@ -46,13 +48,13 @@ GameObject* SpawnerManager::getBall()
 	if (i >= pool.size())
 	{
 		ball = instantiate("Ball");
-		pool.push_back(ball);
+		if (ball != nullptr) pool.push_back(ball);
 	}
 
 	return ball;
 }
 
-SpawnerManager::SpawnerManager(GameObject* gameObject) : UserComponent(gameObject), countdown(nullptr), time(0.0f), generationTime(4.0f), minimumTime(1.0f), lastUsed(0)
+SpawnerManager::SpawnerManager(GameObject* gameObject) : UserComponent(gameObject), countdown(nullptr), game(nullptr), time(0.0f), generationTime(4.0f), minimumTime(1.0f), lastUsed(0)
 {
 
 }
@@ -64,14 +66,16 @@ SpawnerManager::~SpawnerManager()
 
 void SpawnerManager::start()
 {
-	game = findGameObjectWithName("Game")->getComponent<Game>();
-	countdown = findGameObjectWithName("Countdown")->getComponent<Countdown>();
+	if (findGameObjectWithName("Game") != nullptr) game = findGameObjectWithName("Game")->getComponent<Game>();
+	if (findGameObjectWithName("Countdown") != nullptr) countdown = findGameObjectWithName("Countdown")->getComponent<Countdown>();
 
 	for (int i = 0; i < 25; i++)
 	{
 		pool.push_back(instantiate("Ball"));
-		pool.back()->setActive(false);
-		pool.back()->getComponent<MeshRenderer>()->setVisible(false);
+		if (pool.back() != nullptr) {
+			pool.back()->setActive(false);
+			pool.back()->getComponent<MeshRenderer>()->setVisible(false);
+		}
 	}
 
 	time = generationTime;
@@ -130,10 +134,9 @@ void SpawnerManager::deactivateAll()
 {
 	for (int i = 0; i < pool.size(); i++)
 	{
-		if (pool[i]->isActive())
+		if (pool[i] != nullptr && pool[i]->isActive())
 		{
 			pool[i]->getComponent<ParticleManager>()->stop();
-
 			pool[i]->setActive(false);
 			pool[i]->getComponent<MeshRenderer>()->setVisible(false);
 		}

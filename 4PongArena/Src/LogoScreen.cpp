@@ -39,9 +39,11 @@ void LogoScreen::start()
 
 void LogoScreen::update(float deltaTime)
 {
+	if (sceneManager == nullptr) return;
+
 	if ((inputSystem != nullptr && inputSystem->getKeyPress("ESCAPE") || inputSystem->getMouseButtonClick('l')) || checkControllersInput() || time <= 0)
 	{
-		if (sceneManager->getCurrentScene()->getName() == "EngineLogo")
+		if (sceneManager->getCurrentScene() != nullptr && sceneManager->getCurrentScene()->getName() == "EngineLogo")
 			sceneManager->changeScene("StudioLogo");
 		else
 			sceneManager->changeScene("MainMenu");

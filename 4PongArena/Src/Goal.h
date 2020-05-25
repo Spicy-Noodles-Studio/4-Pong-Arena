@@ -24,8 +24,8 @@ public:
 private:
 	Health* health;
 	int score;
-	Score* scores;
-	GameManager* manager;
+	Score* scoreManager;
+	GameManager* gameManager;
 	ParticleManager* particleManager;
 	int id;
 	CameraEffects* cameraEffects;

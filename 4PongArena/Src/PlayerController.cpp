@@ -10,7 +10,7 @@
 
 REGISTER_FACTORY(PlayerController);
 
-PlayerController::PlayerController(GameObject* gameObject) : UserComponent(gameObject), inputSystem(nullptr), movement(nullptr), controllerIndex(-1)
+PlayerController::PlayerController(GameObject* gameObject) : UserComponent(gameObject), inputSystem(nullptr), movement(nullptr), soundEmitter(nullptr), controllerIndex(-1), hasMoved(false), moving(false)
 {
 
 }
@@ -27,7 +27,7 @@ void PlayerController::start()
 		movement = gameObject->getComponent<Movement>();
 		soundEmitter = gameObject->getComponent<SoundEmitter>();
 		if (soundEmitter != nullptr) soundEmitter->setVolume(0.8);
-		gameObject->getComponent<Trail>()->start();
+		if (gameObject->getComponent<Trail>() != nullptr) gameObject->getComponent<Trail>()->start();
 	}
 	moving = false;
 	hasMoved = false;

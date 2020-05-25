@@ -31,7 +31,7 @@ void IAPaddle::start()
 		soundEmitter = gameObject->getComponent<SoundEmitter>();
 		volume = 0.8;
 		if (soundEmitter != nullptr) soundEmitter->setVolume(volume);
-		gameObject->getComponent<Trail>()->start();
+		if (gameObject->getComponent<Trail>() != nullptr) gameObject->getComponent<Trail>()->start();
 	}
 }
 
@@ -44,7 +44,7 @@ void IAPaddle::update(float deltaTime)
 		takeDecision(); 
 	}
 
-	if (volume > 0 && GameManager::GetInstance()->isGameEnded()) {
+	if (volume > 0 && GameManager::GetInstance() != nullptr && GameManager::GetInstance()->isGameEnded()) {
 		volume = 0;
 		if (soundEmitter != nullptr) soundEmitter->setVolume(0);
 	}
@@ -55,6 +55,7 @@ void IAPaddle::update(float deltaTime)
 	case State::CHOOSE_TARGET:
 		processChooseTargetState();
 		break;
+
 	case State::MOVE:
 		processMoveState();
 		break;
@@ -81,7 +82,7 @@ void IAPaddle::handleData(ComponentData* data)
 
 void IAPaddle::setId(int id)
 {
-	this->id = id;
+	if (this != nullptr) this->id = id;
 }
 
 int IAPaddle::getId() const
@@ -92,16 +93,19 @@ int IAPaddle::getId() const
 void IAPaddle::processChooseTargetState()
 {
 	targetBall = nullptr;
-	std::vector<GameObject*> balls = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>()->getPool();
+	std::vector<GameObject*> balls;
+	if (findGameObjectWithName("SpawnerManager") != nullptr && findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>() != nullptr) 
+		balls = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>()->getPool();
 
 	//Escogemos una bola que venga hacia nosotros aleatoria
 	std::vector<GameObject*> validBalls;
 	for (GameObject* ball : balls)
 	{
-		if (ball->isActive())
+		if (ball != nullptr && ball->isActive())
 		{
-			Vector3 direction = ball->getComponent<RigidBody>()->getLinearVelocity().normalized();
-			if (!isBallBehind(ball->transform->getPosition()) && isBallHeadingToMe(direction))
+			Vector3 direction;
+			if (ball->getComponent<RigidBody>() != nullptr) direction = ball->getComponent<RigidBody>()->getLinearVelocity().normalized();
+			if (ball->transform != nullptr && !isBallBehind(ball->transform->getPosition()) && isBallHeadingToMe(direction))
 				validBalls.push_back(ball);
 		}
 	}
@@ -115,6 +119,8 @@ void IAPaddle::processChooseTargetState()
 
 void IAPaddle::processMoveState()
 {
+	if (movement == nullptr) return;
+
 	if (targetBall == nullptr)
 	{ 
 		movement->stop(); 
@@ -125,7 +131,9 @@ void IAPaddle::processMoveState()
 	Vector3 normal = movement->getNormal();
 	Vector3 motionDirection(-normal.z, 0.0, normal.x); // Perpendicular vector (right)
 	Vector3 directionMask = Vector3(abs(-normal.z), 0.0, abs(normal.x)).normalized();
-	Vector3 diff = (targetBall->transform->getPosition() - gameObject->transform->getPosition()) * directionMask; //Extract raw differnce (no signe modification)
+	Vector3 diff;
+	if (targetBall != nullptr && targetBall->transform != nullptr && gameObject != nullptr && gameObject->transform != nullptr)
+		diff = (targetBall->transform->getPosition() - gameObject->transform->getPosition()) * directionMask; //Extract raw differnce (no signe modification)
 	float tolerance = 0.2f;
 
 	if(diff.magnitude() < tolerance) // We have arrived
@@ -145,8 +153,14 @@ void IAPaddle::takeDecision()
 
 bool IAPaddle::isBallBehind(const Vector3& ballPosition)
 {
+	if (movement == nullptr) return false;
+
 	Vector3 normal = movement->getNormal();
-	Vector3 direction = (ballPosition - gameObject->transform->getPosition()) * Vector3(abs(normal.x), 0.0, abs(normal.z));
+	Vector3 direction; 
+
+	if (gameObject != nullptr && gameObject->transform != nullptr) 
+		direction = (ballPosition - gameObject->transform->getPosition()) * Vector3(abs(normal.x), 0.0, abs(normal.z));
+
 	direction.normalize();
 
 	return normal != direction && ballPosition.y < 0.0; // TODO: quitar segunda condicion (cuando la gestion de bolas este hecha)
@@ -154,6 +168,8 @@ bool IAPaddle::isBallBehind(const Vector3& ballPosition)
 
 bool IAPaddle::isBallHeadingToMe(const Vector3& ballDirection)
 {
+	if (movement == nullptr) return false;
+
 	Vector3 inverseNormal = movement->getNormal() * Vector3::NEGATIVE_IDENTITY;
 	Vector3 rawDirection = (ballDirection * Vector3(abs(inverseNormal.x), abs(inverseNormal.y), abs(inverseNormal.z)));
 	Vector3 ballNormal = rawDirection.normalized();

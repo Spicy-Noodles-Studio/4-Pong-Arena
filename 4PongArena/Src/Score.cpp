@@ -29,14 +29,14 @@ void Score::initScore(int numOfPlayers)
 		delete score;
 	playerScores.clear();
 
-	this->numPlayers = numOfPlayers;
+	if (this != nullptr) this->numPlayers = numOfPlayers;
 
 	for (int i = 0; i < numOfPlayers; i++)
 	{
 		ScorePlayer* score = new ScorePlayer();
 		if (score != nullptr) {
 			initScorePlayer(score);
-			this->playerScores.push_back(score);
+			if (this != nullptr) this->playerScores.push_back(score);
 		}
 	}
 }

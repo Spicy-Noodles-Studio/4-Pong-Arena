@@ -22,7 +22,7 @@ CursorGame::~CursorGame()
 void CursorGame::start()
 {
 	inputSystem = InputSystem::GetInstance();
-	cursor = gameObject->getComponent<Cursor>();
+	if (gameObject != nullptr) cursor = gameObject->getComponent<Cursor>();
 	gameManager = GameManager::GetInstance();
 
 	if (cursor == nullptr) {

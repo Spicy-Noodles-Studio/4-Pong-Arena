@@ -21,57 +21,70 @@ bool PauseMenu::optionsButtonClick()
 	optionsMenu.setAlwaysOnTop(true);
 	optionsMenu.setEnabled(true);
 
-	InterfaceSystem::GetInstance()->clearControllerMenuInput();
-	InterfaceSystem::GetInstance()->initControllerMenuInput(&optionsMenu);
+	if (InterfaceSystem::GetInstance() != nullptr) {
+		InterfaceSystem::GetInstance()->clearControllerMenuInput();
+		InterfaceSystem::GetInstance()->initControllerMenuInput(&optionsMenu);
+	}
+
 	buttonClick(buttonSound);
 	return false;
 }
 
 bool PauseMenu::exitButtonClick()
 {
-	GameManager::GetInstance()->setPaused(false);
-	GameManager::GetInstance()->stopMusic(GameManager::GetInstance()->getSong());
-	SceneManager::GetInstance()->changeScene("MainMenu");
+	if (GameManager::GetInstance() != nullptr) {
+		GameManager::GetInstance()->setPaused(false);
+		GameManager::GetInstance()->stopMusic(GameManager::GetInstance()->getSong());
+	}
+	
+	if (SceneManager::GetInstance() != nullptr) SceneManager::GetInstance()->changeScene("MainMenu");
+	
 	buttonClick(backSound);
+	
 	return false;
 }
 
-PauseMenu::PauseMenu(GameObject* gameObject) : Menu(gameObject), inputSystem(nullptr), countdown(nullptr), pauseMenu(NULL), pausePanel(NULL), optionsMenu(NULL)
+PauseMenu::PauseMenu(GameObject* gameObject) : Menu(gameObject), inputSystem(nullptr), countdown(nullptr), game(nullptr), pauseMenu(NULL), pausePanel(NULL), optionsMenu(NULL)
 {
 	inputSystem = InputSystem::GetInstance();
 
-	InterfaceSystem::GetInstance()->registerEvent("resumeButtonClick", UIEvent("ButtonClicked", [this]() {setPaused(false); return false; }));
-	InterfaceSystem::GetInstance()->registerEvent("pauseOptionsButtonClick", UIEvent("ButtonClicked", [this]() {optionsButtonClick(); return false; }));
-	InterfaceSystem::GetInstance()->registerEvent("pauseExitButtonClick", UIEvent("ButtonClicked", [this]() {return exitButtonClick(); }));
+	if (InterfaceSystem::GetInstance() != nullptr) {
+		InterfaceSystem::GetInstance()->registerEvent("resumeButtonClick", UIEvent("ButtonClicked", [this]() {setPaused(false); return false; }));
+		InterfaceSystem::GetInstance()->registerEvent("pauseOptionsButtonClick", UIEvent("ButtonClicked", [this]() {optionsButtonClick(); return false; }));
+		InterfaceSystem::GetInstance()->registerEvent("pauseExitButtonClick", UIEvent("ButtonClicked", [this]() {return exitButtonClick(); }));
+	}
 }
 
 PauseMenu::~PauseMenu()
 {
-	InterfaceSystem::GetInstance()->unregisterEvent("resumeButtonClick");
-	InterfaceSystem::GetInstance()->unregisterEvent("pauseOptionsButtonClick");
-	InterfaceSystem::GetInstance()->unregisterEvent("pauseExitButtonClick");
+	if (InterfaceSystem::GetInstance() != nullptr) {
+		InterfaceSystem::GetInstance()->unregisterEvent("resumeButtonClick");
+		InterfaceSystem::GetInstance()->unregisterEvent("pauseOptionsButtonClick");
+		InterfaceSystem::GetInstance()->unregisterEvent("pauseExitButtonClick");
+	}
 }
 
 void PauseMenu::start()
 {
 	Menu::start();
 
-	UILayout* cameraLayout = findGameObjectWithName("MainCamera")->getComponent<UILayout>();
-	if (cameraLayout != nullptr)
-	{
-		pauseMenu = cameraLayout->getRoot().getChild("PauseBackground");
-		pausePanel = cameraLayout->getRoot().getChild("Pause");
+	if (findGameObjectWithName("MainCamera") != nullptr) {
+		UILayout* cameraLayout = findGameObjectWithName("MainCamera")->getComponent<UILayout>();
+		if (cameraLayout != nullptr)
+		{
+			pauseMenu = cameraLayout->getRoot().getChild("PauseBackground");
+			pausePanel = cameraLayout->getRoot().getChild("Pause");
+		}
 	}
-
-	countdown = findGameObjectWithName("Countdown")->getComponent<Countdown>();
-	game = findGameObjectWithName("Game")->getComponent<Game>();
-
-	optionsMenu = findGameObjectWithName("OptionsMenuScreen")->getComponent<UILayout>()->getRoot();
+	if (findGameObjectWithName("Countdown") != nullptr) countdown = findGameObjectWithName("Countdown")->getComponent<Countdown>();
+	if (findGameObjectWithName("Game") != nullptr) game = findGameObjectWithName("Game")->getComponent<Game>();
+	if (findGameObjectWithName("OptionsMenuScreen") != nullptr) optionsMenu = findGameObjectWithName("OptionsMenuScreen")->getComponent<UILayout>()->getRoot();
 }
 
 void PauseMenu::preUpdate(float deltaTime)
 {
-	if (countdown != nullptr && countdown->hasStarted() && !countdown->isCounting() && game != nullptr && game->getTime() > 0 && (inputSystem->getKeyPress("ESCAPE") || checkControllersInput()) && !optionsMenu.isVisible())
+	if (countdown != nullptr && countdown->hasStarted() && !countdown->isCounting() && game != nullptr && game->getTime() > 0 && inputSystem != nullptr 
+		&& (inputSystem->getKeyPress("ESCAPE") || checkControllersInput()) && !optionsMenu.isVisible() && GameManager::GetInstance() != nullptr)
 		setPaused(!GameManager::GetInstance()->isPaused());
 }
 
@@ -93,7 +106,7 @@ bool PauseMenu::checkControllersInput()
 
 void PauseMenu::setPaused(bool paused)
 {
-	if (paused == GameManager::GetInstance()->isPaused())
+	if (GameManager::GetInstance() != nullptr && paused == GameManager::GetInstance()->isPaused())
 		return;
 
 	pauseMenu.setVisible(paused);
@@ -102,7 +115,7 @@ void PauseMenu::setPaused(bool paused)
 	pausePanel.setVisible(paused);
 	pauseMenu.setAlwaysOnTop(paused);
 
-	GameManager::GetInstance()->setPaused(paused);
+	if (GameManager::GetInstance() != nullptr) GameManager::GetInstance()->setPaused(paused);
 	buttonClick(buttonSound);
 }
 

@@ -23,7 +23,7 @@ CameraEffects::~CameraEffects()
 
 void CameraEffects::start()
 {
-	max = WindowManager::GetInstance()->getBrightness() + 0.5;
+	if (WindowManager::GetInstance() != nullptr) max = WindowManager::GetInstance()->getBrightness() + 0.5;
 	if (max == 0) max = 0.00001;
 	current = max;
 	state = IDLE;
@@ -46,7 +46,7 @@ void CameraEffects::update(float deltaTime)
 			state = IDLE;
 		}
 
-		RenderSystem::GetInstance()->changeParamOfShader("Brightness", "bright", current);
+		if (RenderSystem::GetInstance() != nullptr) RenderSystem::GetInstance()->changeParamOfShader("Brightness", "bright", current);
 	}
 	else if (state == FADEIN)
 	{
@@ -57,11 +57,10 @@ void CameraEffects::update(float deltaTime)
 			state = IDLE;
 		}
 
-		RenderSystem::GetInstance()->changeParamOfShader("Brightness", "bright", current);
+		if (RenderSystem::GetInstance() != nullptr) RenderSystem::GetInstance()->changeParamOfShader("Brightness", "bright", current);
 	}
 	else if (state == SHAKE)
 	{
-
 		time += deltaTime * 1000;
 
 		float moveX, moveY, moveZ;
@@ -76,7 +75,6 @@ void CameraEffects::update(float deltaTime)
 			cam->setPosition(Vector3(pos.x + moveX * rotationDir.x, pos.y + moveY * rotationDir.y, pos.z + moveZ * rotationDir.z));
 
 			Vector3 newPos = cam->getPosition();
-
 
 			if ((newPos.x >= initialPosition.x + maxRange && dirX > 0) || (newPos.x <= initialPosition.x + minRange && dirX < 0))
 				dirX *= -1;
@@ -152,7 +150,7 @@ void CameraEffects::fadeIn()
 
 void CameraEffects::setDarkness()
 {
-	RenderSystem::GetInstance()->changeParamOfShader("Brightness", "bright", 0);
+	if (RenderSystem::GetInstance() != nullptr) RenderSystem::GetInstance()->changeParamOfShader("Brightness", "bright", 0);
 	current = 0;
 }
 

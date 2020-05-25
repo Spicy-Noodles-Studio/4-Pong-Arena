@@ -22,7 +22,6 @@ public:
 
 protected:
 	virtual void start();
-	virtual void update(float deltaTime);
 };
 
 #endif

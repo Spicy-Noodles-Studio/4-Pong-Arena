@@ -45,7 +45,7 @@ void Countdown::start()
 			soundEmitter->setVolume(0.8);
 	}
 
-	players = GameManager::GetInstance()->getPaddles();
+	if (GameManager::GetInstance() != nullptr) players = GameManager::GetInstance()->getPaddles();
 }
 
 void Countdown::update(float deltaTime)
@@ -76,7 +76,7 @@ void Countdown::update(float deltaTime)
 			if (previousCount != std::to_string((int)time + 1))
 			{
 				previousCount = std::to_string((int)time + 1);
-				soundEmitter->playSound("Countdown");
+				if (soundEmitter != nullptr) soundEmitter->playSound("Countdown");
 			}
 		}
 		else
@@ -85,7 +85,7 @@ void Countdown::update(float deltaTime)
 			if (previousCount != "SURVIVE!")
 			{
 				previousCount = "SURVIVE!";
-				soundEmitter->playSound("Countdown_end");
+				if (soundEmitter != nullptr) soundEmitter->playSound("Countdown_end");
 			}
 		}
 
