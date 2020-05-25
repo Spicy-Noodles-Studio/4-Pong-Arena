@@ -104,10 +104,10 @@ void Goal::onObjectEnter(GameObject* other)
 				}
 			}
 		}
-		if (other->transform != nullptr) other->transform->setPosition({ 0,-10,0 });
-		other->setActive(false);
-		other->getComponent<MeshRenderer>()->setVisible(false);
-	}
+	if (other->transform != nullptr) other->transform->setPosition({ 0,-10,0 });
+	other->setActive(false);
+	other->getComponent<MeshRenderer>()->setVisible(false);
+	
 }
 
 void Goal::setScore(int score)
