@@ -94,13 +94,14 @@ void Goal::onObjectEnter(GameObject* other)
 				scale = gameObject->transform->getScale();
 				rotation = gameObject->transform->getRotation();
 
-				finalPos.x = (otherPos.y - thisPos.y);
-				finalPos.y = (midX / scale.y)*cos( rotation.x * DEG_TO_RAD) + (midZ / scale.y) * sin(rotation.x * DEG_TO_RAD);
-				finalPos.z = midZ * cos(rotation.x * DEG_TO_RAD) + midX * -sin(rotation.x * DEG_TO_RAD);
+					finalPos.x = (otherPos.y - thisPos.y);
+					finalPos.y = (midX / scale.y) * cos(rotation.x * DEG_TO_RAD) + (midZ / scale.y) * sin(rotation.x * DEG_TO_RAD);
+					finalPos.z = midZ * cos(rotation.x * DEG_TO_RAD) + midX * -sin(rotation.x * DEG_TO_RAD);
 
-				if (other->getComponent<Trail>() != nullptr) other->getComponent<Trail>()->stop();
+					if (other->getComponent<Trail>() != nullptr) other->getComponent<Trail>()->stop();
 
-				particleManager->playParticles(0.6,finalPos);
+					particleManager->playParticles(0.6, finalPos);
+				}
 			}
 		}
 		if (other->transform != nullptr) other->transform->setPosition({ 0,-10,0 });

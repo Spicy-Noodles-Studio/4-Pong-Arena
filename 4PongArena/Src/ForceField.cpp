@@ -68,9 +68,10 @@ void ForceField::onObjectEnter(GameObject* other)
 	RigidBody* rigidBody = other->getComponent<RigidBody>();
 	Ball* ball = other->getComponent<Ball>();
 
-	if (ball == nullptr || rigidBody == nullptr) return;
-	ball->setTargetVelocity(targetVelocity);
-	ball->setAcceleration(acceleration);
+	if (ball != nullptr) {
+		ball->setTargetVelocity(targetVelocity);
+		ball->setAcceleration(acceleration);
+	}
 	Trail* trail = other->getComponent<Trail>();
 	if (trail != nullptr) trail->setColour({ 0.0,1.0,1.0 }, 0.7);
 
