@@ -19,7 +19,7 @@ const int CHANGE_HEALTH = 1;
 
 const int MIN_PLAYERS = 2;
 
-const int BASE_TYPES = 3;
+const int BASE_TYPES = 2;
 const int OBSTACLES_TYPES = 2;
 const int FORCES_TYPES = 2;
 
