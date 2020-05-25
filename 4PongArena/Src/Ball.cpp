@@ -72,9 +72,7 @@ int Ball::getIdPlayerHit() const
 }
 
 void Ball::onCollisionEnter(GameObject* other)
-{
-	if (soundEmitter == nullptr) return;
-	
+{	
 	if (other == nullptr) return;
 
 	std::string soundToPlay = "NO SOUND";

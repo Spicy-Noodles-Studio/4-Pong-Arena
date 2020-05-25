@@ -429,6 +429,9 @@ void Game::setRanking()
 			paddles[i]->getComponent<PlayerController>()->setActive(false);
 		else if (paddles[i]->getComponent<IAPaddle>() != nullptr)
 			paddles[i]->getComponent<IAPaddle>()->setActive(false);
+		if(health != nullptr&&health->getHealth()>0)
+			if(gameManager->getScore()!=nullptr)
+			gameManager->getScore()->setTimeAlive(paddles[i]->getComponent<PlayerIndex>()->getPosVector() , gameManager->getInitialTime(), gameManager->getTime());
 	}
 
 	std::priority_queue<ii, std::vector<ii>, Less> aux = gameManager->getRanking();
@@ -454,7 +457,9 @@ void Game::setRanking()
 	if (tie)
 		gameManager->setWinner(-1);
 	else
+	{
 		gameManager->setWinner(gameManager->getRanking().top().first);
+	}
 
 	gameManager->emptyRanking();
 }
@@ -540,6 +545,7 @@ void Game::start()
 	createPlayers();
 
 	playSong();
+
 }
 
 void Game::update(float deltaTime)
@@ -557,11 +563,23 @@ void Game::update(float deltaTime)
 			timePanel.getChild("Time").setText(timeToText().first + " : " + timeToText().second);
 
 			gameTimer -= deltaTime;
-			gameManager->setTime((int)gameTimer);
+			if (gameTimer <= 0)
+				gameTimer = 0;
 
-			if (gameTimer <= 0.0f && !gameManager->isGameEnded())
+			gameManager->setTime((int)gameTimer);
+			if (gameTimer <= 0.0f && !gameManager->isGameEnded() )
+				chooseWinner();
+			
+		}
+		else if(!countdown->isCounting() && gameTimer < 0)
+		{
+			gameTimer -= deltaTime;
+			gameManager->setTime((int)gameTimer);
+			if (!gameManager->isGameEnded() && players <= 1)
 				chooseWinner();
 		}
+
+		
 	}
 
 	if (cameraEffects != nullptr)

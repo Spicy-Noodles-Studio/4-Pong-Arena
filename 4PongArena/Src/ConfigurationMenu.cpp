@@ -531,9 +531,15 @@ bool ConfigurationMenu::startButtonClick()
 		gameManager->setTimeMode(mode);
 
 		if (mode)
+		{
+			gameManager->setInitialTime(-1);
 			gameManager->setTime(-1);
+		}
 		else
+		{
+			gameManager->setInitialTime(time);
 			gameManager->setTime(time);
+		}
 	}
 
 	buttonClick(buttonSound);
