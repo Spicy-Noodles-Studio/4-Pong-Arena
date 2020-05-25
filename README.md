@@ -58,18 +58,18 @@ The music of 4-Pong Arena was created by other artists outside of Spicy Noodles(
 SOUND EFFECTS:
 Some of the sound effects were created using the following free-of-use samples:
 
-Ball_bounce & Ball_bounce_hard: https://freesound.org/people/GameAudio/sounds/220178/
-Ball_launch: https://freesound.org/people/LordForklift/sounds/448394/
-Damage: https://freesound.org/people/EVRetro/sounds/501104/
-Death: https://freesound.org/people/Raclure/sounds/483598/
-Impulse: https://freesound.org/people/GameAudio/sounds/220178/
-Impulse_02: https://freesound.org/people/GameAudio/sounds/220162/
-Wall_Bounce: https://freesound.org/people/BranRainey/sounds/108737/
-Force_Bounce_02: https://freesound.org/people/CGEffex/sounds/96632/
-Back_Button: https://freesound.org/people/bigmanjoe/sounds/348031/
-Button_Click: https://freesound.org/people/NenadSimic/sounds/171697/
-Focus_Change: https://freesound.org/people/GameAudio/sounds/220190/
-Wrong_Button: https://freesound.org/people/martinator87/downloaded_sounds/
+- Ball_bounce & Ball_bounce_hard: https://freesound.org/people/GameAudio/sounds/220178/
+- Ball_launch: https://freesound.org/people/LordForklift/sounds/448394/
+- Damage: https://freesound.org/people/EVRetro/sounds/501104/
+- Death: https://freesound.org/people/Raclure/sounds/483598/
+- Impulse: https://freesound.org/people/GameAudio/sounds/220178/
+- Impulse_02: https://freesound.org/people/GameAudio/sounds/220162/
+- Wall_Bounce: https://freesound.org/people/BranRainey/sounds/108737/
+- Force_Bounce_02: https://freesound.org/people/CGEffex/sounds/96632/
+- Back_Button: https://freesound.org/people/bigmanjoe/sounds/348031/
+- Button_Click: https://freesound.org/people/NenadSimic/sounds/171697/
+- Focus_Change: https://freesound.org/people/GameAudio/sounds/220190/
+- Wrong_Button: https://freesound.org/people/martinator87/downloaded_sounds/
 
 # License
 ![4Pong Logo](Other/spicyNoodlesLogoWithText.png)
