@@ -429,7 +429,8 @@ void Game::setRanking()
 			paddles[i]->getComponent<PlayerController>()->setActive(false);
 		else if (paddles[i]->getComponent<IAPaddle>() != nullptr)
 			paddles[i]->getComponent<IAPaddle>()->setActive(false);
-		if(health->getHealth()>0)
+		if(health != nullptr&&health->getHealth()>0)
+			if(gameManager->getScore()!=nullptr)
 			gameManager->getScore()->setTimeAlive(paddles[i]->getComponent<PlayerIndex>()->getPosVector() , gameManager->getInitialTime(), gameManager->getTime());
 	}
 
