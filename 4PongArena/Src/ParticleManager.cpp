@@ -53,12 +53,12 @@ void ParticleManager::preUpdate(float deltaTime)
 {
 	initialTime += deltaTime;
 	if (duration <= initialTime)
-		particleEmi->stop();
+		if (particleEmi != nullptr) particleEmi->stop();
 }
 
 void ParticleManager::stop()
 {
-	particleEmi->stop();
+	if (particleEmi != nullptr) particleEmi->stop();
 }
 
 void ParticleManager::createParticle(const std::string& particleName)
@@ -68,7 +68,7 @@ void ParticleManager::createParticle(const std::string& particleName)
 		return;
 
 	// Add child
-	gameObject->addChild(particlesObject);
+	if (gameObject != nullptr) gameObject->addChild(particlesObject);
 
 	particleEmi = particlesObject->getComponent<ParticleEmitter>();
 	if (particleEmi == nullptr)
