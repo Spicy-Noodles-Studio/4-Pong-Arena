@@ -14,7 +14,7 @@
 
 REGISTER_FACTORY(IAPaddle);
 
-IAPaddle::IAPaddle(GameObject* gameObject) : UserComponent(gameObject), currentState(State::MOVE), targetBall(nullptr), movement(nullptr), decisionTime(1.0f), decisionTimer(0.0f), id(0)
+IAPaddle::IAPaddle(GameObject* gameObject) : UserComponent(gameObject), currentState(State::MOVE), soundEmitter(nullptr), targetBall(nullptr), movement(nullptr), decisionTime(1.0f), decisionTimer(0.0f), id(0), volume(0.0f)
 {
 
 }

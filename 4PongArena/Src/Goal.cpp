@@ -50,7 +50,6 @@ void Goal::start()
 		GameObject* cam = findGameObjectWithName("MainCamera");
 		if (cam != nullptr) cameraEffects = cam->getComponent<CameraEffects>();
 	}
-
 }
 
 void Goal::onObjectEnter(GameObject* other)
