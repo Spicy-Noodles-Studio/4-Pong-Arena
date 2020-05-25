@@ -71,7 +71,8 @@ void ForceField::onObjectEnter(GameObject* other)
 	if (ball == nullptr || rigidBody == nullptr) return;
 	ball->setTargetVelocity(targetVelocity);
 	ball->setAcceleration(acceleration);
-	other->getComponent<Trail>()->setColour({ 0.0,1.0,1.0 }, 0.7);
+	Trail* trail = other->getComponent<Trail>();
+	if (trail != nullptr) trail->setColour({ 0.0,1.0,1.0 }, 0.7);
 
 	if (soundEmitter != nullptr) soundEmitter->playSound("Impulse_02");
 }
