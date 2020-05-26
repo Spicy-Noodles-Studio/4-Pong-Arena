@@ -1,14 +1,11 @@
 #pragma once
-#ifndef CAMERAEFFECTS_H
-#define CAMERAEFFECTS_H
+#ifndef CAMERA_EFFECTS_H
+#define CAMERA_EFFECTS_H
 
 #include <UserComponent.h>
-#include <Ogre.h>
-#include <OgreTextureUnitState.h>
-#include <OgreMaterial.h>
-#include <OgreMaterialManager.h>
 
 class Transform;
+class RenderSystem;
 
 class CameraEffects : public UserComponent
 {
@@ -18,7 +15,8 @@ private:
 	enum State { IDLE, FADEIN, FADEOUT, SHAKE };
 
 	State state;
-	Transform* cam;
+	Transform* cameraTransform;
+	RenderSystem* renderSystem;
 
 	Vector3 shakeDir;
 	Vector3 rotationDir;
@@ -39,17 +37,18 @@ private:
 public: 
 	CameraEffects(GameObject* gameObject);
 	virtual ~CameraEffects();
+	void fadeOut();
+	void fadeIn();
+	void setDarkness();
+	bool isFading() const;
 
+	void shake(Vector3 rotDir);
+
+protected:
 	virtual void start();
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
 
-	void fadeOut();
-	void fadeIn();
-	void setDarkness();
-	bool isFading();
-
-	void shake(Vector3 rotDir);
 };
 
 #endif

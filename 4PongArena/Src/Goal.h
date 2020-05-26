@@ -15,10 +15,6 @@ class Goal : public UserComponent
 public:
 	Goal(GameObject* gameObject);
 	virtual ~Goal();
-
-	virtual void start();
-	virtual void onObjectEnter(GameObject* other);
-
 	void setScore(int score);
 	int getScore() const;
 
@@ -26,13 +22,22 @@ public:
 	GameObject* getKeeper();
 
 private:
-	Health* health;
-	int score;
-	Score* scores;
-	GameManager* manager;
+	
+	Health* keeperHealth;
+	GameObject* keeper;
+	
+	Score* scoreManager;
+	GameManager* gameManager;
 	ParticleManager* particleManager;
-	int id;
 	CameraEffects* cameraEffects;
+
+	int score;
+	int id;
+
+protected:
+	virtual void start();
+	virtual void onObjectEnter(GameObject* other);
+
 };
 
 #endif

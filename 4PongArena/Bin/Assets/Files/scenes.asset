@@ -1,5 +1,8 @@
+.//Assets//Scenes//EngineLogo.scene
+.//Assets//Scenes//StudioLogo.scene
 ./Assets/Scenes/MainMenu.scene
 ./Assets/Scenes/OptionsMenu.scene
 ./Assets/Scenes/ConfigurationMenu.scene
 ./Assets/Scenes/Game.scene
 ./Assets/Scenes/ScoreMenu.scene
+./Assets//Scenes/Credits.scene

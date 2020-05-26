@@ -14,17 +14,17 @@ CursorMenu::CursorMenu(GameObject* gameObject) : UserComponent(gameObject), inpu
 
 CursorMenu::~CursorMenu()
 {
+	inputSystem = nullptr;
+	cursor = nullptr;
 }
 
 void CursorMenu::start()
 {
 	inputSystem = InputSystem::GetInstance();
-	cursor = gameObject->getComponent<Cursor>();
+	if (notNull(gameObject)) cursor = gameObject->getComponent<Cursor>();
+	checkNull(inputSystem);
 
-	if (cursor == nullptr) {
-		LOG("Cursor not found");
-		return;
-	}
+	checkNullAndBreak(cursor);
 	cursor->setVisibleOnWindow(false);
 }
 
@@ -36,33 +36,34 @@ void CursorMenu::preUpdate(float deltaTime)
 
 bool CursorMenu::mouseUsed() const
 {
-	if (inputSystem == nullptr) return false;
+	checkNullAndBreak(inputSystem, false);
 
 	return inputSystem->isMouseUsed();
 }
 
 bool CursorMenu::keyboardUsed() const
 {
-	if (inputSystem == nullptr) return false;
-
+	checkNullAndBreak(inputSystem, false);
 	return inputSystem->isKeyboardUsed();
 }
 
 bool CursorMenu::controllerUsed() const
 {
-	if (inputSystem == nullptr) return false;
+	checkNullAndBreak(inputSystem, false);
 
 	return inputSystem->isControllerUsed();
 }
 
 void CursorMenu::hideCursor()
 {
-	if (cursor == nullptr) return;
+	checkNullAndBreak(cursor);
+
 	cursor->setSpriteVisible(false);
 }
 
 void CursorMenu::showCursor()
 {
-	if (cursor == nullptr) return;
+	checkNullAndBreak(cursor);
+
 	cursor->setSpriteVisible(true);
 }

@@ -10,25 +10,32 @@
 #include "Score.h"
 #include "SpawnerManager.h"
 #include "GameManager.h"
+#include "Game.h"
 
 #include <ComponentRegister.h>
 #include <SoundEmitter.h>
 
 REGISTER_FACTORY(Death);
 
-Death::Death(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), meshRenderer(nullptr), rigidBody(nullptr), health(nullptr), scores(nullptr), id(-1)
+Death::Death(GameObject* gameObject) : UserComponent(gameObject), soundEmitter(nullptr), gameManager(nullptr), meshRenderer(nullptr), rigidBody(nullptr), health(nullptr), scores(nullptr), id(-1)
 {
 
 }
 
 Death::~Death()
 {
-
+	gameManager = nullptr;
+	meshRenderer = nullptr;
+	rigidBody = nullptr;
+	health = nullptr;
+	scores = nullptr;
+	soundEmitter = nullptr;
 }
 
 void Death::start()
 {
-	initialPosition = gameObject->transform->getPosition();
+	checkNullAndBreak(gameObject);
+	if (notNull(gameObject->transform)) initialPosition = gameObject->transform->getPosition();
 
 	meshRenderer = gameObject->getComponent<MeshRenderer>();
 	rigidBody = gameObject->getComponent<RigidBody>();
@@ -36,23 +43,21 @@ void Death::start()
 
 	gameManager = GameManager::GetInstance();
 
-	if (gameManager != nullptr)
+	if (notNull(gameManager))
 		scores = gameManager->getScore();
 
 	PlayerIndex* playerId = gameObject->getComponent<PlayerIndex>();
+	if (notNull(playerId))
+		id = playerId->getPosVector();
 
-	if (playerId != nullptr)
-		id = playerId->getId();
-		
 	soundEmitter = gameObject->getComponent<SoundEmitter>();
-	
-	if(soundEmitter != nullptr)
+	if (notNull(soundEmitter))
 		soundEmitter->setVolume(1.2);
 }
 
 void Death::update(float deltaTime)
 {
-	if (health != nullptr && !health->isAlive())
+	if (notNull(health) && !health->isAlive())
 	{
 		die();
 		setActive(false);
@@ -61,6 +66,8 @@ void Death::update(float deltaTime)
 
 void Death::handleData(ComponentData* data)
 {
+	checkNullAndBreak(data);
+
 	for (auto prop : data->getProperties())
 	{
 		std::stringstream ss(prop.second);
@@ -98,12 +105,12 @@ void Death::setWallScale(const Vector3& wallScale)
 
 void Death::die()
 {
-	gameObject->transform->setPosition(initialPosition);
-	rigidBody->setStatic(true);
+	if (notNull(gameObject) && notNull(gameObject->transform)) gameObject->transform->setPosition(initialPosition);
+	if (notNull(rigidBody)) rigidBody->setStatic(true);
 
 	if (wallMeshId != "" || wallMeshName != "")
 	{
-		if (meshRenderer != nullptr) {
+		if (notNull(meshRenderer)) {
 			meshRenderer->changeMesh(wallMeshId, wallMeshName);
 			meshRenderer->setDiffuse(0, playerColour, 1);
 
@@ -114,25 +121,46 @@ void Death::die()
 			meshRenderer->setEmissive(1, baseColour.second);
 		}
 
-		Vector3 scaleRatio = wallScale / gameObject->transform->getScale();
-		gameObject->transform->setScale(wallScale);
-		rigidBody->multiplyScale(scaleRatio);
+		if (notNull(gameObject) && notNull(gameObject->transform)) {
+			Vector3 scaleRatio = wallScale / gameObject->transform->getScale();
+			gameObject->transform->setScale(wallScale);
+			if (rigidBody != nullptr) rigidBody->multiplyScale(scaleRatio);
+		}
 	}
 
-	if (id != -1 && scores != nullptr)
+	if (id != -1 && notNull(scores) && notNull(gameManager))
 		scores->setTimeAlive(id, gameManager->getInitialTime(), gameManager->getTime());
 
-	gameManager->setPlayerRanking(id, gameManager->getPlayersAlive());
-	gameManager->setPlayersAlive(gameManager->getPlayersAlive() - 1);
-	soundEmitter->playSound("Death");
 
-	SpawnerManager* spawnerManager = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>();
+	GameObject* object = findGameObjectWithName("Game");
+	if (notNull(object) && notNull(gameObject))
+	{
+		Game* game = object->getComponent<Game>();
+		PlayerIndex* playerIndex = gameObject->getComponent<PlayerIndex>();
 
-	float genTime = spawnerManager->getGenerationTime();
-	float minTime = spawnerManager->getMinimumTime();
+		if (notNull(playerIndex) && notNull(game) && notNull(gameManager))
+		{
+			gameManager->getRanking().push(ii(playerIndex->getId(), 0 - game->getPlayer()));
+			game->playerDeath();
+		}
+	}
 
-	if (genTime / 2 < minTime)
-		spawnerManager->setGenerationTime(minTime);
-	else
-		spawnerManager->setGenerationTime(genTime / 2);
+	if (notNull(soundEmitter))
+		soundEmitter->playSound("Death");
+
+	SpawnerManager* spawnerManager = nullptr;
+	GameObject* spawner = findGameObjectWithName("SpawnerManager");
+	if (notNull(spawner))
+		spawnerManager = spawner->getComponent<SpawnerManager>();
+
+	if (notNull(spawnerManager))
+	{
+		float genTime = spawnerManager->getGenerationTime();
+		float minTime = spawnerManager->getMinimumTime();
+
+		if (genTime / 2 < minTime)
+			spawnerManager->setGenerationTime(minTime);
+		else
+			spawnerManager->setGenerationTime(genTime / 2);
+	}
 }

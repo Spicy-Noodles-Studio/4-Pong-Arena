@@ -16,19 +16,21 @@ CursorGame::CursorGame(GameObject* gameObject) : UserComponent(gameObject), inpu
 
 CursorGame::~CursorGame()
 {
-
+	inputSystem = nullptr;
+	cursor = nullptr;
+	gameManager = nullptr;
 }
 
 void CursorGame::start()
 {
 	inputSystem = InputSystem::GetInstance();
-	cursor = gameObject->getComponent<Cursor>();
 	gameManager = GameManager::GetInstance();
+	checkNull(inputSystem);
+	checkNull(gameManager);
 
-	if (cursor == nullptr) {
-		LOG("Cursor not found");
-		return;
-	}
+	if (notNull(gameObject)) cursor = gameObject->getComponent<Cursor>();
+
+	checkNullAndBreak(cursor);
 	cursor->setVisibleOnWindow(false);
 	hideCursor();
 }
@@ -39,46 +41,45 @@ void CursorGame::preUpdate(float deltaTime)
 		if (mouseUsed()) showCursor();
 		else if (controllerUsed() || keyboardUsed()) hideCursor();
 	}
-	else {
+	else
 		hideCursor();
-	}
 }
 
 bool CursorGame::isPaused() const
 {
-	if (gameManager == nullptr) return false;
+	checkNullAndBreak(gameManager, false);
 	return gameManager->isPaused();
 }
 
 bool CursorGame::mouseUsed() const
 {
-	if (inputSystem == nullptr) return false;
+	checkNullAndBreak(inputSystem, false);
 
 	return inputSystem->isMouseUsed();
 }
 
 bool CursorGame::keyboardUsed() const
 {
-	if (inputSystem == nullptr) return false;
+	checkNullAndBreak(inputSystem, false);
 
 	return inputSystem->isKeyboardUsed();
 }
 
 bool CursorGame::controllerUsed() const
 {
-	if (inputSystem == nullptr) return false;
+	checkNullAndBreak(inputSystem, false);
 
 	return inputSystem->isControllerUsed();
 }
 
 void CursorGame::hideCursor()
 {
-	if (cursor == nullptr) return;
+	checkNullAndBreak(cursor);
 	cursor->setSpriteVisible(false);
 }
 
 void CursorGame::showCursor()
 {
-	if (cursor == nullptr) return;
+	checkNullAndBreak(cursor);
 	cursor->setSpriteVisible(true);
 }

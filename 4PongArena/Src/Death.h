@@ -38,14 +38,15 @@ private:
 public:
 	Death(GameObject* gameObject);
 	virtual ~Death();
+	void setPlayerColour(const Vector3& colour);
+	void setwallColours(const std::pair<Vector3, Vector3>& baseColour, const std::pair<Vector3, Vector3>& neonColour);
+	void setWallScale(const Vector3& wallScale);
 
+protected:
 	virtual void start();
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
 
-	void setPlayerColour(const Vector3& colour);
-	void setwallColours(const std::pair<Vector3, Vector3>& baseColour, const std::pair<Vector3, Vector3>& neonColour);
-	void setWallScale(const Vector3& wallScale);
 };
 
 #endif

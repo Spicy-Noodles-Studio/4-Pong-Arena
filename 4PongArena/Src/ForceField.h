@@ -19,13 +19,13 @@ private:
 public:
 	ForceField(GameObject* gameObject);
 	virtual ~ForceField();
+	void setTargetVelocity(float targetVelocity);
+	void setAcceleration(float acceleration);
 
+protected: 
 	virtual void start();
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
 	virtual void onObjectEnter(GameObject* other);
-
-	void setTargetVelocity(float targetVelocity);
-	void setAcceleration(float acceleration);
 };
 #endif

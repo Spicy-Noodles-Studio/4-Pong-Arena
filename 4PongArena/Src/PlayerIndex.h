@@ -8,14 +8,18 @@ class PlayerIndex : public UserComponent
 {
 private:
 	int id;
+	int pos;
 public:
 	PlayerIndex(GameObject* gameObject);
 	virtual ~PlayerIndex();
-
-	virtual void handleData(ComponentData* data);
-
-	int getId();
+	int getId() const;
 	void setId(int ind);
+
+	int getPosVector() const;
+	void setPos(int posVector);
+
+protected:
+	virtual void handleData(ComponentData* data);
 };
 #endif
 

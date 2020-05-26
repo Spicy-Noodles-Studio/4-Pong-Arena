@@ -20,9 +20,10 @@ public:
 	Spawner(GameObject* gameObject);
 	virtual ~Spawner();
 
+	void shoot(GameObject* ball);
+
+protected:
 	virtual void start();
 	virtual void handleData(ComponentData* data);
-
-	void shoot(GameObject* ball);
 };
 #endif

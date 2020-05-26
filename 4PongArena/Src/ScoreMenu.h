@@ -9,14 +9,16 @@
 #include <vector>
 #include <string>
 
-class GameManager;
+class Score;
 
 class ScoreMenu : public Menu
 {
 private:
-	GameManager* gameManager;
+	Score* score;
 	std::vector<UIElement> texts;
 	std::vector<UIElement> panels;
+
+	std::vector<int> positions;
 
 	void reposition(int numOfPlayers);
 	void initStatistics(int numOfPlayers);
@@ -34,6 +36,7 @@ public:
 	ScoreMenu(GameObject* gameObject);
 	virtual ~ScoreMenu();
 
+protected:
 	virtual void start();
 	virtual void update(float deltaTime);
 };

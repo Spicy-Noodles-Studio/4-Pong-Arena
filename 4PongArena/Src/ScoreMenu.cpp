@@ -13,46 +13,50 @@
 
 REGISTER_FACTORY(ScoreMenu);
 
-ScoreMenu::ScoreMenu(GameObject* gameObject) : Menu(gameObject), gameManager(nullptr), texts(), panels()
+ScoreMenu::ScoreMenu(GameObject* gameObject) : Menu(gameObject), texts(), panels()
 {
 
 }
 
 ScoreMenu::~ScoreMenu()
 {
-
+	texts.clear();
+	panels.clear();
 }
 
 void ScoreMenu::start()
 {
 	Menu::start();
-	
-	gameManager = GameManager::GetInstance();
 
-	GameObject* camera = findGameObjectWithName("MainCamera");
+	checkNullAndBreak(gameManager);
+
+	score = gameManager->getScore();
+
 	UILayout* layout = nullptr;
 	UIElement root = NULL;
 
-	if (camera != nullptr)
+	if (mainCamera != nullptr)
 	{
-		layout = camera->getComponent<UILayout>();
-
-		if (layout != nullptr)
-			root = layout->getRoot();
+		layout = mainCamera->getComponent<UILayout>();
+		if (layout != nullptr) root = layout->getRoot();
 	}
 
-	for (int i = 0; i < 4; i++)
+	Score* score = gameManager->getScore();
+	if (notNull(score))
+		positions = score->getPlayerIDs();
+
+	for (int i = 0; i < positions.size(); i++)
 	{
-		std::string name = "P" + std::to_string(i + 1);
+		std::string name = "P" + std::to_string(positions[i]);
 		texts.push_back(root.getChild(name));
-		root.getChild(name).setText(name + ": " + std::to_string(gameManager->getPlayerRanking(i + 1)));
+		root.getChild(name).setText("Player " + std::to_string(positions[i]) + ": " + std::to_string(gameManager->getPlayerRanking(positions[i])) + "º");
 
 		name = name + "Background";
 		panels.push_back(root.getChild(name));
 	}
 
 	if (gameManager->getWinner() != -1)
-		root.getChild("Result").setText("WINNER: PLAYER " + std::to_string(gameManager->getWinner()));
+		root.getChild("Result").setText("WINNER: PLAYER " + std::to_string(positions[gameManager->getWinner() - 1]));
 	else
 		root.getChild("Result").setText("TIE");
 
@@ -62,8 +66,8 @@ void ScoreMenu::start()
 
 void ScoreMenu::update(float deltaTime)
 {
-	if (InputSystem::GetInstance()->getKeyPress("ESCAPE") || checkControllersInput())
-		SceneManager::GetInstance()->changeScene("ConfigurationMenu");
+	if (notNull(inputSystem) && (inputSystem->getKeyPress("ESCAPE") || checkControllersInput()) && notNull(sceneManager))
+		sceneManager->changeScene("ConfigurationMenu");
 }
 
 bool ScoreMenu::checkControllersInput()
@@ -73,7 +77,7 @@ bool ScoreMenu::checkControllersInput()
 	int i = 0;
 	while (i < 4 && !result)
 	{
-		if (InputSystem::GetInstance()->getButtonPress(i, "B"))
+		if (notNull(inputSystem) && inputSystem->getButtonPress(i, "B"))
 			result = true;
 
 		i++;
@@ -93,12 +97,14 @@ void ScoreMenu::reposition(int numOfPlayers)
 		float textPos = iTextPos + size * i;
 		float panelPos = iPanelPos + size * i;
 
-		texts.at(i).setVisible(true);
-		texts.at(i).setPosition(textPos, 0.2);
+		if (i < texts.size()) {
+			texts.at(i).setVisible(true);
+			texts.at(i).setPosition(textPos, 0.2);
 
-		panels.at(i).setVisible(true);
-		panels.at(i).setPosition(panelPos, 0.3);
-		panels.at(i).setSize(size, 0.4);
+			panels.at(i).setVisible(true);
+			panels.at(i).setPosition(panelPos, 0.3);
+			panels.at(i).setSize(size, 0.4);
+		}
 	}
 }
 
@@ -106,51 +112,61 @@ void ScoreMenu::initStatistics(int numOfPlayers)
 {
 	for (int i = 0; i < numOfPlayers; i++)
 	{
-		setNumOfHits(i + 1);
-
-		setNumOfGoals(i + 1);
-		setNumOfSelfGoals(i + 1);
-
-		setTimeAlive(i + 1);
+		setNumOfHits(i);
+		setNumOfGoals(i);
+		setNumOfSelfGoals(i);
+		setTimeAlive(i);
 	}
 }
 
 void ScoreMenu::setNumOfHits(int playerIndex)
 {
-	Score* score = gameManager->getScore();
-	std::string name = "P" + std::to_string(playerIndex);
+	checkNullAndBreak(gameManager);
+	checkNullAndBreak(score);
+
+	if (playerIndex <0 || playerIndex >= positions.size() || playerIndex>panels.size()) return;
+
+	std::string name = "P" + std::to_string(positions[playerIndex]);
 	name = name + "NumOfHits";
 
-	if (playerIndex > 0)
-		panels.at(playerIndex - 1).getChild(name).setText("Balls hit: " + std::to_string(score->getNumOfBallsHit(playerIndex)));
+	panels.at(playerIndex).getChild(name).setText("Balls hit: " + std::to_string(score->getNumOfBallsHit(playerIndex)));
 }
 
 void ScoreMenu::setNumOfGoals(int playerIndex)
 {
-	Score* score = gameManager->getScore();
-	std::string name = "P" + std::to_string(playerIndex);
+	checkNullAndBreak(gameManager);
+	checkNullAndBreak(score);
+
+	if (playerIndex <0 || playerIndex >= positions.size() || playerIndex>panels.size()) return;
+
+	std::string name = "P" + std::to_string(positions[playerIndex]);
 	name = name + "NumOfGoals";
 
-	if (playerIndex > 0)
-		panels.at(playerIndex - 1).getChild(name).setText("Goals: " + std::to_string(score->getNumOfGoals(playerIndex)));
+	panels.at(playerIndex).getChild(name).setText("Goals: " + std::to_string(score->getNumOfGoals(playerIndex)));
 }
 
 void ScoreMenu::setNumOfSelfGoals(int playerIndex)
 {
-	Score* score = gameManager->getScore();
-	std::string name = "P" + std::to_string(playerIndex);
+	checkNullAndBreak(gameManager);
+	checkNullAndBreak(score);
+
+	if (playerIndex <0 || playerIndex >= positions.size() || playerIndex>panels.size()) return;
+
+	std::string name = "P" + std::to_string(positions[playerIndex]);
 	name = name + "NumOfSelfGoals";
 
-	if (playerIndex > 0)
-		panels.at(playerIndex - 1).getChild(name).setText("Own goals: " + std::to_string(score->getNumOfSelfGoals(playerIndex)));
+	panels.at(playerIndex).getChild(name).setText("Own goals: " + std::to_string(score->getNumOfSelfGoals(playerIndex)));
 }
 
 void ScoreMenu::setTimeAlive(int playerIndex)
 {
-	Score* score = gameManager->getScore();
-	std::string name = "P" + std::to_string(playerIndex);
+	checkNullAndBreak(gameManager);
+	checkNullAndBreak(score);
+
+	if (playerIndex <0 || playerIndex >= positions.size() || playerIndex>panels.size()) return;
+
+	std::string name = "P" + std::to_string(positions[playerIndex]);
 	name = name + "TimeAlive";
 
-	if (playerIndex > 0)
-		panels.at(playerIndex - 1).getChild(name).setText("Time alive: " + std::to_string(score->getTimeAlive(playerIndex)));
+	panels.at(playerIndex).getChild(name).setText("Time alive: " + std::to_string(score->getTimeAlive(playerIndex)));
 }

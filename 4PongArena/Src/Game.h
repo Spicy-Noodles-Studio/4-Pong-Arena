@@ -43,6 +43,8 @@ private:
 
 	Vector3 wallScale;
 
+	int players;
+	int winner;
 	float gameTimer;
 
 	int levelBase;
@@ -59,8 +61,10 @@ private:
 	void configureLevelCollider(const std::string& name);
 
 	void playSong();
+	void endHandleSound();
+
+	void setRanking();
 	void chooseWinner();
-	void endgameHandleSound();
 
 	std::pair<std::string, std::string> timeToText();
 
@@ -68,6 +72,12 @@ public:
 	Game(GameObject* gameObject);
 	virtual ~Game();
 
+	void playerDeath();
+
+	int getPlayer() const;
+	float getTime() const;
+
+protected:
 	virtual void start();
 	virtual void update(float deltaTime);
 };

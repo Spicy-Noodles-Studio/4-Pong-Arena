@@ -25,16 +25,20 @@ private:
 
 	std::string previousCount;
 
+	void activateCountdown(bool activate);
+
 public:
 	Countdown(GameObject* gameObject);
 	virtual ~Countdown();
 
+	bool hasStarted() const;
+	bool isCounting() const;
+	float getRemainingTime() const;
+
+protected:
 	virtual void start();
 	virtual void update(float deltaTime);
 	virtual void handleData(ComponentData* data);
-
-	bool isCounting() const;
-	float getRemainingTime();
 };
 
 #endif

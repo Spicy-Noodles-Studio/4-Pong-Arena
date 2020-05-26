@@ -1,5 +1,4 @@
 ./Assets/Blueprints/Camera.blueprint
-./Assets/Blueprints/Ground.blueprint
 ./Assets/Blueprints/Spawner.blueprint
 ./Assets/Blueprints/Wall.blueprint
 ./Assets/Blueprints/Paddle.blueprint

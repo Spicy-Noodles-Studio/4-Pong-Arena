@@ -14,9 +14,6 @@ public:
 	CursorGame(GameObject* gameObject);
 	virtual ~CursorGame();
 
-	void start();
-	void preUpdate(float deltaTime);
-
 private:
 	bool isPaused() const;
 
@@ -31,6 +28,11 @@ private:
 	InputSystem* inputSystem;
 	Cursor* cursor;
 	GameManager* gameManager;
+
+protected:
+	void start();
+	void preUpdate(float deltaTime);
+
 
 };
 #endif

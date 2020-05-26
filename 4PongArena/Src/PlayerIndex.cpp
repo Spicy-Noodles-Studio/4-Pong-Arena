@@ -15,21 +15,22 @@ PlayerIndex::~PlayerIndex()
 
 void PlayerIndex::handleData(ComponentData* data)
 {
+	checkNullAndBreak(data);
+
 	for (auto prop : data->getProperties())
 	{
 		std::stringstream ss(prop.second);
 
 		if (prop.first == "id")
 		{
-			if (!(ss >> id))
-				LOG("PLAYER INDEX: Invalid property with name \"%s\"", prop.first.c_str());
+			setInt(id);
 		}
 		else
 			LOG("PLAYER INDEX: Invalid property name \"%s\"", prop.first.c_str());
 	}
 }
 
-int PlayerIndex::getId()
+int PlayerIndex::getId() const
 {
 	return id;
 }
@@ -37,4 +38,14 @@ int PlayerIndex::getId()
 void PlayerIndex::setId(int ind)
 {
 	id = ind;
+}
+
+int PlayerIndex::getPosVector() const
+{
+	return pos;
+}
+
+void PlayerIndex::setPos(int posVector)
+{
+	pos = posVector;
 }

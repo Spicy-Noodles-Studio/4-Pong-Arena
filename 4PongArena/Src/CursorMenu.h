@@ -13,9 +13,6 @@ public:
 	CursorMenu(GameObject* gameObject);
 	virtual ~CursorMenu();
 
-	void start();
-	void preUpdate(float deltaTime);
-
 private:
 	bool mouseUsed() const;
 	bool keyboardUsed() const;
@@ -27,6 +24,10 @@ private:
 private:
 	InputSystem* inputSystem;
 	Cursor* cursor;
+
+protected:
+	void start();
+	void preUpdate(float deltaTime);
 };
 
 #endif

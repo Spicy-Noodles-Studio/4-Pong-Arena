@@ -11,7 +11,7 @@ material Goal
 
 			texture_unit
 			{
-				texture estallido.png
+				texture burst.png
 				tex_address_mode clamp
 			}
 		}

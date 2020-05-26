@@ -8,7 +8,6 @@
 #include <UIElement.h>
 
 #include <vector>
-#include <string>
 
 const int MIN_TIME = 60;
 const int MAX_TIME = 300;
@@ -24,13 +23,11 @@ const int BASE_TYPES = 2;
 const int OBSTACLES_TYPES = 2;
 const int FORCES_TYPES = 2;
 
-class InputSystem;
 class UILayout;
 
 class ConfigurationMenu : public Menu
 {
 private:
-	InputSystem* inputSystem;
 	UILayout* configurationLayout;
 
 	UIElement settingsPanel;
@@ -92,6 +89,7 @@ public:
 	ConfigurationMenu(GameObject* gameObject);
 	virtual ~ConfigurationMenu();
 
+protected:
 	virtual void start();
 	virtual void update(float deltaTime);
 };

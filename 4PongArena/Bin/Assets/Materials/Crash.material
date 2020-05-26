@@ -11,7 +11,7 @@ material Crash
 
 			texture_unit
 			{
-				texture pruebaPolvo.png
+				texture dust.png
 				tex_address_mode clamp
 			}
 		}
