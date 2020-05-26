@@ -16,8 +16,10 @@ class Score
 	};
 private:
 	std::vector<ScorePlayer*> playerScores;
+	std::vector<int> playerIDs;
+
 	int numPlayers;
-	std::vector<int> playerId;
+
 	void initScorePlayer(ScorePlayer* player);
 
 public:
@@ -25,7 +27,9 @@ public:
 	virtual ~Score();
 
 	void initScore(int numOfPlayers);
-	void clearIds();
+
+	std::vector<int>& getPlayerIDs();
+	void clearIDs();
 
 	void setTimeAlive(int playerIndex, int originalTime, int timeOfDeath);
 	void goalMade(int playerIndex);
@@ -36,9 +40,6 @@ public:
 	int getNumOfGoals(int playerIndex);
 	int getNumOfSelfGoals(int playerIndex);
 	int getNumOfBallsHit(int playerIndex);
-	void pushPlayerId(int id);
-	int getPlayerId(int pos);
-
 };
 
 

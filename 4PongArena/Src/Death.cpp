@@ -17,7 +17,7 @@
 
 REGISTER_FACTORY(Death);
 
-Death::Death(GameObject* gameObject) : UserComponent(gameObject), soundEmitter (nullptr), gameManager(nullptr), meshRenderer(nullptr), rigidBody(nullptr), health(nullptr), scores(nullptr), id(-1)
+Death::Death(GameObject* gameObject) : UserComponent(gameObject), soundEmitter(nullptr), gameManager(nullptr), meshRenderer(nullptr), rigidBody(nullptr), health(nullptr), scores(nullptr), id(-1)
 {
 
 }
@@ -138,17 +138,20 @@ void Death::die()
 	if (id != -1 && scores != nullptr)
 		scores->setTimeAlive(id, gameManager->getInitialTime(), gameManager->getTime());
 
-	PlayerIndex* playerIndex = gameObject->getComponent<PlayerIndex>();
-	if (playerIndex != nullptr && GameManager::GetInstance() != nullptr)
-		GameManager::GetInstance()->getRanking().push(ii(playerIndex->getId(), 0));
+	GameManager* gameManager = GameManager::GetInstance();
 
+	GameObject* object = findGameObjectWithName("Game");
+	if (object != nullptr)
+	{
+		Game* game = object->getComponent<Game>();
+		PlayerIndex* playerIndex = gameObject->getComponent<PlayerIndex>();
 
-	Game* game = nullptr;
-	if (findGameObjectWithName("Game") != nullptr)
-		game = findGameObjectWithName("Game")->getComponent<Game>();
-
-	if (game != nullptr)
-		game->playerDeath();
+		if (playerIndex != nullptr && game != nullptr && gameManager != nullptr)
+		{
+			gameManager->getRanking().push(ii(playerIndex->getId(), 0 - game->getPlayer()));
+			game->playerDeath();
+		}
+	}
 
 	if (soundEmitter != nullptr)
 		soundEmitter->playSound("Death");

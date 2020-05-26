@@ -170,7 +170,8 @@ void Game::createPlayers()
 
 	std::vector<int> indexes = gameManager->getPlayerIndexes();
 	gameManager->getPaddles().clear();
-	gameManager->getScore()->clearIds();
+	gameManager->getScore()->clearIDs();
+
 	int posInScore = 0;
 	for (int i = 0; i < indexes.size(); i++)
 	{
@@ -222,7 +223,7 @@ void Game::createPlayers()
 			if (gameManager != nullptr)
 			{
 				gameManager->getPaddles().push_back(paddle);
-				if (gameManager->getScore() != nullptr) gameManager->getScore()->pushPlayerId(i + 1);
+				if (gameManager->getScore() != nullptr) gameManager->getScore()->getPlayerIDs().push_back(i + 1);
 			}
 		}
 		else
@@ -424,7 +425,7 @@ void Game::setRanking()
 	for (int i = 0; i < paddles.size(); i++)
 	{
 		Health* health = paddles[i]->getComponent<Health>();
-		if (health != nullptr && health->getHealth() != 0)
+		if (health != nullptr && health->getHealth() > 0)
 			gameManager->getRanking().push(ii(i + 1, health->getHealth()));
 
 		if (paddles[i]->getComponent<PlayerController>() != nullptr)
@@ -437,22 +438,26 @@ void Game::setRanking()
 	}
 
 	std::priority_queue<ii, std::vector<ii>, Less> aux = gameManager->getRanking();
+	std::vector<bool> alreadyInRanking(4, false);
 
 	int cont = 0;
 	bool tie = false;
-	ii last = ii(-1, -1);
+	ii last = ii(-1e9, -1e9);
 
 	while (!aux.empty())
 	{
 		ii info = aux.top();
 		aux.pop();
 
-		if (info.second == last.second && cont < 1)
-			tie = true;
+		if (info.first > 0 && alreadyInRanking[info.first - 1]) continue;
+
+		if (info.second == last.second)
+			tie = tie || cont <= 1;
 		else
 			cont++;
 
 		gameManager->setPlayerRanking(info.first, cont);
+		alreadyInRanking[info.first - 1] = true;
 		last = info;
 	}
 
@@ -515,7 +520,12 @@ void Game::playerDeath()
 		chooseWinner();
 }
 
-float Game::getTime()
+int Game::getPlayer() const
+{
+	return players;
+}
+
+float Game::getTime() const
 {
 	return gameTimer;
 }

@@ -28,13 +28,15 @@ ScoreMenu::~ScoreMenu()
 void ScoreMenu::start()
 {
 	Menu::start();
-	
+
 	gameManager = GameManager::GetInstance();
+
+	if (gameManager == nullptr) return;
 
 	GameObject* camera = findGameObjectWithName("MainCamera");
 	UILayout* layout = nullptr;
 	UIElement root = NULL;
-	Score* score=nullptr;
+
 	if (camera != nullptr)
 	{
 		layout = camera->getComponent<UILayout>();
@@ -42,50 +44,27 @@ void ScoreMenu::start()
 		if (layout != nullptr)
 			root = layout->getRoot();
 	}
-	if (gameManager != nullptr) {
-		score = gameManager->getScore();
-	}
-	int lastUsed = -1;
-	bool use;
-	for (int i = 0; i < 4; i++)
+
+	Score* score = gameManager->getScore();
+	positions = score->getPlayerIDs();
+
+	for (int i = 0; i < positions.size(); i++)
 	{
-		if (score != nullptr) {
-			std::string name;
-			int ranking;
-			if (score->getPlayerId(i) != -1) {
-				name = "P" + std::to_string(score->getPlayerId(i));
-				ranking = score->getPlayerId(i);
-				use = true;
-			}
-			else {
-				name = "P" + std::to_string(i + 1);
-				ranking = i + 1;
-				use = false;
-			}
-			
+		std::string name = "P" + std::to_string(positions[i]);
+		texts.push_back(root.getChild(name));
+		root.getChild(name).setText("Player " + std::to_string(positions[i]) + ": " + std::to_string(gameManager->getPlayerRanking(positions[i])) + "º");
 
-			texts.push_back(root.getChild(name));
-			if (gameManager != nullptr && lastUsed != ranking)
-			{
-				root.getChild(name).setText(name + ": " + std::to_string(gameManager->getPlayerRanking(i+1)));
-				if(use)
-				lastUsed = ranking;
-			}
-
-			name = name + "Background";
-			panels.push_back(root.getChild(name));
-		}
+		name = name + "Background";
+		panels.push_back(root.getChild(name));
 	}
 
-	if (gameManager != nullptr && score!=nullptr && gameManager->getWinner() != -1)
-		root.getChild("Result").setText("WINNER: PLAYER " + std::to_string(score->getPlayerId(gameManager->getWinner()-1)));
+	if (gameManager->getWinner() != -1)
+		root.getChild("Result").setText("WINNER: PLAYER " + std::to_string(positions[gameManager->getWinner() - 1]));
 	else
 		root.getChild("Result").setText("TIE");
 
-	if (gameManager != nullptr) {
-		reposition(gameManager->getInitialPlayers());
-		initStatistics(gameManager->getInitialPlayers());
-	}
+	reposition(gameManager->getInitialPlayers());
+	initStatistics(gameManager->getInitialPlayers());
 }
 
 void ScoreMenu::update(float deltaTime)
@@ -154,7 +133,7 @@ void ScoreMenu::setNumOfHits(int playerIndex)
 
 	Score* score = gameManager->getScore();
 	if (score == nullptr)return;
-	std::string name = "P" + std::to_string(score->getPlayerId(playerIndex));
+	std::string name = "P" + std::to_string(positions[playerIndex]);
 	name = name + "NumOfHits";
 
 	if (playerIndex >= 0)
@@ -167,7 +146,7 @@ void ScoreMenu::setNumOfGoals(int playerIndex)
 
 	Score* score = gameManager->getScore();
 	if (score == nullptr)return;
-	std::string name = "P" + std::to_string(score->getPlayerId(playerIndex));
+	std::string name = "P" + std::to_string(positions[playerIndex]);
 	name = name + "NumOfGoals";
 
 	if (playerIndex >= 0)
@@ -180,7 +159,7 @@ void ScoreMenu::setNumOfSelfGoals(int playerIndex)
 
 	Score* score = gameManager->getScore();
 	if (score == nullptr)return;
-	std::string name = "P" + std::to_string(score->getPlayerId(playerIndex));
+	std::string name = "P" + std::to_string(positions[playerIndex]);
 	name = name + "NumOfSelfGoals";
 
 	if (playerIndex >= 0)
@@ -193,7 +172,7 @@ void ScoreMenu::setTimeAlive(int playerIndex)
 
 	Score* score = gameManager->getScore();
 	if (score == nullptr)return;
-	std::string name = "P" + std::to_string(score->getPlayerId(playerIndex));
+	std::string name = "P" + std::to_string(positions[playerIndex]);
 	name = name + "TimeAlive";
 
 	if (playerIndex >= 0)

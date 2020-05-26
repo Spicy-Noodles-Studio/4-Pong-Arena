@@ -21,7 +21,7 @@ Score::~Score()
 		delete score;
 
 	playerScores.clear();
-	playerId.clear();
+	playerIDs.clear();
 }
 
 void Score::initScore(int numOfPlayers)
@@ -42,37 +42,42 @@ void Score::initScore(int numOfPlayers)
 	}
 }
 
-void Score::clearIds()
+std::vector<int>& Score::getPlayerIDs()
 {
-	playerId.clear();
+	return playerIDs;
+}
+
+void Score::clearIDs()
+{
+	playerIDs.clear();
 }
 
 void Score::setTimeAlive(int playerIndex, int originalTime, int timeOfDeath)
 {
 	if (playerIndex < playerScores.size())
-	playerScores.at(playerIndex)->timeAlive = originalTime - timeOfDeath;
-	
+		playerScores.at(playerIndex)->timeAlive = originalTime - timeOfDeath;
+
 }
 
 void Score::goalMade(int playerIndex)
 {
 	if (playerIndex < playerScores.size())
-	playerScores.at(playerIndex)->numOfGoals++;
-	
+		playerScores.at(playerIndex)->numOfGoals++;
+
 }
 
 void Score::goalSelfMade(int playerIndex)
 {
 	if (playerIndex < playerScores.size())
-	playerScores.at(playerIndex)->numOfSelfGoals++;
+		playerScores.at(playerIndex)->numOfSelfGoals++;
 
 }
 
 void Score::ballHit(int playerIndex)
 {
 	if (playerIndex < playerScores.size())
-	playerScores.at(playerIndex)->numOfBallsHit++;
-	
+		playerScores.at(playerIndex)->numOfBallsHit++;
+
 }
 
 int Score::getTimeAlive(int playerIndex)
@@ -86,7 +91,7 @@ int Score::getTimeAlive(int playerIndex)
 int Score::getNumOfGoals(int playerIndex)
 {
 	if (playerIndex < playerScores.size())
-	return playerScores.at(playerIndex)->numOfGoals;
+		return playerScores.at(playerIndex)->numOfGoals;
 	else
 		return -1;
 }
@@ -94,7 +99,7 @@ int Score::getNumOfGoals(int playerIndex)
 int Score::getNumOfSelfGoals(int playerIndex)
 {
 	if (playerIndex < playerScores.size())
-	return playerScores.at(playerIndex)->numOfSelfGoals;
+		return playerScores.at(playerIndex)->numOfSelfGoals;
 	else
 		return -1;
 }
@@ -102,20 +107,7 @@ int Score::getNumOfSelfGoals(int playerIndex)
 int Score::getNumOfBallsHit(int playerIndex)
 {
 	if (playerIndex < playerScores.size())
-	return playerScores.at(playerIndex)->numOfBallsHit;
-	else
-		return -1;
-}
-
-void Score::pushPlayerId(int id)
-{
-	playerId.push_back(id);
-}
-
-int Score::getPlayerId(int pos)
-{
-	if (pos < playerId.size())
-		return playerId.at(pos);
+		return playerScores.at(playerIndex)->numOfBallsHit;
 	else
 		return -1;
 }

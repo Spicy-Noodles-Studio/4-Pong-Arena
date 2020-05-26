@@ -18,7 +18,7 @@
 
 REGISTER_FACTORY(Goal);
 
-Goal::Goal(GameObject* gameObject) : UserComponent(gameObject), health(nullptr),cameraEffects(nullptr), gameManager(nullptr), particleManager(nullptr),scoreManager(nullptr), id(0), score(0)
+Goal::Goal(GameObject* gameObject) : UserComponent(gameObject), health(nullptr), cameraEffects(nullptr), gameManager(nullptr), particleManager(nullptr), scoreManager(nullptr), id(0), score(0)
 {
 
 }
@@ -38,7 +38,7 @@ void Goal::start()
 		gameManager = GameManager::GetInstance();
 		if (gameManager != nullptr)
 			scoreManager = gameManager->getScore();
-		
+
 		if (health != nullptr && health->gameObject != nullptr)
 		{
 			PlayerIndex* playerId = health->gameObject->getComponent<PlayerIndex>();
@@ -50,7 +50,7 @@ void Goal::start()
 			}
 		}
 		particleManager = gameObject->getComponent<ParticleManager>();
-		
+
 		GameObject* cam = findGameObjectWithName("MainCamera");
 		if (cam != nullptr) cameraEffects = cam->getComponent<CameraEffects>();
 	}
@@ -87,30 +87,29 @@ void Goal::onObjectEnter(GameObject* other)
 				Vector3 thisPos, otherPos;
 				if (gameObject != nullptr && gameObject->transform != nullptr) thisPos = gameObject->transform->getPosition();
 				if (other->transform != nullptr) otherPos = other->transform->getPosition();
-				double midZ= otherPos.z - thisPos.z;
+				double midZ = otherPos.z - thisPos.z;
 				double midX = (otherPos.x - thisPos.x);
 
 				Vector3 finalPos, scale, rotation;
-				
-				if (gameObject == nullptr || gameObject->transform==nullptr) return;
+
+				if (gameObject == nullptr || gameObject->transform == nullptr) return;
 
 				scale = gameObject->transform->getScale();
 				rotation = gameObject->transform->getRotation();
 
-					finalPos.x = (otherPos.y - thisPos.y);
-					finalPos.y = (midX / scale.y) * cos(rotation.x * DEG_TO_RAD) + (midZ / scale.y) * sin(rotation.x * DEG_TO_RAD);
-					finalPos.z = midZ * cos(rotation.x * DEG_TO_RAD) + midX * -sin(rotation.x * DEG_TO_RAD);
+				finalPos.x = (otherPos.y - thisPos.y);
+				finalPos.y = (midX / scale.y) * cos(rotation.x * DEG_TO_RAD) + (midZ / scale.y) * sin(rotation.x * DEG_TO_RAD);
+				finalPos.z = midZ * cos(rotation.x * DEG_TO_RAD) + midX * -sin(rotation.x * DEG_TO_RAD);
 
-					if (other->getComponent<Trail>() != nullptr) other->getComponent<Trail>()->stop();
+				if (other->getComponent<Trail>() != nullptr) other->getComponent<Trail>()->stop();
 
-					particleManager->playParticles(0.6, finalPos);
-				}
+				particleManager->playParticles(0.6, finalPos);
 			}
 		}
-	if (other->transform != nullptr) other->transform->setPosition({ 0,-10,0 });
-	other->setActive(false);
-	other->getComponent<MeshRenderer>()->setVisible(false);
-	
+		if (other->transform != nullptr) other->transform->setPosition({ 0,-10,0 });
+		other->setActive(false);
+		other->getComponent<MeshRenderer>()->setVisible(false);
+	}
 }
 
 void Goal::setScore(int score)

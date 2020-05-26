@@ -18,6 +18,8 @@ private:
 	std::vector<UIElement> texts;
 	std::vector<UIElement> panels;
 
+	std::vector<int> positions;
+
 	void reposition(int numOfPlayers);
 	void initStatistics(int numOfPlayers);
 

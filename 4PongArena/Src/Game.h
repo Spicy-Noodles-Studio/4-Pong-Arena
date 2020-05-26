@@ -74,7 +74,8 @@ public:
 
 	void playerDeath();
 
-	float getTime();
+	int getPlayer() const;
+	float getTime() const;
 
 protected:
 	virtual void start();
