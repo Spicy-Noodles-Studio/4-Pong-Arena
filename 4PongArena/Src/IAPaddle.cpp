@@ -115,7 +115,6 @@ void IAPaddle::processChooseTargetState()
 
 	//De todas las que se dirigen a mi, elijo una random
 	targetBall = validBalls[rand() % validBalls.size()];
-	if (soundEmitter != nullptr) soundEmitter->playSound("Paddle_Move");
 	currentState = State::MOVE;
 }
 

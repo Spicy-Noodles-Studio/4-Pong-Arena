@@ -38,11 +38,10 @@ void PlayerController::start()
 void PlayerController::update(float deltaTime)
 {
 	checkInput();
-	if (hasMoved && !moving) {
+	if (hasMoved && !moving)
 		moving = true;
-		if (soundEmitter != nullptr) soundEmitter->playSound("Paddle_Move");
-	}
-	else if (moving && !hasMoved) moving = false;
+	else if (moving && !hasMoved)
+		moving = false;
 }
 
 void PlayerController::handleData(ComponentData* data)

@@ -1,14 +1,9 @@
 USAGE: file_name" "sound_name" "2D/3D" "LOOP (true/false)
 EXAMPLE: despacito.mp3 scene_1_music 2D true
-./Assets/Sounds/despacito.mp3 despacito 2D false
-./Assets/Sounds/test1.mp3 prueba 2D true
-./Assets/Sounds/test2.mp3 prueba2 3D true
-./Assets/Sounds/piano.mp3 piano 3D false
-./Assets/Sounds/WaterDrop.wav prueba3 3D false
+
 ./Assets/Sounds/UI/Button_Click.wav Button_Click 2D false
-./Assets/Sounds/UI/Button2.wav Button2 2D false
-./Assets/Sounds/UI/Focus_Change.wav Focus_Change 2D false
 ./Assets/Sounds/UI/Back_Button.wav Back_Button 2D false
+
 ./Assets/Sounds/Game_Effects/Ball_bounce.wav Ball_bounce 3D false
 ./Assets/Sounds/Game_Effects/Ball_bounce_hard.wav Ball_bounce_hard 3D false
 ./Assets/Sounds/Game_Effects/Ball_Launch.wav Ball_Launch 2D false
@@ -25,6 +20,7 @@ EXAMPLE: despacito.mp3 scene_1_music 2D true
 ./Assets/Sounds/Game_Effects/Countdown_end.wav Countdown_end 2D false
 ./Assets/Sounds/Game_Effects/Game_End.wav Game_End 2D false
 ./Assets/Sounds/Game_Effects/Game_Start.wav Game_Start 2D false
+
 ./Assets/Sounds/Music/Menu_loop.wav Menu_loop 2D true
 ./Assets/Sounds/Music/Bloody_Mary.mp3 BloodyMary 2D true
 ./Assets/Sounds/Music/Controversia.wav Controversia 2D true
