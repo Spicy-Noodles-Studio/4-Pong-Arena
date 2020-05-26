@@ -12,14 +12,17 @@
 
 REGISTER_FACTORY(GoalKeeper);
 
-GoalKeeper::GoalKeeper(GameObject* gameObject) : UserComponent(gameObject), goal(nullptr), offset(0.0f)
+GoalKeeper::GoalKeeper(GameObject* gameObject) : UserComponent(gameObject), goal(nullptr), health (nullptr), scores(nullptr), manager(nullptr), id(0), offset(0.0f)
 {
 
 }
 
 GoalKeeper::~GoalKeeper()
 {
-
+	goal = nullptr;
+	health = nullptr;
+	scores = nullptr;
+	manager = nullptr;
 }
 
 void GoalKeeper::start()

@@ -19,7 +19,7 @@ ForceField::ForceField(GameObject* gameObject) : UserComponent(gameObject), soun
 
 ForceField::~ForceField()
 {
-
+	soundEmitter = nullptr;
 }
 
 void ForceField::start()

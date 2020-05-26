@@ -13,7 +13,11 @@ Menu::Menu(GameObject* gameObject) : UserComponent(gameObject), inputSystem(null
 
 Menu::~Menu()
 {
-
+	inputSystem = nullptr;
+	interfaceSystem = nullptr;
+	soundEmitter = nullptr;
+	sceneManager = nullptr;
+	mainCamera = nullptr;
 }
 
 void Menu::start()

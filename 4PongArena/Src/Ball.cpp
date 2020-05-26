@@ -16,7 +16,9 @@ Ball::Ball(GameObject* gameObject) : UserComponent(gameObject), rigidBody(nullpt
 
 Ball::~Ball()
 {
-
+	rigidBody = nullptr;
+	soundEmitter = nullptr;
+	particleManager = nullptr;
 }
 
 void Ball::start()

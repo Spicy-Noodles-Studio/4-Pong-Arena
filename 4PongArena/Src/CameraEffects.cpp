@@ -10,7 +10,7 @@
 
 REGISTER_FACTORY(CameraEffects);
 
-CameraEffects::CameraEffects(GameObject* gameObject) : UserComponent(gameObject), min(0), max(1), current(0), state(IDLE), cam(nullptr), shakeDir(Vector3::ZERO), rotationDir(Vector3::ZERO),
+CameraEffects::CameraEffects(GameObject* gameObject) : UserComponent(gameObject), min(0), max(1), current(0), state(IDLE), cameraTransform(nullptr), shakeDir(Vector3::ZERO), rotationDir(Vector3::ZERO),
 initialRotation(Vector3::ZERO), dirX(1), dirY(1), dirZ(1), moves(0), time(0), vel(2), minRange(-5), maxRange(5), duration(2000)
 {
 
@@ -18,7 +18,7 @@ initialRotation(Vector3::ZERO), dirX(1), dirY(1), dirZ(1), moves(0), time(0), ve
 
 CameraEffects::~CameraEffects()
 {
-
+	cameraTransform = nullptr;
 }
 
 void CameraEffects::start()
@@ -28,10 +28,10 @@ void CameraEffects::start()
 	current = max;
 	state = IDLE;
 
-	if (gameObject != nullptr) cam = gameObject->getComponent<Transform>();
-	if (cam != nullptr) {
-		initialRotation = cam->getRotation();
-		initialPosition = cam->getPosition();
+	if (gameObject != nullptr) cameraTransform = gameObject->getComponent<Transform>();
+	if (cameraTransform != nullptr) {
+		initialRotation = cameraTransform->getRotation();
+		initialPosition = cameraTransform->getPosition();
 	}
 }
 
@@ -69,12 +69,12 @@ void CameraEffects::update(float deltaTime)
 		moveY = random() * vel * dirY;
 		moveZ = random() * vel * dirZ;
 
-		if (cam != nullptr) {
-			Vector3 pos = cam->getPosition();
+		if (cameraTransform != nullptr) {
+			Vector3 pos = cameraTransform->getPosition();
 
-			cam->setPosition(Vector3(pos.x + moveX * rotationDir.x, pos.y + moveY * rotationDir.y, pos.z + moveZ * rotationDir.z));
+			cameraTransform->setPosition(Vector3(pos.x + moveX * rotationDir.x, pos.y + moveY * rotationDir.y, pos.z + moveZ * rotationDir.z));
 
-			Vector3 newPos = cam->getPosition();
+			Vector3 newPos = cameraTransform->getPosition();
 
 			if ((newPos.x >= initialPosition.x + maxRange && dirX > 0) || (newPos.x <= initialPosition.x + minRange && dirX < 0))
 				dirX *= -1;
@@ -89,9 +89,9 @@ void CameraEffects::update(float deltaTime)
 		if (time >= duration)
 		{
 			state = IDLE;
-			if (cam != nullptr) {
-				cam->setRotation(initialRotation);
-				cam->setPosition(initialPosition);
+			if (cameraTransform != nullptr) {
+				cameraTransform->setRotation(initialRotation);
+				cameraTransform->setPosition(initialPosition);
 			}
 			time = 0;
 			moves = 0;
@@ -134,7 +134,7 @@ void CameraEffects::fadeOut()
 		state = FADEOUT;
 	else if (state == SHAKE) {
 		state = FADEOUT;
-		if (cam != nullptr) cam->setRotation(initialRotation);
+		if (cameraTransform != nullptr) cameraTransform->setRotation(initialRotation);
 	}
 }
 
@@ -144,7 +144,7 @@ void CameraEffects::fadeIn()
 		state = FADEIN;
 	else if (state == SHAKE) {
 		state = FADEIN;
-		if (cam != nullptr) cam->setRotation(initialRotation);
+		if (cameraTransform != nullptr) cameraTransform->setRotation(initialRotation);
 	}
 }
 
@@ -165,6 +165,6 @@ void CameraEffects::shake(Vector3 rotDir)
 	{
 		state = SHAKE;
 		rotationDir = rotDir;
-		if (cam != nullptr) initialPosition = cam->getPosition();
+		if (cameraTransform != nullptr) initialPosition = cameraTransform->getPosition();
 	}
 }

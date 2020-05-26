@@ -13,14 +13,15 @@
 
 REGISTER_FACTORY(Spawner);
 
-Spawner::Spawner(GameObject* gameObject) : UserComponent(gameObject), velocity(3.0f), angle(25)
+Spawner::Spawner(GameObject* gameObject) : UserComponent(gameObject), particleManager(nullptr), soundEmitter(nullptr), velocity(3.0f), angle(25)
 {
 
 }
 
 Spawner::~Spawner()
 {
-
+	soundEmitter = nullptr;
+	particleManager = nullptr;
 }
 
 void Spawner::start()

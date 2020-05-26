@@ -158,6 +158,14 @@ resolutionText(NULL), fullscreenText(NULL), brightnessText(NULL), soundText(NULL
 
 OptionsMenu::~OptionsMenu()
 {
+	inputSystem = nullptr;
+	renderSystem = nullptr;
+	soundSystem = nullptr;
+	windowManager = nullptr;
+	resolutionNames.clear();
+	screenNames.clear();
+	resolutions.clear();
+
 	if (interfaceSystem == nullptr) return;
 
 	interfaceSystem->unregisterEvent("-resolutionButtonClick");
@@ -173,6 +181,8 @@ OptionsMenu::~OptionsMenu()
 	interfaceSystem->unregisterEvent("applyButtonClick");
 	interfaceSystem->unregisterEvent("restoreButtonClick");
 	interfaceSystem->unregisterEvent("backButtonClick");
+
+	interfaceSystem = nullptr;
 }
 
 void OptionsMenu::start()

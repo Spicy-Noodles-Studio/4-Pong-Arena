@@ -62,6 +62,9 @@ PauseMenu::~PauseMenu()
 		InterfaceSystem::GetInstance()->unregisterEvent("pauseOptionsButtonClick");
 		InterfaceSystem::GetInstance()->unregisterEvent("pauseExitButtonClick");
 	}
+	inputSystem = nullptr;
+	game = nullptr;
+	countdown = nullptr;
 }
 
 void PauseMenu::start()

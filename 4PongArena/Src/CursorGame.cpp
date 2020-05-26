@@ -16,7 +16,9 @@ CursorGame::CursorGame(GameObject* gameObject) : UserComponent(gameObject), inpu
 
 CursorGame::~CursorGame()
 {
-
+	inputSystem = nullptr;
+	cursor = nullptr;
+	gameManager = nullptr;
 }
 
 void CursorGame::start()

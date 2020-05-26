@@ -6,14 +6,15 @@
 
 REGISTER_FACTORY(ParticleManager);
 
-ParticleManager::ParticleManager(GameObject* gameObject) : UserComponent(gameObject), particleEmi(nullptr)
+ParticleManager::ParticleManager(GameObject* gameObject) : UserComponent(gameObject), particleEmi(nullptr), particlesObject(nullptr), duration (0.0f), initialTime (0.0f)
 {
 
 }
 
 ParticleManager::~ParticleManager()
 {
-
+	particlesObject = nullptr;
+	particleEmi = nullptr;
 }
 
 void ParticleManager::start()

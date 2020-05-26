@@ -7,14 +7,14 @@
 
 REGISTER_FACTORY(Health);
 
-Health::Health(GameObject* gameObject) : UserComponent(gameObject), health(0)
+Health::Health(GameObject* gameObject) : UserComponent(gameObject), soundEmitter(nullptr), health(0)
 {
 
 }
 
 Health::~Health()
 {
-
+	soundEmitter = nullptr;
 }
 
 void Health::start()

@@ -82,6 +82,8 @@ MainMenu::~MainMenu()
 		interfaceSystem->unregisterEvent("controlsButtonClick");
 		interfaceSystem->unregisterEvent("creditsButtonClick");
 	}
+
+	inputSystem = nullptr;
 }
 
 void MainMenu::start()

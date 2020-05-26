@@ -61,7 +61,10 @@ SpawnerManager::SpawnerManager(GameObject* gameObject) : UserComponent(gameObjec
 
 SpawnerManager::~SpawnerManager()
 {
-
+	game = nullptr;
+	countdown = nullptr;
+	spawners.clear();
+	pool.clear();
 }
 
 void SpawnerManager::start()

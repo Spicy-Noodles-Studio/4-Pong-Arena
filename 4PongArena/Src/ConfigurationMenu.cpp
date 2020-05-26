@@ -96,6 +96,12 @@ ConfigurationMenu::~ConfigurationMenu()
 		interfaceSystem->unregisterEvent("slot3ButtonClick");
 		interfaceSystem->unregisterEvent("slot4ButtonClick");
 	}
+
+	inputSystem = nullptr;
+	configurationLayout = nullptr;
+	slots.clear();
+	timeModes.clear();
+	songNames.clear();
 }
 
 void ConfigurationMenu::start()

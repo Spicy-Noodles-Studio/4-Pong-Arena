@@ -17,7 +17,9 @@ PlayerUI::PlayerUI(GameObject* gameObject) : UserComponent(gameObject), mainCame
 
 PlayerUI::~PlayerUI()
 {
-
+	mainCamera = nullptr;
+	playerIndex = nullptr;
+	health = nullptr;
 }
 
 void PlayerUI::start()

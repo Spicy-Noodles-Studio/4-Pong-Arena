@@ -6,14 +6,14 @@
 
 REGISTER_FACTORY(MusicEmitter);
 
-MusicEmitter::MusicEmitter(GameObject* gameObject) : UserComponent(gameObject)
+MusicEmitter::MusicEmitter(GameObject* gameObject) : UserComponent(gameObject), soundEmitter (nullptr)
 {
 
 }
 
 MusicEmitter::~MusicEmitter()
 {
-
+	soundEmitter = nullptr;
 }
 
 void MusicEmitter::start()

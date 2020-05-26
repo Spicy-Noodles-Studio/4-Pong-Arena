@@ -10,7 +10,8 @@ REGISTER_FACTORY(GameManager);
 
 GameManager* GameManager::instance = nullptr;
 
-GameManager::GameManager() : UserComponent(nullptr)
+GameManager::GameManager() : UserComponent(gameObject), song(""), songName(""), health(5), time(60), initialTime(time), timeMode(false),
+levelBase(0), levelForces(0), levelObstacles(0), menuMusic(false), paused(false), gameEnded(false), initialBrightness(0.5), initialSoundVolume(0.5), initialMusicVolume(0.5)
 {
 
 }
@@ -41,6 +42,7 @@ GameManager::~GameManager()
 {
 	if (instance == this)
 		instance = nullptr;
+	soundEmitter = nullptr;
 }
 
 GameManager* GameManager::GetInstance()

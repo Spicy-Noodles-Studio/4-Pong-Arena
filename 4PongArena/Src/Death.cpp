@@ -17,14 +17,19 @@
 
 REGISTER_FACTORY(Death);
 
-Death::Death(GameObject* gameObject) : UserComponent(gameObject), gameManager(nullptr), meshRenderer(nullptr), rigidBody(nullptr), health(nullptr), scores(nullptr), id(-1)
+Death::Death(GameObject* gameObject) : UserComponent(gameObject), soundEmitter (nullptr), gameManager(nullptr), meshRenderer(nullptr), rigidBody(nullptr), health(nullptr), scores(nullptr), id(-1)
 {
 
 }
 
 Death::~Death()
 {
-
+	gameManager = nullptr;
+	meshRenderer = nullptr;
+	rigidBody = nullptr;
+	health = nullptr;
+	scores = nullptr;
+	soundEmitter = nullptr;
 }
 
 void Death::start()

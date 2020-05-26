@@ -21,6 +21,7 @@ Score::~Score()
 		delete score;
 
 	playerScores.clear();
+	playerId.clear();
 }
 
 void Score::initScore(int numOfPlayers)

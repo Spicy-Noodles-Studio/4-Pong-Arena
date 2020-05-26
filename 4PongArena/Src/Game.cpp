@@ -492,7 +492,19 @@ players(0), winner(0), gameTimer(0), levelBase(0), levelForces(0), levelObstacle
 
 Game::~Game()
 {
-
+	gameManager = nullptr;
+	soundEmitter = nullptr;
+	gameLayout = nullptr;
+	timePanel = nullptr;
+	countdown = nullptr;
+	cameraEffects = nullptr;
+	paddles.clear();
+	playerColours.clear();
+	levelColours.clear();
+	playerTransforms.clear();
+	spawnerTransforms.clear();
+	forceFieldTransforms.clear();
+	obstacleTransforms.clear();
 }
 
 void Game::playerDeath()

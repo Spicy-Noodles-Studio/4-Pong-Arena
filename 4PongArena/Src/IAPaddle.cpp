@@ -21,7 +21,9 @@ IAPaddle::IAPaddle(GameObject* gameObject) : UserComponent(gameObject), currentS
 
 IAPaddle::~IAPaddle()
 {
-
+	targetBall = nullptr;
+	movement = nullptr;
+	soundEmitter = nullptr;
 }
 
 void IAPaddle::start()

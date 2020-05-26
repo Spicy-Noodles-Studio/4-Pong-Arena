@@ -19,7 +19,8 @@ Countdown::Countdown(GameObject* gameObject) : UserComponent(gameObject), soundE
 
 Countdown::~Countdown()
 {
-
+	soundEmitter = nullptr;
+	players.clear();
 }
 
 void Countdown::start()

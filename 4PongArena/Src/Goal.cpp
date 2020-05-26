@@ -25,7 +25,11 @@ Goal::Goal(GameObject* gameObject) : UserComponent(gameObject), health(nullptr),
 
 Goal::~Goal()
 {
-
+	health = nullptr;
+	scoreManager = nullptr;
+	gameManager = nullptr;
+	particleManager = nullptr;
+	cameraEffects = nullptr;
 }
 
 void Goal::start()

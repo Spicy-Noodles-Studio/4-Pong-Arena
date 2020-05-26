@@ -20,7 +20,9 @@ ScoreMenu::ScoreMenu(GameObject* gameObject) : Menu(gameObject), gameManager(nul
 
 ScoreMenu::~ScoreMenu()
 {
-
+	gameManager = nullptr;
+	texts.clear();
+	panels.clear();
 }
 
 void ScoreMenu::start()

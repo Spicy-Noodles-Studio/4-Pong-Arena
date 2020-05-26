@@ -36,6 +36,7 @@ OptionsMenuScreen::OptionsMenuScreen(GameObject* gameObject) : OptionsMenu(gameO
 OptionsMenuScreen::~OptionsMenuScreen()
 {
 	if (interfaceSystem != nullptr) interfaceSystem->unregisterEvent("backToMenuButtonClick");
+	screen = nullptr;
 }
 
 void OptionsMenuScreen::start()

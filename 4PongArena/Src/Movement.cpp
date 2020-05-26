@@ -14,7 +14,7 @@ Movement::Movement(GameObject* gameObject) : UserComponent(gameObject), rigidBod
 
 Movement::~Movement()
 {
-
+	rigidBody = nullptr;
 }
 
 void Movement::start()

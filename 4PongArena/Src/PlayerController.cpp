@@ -17,7 +17,9 @@ PlayerController::PlayerController(GameObject* gameObject) : UserComponent(gameO
 
 PlayerController::~PlayerController()
 {
-
+	inputSystem = nullptr;
+	soundEmitter = nullptr;
+	movement = nullptr;
 }
 
 void PlayerController::start()
