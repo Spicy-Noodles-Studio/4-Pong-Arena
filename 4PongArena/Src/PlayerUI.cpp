@@ -24,33 +24,27 @@ PlayerUI::~PlayerUI()
 
 void PlayerUI::start()
 {
-	if (gameObject != nullptr) {
+	if (notNull(gameObject)) {
 		// Initialize name to search through layout
 		playerIndex = gameObject->getComponent<PlayerIndex>();
-
-		if (playerIndex != nullptr)
-			name = "Player" + std::to_string(playerIndex->getId());
-
 		// Get health component to update stats
 		health = gameObject->getComponent<Health>();
+
+		if (notNull(playerIndex))
+			name = "Player" + std::to_string(playerIndex->getId());
 	}
 
 	// Get camera
 	GameObject* cameraObject = findGameObjectWithName("MainCamera");
 
-	if (cameraObject != nullptr)
+	if (notNull(cameraObject)) {
 		mainCamera = cameraObject->getComponent<Camera>();
 
-	// Get player layout
-	UILayout* cameraLayout = nullptr;
-
-	if (cameraObject != nullptr)
-		cameraLayout = cameraObject->getComponent<UILayout>();
-
-	// Get UI elements for PlayerIndicator and PlayerStatsPanel
-	if (cameraLayout != nullptr)
-		playerHUD = cameraLayout->getRoot().getChild(name + "Background");
-
+		// Get UI elements for PlayerIndicator and PlayerStatsPanel
+		 UILayout* cameraLayout = cameraObject->getComponent<UILayout>();
+		if (cameraLayout != nullptr)
+			playerHUD = cameraLayout->getRoot().getChild(name + "Background");
+	}
 	playerHUD.setVisible(true);
 
 	//Initialize layout aspect
@@ -65,7 +59,7 @@ void PlayerUI::update(float deltaTime)
 void PlayerUI::updateHealth()
 {
 	std::string color;
-	if (playerIndex != nullptr) {
+	if (notNull(playerIndex)) {
 		if (playerIndex->getId() == 1)
 			color = "[colour = 'FFFF0000']";
 		else if (playerIndex->getId() == 2)
@@ -75,7 +69,7 @@ void PlayerUI::updateHealth()
 		else
 			color = "[colour='FF00FF00']";
 
-		if (health != nullptr)
+		if (notNull(health))
 			playerHUD.getChild(name + "Text").setText(color + "P" + std::to_string(playerIndex->getId()) + ": " + std::to_string(health->getHealth()));
 	}
 }

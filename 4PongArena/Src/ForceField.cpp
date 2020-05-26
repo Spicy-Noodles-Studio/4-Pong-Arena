@@ -1,14 +1,14 @@
 #include "ForceField.h"
+
 #include <GameObject.h>
-#include <RigidBody.h>
 #include <sstream>
-#include<Trail.h>
+#include <Trail.h>
+#include <ComponentRegister.h>
+#include <SoundEmitter.h>
 
 #include "Ball.h"
 #include "GameManager.h"
 
-#include <ComponentRegister.h>
-#include <SoundEmitter.h>
 
 REGISTER_FACTORY(ForceField);
 
@@ -24,14 +24,16 @@ ForceField::~ForceField()
 
 void ForceField::start()
 {
-	if (gameObject != nullptr) soundEmitter = gameObject->getComponent<SoundEmitter>();
+	checkNullAndBreak(gameObject);
 	volume = 1.5;
-	if (soundEmitter != nullptr) soundEmitter->setVolume(volume);
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	if (notNull(soundEmitter)) soundEmitter->setVolume(volume);
 }
 
 void ForceField::update(float deltaTime)
 {
-	if (volume > 0 && GameManager::GetInstance() != nullptr && GameManager::GetInstance()->isGameEnded() && soundEmitter != nullptr)
+	GameManager* gameManager = GameManager::GetInstance();
+	if (volume > 0 && notNull(gameManager) && gameManager->isGameEnded() && notNull(soundEmitter))
 	{
 		volume = 0;
 		soundEmitter->setVolume(0);
@@ -40,7 +42,7 @@ void ForceField::update(float deltaTime)
 
 void ForceField::handleData(ComponentData* data)
 {
-	if (data == nullptr) return;
+	checkNullAndBreak(data);
 
 	for (auto prop : data->getProperties())
 	{
@@ -48,13 +50,11 @@ void ForceField::handleData(ComponentData* data)
 
 		if (prop.first == "targetVelocity")
 		{
-			if (!(ss >> targetVelocity))
-				LOG("FORCE FIELD: Invalid value for property with name \"%s\"", prop.first.c_str());
+			setFloat(targetVelocity);
 		}
 		else if (prop.first == "acceleration")
 		{
-			if (!(ss >> acceleration))
-				LOG("FORCE FIELD: Invalid value for property with name \"%s\"", prop.first.c_str());
+			setFloat(acceleration);
 		}
 		else
 			LOG("FORCE FIELD: Invalid property with name \"%s\"", prop.first.c_str());
@@ -63,27 +63,26 @@ void ForceField::handleData(ComponentData* data)
 
 void ForceField::onObjectEnter(GameObject* other)
 {
-	if (other == nullptr) return;
+	checkNullAndBreak(other);
 
-	RigidBody* rigidBody = other->getComponent<RigidBody>();
 	Ball* ball = other->getComponent<Ball>();
+	Trail* trail = other->getComponent<Trail>();
 
-	if (ball != nullptr) {
+	if (notNull(ball)) {
 		ball->setTargetVelocity(targetVelocity);
 		ball->setAcceleration(acceleration);
 	}
-	Trail* trail = other->getComponent<Trail>();
-	if (trail != nullptr) trail->setColour({ 0.0,1.0,1.0 }, 0.7);
+	if (notNull(trail)) trail->setColour({ 0.0,1.0,1.0 }, 0.7);
 
-	if (soundEmitter != nullptr) soundEmitter->playSound("Impulse_02");
+	if (notNull(soundEmitter)) soundEmitter->playSound("Impulse_02");
 }
 
 void ForceField::setTargetVelocity(float targetVelocity)
 {
-	if (this != nullptr) this->targetVelocity = targetVelocity;
+	this->targetVelocity = targetVelocity;
 }
 
 void ForceField::setAcceleration(float acceleration)
 {
-	if (this != nullptr) this->acceleration = acceleration;
+	this->acceleration = acceleration;
 }

@@ -34,33 +34,30 @@ Death::~Death()
 
 void Death::start()
 {
-	if (gameObject != nullptr) {
-		if (gameObject->transform != nullptr) initialPosition = gameObject->transform->getPosition();
+	checkNullAndBreak(gameObject);
+	if (notNull(gameObject->transform)) initialPosition = gameObject->transform->getPosition();
 
-		meshRenderer = gameObject->getComponent<MeshRenderer>();
-		rigidBody = gameObject->getComponent<RigidBody>();
-		health = gameObject->getComponent<Health>();
+	meshRenderer = gameObject->getComponent<MeshRenderer>();
+	rigidBody = gameObject->getComponent<RigidBody>();
+	health = gameObject->getComponent<Health>();
 
-		gameManager = GameManager::GetInstance();
+	gameManager = GameManager::GetInstance();
 
-		if (gameManager != nullptr)
-			scores = gameManager->getScore();
+	if (notNull(gameManager))
+		scores = gameManager->getScore();
 
-		PlayerIndex* playerId = gameObject->getComponent<PlayerIndex>();
+	PlayerIndex* playerId = gameObject->getComponent<PlayerIndex>();
+	if (notNull(playerId))
+		id = playerId->getPosVector();
 
-		if (playerId != nullptr)
-			id = playerId->getPosVector();
-
-		soundEmitter = gameObject->getComponent<SoundEmitter>();
-
-		if (soundEmitter != nullptr)
-			soundEmitter->setVolume(1.2);
-	}
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	if (notNull(soundEmitter))
+		soundEmitter->setVolume(1.2);
 }
 
 void Death::update(float deltaTime)
 {
-	if (health != nullptr && !health->isAlive())
+	if (notNull(health) && !health->isAlive())
 	{
 		die();
 		setActive(false);
@@ -69,7 +66,7 @@ void Death::update(float deltaTime)
 
 void Death::handleData(ComponentData* data)
 {
-	if (data == nullptr) return;
+	checkNullAndBreak(data);
 
 	for (auto prop : data->getProperties())
 	{
@@ -97,27 +94,23 @@ void Death::setPlayerColour(const Vector3& colour)
 
 void Death::setwallColours(const std::pair<Vector3, Vector3>& baseColour, const std::pair<Vector3, Vector3>& neonColour)
 {
-	if (this == nullptr) return;
-
 	this->baseColour = baseColour;
 	this->neonColour = neonColour;
 }
 
 void Death::setWallScale(const Vector3& wallScale)
 {
-	if (this == nullptr) return;
-
 	this->wallScale = wallScale;
 }
 
 void Death::die()
 {
-	if (gameObject != nullptr && gameObject->transform != nullptr) gameObject->transform->setPosition(initialPosition);
-	if (rigidBody != nullptr) rigidBody->setStatic(true);
+	if (notNull(gameObject) && notNull(gameObject->transform)) gameObject->transform->setPosition(initialPosition);
+	if (notNull(rigidBody)) rigidBody->setStatic(true);
 
 	if (wallMeshId != "" || wallMeshName != "")
 	{
-		if (meshRenderer != nullptr) {
+		if (notNull(meshRenderer)) {
 			meshRenderer->changeMesh(wallMeshId, wallMeshName);
 			meshRenderer->setDiffuse(0, playerColour, 1);
 
@@ -128,39 +121,39 @@ void Death::die()
 			meshRenderer->setEmissive(1, baseColour.second);
 		}
 
-		if (gameObject != nullptr && gameObject->transform != nullptr) {
+		if (notNull(gameObject) && notNull(gameObject->transform)) {
 			Vector3 scaleRatio = wallScale / gameObject->transform->getScale();
 			gameObject->transform->setScale(wallScale);
 			if (rigidBody != nullptr) rigidBody->multiplyScale(scaleRatio);
 		}
 	}
 
-	if (id != -1 && scores != nullptr)
+	if (id != -1 && notNull(scores) && notNull(gameManager))
 		scores->setTimeAlive(id, gameManager->getInitialTime(), gameManager->getTime());
 
-	GameManager* gameManager = GameManager::GetInstance();
 
 	GameObject* object = findGameObjectWithName("Game");
-	if (object != nullptr)
+	if (notNull(object) && notNull(gameObject))
 	{
 		Game* game = object->getComponent<Game>();
 		PlayerIndex* playerIndex = gameObject->getComponent<PlayerIndex>();
 
-		if (playerIndex != nullptr && game != nullptr && gameManager != nullptr)
+		if (notNull(playerIndex) && notNull(game) && notNull(gameManager))
 		{
 			gameManager->getRanking().push(ii(playerIndex->getId(), 0 - game->getPlayer()));
 			game->playerDeath();
 		}
 	}
 
-	if (soundEmitter != nullptr)
+	if (notNull(soundEmitter))
 		soundEmitter->playSound("Death");
 
 	SpawnerManager* spawnerManager = nullptr;
-	if (findGameObjectWithName("SpawnerManager") != nullptr)
-		spawnerManager = findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>();
+	GameObject* spawner = findGameObjectWithName("SpawnerManager");
+	if (notNull(spawner))
+		spawnerManager = spawner->getComponent<SpawnerManager>();
 
-	if (spawnerManager != nullptr)
+	if (notNull(spawnerManager))
 	{
 		float genTime = spawnerManager->getGenerationTime();
 		float minTime = spawnerManager->getMinimumTime();

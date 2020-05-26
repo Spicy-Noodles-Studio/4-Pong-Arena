@@ -23,13 +23,11 @@ const int BASE_TYPES = 2;
 const int OBSTACLES_TYPES = 2;
 const int FORCES_TYPES = 2;
 
-class InputSystem;
 class UILayout;
 
 class ConfigurationMenu : public Menu
 {
 private:
-	InputSystem* inputSystem;
 	UILayout* configurationLayout;
 
 	UIElement settingsPanel;

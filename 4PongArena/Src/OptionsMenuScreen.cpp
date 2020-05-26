@@ -20,7 +20,7 @@ bool OptionsMenuScreen::backToMenuButtonClick()
 	root.setVisible(false);
 	root.setEnabled(false);
 
-	if (InterfaceSystem::GetInstance() != nullptr) InterfaceSystem::GetInstance()->clearControllerMenuInput();
+	if (notNull(interfaceSystem)) interfaceSystem->clearControllerMenuInput();
 
 	pauseMenu.setAlwaysOnTop(true);
 	pauseMenu.setVisible(true);
@@ -30,12 +30,12 @@ bool OptionsMenuScreen::backToMenuButtonClick()
 
 OptionsMenuScreen::OptionsMenuScreen(GameObject* gameObject) : OptionsMenu(gameObject), screen(nullptr), pauseMenu(NULL), optionsMenu(NULL)
 {
-	if (interfaceSystem != nullptr) interfaceSystem->registerEvent("backToMenuButtonClick", UIEvent("ButtonClicked", [this]() {return backToMenuButtonClick(); }));
+	if (notNull(interfaceSystem)) interfaceSystem->registerEvent("backToMenuButtonClick", UIEvent("ButtonClicked", [this]() {return backToMenuButtonClick(); }));
 }
 
 OptionsMenuScreen::~OptionsMenuScreen()
 {
-	if (interfaceSystem != nullptr) interfaceSystem->unregisterEvent("backToMenuButtonClick");
+	if (notNull(interfaceSystem)) interfaceSystem->unregisterEvent("backToMenuButtonClick");
 	screen = nullptr;
 }
 
@@ -43,7 +43,11 @@ void OptionsMenuScreen::start()
 {
 	Menu::start();
 	screen = findGameObjectWithName("OptionsMenuScreen");
-	if (screen != nullptr) root = screen->getComponent<UILayout>()->getRoot();
+	if (notNull(screen)) {
+		UILayout* layout = screen->getComponent<UILayout>();
+		if (notNull(layout))
+			root = layout->getRoot();
+	}
 
 	optionsMenu = root.getChild("OptionsBackground");
 	optionsMenu.setVisible(true);
@@ -52,9 +56,9 @@ void OptionsMenuScreen::start()
 	root.setEnabled(false);
 
 	UILayout* cameraLayout = nullptr;
-	if (findGameObjectWithName("MainCamera") != nullptr) cameraLayout = findGameObjectWithName("MainCamera")->getComponent<UILayout>();
+	if (notNull(mainCamera)) cameraLayout = mainCamera->getComponent<UILayout>();
 
-	if (cameraLayout != nullptr)
+	if (notNull(cameraLayout))
 		pauseMenu = cameraLayout->getRoot().getChild("PauseBackground");
 
 	applyButton = optionsMenu.getChild("ApplyButton");
@@ -70,9 +74,13 @@ void OptionsMenuScreen::start()
 	soundText = optionsMenu.getChild("SoundVolume");
 	musicText = optionsMenu.getChild("MusicVolume");
 
-	if (windowManager != nullptr) brightness = windowManager->getBrightness();
+	if (notNull(windowManager)) {
+		brightness = windowManager->getBrightness();
+		fullscreen = windowManager->getFullscreen();
+		resolution = windowManager->getActualResolutionId();
+	}
 
-	if (soundSystem != nullptr) {
+	if (notNull(soundSystem)) {
 		soundVolume = soundSystem->getSoundVolume();
 		musicVolume = soundSystem->getMusicVolume();
 	}
@@ -81,12 +89,8 @@ void OptionsMenuScreen::start()
 	soundScroll.setScrollPositionScrollBar(soundVolume);
 	musicScroll.setScrollPositionScrollBar(musicVolume);
 
-	if (windowManager != nullptr) {
-		fullscreen = windowManager->getFullscreen();
-		resolution = windowManager->getActualResolutionId();
-		currentResolution = resolution;
-		initialResolution = resolution;
-	}
+	currentResolution = resolution;
+	initialResolution = resolution;
 
 	changeFullscreen(fullscreen);
 	changeResolution(0);
@@ -95,6 +99,6 @@ void OptionsMenuScreen::start()
 
 void OptionsMenuScreen::preUpdate(float deltaTime)
 {
-	if (inputSystem != nullptr && (inputSystem->getKeyPress("ESCAPE") || checkControllersInput()) && root.isVisible())
+	if (notNull(inputSystem) && (inputSystem->getKeyPress("ESCAPE") || checkControllersInput()) && root.isVisible())
 		backToMenuButtonClick();
 }

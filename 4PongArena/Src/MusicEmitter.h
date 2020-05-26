@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MUSIC_EMITTER
-#define MUSIC_EMITTER
+#ifndef MUSIC_EMITTER_H
+#define MUSIC_EMITTER_H
 #include <UserComponent.h>
 
 class SoundEmitter;

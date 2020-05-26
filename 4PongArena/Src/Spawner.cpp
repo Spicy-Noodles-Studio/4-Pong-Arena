@@ -26,14 +26,15 @@ Spawner::~Spawner()
 
 void Spawner::start()
 {
-	if (gameObject != nullptr) {
-		Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
-		direction.y = 0;
-		if (gameObject->transform != nullptr) gameObject->transform->setDirection(direction.normalized());
-		particleManager = gameObject->getComponent<ParticleManager>();
-		soundEmitter = gameObject->getComponent<SoundEmitter>();
-		if (soundEmitter != nullptr) soundEmitter->setVolume(0.7);
-	}
+	checkNullAndBreak(gameObject);
+
+	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
+	direction.y = 0;
+
+	particleManager = gameObject->getComponent<ParticleManager>();
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	if (notNull(soundEmitter)) soundEmitter->setVolume(0.7);
+	if (notNull(gameObject->transform)) gameObject->transform->setDirection(direction.normalized());
 }
 
 void Spawner::handleData(ComponentData* data)
@@ -46,54 +47,52 @@ void Spawner::handleData(ComponentData* data)
 
 		if (prop.first == "velocity")
 		{
-			if (!(ss >> velocity))
-				LOG("SPAWNER: Invalid property with name \"%s\"", prop.first.c_str());
+			setFloat(velocity);
 		}
 		else if (prop.first == "angle")
 		{
-			if (!(ss >> angle))
-				LOG("SPAWNER: Invalid property with name \"%s\"", prop.first.c_str());
+			setFloat(angle);
 		}
 		else
 			LOG("SPAWNER: Invalid property name \"%s\"", prop.first.c_str());
 	}
 }
 
-void Spawner::shoot(GameObject* ball)
+void Spawner::shoot(GameObject* ballObject)
 {
-	if (gameObject == nullptr || gameObject->transform == nullptr) return;
-	if (ball == nullptr || ball->transform == nullptr) return;
-	
+	checkNullAndBreak(gameObject);
+	checkNullAndBreak(gameObject->transform);
+	checkNullAndBreak(ballObject);
+	checkNullAndBreak(ballObject->transform);
+
 	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
 
 	double rand = random(-angle, angle);
 	direction.rotateAroundAxis(Vector3::UP, rand);
-
 	direction.y = 0;
 
 	gameObject->transform->resetOrientation();
 	gameObject->transform->setDirection(direction.normalized());
-	
-	ball->transform->setPosition(gameObject->transform->getPosition() + direction.normalized());
+	ballObject->transform->setPosition(gameObject->transform->getPosition() + direction.normalized());
 
-	if (ball->getComponent<Ball>() != nullptr) {
-		ball->getComponent<Ball>()->setVelocity(velocity);
-		ball->getComponent<Ball>()->setTargetVelocity(velocity);
+	Ball* ball = ballObject->getComponent<Ball>();
+	Trail* trail = ballObject->getComponent<Trail>();
+	RigidBody* rigidBody = ballObject->getComponent<RigidBody>();
+
+	if (notNull(ball)) {
+		ball->setVelocity(velocity);
+		ball->setTargetVelocity(velocity);
 	}
 
-	if (ball->getComponent<RigidBody>() != nullptr)
-		ball->getComponent<RigidBody>()->setLinearVelocity(direction.normalized() * velocity);
-	
-	if (ball->getComponent<Trail>() != nullptr) {
-		ball->getComponent<Trail>()->start();
-		ball->getComponent<Trail>()->setColour({ 1.0,1.0,1.0 }, 0.7);
+	if (notNull(rigidBody))
+		rigidBody->setLinearVelocity(direction.normalized() * velocity);
+
+	if (notNull(trail)) {
+		trail->start();
+		trail->setColour({ 1.0,1.0,1.0 }, 0.7);
 	}
 
-	if (particleManager != nullptr)
-	{
-		particleManager->playParticles(1);
-	}
+	if (notNull(particleManager)) particleManager->playParticles(1);
+	if (notNull(soundEmitter)) soundEmitter->playSound("Ball_Launch");
 
-	if (soundEmitter != nullptr) soundEmitter->playSound("Ball_Launch");
-	
 }

@@ -24,13 +24,17 @@ PlayerController::~PlayerController()
 
 void PlayerController::start()
 {
-	if (gameObject != nullptr) {
-		inputSystem = InputSystem::GetInstance();
-		movement = gameObject->getComponent<Movement>();
-		soundEmitter = gameObject->getComponent<SoundEmitter>();
-		if (soundEmitter != nullptr) soundEmitter->setVolume(0.8);
-		if (gameObject->getComponent<Trail>() != nullptr) gameObject->getComponent<Trail>()->start();
-	}
+	checkNullAndBreak(gameObject);
+
+	inputSystem = InputSystem::GetInstance();
+	checkNull(inputSystem);
+
+	movement = gameObject->getComponent<Movement>();
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	Trail* trail = gameObject->getComponent<Trail>();
+	if (notNull(soundEmitter)) soundEmitter->setVolume(0.8);
+	if (notNull(trail)) trail->start();
+
 	moving = false;
 	hasMoved = false;
 }
@@ -46,7 +50,7 @@ void PlayerController::update(float deltaTime)
 
 void PlayerController::handleData(ComponentData* data)
 {
-	if (data == nullptr) return;
+	checkNullAndBreak(data);
 
 	for (auto prop : data->getProperties())
 	{
@@ -54,8 +58,7 @@ void PlayerController::handleData(ComponentData* data)
 
 		if (prop.first == "index")
 		{
-			if (!(ss >> controllerIndex))
-				LOG("PLAYER CONTROLLER: Invalid property with name \"%s\"", prop.first.c_str());
+			setInt(controllerIndex);
 		}
 		else
 			LOG("PLAYER CONTROLLER: Invalid property name \"%s\"", prop.first.c_str());
@@ -74,7 +77,7 @@ int PlayerController::getIndex() const
 
 void PlayerController::checkInput()
 {
-	if (movement == nullptr) return;
+	checkNullAndBreak(movement);
 
 	Vector3 normal = movement->getNormal();
 	Vector3 motionDirection(-normal.z, 0.0, normal.x);
@@ -102,7 +105,7 @@ Vector3 PlayerController::getInputAxis() const
 Vector3 PlayerController::getKeyboardAxis() const
 {
 	Vector3 axis = Vector3::ZERO;
-	if (inputSystem != nullptr) {
+	if (notNull(inputSystem)) {
 		if (inputSystem->isKeyPressed("A")) axis.x += -1;	// Left
 		if (inputSystem->isKeyPressed("D")) axis.x += 1;	// Right
 		if (inputSystem->isKeyPressed("W")) axis.z += -1;	// Up
@@ -115,7 +118,7 @@ Vector3 PlayerController::getKeyboardAxis() const
 Vector3 PlayerController::getControllerAxis() const
 {
 	Vector3 axis = Vector3::ZERO;
-	if (inputSystem != nullptr) {
+	if (notNull(inputSystem)) {
 		std::pair<int, int> leftJoystick = inputSystem->getLeftJoystick(controllerIndex);
 		if (leftJoystick.first < 0 || inputSystem->isButtonPressed(controllerIndex, "Left")) axis.x += -1;	// Left
 		if (leftJoystick.first > 0 || inputSystem->isButtonPressed(controllerIndex, "Right")) axis.x += 1;	// Right

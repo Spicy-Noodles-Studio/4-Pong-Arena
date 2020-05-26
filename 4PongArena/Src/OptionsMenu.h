@@ -12,8 +12,6 @@
 
 const int MAX_VALUE = 100;
 
-class InterfaceSystem;
-class InputSystem;
 class RenderSystem;
 class SoundSystem;
 class WindowManager;
@@ -21,8 +19,6 @@ class WindowManager;
 class OptionsMenu : public Menu
 {
 protected:
-	InterfaceSystem* interfaceSystem;
-	InputSystem* inputSystem;
 	RenderSystem* renderSystem;
 	SoundSystem* soundSystem;
 	WindowManager* windowManager;

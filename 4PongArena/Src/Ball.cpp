@@ -23,13 +23,15 @@ Ball::~Ball()
 
 void Ball::start()
 {
-	if (gameObject != nullptr){
-		rigidBody = gameObject->getComponent<RigidBody>();
-		soundEmitter = gameObject->getComponent<SoundEmitter>();
-		particleManager = gameObject->getComponent<ParticleManager>();
-		volume = 0.8;
-		if (soundEmitter != nullptr) soundEmitter->setVolume(volume);
-	}
+	checkNullAndBreak(gameObject);
+
+	rigidBody = gameObject->getComponent<RigidBody>();
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	particleManager = gameObject->getComponent<ParticleManager>();
+	
+	volume = 0.8;
+	if (notNull(soundEmitter)) soundEmitter->setVolume(volume);
+
 }
 
 void Ball::update(float deltaTime)
@@ -39,28 +41,29 @@ void Ball::update(float deltaTime)
 	else
 		velocity = targetVelocity;
 
-	if (rigidBody != nullptr)
+	if (notNull(rigidBody))
 		rigidBody->setLinearVelocity(rigidBody->getLinearVelocity().normalized() * velocity);
 
-	if (volume > 0 && GameManager::GetInstance() != nullptr && GameManager::GetInstance()->isGameEnded()) {
+	GameManager* gameManager = GameManager::GetInstance();
+	if (volume > 0 && notNull(gameManager) && gameManager->isGameEnded()) {
 		volume = 0;
-		if (soundEmitter != nullptr) soundEmitter->setVolume(0);
+		if (notNull(soundEmitter)) soundEmitter->setVolume(0);
 	}
 }
 
 void Ball::setVelocity(float velocity)
 {
-	if (this != nullptr) this->velocity = velocity;
+	this->velocity = velocity;
 }
 
 void Ball::setTargetVelocity(float targetVelocity)
 {
-	if (this != nullptr) this->targetVelocity = targetVelocity;
+	this->targetVelocity = targetVelocity;
 }
 
 void Ball::setAcceleration(float acceleration)
 {
-	if (this != nullptr) this->acceleration = acceleration;
+	this->acceleration = acceleration;
 }
 
 void Ball::setIdPlayerHit(int id)
@@ -74,27 +77,20 @@ int Ball::getIdPlayerHit() const
 }
 
 void Ball::onCollisionEnter(GameObject* other)
-{	
-	if (other == nullptr) return;
+{
+	checkNullAndBreak(other);
 
 	std::string soundToPlay = "NO SOUND";
-	if (other->getTag() == "wall" || other->getTag() == "spawner") {
+	if (other->getTag() == "wall" || other->getTag() == "spawner")
 		soundToPlay = "Wall_Bounce";
-	}
-	else if (other->getTag() == "ball") {
+	else if (other->getTag() == "ball")
 		soundToPlay = "Ball_bounce_hard";
-	}
-	else if (other->getTag() == "paddle" || other->getTag() == "paddleIA") {
+	else if (other->getTag() == "paddle" || other->getTag() == "paddleIA")
 		soundToPlay = "Ball_bounce";
-	}
-	else if (other->getTag() == "obstacle") {
+	else if (other->getTag() == "obstacle")
 		soundToPlay = "Ball_obstacle";
-	}
 
-	if (soundToPlay != "NO SOUND" && soundEmitter != nullptr) soundEmitter->playSound(soundToPlay);
+	if (soundToPlay != "NO SOUND" && notNull(soundEmitter)) soundEmitter->playSound(soundToPlay);
 
-	if (particleManager != nullptr)
-	{
-		particleManager->playParticles(0.3);
-	}
+	if (notNull(particleManager)) particleManager->playParticles(0.3);
 }

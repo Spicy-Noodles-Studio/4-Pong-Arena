@@ -7,14 +7,12 @@
 #include <UserComponent.h>
 #include <UIElement.h>
 
-class InputSystem;
 class Game;
 class Countdown;
 
 class PauseMenu : public Menu
 {
 private:
-	InputSystem* inputSystem;
 	Game* game;
 	Countdown* countdown;
 

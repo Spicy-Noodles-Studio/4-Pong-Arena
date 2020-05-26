@@ -13,14 +13,13 @@
 
 REGISTER_FACTORY(ScoreMenu);
 
-ScoreMenu::ScoreMenu(GameObject* gameObject) : Menu(gameObject), gameManager(nullptr), texts(), panels()
+ScoreMenu::ScoreMenu(GameObject* gameObject) : Menu(gameObject), texts(), panels()
 {
 
 }
 
 ScoreMenu::~ScoreMenu()
 {
-	gameManager = nullptr;
 	texts.clear();
 	panels.clear();
 }
@@ -29,24 +28,22 @@ void ScoreMenu::start()
 {
 	Menu::start();
 
-	gameManager = GameManager::GetInstance();
+	checkNullAndBreak(gameManager);
 
-	if (gameManager == nullptr) return;
+	score = gameManager->getScore();
 
-	GameObject* camera = findGameObjectWithName("MainCamera");
 	UILayout* layout = nullptr;
 	UIElement root = NULL;
 
-	if (camera != nullptr)
+	if (mainCamera != nullptr)
 	{
-		layout = camera->getComponent<UILayout>();
-
-		if (layout != nullptr)
-			root = layout->getRoot();
+		layout = mainCamera->getComponent<UILayout>();
+		if (layout != nullptr) root = layout->getRoot();
 	}
 
 	Score* score = gameManager->getScore();
-	positions = score->getPlayerIDs();
+	if (notNull(score))
+		positions = score->getPlayerIDs();
 
 	for (int i = 0; i < positions.size(); i++)
 	{
@@ -69,8 +66,8 @@ void ScoreMenu::start()
 
 void ScoreMenu::update(float deltaTime)
 {
-	if (InputSystem::GetInstance() != nullptr && (InputSystem::GetInstance()->getKeyPress("ESCAPE") || checkControllersInput()))
-		if (SceneManager::GetInstance() != nullptr) SceneManager::GetInstance()->changeScene("ConfigurationMenu");
+	if (notNull(inputSystem) && (inputSystem->getKeyPress("ESCAPE") || checkControllersInput()) && notNull(sceneManager))
+		sceneManager->changeScene("ConfigurationMenu");
 }
 
 bool ScoreMenu::checkControllersInput()
@@ -80,7 +77,7 @@ bool ScoreMenu::checkControllersInput()
 	int i = 0;
 	while (i < 4 && !result)
 	{
-		if (InputSystem::GetInstance() != nullptr && InputSystem::GetInstance()->getButtonPress(i, "B"))
+		if (notNull(inputSystem) && inputSystem->getButtonPress(i, "B"))
 			result = true;
 
 		i++;
@@ -91,11 +88,6 @@ bool ScoreMenu::checkControllersInput()
 
 void ScoreMenu::reposition(int numOfPlayers)
 {
-
-	if (gameManager == nullptr) return;
-
-	Score* score = gameManager->getScore();
-
 	float size = (1 - 0.2) / numOfPlayers;
 	float iTextPos = 0.15;
 	float iPanelPos = 0.1;
@@ -129,52 +121,52 @@ void ScoreMenu::initStatistics(int numOfPlayers)
 
 void ScoreMenu::setNumOfHits(int playerIndex)
 {
-	if (gameManager == nullptr) return;
+	checkNullAndBreak(gameManager);
+	checkNullAndBreak(score);
 
-	Score* score = gameManager->getScore();
-	if (score == nullptr)return;
+	if (playerIndex <0 || playerIndex >= positions.size() || playerIndex>panels.size()) return;
+
 	std::string name = "P" + std::to_string(positions[playerIndex]);
 	name = name + "NumOfHits";
 
-	if (playerIndex >= 0)
-		panels.at(playerIndex).getChild(name).setText("Balls hit: " + std::to_string(score->getNumOfBallsHit(playerIndex)));
+	panels.at(playerIndex).getChild(name).setText("Balls hit: " + std::to_string(score->getNumOfBallsHit(playerIndex)));
 }
 
 void ScoreMenu::setNumOfGoals(int playerIndex)
 {
-	if (gameManager == nullptr) return;
+	checkNullAndBreak(gameManager);
+	checkNullAndBreak(score);
 
-	Score* score = gameManager->getScore();
-	if (score == nullptr)return;
+	if (playerIndex <0 || playerIndex >= positions.size() || playerIndex>panels.size()) return;
+
 	std::string name = "P" + std::to_string(positions[playerIndex]);
 	name = name + "NumOfGoals";
 
-	if (playerIndex >= 0)
-		panels.at(playerIndex).getChild(name).setText("Goals: " + std::to_string(score->getNumOfGoals(playerIndex)));
+	panels.at(playerIndex).getChild(name).setText("Goals: " + std::to_string(score->getNumOfGoals(playerIndex)));
 }
 
 void ScoreMenu::setNumOfSelfGoals(int playerIndex)
 {
-	if (gameManager == nullptr) return;
+	checkNullAndBreak(gameManager);
+	checkNullAndBreak(score);
 
-	Score* score = gameManager->getScore();
-	if (score == nullptr)return;
+	if (playerIndex <0 || playerIndex >= positions.size() || playerIndex>panels.size()) return;
+
 	std::string name = "P" + std::to_string(positions[playerIndex]);
 	name = name + "NumOfSelfGoals";
 
-	if (playerIndex >= 0)
-		panels.at(playerIndex).getChild(name).setText("Own goals: " + std::to_string(score->getNumOfSelfGoals(playerIndex)));
+	panels.at(playerIndex).getChild(name).setText("Own goals: " + std::to_string(score->getNumOfSelfGoals(playerIndex)));
 }
 
 void ScoreMenu::setTimeAlive(int playerIndex)
 {
-	if (gameManager == nullptr) return;
+	checkNullAndBreak(gameManager);
+	checkNullAndBreak(score);
 
-	Score* score = gameManager->getScore();
-	if (score == nullptr)return;
+	if (playerIndex <0 || playerIndex >= positions.size() || playerIndex>panels.size()) return;
+
 	std::string name = "P" + std::to_string(positions[playerIndex]);
 	name = name + "TimeAlive";
 
-	if (playerIndex >= 0)
-		panels.at(playerIndex).getChild(name).setText("Time alive: " + std::to_string(score->getTimeAlive(playerIndex)));
+	panels.at(playerIndex).getChild(name).setText("Time alive: " + std::to_string(score->getTimeAlive(playerIndex)));
 }

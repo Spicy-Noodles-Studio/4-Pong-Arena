@@ -13,54 +13,53 @@ REGISTER_FACTORY(MainMenu);
 
 bool MainMenu::playButtonClick()
 {
-	if (SceneManager::GetInstance != nullptr) SceneManager::GetInstance()->changeScene("ConfigurationMenu");
+	if (notNull(sceneManager)) sceneManager->changeScene("ConfigurationMenu");
 	buttonClick(buttonSound);
 	return false;
 }
 
 bool MainMenu::optionsButtonClick()
 {
-	if (SceneManager::GetInstance != nullptr) SceneManager::GetInstance()->changeScene("OptionsMenu");
+	if (notNull(sceneManager)) sceneManager->changeScene("OptionsMenu");
 	buttonClick(buttonSound);
 	return false;
 }
 
 bool MainMenu::exitButtonClick()
 {
-	if (WindowManager::GetInstance != nullptr) WindowManager::GetInstance()->closeWindow();
+	WindowManager* windowManager = WindowManager::GetInstance();
+	if (notNull(windowManager)) windowManager->closeWindow();
 	buttonClick(backSound);
 	return false;
 }
 
 bool MainMenu::controlsButtonClick()
 {
-	if (SceneManager::GetInstance != nullptr) SceneManager::GetInstance()->changeScene("ControlsMenu");
+	if (notNull(sceneManager)) sceneManager->changeScene("ControlsMenu");
 	buttonClick(buttonSound);
 	return false;
 }
 
 bool MainMenu::creditsButtonClick()
 {
-	if (SceneManager::GetInstance != nullptr) SceneManager::GetInstance()->changeScene("Credits");
+	if (notNull(sceneManager)) sceneManager->changeScene("Credits");
 	buttonClick(buttonSound);
 	return false;
 }
 
 void MainMenu::initMusic()
 {
-	if (GameManager::GetInstance != nullptr && !GameManager::GetInstance()->isMenuMusicPlaying())
+	if (notNull(gameManager) && !gameManager->isMenuMusicPlaying())
 	{
-		GameManager::GetInstance()->setMenuMusic(true);
-		GameManager::GetInstance()->playMusic("Menu_loop");
-		GameManager::GetInstance()->setMusicVolume(0.4);
+		gameManager->setMenuMusic(true);
+		gameManager->playMusic("Menu_loop");
+		gameManager->setMusicVolume(0.4);
 	}
 }
 
-MainMenu::MainMenu(GameObject* gameObject) : Menu(gameObject), inputSystem(nullptr)
+MainMenu::MainMenu(GameObject* gameObject) : Menu(gameObject)
 {
-	InterfaceSystem* interfaceSystem = InterfaceSystem::GetInstance();
-
-	if (interfaceSystem != nullptr) {
+	if (notNull(interfaceSystem)) {
 		interfaceSystem->registerEvent("playButtonClick", UIEvent("ButtonClicked", [this]() {return playButtonClick(); }));
 		interfaceSystem->registerEvent("optionsButtonClick", UIEvent("ButtonClicked", [this]() {return optionsButtonClick(); }));
 		interfaceSystem->registerEvent("exitButtonClick", UIEvent("ButtonClicked", [this]() {return exitButtonClick(); }));
@@ -71,10 +70,8 @@ MainMenu::MainMenu(GameObject* gameObject) : Menu(gameObject), inputSystem(nullp
 }
 
 MainMenu::~MainMenu()
-{
-	InterfaceSystem* interfaceSystem = InterfaceSystem::GetInstance();
-	
-	if (interfaceSystem != nullptr) {
+{	
+	if (notNull(interfaceSystem)) {
 		interfaceSystem->unregisterEvent("playButtonClick");
 		interfaceSystem->unregisterEvent("optionsButtonClick");
 		interfaceSystem->unregisterEvent("exitButtonClick");
@@ -82,8 +79,6 @@ MainMenu::~MainMenu()
 		interfaceSystem->unregisterEvent("controlsButtonClick");
 		interfaceSystem->unregisterEvent("creditsButtonClick");
 	}
-
-	inputSystem = nullptr;
 }
 
 void MainMenu::start()

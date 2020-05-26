@@ -5,6 +5,7 @@
 #include <UserComponent.h>
 
 class Transform;
+class RenderSystem;
 
 class CameraEffects : public UserComponent
 {
@@ -15,6 +16,7 @@ private:
 
 	State state;
 	Transform* cameraTransform;
+	RenderSystem* renderSystem;
 
 	Vector3 shakeDir;
 	Vector3 rotationDir;

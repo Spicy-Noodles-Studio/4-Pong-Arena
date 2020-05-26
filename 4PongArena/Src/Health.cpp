@@ -19,13 +19,15 @@ Health::~Health()
 
 void Health::start()
 {
-	if (gameObject != nullptr) soundEmitter = gameObject->getComponent<SoundEmitter>();
-	if (soundEmitter != nullptr) soundEmitter->setVolume(1.2);
+	checkNullAndBreak(gameObject);
+	
+	soundEmitter = gameObject->getComponent<SoundEmitter>();
+	if (notNull(soundEmitter)) soundEmitter->setVolume(1.2);
 }
 
 void Health::handleData(ComponentData* data)
 {
-	if (data == nullptr) return;
+	checkNullAndBreak(data);
 
 	for (auto prop : data->getProperties())
 	{
@@ -33,8 +35,7 @@ void Health::handleData(ComponentData* data)
 
 		if (prop.first == "health")
 		{
-			if (!(ss >> health))
-				LOG("HEALTH: Invalid value for property with name \"%s\"", prop.first.c_str());
+			setInt(health);
 		}
 		else
 			LOG("HEALTH: Invalid property name \"%s\"", prop.first.c_str());
@@ -48,13 +49,13 @@ int Health::getHealth() const
 
 void Health::setHealth(int health)
 {
-	if (this != nullptr) this->health = health;
+	this->health = health;
 }
 
 void Health::receiveDamage(int damage)
 {
 	health -= damage;
-	if (health > 0 && soundEmitter != nullptr) soundEmitter->playSound("Damage");
+	if (health > 0 && notNull(soundEmitter)) soundEmitter->playSound("Damage");
 	if (health < 0) health = 0;
 }
 

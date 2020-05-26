@@ -4,7 +4,6 @@
 
 #include "Menu.h"
 
-
 class LogoScreen : public Menu
 {
 private:

@@ -6,9 +6,11 @@
 #include <SceneManager.h>
 #include <GameObject.h>
 
-Menu::Menu(GameObject* gameObject) : UserComponent(gameObject), inputSystem(nullptr), interfaceSystem(nullptr), soundEmitter(nullptr), sceneManager(nullptr), mainCamera(nullptr)
-{
+#include "GameManager.h"
 
+Menu::Menu(GameObject* gameObject) : UserComponent(gameObject), inputSystem(nullptr), interfaceSystem(nullptr), soundEmitter(nullptr), sceneManager(nullptr), mainCamera(nullptr), gameManager(nullptr)
+{
+	interfaceSystem = InterfaceSystem::GetInstance();
 }
 
 Menu::~Menu()
@@ -18,27 +20,28 @@ Menu::~Menu()
 	soundEmitter = nullptr;
 	sceneManager = nullptr;
 	mainCamera = nullptr;
+	gameManager = nullptr;
 }
 
 void Menu::start()
 {
 	mainCamera = findGameObjectWithName("MainCamera");
-	if (mainCamera != nullptr)
+	if (notNull(mainCamera))
 		soundEmitter = mainCamera->getComponent<SoundEmitter>();
 
 	inputSystem = InputSystem::GetInstance();
-	interfaceSystem = InterfaceSystem::GetInstance();
 	sceneManager = SceneManager::GetInstance();
+	gameManager = GameManager::GetInstance();
 }
 
 void Menu::buttonClick(const std::string& sound)
 {
-	if (soundEmitter != nullptr) soundEmitter->playSound(sound);
+	if (notNull(soundEmitter)) soundEmitter->playSound(sound);
 }
 
 bool Menu::backButtonClick()
 {
-	if (sceneManager != nullptr) sceneManager->changeScene("MainMenu");
+	if (notNull(sceneManager)) sceneManager->changeScene("MainMenu");
 	buttonClick(backSound);
 	return false;
 }

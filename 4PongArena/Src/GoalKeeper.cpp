@@ -12,56 +12,51 @@
 
 REGISTER_FACTORY(GoalKeeper);
 
-GoalKeeper::GoalKeeper(GameObject* gameObject) : UserComponent(gameObject), goal(nullptr), health (nullptr), scores(nullptr), manager(nullptr), id(0), offset(0.0f)
+GoalKeeper::GoalKeeper(GameObject* gameObject) : UserComponent(gameObject), goalObject(nullptr), health(nullptr), scores(nullptr), gameManager(nullptr), id(0), offset(0.0f)
 {
 
 }
 
 GoalKeeper::~GoalKeeper()
 {
-	goal = nullptr;
+	goalObject = nullptr;
 	health = nullptr;
 	scores = nullptr;
-	manager = nullptr;
+	gameManager = nullptr;
 }
 
 void GoalKeeper::start()
 {
-	if (gameObject != nullptr) {
-		Vector3 position;
-		if (gameObject->transform != nullptr) position = gameObject->transform->getPosition();
-		Vector3 normal = Vector3::ZERO - position;
+	checkNullAndBreak(gameObject);
+	checkNullAndBreak(gameObject->transform);
 
-		normal *= Vector3(1.0, 0.0, 1.0);
-		normal.normalize();
+	Vector3 position = gameObject->transform->getPosition();
+	Vector3 normal = Vector3::ZERO - position;
 
-		goal = instantiate("Goal", position - normal * offset);
+	normal *= Vector3(1.0, 0.0, 1.0);
+	normal.normalize();
 
-		if (goal != nullptr) {
-			if (goal->transform != nullptr && gameObject->transform != nullptr) 
-				goal->transform->setRotation(gameObject->transform->getRotation());
-			if (goal->getComponent<Goal>() != nullptr) goal->getComponent<Goal>()->setKeeper(gameObject);
-		}
+	goalObject = instantiate("Goal", position - normal * offset);
 
-		manager = GameManager::GetInstance();
-		if (manager != nullptr)
-			scores = manager->getScore();
-
-		if (this != nullptr && this->gameObject) health = this->gameObject->getComponent<Health>();
-		PlayerIndex* playerId = nullptr;
-		if (this != nullptr && this->gameObject) playerId = this->gameObject->getComponent<PlayerIndex>();
-
-		id = -1;
-		if (playerId != nullptr)
-		{
-			id = playerId->getPosVector();
-		}
+	if (notNull(goalObject) && notNull(goalObject->transform)) {
+		goalObject->transform->setRotation(gameObject->transform->getRotation());
+		Goal* goal = goalObject->getComponent<Goal>();
+		if (notNull(goal)) goal->setKeeper(gameObject);
 	}
+
+	gameManager = GameManager::GetInstance();
+	if (notNull(gameManager)) scores = gameManager->getScore();
+
+	health = gameObject->getComponent<Health>();
+	PlayerIndex* playerId = gameObject->getComponent<PlayerIndex>();
+
+	id = -1;
+	if (notNull(playerId)) id = playerId->getPosVector();
 }
 
 void GoalKeeper::handleData(ComponentData* data)
 {
-	if (data == nullptr) return;
+	checkNullAndBreak(data);
 
 	for (auto prop : data->getProperties())
 	{
@@ -69,31 +64,21 @@ void GoalKeeper::handleData(ComponentData* data)
 
 		if (prop.first == "offset")
 		{
-			if (!(ss >> offset))
-				LOG("GOAL KEEPER: Invalid value for property with name \"%s\"", prop.first.c_str());
+			setFloat(offset);
 		}
-		else 
+		else
 			LOG("GOAL KEEPER: Invalid property with name \"%s\"", prop.first.c_str());
 	}
 }
 
 void GoalKeeper::onCollisionEnter(GameObject* other)
 {
-	if (other != nullptr && other->getTag() == "ball")
-	{
-		if (health != nullptr)
-		{
-			if (health->isAlive()) {
-				Ball* ball;
-				ball=other->getComponent<Ball>();
-				if (ball != nullptr) {
-					ball->setIdPlayerHit(id);
-					if (id != -1)
-					{
-						if(scores!=nullptr)
-						scores->ballHit(id);
-					}
-				}
+	if (notNull(other) && other->getTag() == "ball") {
+		if (notNull(health) && health->isAlive()) {
+			Ball* ball = other->getComponent<Ball>();
+			if (notNull(ball) && id != -1 && notNull(scores)) {
+				ball->setIdPlayerHit(id);
+				scores->ballHit(id);
 			}
 		}
 	}
@@ -101,5 +86,5 @@ void GoalKeeper::onCollisionEnter(GameObject* other)
 
 GameObject* GoalKeeper::getGoal() const
 {
-	return goal;
+	return goalObject;
 }

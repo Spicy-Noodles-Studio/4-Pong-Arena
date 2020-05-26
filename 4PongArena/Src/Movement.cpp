@@ -19,17 +19,18 @@ Movement::~Movement()
 
 void Movement::start()
 {
-	if (gameObject != nullptr) {
-		rigidBody = gameObject->getComponent<RigidBody>();
-		if (gameObject->transform != nullptr) normal = Vector3::ZERO - gameObject->transform->getPosition();
-		normal *= Vector3(1.0, 0.0, 1.0);
-		normal.normalize();
-	}
-	if (rigidBody != nullptr) {
-		// Cancel rotations and translations through normal vector
-		rigidBody->setRotationConstraints(Vector3::ZERO);
-		rigidBody->setMovementConstraints(Vector3(abs(normal.z), 0.0, abs(normal.x)));
-	}
+	checkNullAndBreak(gameObject);
+
+	if (notNull(gameObject->transform)) normal = Vector3::ZERO - gameObject->transform->getPosition();
+	normal *= Vector3(1.0, 0.0, 1.0);
+	normal.normalize();
+
+	rigidBody = gameObject->getComponent<RigidBody>();
+	checkNullAndBreak(rigidBody);
+	// Cancel rotations and translations through normal vector
+	rigidBody->setRotationConstraints(Vector3::ZERO);
+	rigidBody->setMovementConstraints(Vector3(abs(normal.z), 0.0, abs(normal.x)));
+
 }
 
 void Movement::update(float deltaTime)
@@ -39,7 +40,7 @@ void Movement::update(float deltaTime)
 
 void Movement::handleData(ComponentData* data)
 {
-	if (data == nullptr) return;
+	checkNullAndBreak(data);
 
 	for (auto prop : data->getProperties())
 	{
@@ -47,8 +48,7 @@ void Movement::handleData(ComponentData* data)
 
 		if (prop.first == "velocity")
 		{
-			if (!(ss >> velocity))
-				LOG("MOVEMENT: Invalid value for property with name \"%s\"", prop.first.c_str());
+			setFloat(velocity);
 		}
 		else
 			LOG("MOVEMENT: Invalid property name \"%s\"", prop.first.c_str());
@@ -72,12 +72,12 @@ void Movement::stop()
 
 void Movement::move()
 {
-	if (rigidBody != nullptr) rigidBody->setLinearVelocity(direction.normalized() * velocity);
+	if (notNull(rigidBody)) rigidBody->setLinearVelocity(direction.normalized() * velocity);
 }
 
 void Movement::setNormal(const Vector3& normal)
 {
-	if (this != nullptr) this->normal = normal;
+	this->normal = normal;
 }
 
 const Vector3& Movement::getNormal() const
@@ -87,7 +87,7 @@ const Vector3& Movement::getNormal() const
 
 void Movement::setVelocity(float velocity)
 {
-	if (this != nullptr) this->velocity = velocity;
+	this->velocity = velocity;
 }
 
 float Movement::getVelocity() const

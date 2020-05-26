@@ -11,11 +11,11 @@ class GameManager;
 class GoalKeeper : public UserComponent
 {
 private:
-	GameObject* goal;
+	GameObject* goalObject;
 	float offset;
 	Health* health;
 	Score* scores;
-	GameManager* manager;
+	GameManager* gameManager;
 	int id;
 public:
 	GoalKeeper(GameObject* gameObject);

@@ -1,17 +1,16 @@
 #pragma once
-#ifndef PARTICLE_MANAGER
-#define PARTICLE_MANAGER
+#ifndef PARTICLE_MANAGER_H
+#define PARTICLE_MANAGER_H
 
 #include <UserComponent.h>
 
 class ParticleEmitter;
-class PlayerState;
 
 class ParticleManager : public UserComponent
 {
 private:
 	GameObject* particlesObject;
-	ParticleEmitter* particleEmi;
+	ParticleEmitter* particleEmitter;
 
 	float duration;
 	float initialTime;

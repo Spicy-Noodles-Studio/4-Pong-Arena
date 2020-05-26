@@ -15,7 +15,7 @@ PlayerIndex::~PlayerIndex()
 
 void PlayerIndex::handleData(ComponentData* data)
 {
-	if (data == nullptr) return;
+	checkNullAndBreak(data);
 
 	for (auto prop : data->getProperties())
 	{
@@ -23,8 +23,7 @@ void PlayerIndex::handleData(ComponentData* data)
 
 		if (prop.first == "id")
 		{
-			if (!(ss >> id))
-				LOG("PLAYER INDEX: Invalid property with name \"%s\"", prop.first.c_str());
+			setInt(id);
 		}
 		else
 			LOG("PLAYER INDEX: Invalid property name \"%s\"", prop.first.c_str());

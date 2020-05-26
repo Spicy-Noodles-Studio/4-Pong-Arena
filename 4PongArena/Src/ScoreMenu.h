@@ -9,12 +9,12 @@
 #include <vector>
 #include <string>
 
-class GameManager;
+class Score;
 
 class ScoreMenu : public Menu
 {
 private:
-	GameManager* gameManager;
+	Score* score;
 	std::vector<UIElement> texts;
 	std::vector<UIElement> panels;
 

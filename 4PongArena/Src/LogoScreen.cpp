@@ -13,7 +13,7 @@ bool LogoScreen::checkControllersInput()
 	int i = 0;
 	while (i < 4 && !result)
 	{
-		if (inputSystem != nullptr && inputSystem->getButtonPress(i, "A") || inputSystem->getButtonPress(i, "START"))
+		if (notNull(inputSystem) && inputSystem->getButtonPress(i, "A") || inputSystem->getButtonPress(i, "START"))
 			result = true;
 
 		i++;
@@ -39,11 +39,12 @@ void LogoScreen::start()
 
 void LogoScreen::update(float deltaTime)
 {
-	if (sceneManager == nullptr) return;
+	checkNullAndBreak(sceneManager);
 
-	if ((inputSystem != nullptr && inputSystem->getKeyPress("ESCAPE") || inputSystem->getMouseButtonClick('l')) || checkControllersInput() || time <= 0)
+	if ((notNull(inputSystem) && inputSystem->getKeyPress("ESCAPE") || inputSystem->getMouseButtonClick('l')) || checkControllersInput() || time <= 0)
 	{
-		if (sceneManager->getCurrentScene() != nullptr && sceneManager->getCurrentScene()->getName() == "EngineLogo")
+		Scene* currentScene = sceneManager->getCurrentScene();
+		if ( notNull(currentScene) && currentScene->getName() == "EngineLogo")
 			sceneManager->changeScene("StudioLogo");
 		else
 			sceneManager->changeScene("MainMenu");

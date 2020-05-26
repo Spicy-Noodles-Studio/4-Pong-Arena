@@ -22,13 +22,17 @@ public:
 	GameObject* getKeeper();
 
 private:
-	Health* health;
-	int score;
+	
+	Health* keeperHealth;
+	GameObject* keeper;
+	
 	Score* scoreManager;
 	GameManager* gameManager;
 	ParticleManager* particleManager;
-	int id;
 	CameraEffects* cameraEffects;
+
+	int score;
+	int id;
 
 protected:
 	virtual void start();

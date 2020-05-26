@@ -10,7 +10,7 @@ REGISTER_FACTORY(GameManager);
 
 GameManager* GameManager::instance = nullptr;
 
-GameManager::GameManager() : UserComponent(gameObject), song(""), songName(""), health(5), time(60), initialTime(time), timeMode(false),
+GameManager::GameManager() : UserComponent(gameObject), song(""), songName(""), health(5), time(60), initialTime(time), timeMode(false), soundEmitter(nullptr), initialPlayers(0), winner(0),
 levelBase(0), levelForces(0), levelObstacles(0), menuMusic(false), paused(false), gameEnded(false), initialBrightness(0.5), initialSoundVolume(0.5), initialMusicVolume(0.5)
 {
 
@@ -22,13 +22,15 @@ levelBase(0), levelForces(0), levelObstacles(0), menuMusic(false), paused(false)
 	if (instance == nullptr)
 	{
 		instance = this;
-		if (WindowManager::GetInstance() != nullptr)
-			WindowManager::GetInstance()->setBrightness(initialBrightness);
+		WindowManager* windowManager = WindowManager::GetInstance();
+		if (notNull(windowManager))
+			windowManager->setBrightness(initialBrightness);
 
-		if (SoundSystem::GetInstance() != nullptr)
+		SoundSystem* soundSystem = SoundSystem::GetInstance();
+		if (notNull(soundSystem))
 		{
-			SoundSystem::GetInstance()->setSoundEffectsVolume(initialSoundVolume);
-			SoundSystem::GetInstance()->setMusicVolume(initialMusicVolume);
+			soundSystem->setSoundEffectsVolume(initialSoundVolume);
+			soundSystem->setMusicVolume(initialMusicVolume);
 		}
 	}
 	else
@@ -54,7 +56,7 @@ void GameManager::start()
 {
 	playerColours = { {1,0,0}, {0,0,1}, {1,1,0}, {0,1,0} };
 
-	if (soundEmitter == nullptr && gameObject != nullptr)
+	if (soundEmitter == nullptr && notNull(gameObject))
 		soundEmitter = gameObject->getComponent<SoundEmitter>();
 
 	dontDestroyOnLoad(gameObject);
@@ -128,12 +130,13 @@ int GameManager::getInitialPlayers() const
 
 void GameManager::setPaused(bool paused)
 {
-	if (Timer::GetInstance() == nullptr) return;
+	Timer* timer = Timer::GetInstance();
+	checkNullAndBreak(timer);
 
 	if (paused)
-		Timer::GetInstance()->setTimeScale(0.0f); //Pause the game
+		timer->setTimeScale(0.0f); //Pause the game
 	else
-		Timer::GetInstance()->setTimeScale(1.0f); //Resume the game
+		timer->setTimeScale(1.0f); //Resume the game
 
 	this->paused = paused;
 }
@@ -145,7 +148,7 @@ bool GameManager::isPaused()
 
 void GameManager::setHealth(int health)
 {
-	if (this != nullptr) this->health = health;
+	this->health = health;
 }
 
 int GameManager::getHealth() const
@@ -155,7 +158,7 @@ int GameManager::getHealth() const
 
 void GameManager::setTime(int time)
 {
-	if (this != nullptr) this->time = time;
+	this->time = time;
 }
 
 int GameManager::getTime() const
@@ -165,8 +168,6 @@ int GameManager::getTime() const
 
 void GameManager::setInitialTime(int time)
 {
-	if (this == nullptr) return;
-
 	this->initialTime = time;
 	this->time = time;
 }
@@ -188,7 +189,7 @@ bool GameManager::getTimeMode() const
 
 void GameManager::setWinner(int winner)
 {
-	if (this != nullptr) this->winner = winner;
+	this->winner = winner;
 }
 
 int GameManager::getWinner() const
@@ -198,7 +199,7 @@ int GameManager::getWinner() const
 
 void GameManager::setLevelBase(int levelBase)
 {
-	if (this != nullptr) this->levelBase = levelBase;
+	this->levelBase = levelBase;
 }
 
 int GameManager::getLevelBase() const
@@ -208,7 +209,7 @@ int GameManager::getLevelBase() const
 
 void GameManager::setLevelObstacles(int levelObstacles)
 {
-	if (this != nullptr) this->levelObstacles = levelObstacles;
+	this->levelObstacles = levelObstacles;
 }
 
 int GameManager::getLevelObstacles() const
@@ -218,7 +219,7 @@ int GameManager::getLevelObstacles() const
 
 void GameManager::setLevelForces(int levelForces)
 {
-	if (this != nullptr) this->levelForces = levelForces;
+	this->levelForces = levelForces;
 }
 
 int GameManager::getLevelForces() const
@@ -258,7 +259,7 @@ std::string GameManager::getSongName() const
 
 void GameManager::playMusic(std::string music)
 {
-	if (soundEmitter == nullptr) return;
+	checkNullAndBreak(soundEmitter);
 
 	soundEmitter->stop(music);
 
@@ -270,17 +271,20 @@ void GameManager::playMusic(std::string music)
 
 void GameManager::stopMusic(std::string music)
 {
-	if (soundEmitter != nullptr) soundEmitter->stop(music);
+	checkNullAndBreak(soundEmitter);
+	soundEmitter->stop(music);
 }
 
 void GameManager::resumeMusic(std::string music)
 {
-	if (soundEmitter != nullptr) soundEmitter->resume(music);
+	checkNullAndBreak(soundEmitter);
+	soundEmitter->resume(music);
 }
 
 void GameManager::pauseMusic(std::string music)
 {
-	if (soundEmitter != nullptr) soundEmitter->pause(music);
+	checkNullAndBreak(soundEmitter);
+	soundEmitter->pause(music);
 }
 
 void GameManager::setMenuMusic(bool value)
@@ -310,5 +314,6 @@ float GameManager::getInitialMusicVolume() const
 
 void GameManager::setMusicVolume(float volume)
 {
-	if (soundEmitter != nullptr) soundEmitter->setVolume(volume);
+	checkNullAndBreak(soundEmitter);
+	soundEmitter->setVolume(volume);
 }

@@ -1,8 +1,9 @@
 #include "Score.h"
+#include "ErrorManagement.h"
 
 void Score::initScorePlayer(ScorePlayer* player)
 {
-	if (player != nullptr) {
+	if (notNull(player)) {
 		player->timeAlive = 0;
 		player->numOfGoals = 0;
 		player->numOfSelfGoals = 0;
@@ -28,16 +29,17 @@ void Score::initScore(int numOfPlayers)
 {
 	for (auto score : playerScores)
 		delete score;
+
 	playerScores.clear();
 
-	if (this != nullptr) this->numPlayers = numOfPlayers;
+	this->numPlayers = numOfPlayers;
 
 	for (int i = 0; i < numOfPlayers; i++)
 	{
 		ScorePlayer* score = new ScorePlayer();
-		if (score != nullptr) {
+		if (notNull(score)) {
 			initScorePlayer(score);
-			if (this != nullptr) this->playerScores.push_back(score);
+			this->playerScores.push_back(score);
 		}
 	}
 }
@@ -54,35 +56,35 @@ void Score::clearIDs()
 
 void Score::setTimeAlive(int playerIndex, int originalTime, int timeOfDeath)
 {
-	if (playerIndex < playerScores.size())
+	if (playerIndex >= 0 && playerIndex < playerScores.size())
 		playerScores.at(playerIndex)->timeAlive = originalTime - timeOfDeath;
 
 }
 
 void Score::goalMade(int playerIndex)
 {
-	if (playerIndex < playerScores.size())
+	if (playerIndex >= 0 && playerIndex < playerScores.size())
 		playerScores.at(playerIndex)->numOfGoals++;
 
 }
 
 void Score::goalSelfMade(int playerIndex)
 {
-	if (playerIndex < playerScores.size())
+	if (playerIndex >= 0 && playerIndex < playerScores.size())
 		playerScores.at(playerIndex)->numOfSelfGoals++;
 
 }
 
 void Score::ballHit(int playerIndex)
 {
-	if (playerIndex < playerScores.size())
+	if (playerIndex >= 0 && playerIndex < playerScores.size())
 		playerScores.at(playerIndex)->numOfBallsHit++;
 
 }
 
 int Score::getTimeAlive(int playerIndex)
 {
-	if (playerIndex < playerScores.size())
+	if (playerIndex >= 0 && playerIndex < playerScores.size())
 		return playerScores.at(playerIndex)->timeAlive;
 	else
 		return -1;
@@ -90,7 +92,7 @@ int Score::getTimeAlive(int playerIndex)
 
 int Score::getNumOfGoals(int playerIndex)
 {
-	if (playerIndex < playerScores.size())
+	if (playerIndex >= 0 && playerIndex < playerScores.size())
 		return playerScores.at(playerIndex)->numOfGoals;
 	else
 		return -1;
@@ -98,7 +100,7 @@ int Score::getNumOfGoals(int playerIndex)
 
 int Score::getNumOfSelfGoals(int playerIndex)
 {
-	if (playerIndex < playerScores.size())
+	if (playerIndex >= 0 && playerIndex < playerScores.size())
 		return playerScores.at(playerIndex)->numOfSelfGoals;
 	else
 		return -1;
@@ -106,7 +108,7 @@ int Score::getNumOfSelfGoals(int playerIndex)
 
 int Score::getNumOfBallsHit(int playerIndex)
 {
-	if (playerIndex < playerScores.size())
+	if (playerIndex >= 0 && playerIndex < playerScores.size())
 		return playerScores.at(playerIndex)->numOfBallsHit;
 	else
 		return -1;

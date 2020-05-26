@@ -9,6 +9,7 @@ class InputSystem;
 class InterfaceSystem;
 class SoundEmitter;
 class SceneManager;
+class GameManager;
 
 class Menu : public UserComponent
 {
@@ -22,6 +23,7 @@ protected:
 	SoundEmitter* soundEmitter;
 	SceneManager* sceneManager;
 	GameObject* mainCamera;
+	GameManager* gameManager;
 
 	virtual void start();
 	virtual void buttonClick(const std::string& sound);

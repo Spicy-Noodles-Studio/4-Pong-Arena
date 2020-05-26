@@ -18,7 +18,9 @@ MusicEmitter::~MusicEmitter()
 
 void MusicEmitter::start()
 {
-	if (soundEmitter == nullptr && gameObject != nullptr) {
+	checkNullAndBreak(gameObject);
+
+	if (soundEmitter == nullptr) {
 		soundEmitter = gameObject->getComponent<SoundEmitter>();
 	}
 	dontDestroyOnLoad(gameObject);
@@ -26,21 +28,21 @@ void MusicEmitter::start()
 
 void MusicEmitter::playMusic(const std::string& sound)
 {
-	if (soundEmitter != nullptr) soundEmitter->playMusic(sound);
+	if (notNull(soundEmitter)) soundEmitter->playMusic(sound);
 }
 
 void MusicEmitter::stopMusic(const std::string& sound)
 {
-	if (soundEmitter != nullptr) soundEmitter->stop(sound);
+	if (notNull(soundEmitter)) soundEmitter->stop(sound);
 }
 
 void MusicEmitter::stopMusicAll()
 {
-	if (soundEmitter != nullptr) soundEmitter->stopAll();
+	if (notNull(soundEmitter)) soundEmitter->stopAll();
 }
 
 void MusicEmitter::setVolume(float volume)
 {
-	if (soundEmitter != nullptr) soundEmitter->setVolume(volume);
+	if (notNull(soundEmitter)) soundEmitter->setVolume(volume);
 }
 

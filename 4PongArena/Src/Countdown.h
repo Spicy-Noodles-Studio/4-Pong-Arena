@@ -25,6 +25,8 @@ private:
 
 	std::string previousCount;
 
+	void activateCountdown(bool activate);
+
 public:
 	Countdown(GameObject* gameObject);
 	virtual ~Countdown();
