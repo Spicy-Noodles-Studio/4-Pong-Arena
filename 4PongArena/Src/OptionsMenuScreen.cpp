@@ -41,6 +41,7 @@ OptionsMenuScreen::~OptionsMenuScreen()
 
 void OptionsMenuScreen::start()
 {
+	Menu::start();
 	screen = findGameObjectWithName("OptionsMenuScreen");
 	if (screen != nullptr) root = screen->getComponent<UILayout>()->getRoot();
 

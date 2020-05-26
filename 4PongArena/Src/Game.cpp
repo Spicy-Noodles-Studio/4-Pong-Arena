@@ -208,15 +208,17 @@ void Game::createPlayers()
 				if (paddle->getComponent<Trail>() != nullptr) paddle->getComponent<Trail>()->setColour(playerColours[i], 1.0);
 			}
 
-			
-			if (paddle != nullptr) {
+			if (paddle != nullptr)
+			{
 				Death* death = paddle->getComponent<Death>();
 				death->setPlayerColour(playerColours[i]);
 				death->setwallColours(baseColour, neonColour);
 				death->setWallScale(wallScale);
 			}
 
-			if (paddle != nullptr) paddles.push_back(paddle);
+			if (paddle != nullptr)
+				paddles.push_back(paddle);
+
 			if (gameManager != nullptr)
 			{
 				gameManager->getPaddles().push_back(paddle);
@@ -299,7 +301,7 @@ void Game::createSpawners()
 		}
 	}
 
-	if (findGameObjectWithName("SpawnerManager") != nullptr && findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>() != nullptr) 
+	if (findGameObjectWithName("SpawnerManager") != nullptr && findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>() != nullptr)
 		findGameObjectWithName("SpawnerManager")->getComponent<SpawnerManager>()->setSpawners(aux);
 }
 
@@ -422,30 +424,30 @@ void Game::setRanking()
 	for (int i = 0; i < paddles.size(); i++)
 	{
 		Health* health = paddles[i]->getComponent<Health>();
-		if (health != nullptr)
+		if (health != nullptr && health->getHealth() != 0)
 			gameManager->getRanking().push(ii(i + 1, health->getHealth()));
 
 		if (paddles[i]->getComponent<PlayerController>() != nullptr)
 			paddles[i]->getComponent<PlayerController>()->setActive(false);
 		else if (paddles[i]->getComponent<IAPaddle>() != nullptr)
 			paddles[i]->getComponent<IAPaddle>()->setActive(false);
-		if(health != nullptr&&health->getHealth()>0)
-			if(gameManager->getScore()!=nullptr)
-			gameManager->getScore()->setTimeAlive(paddles[i]->getComponent<PlayerIndex>()->getPosVector() , gameManager->getInitialTime(), gameManager->getTime());
+
+		if (health != nullptr && health->getHealth() > 0 && gameManager->getScore() != nullptr)
+			gameManager->getScore()->setTimeAlive(paddles[i]->getComponent<PlayerIndex>()->getPosVector(), gameManager->getInitialTime(), gameManager->getTime());
 	}
 
 	std::priority_queue<ii, std::vector<ii>, Less> aux = gameManager->getRanking();
 
 	int cont = 0;
 	bool tie = false;
-	ii last = ii(0, 0);
+	ii last = ii(-1, -1);
 
 	while (!aux.empty())
 	{
 		ii info = aux.top();
 		aux.pop();
 
-		if (info.second != 0 && info.second == last.second)
+		if (info.second == last.second && cont < 1)
 			tie = true;
 		else
 			cont++;
@@ -457,9 +459,7 @@ void Game::setRanking()
 	if (tie)
 		gameManager->setWinner(-1);
 	else
-	{
 		gameManager->setWinner(gameManager->getRanking().top().first);
-	}
 
 	gameManager->emptyRanking();
 }
@@ -511,7 +511,7 @@ void Game::playerDeath()
 {
 	players--;
 
-	if (players <= 1)
+	if (players <= 1 && gameManager != nullptr && !gameManager->isGameEnded())
 		chooseWinner();
 }
 
@@ -557,7 +557,6 @@ void Game::start()
 	createPlayers();
 
 	playSong();
-
 }
 
 void Game::update(float deltaTime)
@@ -579,19 +578,17 @@ void Game::update(float deltaTime)
 				gameTimer = 0;
 
 			gameManager->setTime((int)gameTimer);
-			if (gameTimer <= 0.0f && !gameManager->isGameEnded() )
+			if (gameTimer <= 0.0f && !gameManager->isGameEnded())
 				chooseWinner();
-			
+
 		}
-		else if(!countdown->isCounting() && gameTimer < 0)
+		else if (!countdown->isCounting() && gameTimer < 0)
 		{
 			gameTimer -= deltaTime;
 			gameManager->setTime((int)gameTimer);
 			if (!gameManager->isGameEnded() && players <= 1)
 				chooseWinner();
 		}
-
-		
 	}
 
 	if (cameraEffects != nullptr)
