@@ -6,45 +6,43 @@
 
 REGISTER_FACTORY(MusicEmitter);
 
-MusicEmitter::MusicEmitter(GameObject* gameObject) : UserComponent(gameObject)
+MusicEmitter::MusicEmitter(GameObject* gameObject) : UserComponent(gameObject), soundEmitter (nullptr)
 {
 
 }
 
 MusicEmitter::~MusicEmitter()
 {
-
+	soundEmitter = nullptr;
 }
 
 void MusicEmitter::start()
 {
+	checkNullAndBreak(gameObject);
+
 	if (soundEmitter == nullptr) {
 		soundEmitter = gameObject->getComponent<SoundEmitter>();
 	}
 	dontDestroyOnLoad(gameObject);
 }
 
-void MusicEmitter::update(float deltaTime)
-{
-}
-
 void MusicEmitter::playMusic(const std::string& sound)
 {
-	soundEmitter->playMusic(sound);
+	if (notNull(soundEmitter)) soundEmitter->playMusic(sound);
 }
 
 void MusicEmitter::stopMusic(const std::string& sound)
 {
-	soundEmitter->stop(sound);
+	if (notNull(soundEmitter)) soundEmitter->stop(sound);
 }
 
 void MusicEmitter::stopMusicAll()
 {
-	soundEmitter->stopAll();
+	if (notNull(soundEmitter)) soundEmitter->stopAll();
 }
 
 void MusicEmitter::setVolume(float volume)
 {
-	soundEmitter->setVolume(volume);
+	if (notNull(soundEmitter)) soundEmitter->setVolume(volume);
 }
 

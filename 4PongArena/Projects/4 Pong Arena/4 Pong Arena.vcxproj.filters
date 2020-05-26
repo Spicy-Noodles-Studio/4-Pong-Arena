@@ -79,6 +79,24 @@
     <ClCompile Include="..\..\Src\Menu.cpp">
       <Filter>Archivos de código fuente\Menus</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\ParticleManager.cpp">
+      <Filter>Archivos de código fuente\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\CursorMenu.cpp">
+      <Filter>Archivos de código fuente\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\CursorGame.cpp">
+      <Filter>Archivos de código fuente\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Credits.cpp">
+      <Filter>Archivos de código fuente\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\MusicEmitter.cpp">
+      <Filter>Archivos de código fuente\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\LogoScreen.cpp">
+      <Filter>Archivos de código fuente\Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Ball.h">
@@ -157,6 +175,24 @@
       <Filter>Archivos de encabezado\Menus</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="..\..\Src\ParticleManager.h">
+      <Filter>Archivos de encabezado\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\CursorMenu.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\CursorGame.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Credits.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\MusicEmitter.h">
+      <Filter>Archivos de encabezado\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\LogoScreen.h">
+      <Filter>Archivos de encabezado\Menus</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Archivos de código fuente">

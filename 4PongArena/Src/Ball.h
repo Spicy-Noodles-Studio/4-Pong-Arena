@@ -6,12 +6,14 @@
 
 class RigidBody;
 class SoundEmitter;
+class ParticleManager;
 
 class Ball : public UserComponent
 {
 private:
 	RigidBody* rigidBody;
 	SoundEmitter* soundEmitter;
+	ParticleManager* particleManager;
 	float volume;
 
 	float velocity;
@@ -23,18 +25,17 @@ private:
 public:
 	Ball(GameObject* gameObject);
 	virtual ~Ball();
-
-	virtual void start();
-	virtual void update(float deltaTime);
-
 	void setVelocity(float velocity);
 	void setTargetVelocity(float targetVelocity);
 	void setAcceleration(float acceleration);
 	
 	void setIdPlayerHit(int id);
-	int getIdPlayerHit();
+	int getIdPlayerHit() const;
 
+protected:
 	virtual void onCollisionEnter(GameObject* other);
+	virtual void start();
+	virtual void update(float deltaTime);
 };
 
 #endif

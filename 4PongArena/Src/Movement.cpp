@@ -14,19 +14,23 @@ Movement::Movement(GameObject* gameObject) : UserComponent(gameObject), rigidBod
 
 Movement::~Movement()
 {
-
+	rigidBody = nullptr;
 }
 
 void Movement::start()
 {
-	rigidBody = gameObject->getComponent<RigidBody>();
-	normal = Vector3::ZERO - gameObject->transform->getPosition();
+	checkNullAndBreak(gameObject);
+
+	if (notNull(gameObject->transform)) normal = Vector3::ZERO - gameObject->transform->getPosition();
 	normal *= Vector3(1.0, 0.0, 1.0);
 	normal.normalize();
 
+	rigidBody = gameObject->getComponent<RigidBody>();
+	checkNullAndBreak(rigidBody);
 	// Cancel rotations and translations through normal vector
 	rigidBody->setRotationConstraints(Vector3::ZERO);
 	rigidBody->setMovementConstraints(Vector3(abs(normal.z), 0.0, abs(normal.x)));
+
 }
 
 void Movement::update(float deltaTime)
@@ -36,14 +40,15 @@ void Movement::update(float deltaTime)
 
 void Movement::handleData(ComponentData* data)
 {
+	checkNullAndBreak(data);
+
 	for (auto prop : data->getProperties())
 	{
 		std::stringstream ss(prop.second);
 
 		if (prop.first == "velocity")
 		{
-			if (!(ss >> velocity))
-				LOG("MOVEMENT: Invalid value for property with name \"%s\"", prop.first.c_str());
+			setFloat(velocity);
 		}
 		else
 			LOG("MOVEMENT: Invalid property name \"%s\"", prop.first.c_str());
@@ -67,7 +72,7 @@ void Movement::stop()
 
 void Movement::move()
 {
-	rigidBody->setLinearVelocity(direction.normalized() * velocity);
+	if (notNull(rigidBody)) rigidBody->setLinearVelocity(direction.normalized() * velocity);
 }
 
 void Movement::setNormal(const Vector3& normal)

@@ -2,6 +2,12 @@
     "SceneName": "MainMenu",
     "SceneObjects": [
         {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "CursorMenu",
+            "Tag": "cursorMenu",
+            "BlueprintPath": "CursorMenu"
+        },
+        {
             "ObjectType": "GAMEOBJECT",
             "ObjectName": "GameManager",
             "Tag": "GameManager",
@@ -43,7 +49,7 @@
                     "ComponentName": "UILayout",
                     "ComponentProperties": [
                         ["layout" , "MainMenu.layout"],
-                        ["event" , "PlayButton playButtonClick | OptionsButton optionsButtonClick | ExitButton exitButtonClick"]
+                        ["event" , "PlayButton playButtonClick | OptionsButton optionsButtonClick | ExitButton exitButtonClick | CreditsButton creditsButtonClick"]
                     ]
                 }
             ]

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MUSIC_EMITTER
-#define MUSIC_EMITTER
+#ifndef MUSIC_EMITTER_H
+#define MUSIC_EMITTER_H
 #include <UserComponent.h>
 
 class SoundEmitter;
@@ -15,14 +15,13 @@ private:
 public:
 	MusicEmitter(GameObject* gameObject);
 	virtual ~MusicEmitter();
-
-	virtual void start();
-	virtual void update(float deltaTime);
-
 	void playMusic(const std::string& sound);
 	void stopMusic(const std::string& sound);
 	void stopMusicAll();
 	void setVolume(float volume);
+
+protected:
+	virtual void start();
 };
 
 #endif

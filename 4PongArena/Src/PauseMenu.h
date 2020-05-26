@@ -7,12 +7,14 @@
 #include <UserComponent.h>
 #include <UIElement.h>
 
-class InputSystem;
+class Game;
+class Countdown;
 
 class PauseMenu : public Menu
 {
 private:
-	InputSystem* inputSystem;
+	Game* game;
+	Countdown* countdown;
 
 	UIElement pauseMenu;
 	UIElement pausePanel;
@@ -28,12 +30,13 @@ public:
 	PauseMenu(GameObject* gameObject);
 	virtual ~PauseMenu();
 
-	virtual void start();
-	virtual void preUpdate(float deltaTime);
-
 	// opens the Pause Menu and pauses the game
 	void setPaused(bool paused);
 	bool isVisible();
+
+protected:
+	virtual void start();
+	virtual void preUpdate(float deltaTime);
 };
 
 #endif

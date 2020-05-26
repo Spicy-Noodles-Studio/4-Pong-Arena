@@ -168,9 +168,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\CameraEffects.cpp" />
+    <ClCompile Include="..\..\Src\Credits.cpp" />
+    <ClCompile Include="..\..\Src\CursorGame.cpp" />
+    <ClCompile Include="..\..\Src\CursorMenu.cpp" />
+    <ClCompile Include="..\..\Src\LogoScreen.cpp" />
     <ClCompile Include="..\..\Src\Menu.cpp" />
+    <ClCompile Include="..\..\Src\MusicEmitter.cpp" />
     <ClCompile Include="..\..\Src\OptionsMenuScreen.cpp" />
     <ClCompile Include="..\..\Src\Countdown.cpp" />
+    <ClCompile Include="..\..\Src\ParticleManager.cpp" />
     <ClCompile Include="..\..\Src\PlayerIndex.cpp" />
     <ClCompile Include="..\..\Src\PlayerUI.cpp" />
     <ClCompile Include="..\..\Src\Score.cpp" />
@@ -196,9 +202,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\CameraEffects.h" />
+    <ClInclude Include="..\..\Src\Credits.h" />
+    <ClInclude Include="..\..\Src\CursorGame.h" />
+    <ClInclude Include="..\..\Src\CursorMenu.h" />
+    <ClInclude Include="..\..\Src\LogoScreen.h" />
     <ClInclude Include="..\..\Src\Menu.h" />
+    <ClInclude Include="..\..\Src\MusicEmitter.h" />
     <ClInclude Include="..\..\Src\OptionsMenuScreen.h" />
     <ClInclude Include="..\..\Src\Countdown.h" />
+    <ClInclude Include="..\..\Src\ParticleManager.h" />
     <ClInclude Include="..\..\Src\PlayerIndex.h" />
     <ClInclude Include="..\..\Src\PlayerUI.h" />
     <ClInclude Include="..\..\Src\Score.h" />

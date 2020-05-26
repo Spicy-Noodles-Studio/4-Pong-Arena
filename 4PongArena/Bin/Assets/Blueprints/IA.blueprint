@@ -61,6 +61,21 @@
                 ["offset", "0.75"]
             ]
         },
+        {
+            "ComponentName": "Trail",
+            "ComponentProperties":[
+                [ "trail", "node"],
+                ["length", "20"],
+                ["max", "40"],
+                ["colour", "1.0 0.1 0.1"],
+                ["alpha","1"],
+                ["width", "0.3"],
+                ["widthChange", "0.6"],
+                ["colourChange", "1 1 1"],
+                ["alphaChange", "2"],
+                ["start", "false"]
+            ]
+        },
          {
             "ComponentName": "PlayerIndex"
         },

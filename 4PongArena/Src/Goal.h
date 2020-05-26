@@ -7,16 +7,14 @@
 class Health;
 class Score;
 class GameManager;
+class CameraEffects;
+class ParticleManager;
 
 class Goal : public UserComponent
 {
 public:
 	Goal(GameObject* gameObject);
 	virtual ~Goal();
-
-	virtual void start();
-	virtual void onObjectEnter(GameObject* other);
-
 	void setScore(int score);
 	int getScore() const;
 
@@ -24,11 +22,22 @@ public:
 	GameObject* getKeeper();
 
 private:
-	Health* health;
+	
+	Health* keeperHealth;
+	GameObject* keeper;
+	
+	Score* scoreManager;
+	GameManager* gameManager;
+	ParticleManager* particleManager;
+	CameraEffects* cameraEffects;
+
 	int score;
-	Score* scores;
-	GameManager* manager;
 	int id;
+
+protected:
+	virtual void start();
+	virtual void onObjectEnter(GameObject* other);
+
 };
 
 #endif

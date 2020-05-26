@@ -23,7 +23,7 @@ WinMain(HINSTANCE hinstance, HINSTANCE prevInstance, LPSTR lpCmdLine, int nCmdSh
 	g->init("4 Pong Arena");
 	g->run();
 	g->close();
-	
+
 	delete g;
 
 	return 0;

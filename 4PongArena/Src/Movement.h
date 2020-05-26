@@ -12,9 +12,6 @@ public:
 	Movement(GameObject* gameObject);
 	virtual ~Movement();
 
-	virtual void start();
-	virtual void update(float deltaTime);
-	virtual void handleData(ComponentData* data);
 
 	void moveRight();
 	void moveLeft();
@@ -30,12 +27,16 @@ private:
 	void move();
 	const Vector3 getRight() const;
 	const Vector3 getLeft() const;
-
-private:
 	RigidBody* rigidBody;
 	Vector3 direction;
 	Vector3 normal;
 	float velocity;
+
+protected:
+	virtual void start();
+	virtual void update(float deltaTime);
+	virtual void handleData(ComponentData* data);
+
 };
 
 #endif

@@ -3,7 +3,6 @@
 #define SCORE_H
 
 #include <vector>
-#include <string>
 
 class Score
 {
@@ -17,15 +16,20 @@ class Score
 	};
 private:
 	std::vector<ScorePlayer*> playerScores;
+	std::vector<int> playerIDs;
+
 	int numPlayers;
 
 	void initScorePlayer(ScorePlayer* player);
 
 public:
 	Score();
-	~Score();
+	virtual ~Score();
 
 	void initScore(int numOfPlayers);
+
+	std::vector<int>& getPlayerIDs();
+	void clearIDs();
 
 	void setTimeAlive(int playerIndex, int originalTime, int timeOfDeath);
 	void goalMade(int playerIndex);

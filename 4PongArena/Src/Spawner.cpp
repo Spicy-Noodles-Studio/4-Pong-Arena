@@ -4,75 +4,95 @@
 #include <MathUtils.h>
 #include <sstream>
 #include <Quaternion.h>
+#include <Trail.h>
 
 #include "Ball.h"
-
+#include "ParticleManager.h"
 #include <ComponentRegister.h>
 #include <SoundEmitter.h>
 
 REGISTER_FACTORY(Spawner);
 
-Spawner::Spawner(GameObject* gameObject) : UserComponent(gameObject), velocity(3.0f), angle(25)
+Spawner::Spawner(GameObject* gameObject) : UserComponent(gameObject), particleManager(nullptr), soundEmitter(nullptr), velocity(3.0f), angle(25)
 {
 
 }
 
 Spawner::~Spawner()
 {
-
+	soundEmitter = nullptr;
+	particleManager = nullptr;
 }
 
 void Spawner::start()
 {
+	checkNullAndBreak(gameObject);
+
 	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
 	direction.y = 0;
-	gameObject->transform->setDirection(direction.normalized());
 
+	particleManager = gameObject->getComponent<ParticleManager>();
 	soundEmitter = gameObject->getComponent<SoundEmitter>();
-	soundEmitter->setVolume(0.7);
+	if (notNull(soundEmitter)) soundEmitter->setVolume(0.7);
+	if (notNull(gameObject->transform)) gameObject->transform->setDirection(direction.normalized());
 }
 
 void Spawner::handleData(ComponentData* data)
 {
+	if (data == nullptr) return;
+
 	for (auto prop : data->getProperties())
 	{
 		std::stringstream ss(prop.second);
 
 		if (prop.first == "velocity")
 		{
-			if (!(ss >> velocity))
-				LOG("SPAWNER: Invalid property with name \"%s\"", prop.first.c_str());
+			setFloat(velocity);
 		}
 		else if (prop.first == "angle")
 		{
-			if (!(ss >> angle))
-				LOG("SPAWNER: Invalid property with name \"%s\"", prop.first.c_str());
+			setFloat(angle);
 		}
 		else
 			LOG("SPAWNER: Invalid property name \"%s\"", prop.first.c_str());
 	}
 }
 
-void Spawner::shoot(GameObject* ball)
+void Spawner::shoot(GameObject* ballObject)
 {
+	checkNullAndBreak(gameObject);
+	checkNullAndBreak(gameObject->transform);
+	checkNullAndBreak(ballObject);
+	checkNullAndBreak(ballObject->transform);
+
 	Vector3 direction = Vector3::ZERO - gameObject->transform->getPosition();
 
 	double rand = random(-angle, angle);
 	direction.rotateAroundAxis(Vector3::UP, rand);
-
 	direction.y = 0;
 
 	gameObject->transform->resetOrientation();
 	gameObject->transform->setDirection(direction.normalized());
+	ballObject->transform->setPosition(gameObject->transform->getPosition() + direction.normalized());
 
-	if (ball != nullptr)
-	{
-		ball->transform->setPosition(gameObject->transform->getPosition() + direction.normalized());
-		ball->getComponent<Ball>()->setVelocity(velocity);
-		ball->getComponent<Ball>()->setTargetVelocity(velocity);
+	Ball* ball = ballObject->getComponent<Ball>();
+	Trail* trail = ballObject->getComponent<Trail>();
+	RigidBody* rigidBody = ballObject->getComponent<RigidBody>();
 
-		ball->getComponent<RigidBody>()->setLinearVelocity(direction.normalized() * velocity);
-
-		if (soundEmitter != nullptr) soundEmitter->playSound("Ball_Launch");
+	if (notNull(ball)) {
+		ball->setVelocity(velocity);
+		ball->setTargetVelocity(velocity);
 	}
+
+	if (notNull(rigidBody))
+		rigidBody->setLinearVelocity(direction.normalized() * velocity);
+
+	if (notNull(trail)) {
+		trail->start();
+		trail->setColour({ 1.0,1.0,1.0 }, 0.7);
+	}
+
+	if (notNull(particleManager)) particleManager->playParticles(1);
+	if (notNull(soundEmitter)) soundEmitter->playSound("Ball_Launch");
+
 }

@@ -12,8 +12,6 @@
 
 const int MAX_VALUE = 100;
 
-class InterfaceSystem;
-class InputSystem;
 class RenderSystem;
 class SoundSystem;
 class WindowManager;
@@ -21,8 +19,6 @@ class WindowManager;
 class OptionsMenu : public Menu
 {
 protected:
-	InterfaceSystem* interfaceSystem;
-	InputSystem* inputSystem;
 	RenderSystem* renderSystem;
 	SoundSystem* soundSystem;
 	WindowManager* windowManager;
@@ -53,7 +49,7 @@ protected:
 
 	std::vector<std::string> resolutionNames;
 	std::vector<std::string> screenNames;
-	std::vector<std::pair<int, int>> resolutions;
+	std::vector<std::pair<unsigned int, unsigned int>> resolutions;
 
 protected:
 	bool backButtonClick();
@@ -73,6 +69,7 @@ public:
 	OptionsMenu(GameObject* gameObject);
 	virtual ~OptionsMenu();
 
+protected:
 	virtual void start();
 	virtual void update(float deltaTime);
 };

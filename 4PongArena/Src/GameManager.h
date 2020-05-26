@@ -3,9 +3,22 @@
 #define GAME_MANAGER_H
 
 #include <UserComponent.h>
+#include <queue>
+
 #include "Score.h"
 
 class SoundEmitter;
+
+typedef std::pair<int, int> ii;
+
+class Less
+{
+public:
+	bool operator()(const ii& a, const ii& b)
+	{
+		return a.second < b.second;
+	}
+};
 
 class GameManager : public UserComponent
 {
@@ -15,13 +28,13 @@ private:
 	SoundEmitter* soundEmitter;
 	Score scores;
 
-	std::vector<int> playerRanking;
 	std::vector<int> playerIndexes;
+	std::vector<int> playerRanking;
+	std::priority_queue<ii, std::vector<ii>, Less> ranking;
 
 	std::vector<Vector3> playerColours;
 	std::vector<GameObject*> paddles;
 
-	int playersAlive;
 	int initialPlayers;
 	int winner;
 
@@ -40,7 +53,15 @@ private:
 	int levelObstacles;
 	int levelForces;
 
+	float initialBrightness;
+	float initialSoundVolume;
+	float initialMusicVolume;
+
 	std::string song;
+	std::string songName;
+
+protected:
+	virtual void start();
 
 public:
 	GameManager();
@@ -49,22 +70,21 @@ public:
 
 	static GameManager* GetInstance();
 
-	virtual void start();
-
 	Score* getScore();
-
-	void initPlayerRanking(int tam);
-	void setPlayerRanking(int index, int rank);
-	int getPlayerRanking(int index) const;
 
 	void setPlayerIndexes(std::vector<int>& playerIndexes);
 	std::vector<int>& getPlayerIndexes();
 
-	std::vector<Vector3>& getPlayerColours();
-	std::vector<GameObject*>& getPaddles();
+	void setPlayerRanking(int index, int rank);
+	int getPlayerRanking(int index) const;
 
-	void setPlayersAlive(int players);
-	int getPlayersAlive() const;
+	std::priority_queue<ii, std::vector<ii>, Less>& getRanking();
+	void emptyRanking();
+
+	std::vector<Vector3>& getPlayerColours();
+
+	std::vector<GameObject*>& getPaddles();
+	void emptyPaddles();
 
 	void setInitialPlayers(int players);
 	int getInitialPlayers() const;
@@ -99,6 +119,9 @@ public:
 	void setSong(std::string name);
 	std::string getSong() const;
 
+	void setSongName(std::string name);
+	std::string getSongName() const;
+
 	void setGameEnded(bool end);
 	bool isGameEnded();
 
@@ -112,6 +135,10 @@ public:
 
 	void setMenuMusic(bool value);
 	bool isMenuMusicPlaying() const;
+
+	float getInitialBrightness() const;
+	float getInitialSoundVolume() const;
+	float getInitialMusicVolume() const;
 };
 
 #endif

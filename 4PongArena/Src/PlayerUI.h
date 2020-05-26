@@ -26,6 +26,7 @@ public:
 	PlayerUI(GameObject* gameObject);
 	virtual ~PlayerUI();
 
+protected:
 	virtual void start();
 	virtual void update(float deltaTime);
 };
