@@ -1,0 +1,61 @@
+{
+    "ObjectType": "GAMEOBJECT",
+    "ObjectName": "Ball",
+    "Tag": "ball",
+    "Components":
+    [
+        {
+            "ComponentName": "Transform",
+            "ComponentProperties": [
+                ["scale", "0.25 0.25 0.25"]
+            ]
+        },
+        {
+            "ComponentName": "MeshRenderer",
+            "ComponentProperties": [
+                ["mesh", "ball Sphere.mesh"],
+                ["material", "ball Ball"]
+            ]
+        },
+        {
+            "ComponentName": "RigidBody",
+            "ComponentProperties": [
+                ["shape", "Sphere"],
+                ["mass", "0.000001"],
+                ["friction", "0"],
+                ["restitution", "1"],
+                ["damping", "0"],
+                ["angularDamping", "0"],
+                ["scale", "1 1 1"],
+                ["movementConstraints", "1 0 1"]
+            ]
+        },
+        {
+            "ComponentName": "Trail",
+            "ComponentProperties":[
+                [ "trail", "node"],
+                ["length", "10"],
+                ["max", "40"],
+                ["colour", "1.0 1.0 1.0"],
+                ["alpha","0.8"],
+                ["width", "0.2"],
+                ["widthChange", "0.8"],
+                ["colourChange", "2.0 2.0 2.0"],
+                ["alphaChange", "2.0"],
+                ["start", "false"]
+            ]
+        },
+		{
+            "ComponentName": "SoundEmitter"
+        },
+        {
+            "ComponentName": "ParticleManager",
+             "ComponentProperties": [
+                ["particleName", "Crash"]
+            ]
+        },
+        {
+            "ComponentName" : "Ball"
+        }
+    ]
+}

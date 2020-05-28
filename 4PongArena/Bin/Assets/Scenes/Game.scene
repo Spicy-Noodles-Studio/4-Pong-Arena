@@ -1,0 +1,161 @@
+{
+    "SceneName": "Game",
+    "SceneObjects": [
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "CursorGame",
+            "Tag": "cursorGame",
+            "BlueprintPath": "CursorGame"
+        },
+        {
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "Game",
+            "Tag": "game",
+            "Components": 
+            [
+				{
+					"ComponentName": "Transform",
+					"ComponentProperties": [
+						["scale", "0.25 0.25 0.25"]
+					]
+				},
+				{
+					"ComponentName": "SoundEmitter"
+				},
+                {
+                    "ComponentName" : "Game"
+                }
+            ]
+        },
+        {
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "PauseMenu",
+            "Tag": "pauseMenu",
+            "Components": 
+            [
+                {
+                    "ComponentName" : "PauseMenu"
+                }
+            ]
+        },
+        {
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "OptionsMenu",
+            "Tag": "optionsMenu",
+            "Components": 
+            [
+                {
+                    "ComponentName" : "OptionsMenuScreen"
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "MainCamera",
+            "Tag": "mainCamera",
+            "BlueprintPath": "Camera",
+            "Components":
+            [
+                {
+                    "ComponentName": "UILayout",
+                    "ComponentProperties": [
+                        ["layout" , "Game.layout"],
+                        ["event" , "ResumeButton resumeButtonClick | OptionsButton pauseOptionsButtonClick | ExitButton pauseExitButtonClick"]
+                    ]
+                }
+            ],
+            "Children": 
+            [
+                {
+                    "ObjectType": "GAMEOBJECT",
+                    "ObjectName": "OptionsMenuScreen",
+                    "Tag": "optionsMenuScreen",
+                    "Components":
+                    [
+                        {
+                            "ComponentName": "UILayout",
+                            "ComponentProperties": 
+                            [
+                                ["layout" , "OptionsMenu.layout"],
+                                ["event" ,  "-ResolutionButton -resolutionButtonClick | +ResolutionButton +resolutionButtonClick | -FullscreenButton -fullscreenButtonClick | +FullscreenButton +fullscreenButtonClick | ApplyButton applyButtonClick | RestoreButton restoreButtonClick | BackButton backToMenuButtonClick | BrightnessScroll brightnessScrollChange | SoundScroll soundScrollChange | MusicScroll musicScrollChange"]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+		{
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "Countdown",
+            "Tag": "countdown",
+            "Components": 
+            [
+                {
+                    "ComponentName" : "Countdown",
+					"ComponentProperties": [
+                        ["time" , "3"]
+                    ]
+                }
+            ]
+        },
+        {
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "SpawnerManager",
+            "Tag": "spawnerManager",
+            "Components": 
+            [
+                {
+                    "ComponentName" : "SpawnerManager",
+                    "ComponentProperties": [
+                        ["generationTime", "3"],
+                        ["minimumTime", "1"]
+                    ]
+                }
+            ]
+        },
+        {
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "LevelRender",
+            "Tag": "levelRender",
+            "Components":
+            [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "0 0 0"],
+                        ["scale", "1 1 1"],
+                        ["rotation", "0 0 0"]
+                    ]
+                },
+                {
+                    "ComponentName": "MeshRenderer"
+                }
+            ]
+        },
+        {
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "LevelCollider",
+            "Tag": "ground",
+            "Components":
+            [
+                {
+                    "ComponentName": "Transform",
+                    "ComponentProperties": [
+                        ["position", "0 0 0"],
+                        ["scale", "1 1 1"]
+                    ]
+                },
+                {
+                    "ComponentName": "MeshRenderer"
+                },
+                {
+                    "ComponentName": "Strider",
+                    "ComponentProperties": [
+                        ["collisionGroup", "ColGroup1"],
+                        ["collidesWith", "Default"]
+                    ]
+                }
+            ]
+        }
+    ]
+}

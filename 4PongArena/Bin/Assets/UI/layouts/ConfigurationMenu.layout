@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="DefaultWindow" name="ConfigurationMenu" >
+        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        # BACK BUTTON
+        <Window type="TaharezLook/Button" name="BackButton" >
+            <Property name="Area" value="{{0.05,0},{0.05,0},{0.22,0},{0.15,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Text" value="Back" />
+			<Property name="UpButton" value="BackButton" />
+			<Property name="DownButton" value="-LevelBaseButton" />
+			<Property name="LeftButton" value="BackButton" />
+			<Property name="RightButton" value="RandomizeButton" />
+            <Property name="Font" value="Sans" />
+        </Window>
+        # RANDOMIZE BUTTON
+        <Window type="TaharezLook/Button" name="RandomizeButton" >
+            <Property name="Area" value="{{0.4,0},{0.07,0},{0.6,0},{0.12,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Text" value="Randomize" />
+            <Property name="UpButton" value="RandomizeButton" />
+            <Property name="DownButton" value="PreviewSongButton" />
+            <Property name="LeftButton" value="BackButton" />
+            <Property name="RightButton" value="SettingsButton" />
+            <Property name="Font" value="Sans" />
+        </Window>
+        # SETTINGS BUTTON
+        <Window type="TaharezLook/Button" name="SettingsButton" >
+            <Property name="Area" value="{{0.78,0},{0.05,0},{0.95,0},{0.15,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Text" value="Custom Settings" />
+			<Property name="UpButton" value="SettingsButton" />
+			<Property name="DownButton" value="+LevelBaseButton" />
+			<Property name="LeftButton" value="RandomizeButton" />
+			<Property name="RightButton" value="SettingsButton" />
+            <Property name="Font" value="Sans" />
+        </Window>
+        # START BUTTON
+        <Window type="TaharezLook/Button" name="StartButton" >
+            <Property name="Area" value="{{0.2,0},{0.55,0},{0.8,0},{0.65,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Visible" value="False" />
+            <Property name="Text" value="START!" />
+			<Property name="UpButton" value="PreviewSongButton" />
+			<Property name="DownButton" value="StartButton" />
+			<Property name="LeftButton" value="-SongButton" />
+			<Property name="RightButton" value="+SongButton" />
+            <Property name="Font" value="Sans" />
+        </Window>
+        # IA CONTROLLER INFO 1
+        <Window type="TaharezLook/StaticImage" name="IAControllerInfo1" >
+            <Property name="Area" value="{{0.84,0},{0.54,0},{0.98,0},{0.6,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Window type="TaharezLook/StaticText" name="IAText1" >
+                <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Disabled" value="true" />
+                <Property name="Text" value="Press RB +IA" />
+                <Property name="Font" value="Sans" />
+                <Property name="HorzFormatting" value="CentreAligned" />
+            </Window>
+        </Window>
+        # IA CONTROLLER INFO 2
+        <Window type="TaharezLook/StaticImage" name="IAControllerInfo2" >
+            <Property name="Area" value="{{0.84,0},{0.6,0},{0.98,0},{0.66,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Window type="TaharezLook/StaticText" name="IAText2" >
+                <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Disabled" value="true" />
+                <Property name="Text" value="Press LB -IA" />
+                <Property name="Font" value="Sans" />
+                <Property name="HorzFormatting" value="CentreAligned" />
+            </Window>
+        </Window>
+        # -LEVELBASE BUTTON
+        <Window type="TaharezLook/Button" name="-LevelBaseButton" >
+            <Property name="Area" value="{{0.15,0},{0.2,0},{0.2,0},{0.25,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Text" value="{" />
+            <Property name="UpButton" value="BackButton" />
+            <Property name="DownButton" value="-LevelObstaclesButton" />
+            <Property name="LeftButton" value="-LevelBaseButton" />
+            <Property name="RightButton" value="+LevelBaseButton" />
+            <Property name="Font" value="Sans" />
+        </Window>
+        # +LEVELBASE BUTTON
+        <Window type="TaharezLook/Button" name="+LevelBaseButton" >
+            <Property name="Area" value="{{0.8,0},{0.2,0},{0.85,0},{0.25,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Text" value="}" />
+            <Property name="UpButton" value="SettingsButton" />
+            <Property name="DownButton" value="+LevelObstaclesButton" />
+            <Property name="LeftButton" value="-LevelBaseButton" />
+            <Property name="RightButton" value="+LevelBaseButton" />
+            <Property name="Font" value="Sans" />
+        </Window>
+        # -LEVELOBSTACLES BUTTON
+        <Window type="TaharezLook/Button" name="-LevelObstaclesButton" >
+            <Property name="Area" value="{{0.15,0},{0.27,0},{0.2,0},{0.32,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Text" value="{" />
+            <Property name="UpButton" value="-LevelBaseButton" />
+            <Property name="DownButton" value="-LevelForcesButton" />
+            <Property name="LeftButton" value="-LevelObstaclesButton" />
+            <Property name="RightButton" value="+LevelObstaclesButton" />
+            <Property name="Font" value="Sans" />
+        </Window>
+        # +LEVELOBSTACLES BUTTON
+        <Window type="TaharezLook/Button" name="+LevelObstaclesButton" >
+            <Property name="Area" value="{{0.8,0},{0.27,0},{0.85,0},{0.32,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Text" value="}" />
+            <Property name="UpButton" value="+LevelBaseButton" />
+            <Property name="DownButton" value="+LevelForcesButton" />
+            <Property name="LeftButton" value="-LevelObstaclesButton" />
+            <Property name="RightButton" value="+LevelObstaclesButton" />
+            <Property name="Font" value="Sans" />
+        </Window>
+        # -LEVELFORCES BUTTON
+        <Window type="TaharezLook/Button" name="-LevelForcesButton" >
+            <Property name="Area" value="{{0.15,0},{0.34,0},{0.2,0},{0.39,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Text" value="{" />
+            <Property name="UpButton" value="-LevelObstaclesButton" />
+            <Property name="DownButton" value="-SongButton" />
+            <Property name="LeftButton" value="-LevelForcesButton" />
+            <Property name="RightButton" value="+LevelForcesButton" />
+            <Property name="Font" value="Sans" />
+        </Window>
+        # +LEVELFORCES BUTTON
+        <Window type="TaharezLook/Button" name="+LevelForcesButton" >
+            <Property name="Area" value="{{0.8,0},{0.34,0},{0.85,0},{0.39,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Text" value="}" />
+            <Property name="UpButton" value="+LevelObstaclesButton" />
+            <Property name="DownButton" value="+SongButton" />
+            <Property name="LeftButton" value="-LevelForcesButton" />
+            <Property name="RightButton" value="+LevelForcesButton" />
+            <Property name="Font" value="Sans" />
+        </Window>
+        # BASE IMAGE
+        <Window type="TaharezLook/StaticImage" name="BaseImage" >
+            <Property name="Area" value="{{0.35,0},{0.15,0},{0.65,0},{0.45,0}}" />
+            <Property name="Disabled" value="true" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Image" value="base1"/>
+            <Property name="FrameEnabled" Value="False" />
+            <Property name="BackgroundEnabled" Value="False" />
+        </Window>
+        # OBSTACLES IMAGE
+        <Window type="TaharezLook/StaticImage" name="ObstaclesImage" >
+            <Property name="Area" value="{{0.35,0},{0.15,0},{0.65,0},{0.45,0}}" />
+            <Property name="Disabled" value="true" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Image" value=""/>
+            <Property name="FrameEnabled" Value="False" />
+            <Property name="BackgroundEnabled" Value="False" />
+            <Property name="Visible" Value="False" />
+        </Window>
+        # FORCEFIELDS IMAGE
+        <Window type="TaharezLook/StaticImage" name="ForcesImage" >
+            <Property name="Area" value="{{0.35,0},{0.15,0},{0.65,0},{0.45,0}}" />
+            <Property name="Disabled" value="true" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Image" value=""/>
+            <Property name="FrameEnabled" Value="False" />
+            <Property name="BackgroundEnabled" Value="False" />
+            <Property name="Visible" Value="False" />
+        </Window>
+        # -SONG BUTTON
+        <Window type="TaharezLook/Button" name="-SongButton" >
+            <Property name="Area" value="{{0.3,0},{0.47,0},{0.35,0},{0.52,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Text" value="{" />
+            <Property name="UpButton" value="-LevelForcesButton" />
+            <Property name="DownButton" value="StartButton" />
+            <Property name="LeftButton" value="-SongButton" />
+            <Property name="RightButton" value="PreviewSongButton" />
+            <Property name="Font" value="Sans" />
+        </Window>
+        # SONG PREVIEW BUTTON
+        <Window type="TaharezLook/Button" name="PreviewSongButton" >
+            <Property name="Area" value="{{0.4,0},{0.47,0},{0.6,0},{0.52,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Text" value="Play" />
+            <Property name="UpButton" value="RandomizeButton" />
+            <Property name="DownButton" value="StartButton" />
+            <Property name="LeftButton" value="-SongButton" />
+            <Property name="RightButton" value="+SongButton" />
+            <Property name="Font" value="Sans" />
+        </Window>
+        # +SONG BUTTON
+        <Window type="TaharezLook/Button" name="+SongButton" >
+            <Property name="Area" value="{{0.65,0},{0.47,0},{0.7,0},{0.52,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Text" value="}" />
+            <Property name="UpButton" value="+LevelForcesButton" />
+            <Property name="DownButton" value="StartButton" />
+            <Property name="LeftButton" value="PreviewSongButton" />
+            <Property name="RightButton" value="+SongButton" />
+            <Property name="Font" value="Sans" />
+        </Window>
+        # SLOT 1
+        <Window type="TaharezLook/StaticImage" name="Slot1" >
+            <Property name="Area" value="{{0.1,0},{0.7,0},{0.3,0},{0.95,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Window type="TaharezLook/StaticText" name="Slot1Text" >
+                <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Disabled" value="true" />
+                <Property name="Text" value="Press SPACE or X" />
+                <Property name="Font" value="Sans" />
+            </Window>
+            <Window type="TaharezLook/Button" name="Slot1Button" >
+                <Property name="Area" value="{{0.25,0},{0.7,0},{0.75,0},{0.9,0}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Text" value="Insert IA" />
+                <Property name="UpButton" value="Slot1Button" />
+                <Property name="DownButton" value="Slot1Button" />
+                <Property name="LeftButton" value="Slot1Button" />
+                <Property name="RightButton" value="Slot1Button" />
+                <Property name="Font" value="Sans" />
+            </Window>
+        </Window>
+        # SLOT 2
+        <Window type="TaharezLook/StaticImage" name="Slot2" >
+            <Property name="Area" value="{{0.3,0},{0.7,0},{0.5,0},{0.95,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Window type="TaharezLook/StaticText" name="Slot2Text" >
+                <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Text" value="Press SPACE or X" />
+                <Property name="Disabled" value="true" />
+                <Property name="Font" value="Sans" />
+            </Window>
+            <Window type="TaharezLook/Button" name="Slot2Button" >
+                <Property name="Area" value="{{0.25,0},{0.7,0},{0.75,0},{0.9,0}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Text" value="Insert IA" />
+                <Property name="UpButton" value="Slot2Button" />
+                <Property name="DownButton" value="Slot2Button" />
+                <Property name="LeftButton" value="Slot2Button" />
+                <Property name="RightButton" value="Slot2Button" />
+                <Property name="Font" value="Sans" />
+            </Window>
+        </Window>
+        # SLOT 3
+        <Window type="TaharezLook/StaticImage" name="Slot3" >
+            <Property name="Area" value="{{0.5,0},{0.7,0},{0.7,0},{0.95,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Window type="TaharezLook/StaticText" name="Slot3Text" >
+                <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Disabled" value="true" />
+                <Property name="Text" value="Press SPACE or X" />
+                <Property name="Font" value="Sans" />
+            </Window>
+            <Window type="TaharezLook/Button" name="Slot3Button" >
+                <Property name="Area" value="{{0.25,0},{0.7,0},{0.75,0},{0.9,0}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Text" value="Insert IA" />
+                <Property name="UpButton" value="Slot3Button" />
+                <Property name="DownButton" value="Slot3Button" />
+                <Property name="LeftButton" value="Slot3Button" />
+                <Property name="RightButton" value="Slot3Button" />
+                <Property name="Font" value="Sans" />
+            </Window>
+        </Window>
+        # SLOT 4
+        <Window type="TaharezLook/StaticImage" name="Slot4" >
+            <Property name="Area" value="{{0.7,0},{0.7,0},{0.9,0},{0.95,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Window type="TaharezLook/StaticText" name="Slot4Text" >
+                <Property name="Area" value="{{0.1,0},{0.1,0},{0.9,0},{0.9,0}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Disabled" value="true" />
+                <Property name="Text" value="Press SPACE or X" />
+                <Property name="Font" value="Sans" />
+            </Window>
+            <Window type="TaharezLook/Button" name="Slot4Button" >
+                <Property name="Area" value="{{0.25,0},{0.7,0},{0.75,0},{0.9,0}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Text" value="Insert IA" />
+                <Property name="UpButton" value="Slot4Button" />
+                <Property name="DownButton" value="Slot4Button" />
+                <Property name="LeftButton" value="Slot4Button" />
+                <Property name="RightButton" value="Slot4Button" />
+                <Property name="Font" value="Sans" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

@@ -1,0 +1,43 @@
+{
+    "ObjectType": "GAMEOBJECT",
+    "ObjectName": "Camera",
+    "Tag": "camera",
+    "Components":
+    [
+        {
+            "ComponentName": "Camera",
+            "ComponentProperties": [
+                ["main", "true"]
+            ]
+        },
+        {
+            "ComponentName": "Transform",
+            "ComponentProperties": [
+                ["position", "0 14 -0.5"],
+                ["rotation", "-90 0 0"]
+            ]
+        },
+        {
+            "ComponentName": "Light",
+            "ComponentProperties": [
+                ["type", "Point"],
+                ["colour", "1 1 1"]
+            ]
+        },
+        {
+            "ComponentName": "SoundListener"
+        },
+		{
+            "ComponentName": "SoundEmitter"
+        },
+		{
+            "ComponentName": "CameraEffects",
+			"ComponentProperties": [
+                ["vel" , "0.03"],
+				["minRange" , "-0.05"],
+				["maxRange" , "0.05"],
+                ["duration" , "1000"]
+            ]
+        }
+    ]
+}

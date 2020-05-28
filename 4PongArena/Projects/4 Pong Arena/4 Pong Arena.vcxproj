@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{96D6FBEF-005E-477B-AA4D-76BB0842B942}</ProjectGuid>
+    <RootNamespace>My4PongArena</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>4PongArena</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)Bin\</OutDir>
+    <IntDir>$(SolutionDir)Inter\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
+    <TargetName>$(ProjectName)_d_$(Platform)</TargetName>
+    <LibraryPath>$(SolutionDir)Dependencies\Gaia\MotorGaia\Bin;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)Bin\</OutDir>
+    <IntDir>$(SolutionDir)Inter\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
+    <TargetName>$(ProjectName)_$(Platform)</TargetName>
+    <LibraryPath>$(SolutionDir)Dependencies\Gaia\MotorGaia\Bin;$(LibraryPath)</LibraryPath>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Bin\</OutDir>
+    <IntDir>$(SolutionDir)Inter\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
+    <TargetName>$(ProjectName)_d_$(Platform)</TargetName>
+    <LibraryPath>$(SolutionDir)Dependencies\Gaia\MotorGaia\Bin;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Bin\</OutDir>
+    <IntDir>$(SolutionDir)Inter\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
+    <TargetName>$(ProjectName)_$(Platform)</TargetName>
+    <LibraryPath>$(SolutionDir)Dependencies\Gaia\MotorGaia\Bin;$(LibraryPath)</LibraryPath>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Src\$(ProjectName);$(SolutionDir)Dependencies\Gaia\MotorGaia\Src\Gaia\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\ogre-1.12.5\OgreMain\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\ogre-1.12.5\Components\RTShaderSystem\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\bullet3-2.89\src;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\fmod-2.00.07\build\core\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\json-3.7.3\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\cegui-0.8.7\cegui\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\ogre-1.12.5\Buildx86\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\ogre-1.12.5\Buildx86\Dependencies\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\cegui-0.8.7\Buildx86\cegui\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\cegui-0.8.7\dependencies\Buildx86\dependencies\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;SDL_MAIN_HANDLED;_DEBUG;_CONSOLE;USE_DLL</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>Gaia_d_$(Platform).lib</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Src\$(ProjectName);$(SolutionDir)Dependencies\Gaia\MotorGaia\Src\Gaia\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\ogre-1.12.5\OgreMain\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\ogre-1.12.5\Components\RTShaderSystem\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\bullet3-2.89\src;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\fmod-2.00.07\build\core\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\json-3.7.3\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\cegui-0.8.7\cegui\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\ogre-1.12.5\Build\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\ogre-1.12.5\Build\Dependencies\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\cegui-0.8.7\Build\cegui\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\cegui-0.8.7\dependencies\Build\dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SDL_MAIN_HANDLED;_DEBUG;_CONSOLE;USE_DLL</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>Gaia_d_$(Platform).lib</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Src\$(ProjectName);$(SolutionDir)Dependencies\Gaia\MotorGaia\Src\Gaia\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\ogre-1.12.5\OgreMain\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\ogre-1.12.5\Components\RTShaderSystem\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\bullet3-2.89\src;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\fmod-2.00.07\build\core\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\json-3.7.3\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\cegui-0.8.7\cegui\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\ogre-1.12.5\Buildx86\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\ogre-1.12.5\Buildx86\Dependencies\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\cegui-0.8.7\Buildx86\cegui\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\cegui-0.8.7\dependencies\Buildx86\dependencies\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;SDL_MAIN_HANDLED;NDEBUG;_CONSOLE;USE_DLL</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>Gaia_$(Platform).lib</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Src\$(ProjectName);$(SolutionDir)Dependencies\Gaia\MotorGaia\Src\Gaia\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\ogre-1.12.5\OgreMain\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\ogre-1.12.5\Components\RTShaderSystem\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\bullet3-2.89\src;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\fmod-2.00.07\build\core\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\json-3.7.3\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\cegui-0.8.7\cegui\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\ogre-1.12.5\Build\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\ogre-1.12.5\Build\Dependencies\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\cegui-0.8.7\Build\cegui\include;$(SolutionDir)Dependencies\Gaia\MotorGaia\Dependencies\cegui-0.8.7\dependencies\Build\dependencies\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SDL_MAIN_HANDLED;NDEBUG;_CONSOLE;USE_DLL</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>Gaia_$(Platform).lib</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Src\CameraEffects.cpp" />
+    <ClCompile Include="..\..\Src\Credits.cpp" />
+    <ClCompile Include="..\..\Src\CursorGame.cpp" />
+    <ClCompile Include="..\..\Src\CursorMenu.cpp" />
+    <ClCompile Include="..\..\Src\LogoScreen.cpp" />
+    <ClCompile Include="..\..\Src\Menu.cpp" />
+    <ClCompile Include="..\..\Src\MusicEmitter.cpp" />
+    <ClCompile Include="..\..\Src\OptionsMenuScreen.cpp" />
+    <ClCompile Include="..\..\Src\Countdown.cpp" />
+    <ClCompile Include="..\..\Src\ParticleManager.cpp" />
+    <ClCompile Include="..\..\Src\PlayerIndex.cpp" />
+    <ClCompile Include="..\..\Src\PlayerUI.cpp" />
+    <ClCompile Include="..\..\Src\Score.cpp" />
+    <ClCompile Include="..\..\Src\ScoreMenu.cpp" />
+    <ClCompile Include="..\..\Src\Spawner.cpp" />
+    <ClCompile Include="..\..\Src\ConfigurationMenu.cpp" />
+    <ClCompile Include="..\..\Src\Game.cpp" />
+    <ClCompile Include="..\..\Src\Ball.cpp" />
+    <ClCompile Include="..\..\Src\ForceField.cpp" />
+    <ClCompile Include="..\..\Src\GameManager.cpp" />
+    <ClCompile Include="..\..\Src\Goal.cpp" />
+    <ClCompile Include="..\..\Src\GoalKeeper.cpp" />
+    <ClCompile Include="..\..\Src\Health.cpp" />
+    <ClCompile Include="..\..\Src\IAPaddle.cpp" />
+    <ClCompile Include="..\..\Src\main.cpp" />
+    <ClCompile Include="..\..\Src\Movement.cpp" />
+    <ClCompile Include="..\..\Src\PauseMenu.cpp" />
+    <ClCompile Include="..\..\Src\MainMenu.cpp" />
+    <ClCompile Include="..\..\Src\OptionsMenu.cpp" />
+    <ClCompile Include="..\..\Src\PlayerController.cpp" />
+    <ClCompile Include="..\..\Src\Death.cpp" />
+    <ClCompile Include="..\..\Src\SpawnerManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Src\CameraEffects.h" />
+    <ClInclude Include="..\..\Src\Credits.h" />
+    <ClInclude Include="..\..\Src\CursorGame.h" />
+    <ClInclude Include="..\..\Src\CursorMenu.h" />
+    <ClInclude Include="..\..\Src\LogoScreen.h" />
+    <ClInclude Include="..\..\Src\Menu.h" />
+    <ClInclude Include="..\..\Src\MusicEmitter.h" />
+    <ClInclude Include="..\..\Src\OptionsMenuScreen.h" />
+    <ClInclude Include="..\..\Src\Countdown.h" />
+    <ClInclude Include="..\..\Src\ParticleManager.h" />
+    <ClInclude Include="..\..\Src\PlayerIndex.h" />
+    <ClInclude Include="..\..\Src\PlayerUI.h" />
+    <ClInclude Include="..\..\Src\Score.h" />
+    <ClInclude Include="..\..\Src\ScoreMenu.h" />
+    <ClInclude Include="..\..\Src\Spawner.h" />
+    <ClInclude Include="..\..\Src\ConfigurationMenu.h" />
+    <ClInclude Include="..\..\Src\Ball.h" />
+    <ClInclude Include="..\..\Src\ForceField.h" />
+    <ClInclude Include="..\..\Src\Game.h" />
+    <ClInclude Include="..\..\Src\GameManager.h" />
+    <ClInclude Include="..\..\Src\Goal.h" />
+    <ClInclude Include="..\..\Src\GoalKeeper.h" />
+    <ClInclude Include="..\..\Src\Health.h" />
+    <ClInclude Include="..\..\Src\PauseMenu.h" />
+    <ClInclude Include="..\..\Src\MainMenu.h" />
+    <ClInclude Include="..\..\Src\OptionsMenu.h" />
+    <ClInclude Include="..\..\Src\IAPaddle.h" />
+    <ClInclude Include="..\..\Src\Movement.h" />
+    <ClInclude Include="..\..\Src\PlayerController.h" />
+    <ClInclude Include="..\..\Src\Death.h" />
+    <ClInclude Include="..\..\Src\SpawnerManager.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

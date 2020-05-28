@@ -1,0 +1,38 @@
+{
+    "SceneName": "OptionsMenu",
+    "SceneObjects": [
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "CursorMenu",
+            "Tag": "cursorMenu",
+            "BlueprintPath": "CursorMenu"
+        },
+        {
+            "ObjectType": "GAMEOBJECT",
+            "ObjectName": "OptionsMenu",
+            "Tag": "optionsMenu",
+            "Components":
+            [
+                {
+                    "ComponentName" : "OptionsMenu"
+                }
+            ]
+        },
+        {
+            "ObjectType": "BLUEPRINT",
+            "ObjectName": "MainCamera",
+            "Tag": "mainCamera",
+            "BlueprintPath": "Camera",
+            "Components":
+            [
+                {
+                    "ComponentName": "UILayout",
+                    "ComponentProperties": [
+                        ["layout" , "OptionsMenu.layout"],
+                        ["event" ,  "-ResolutionButton -resolutionButtonClick | +ResolutionButton +resolutionButtonClick | -FullscreenButton -fullscreenButtonClick | +FullscreenButton +fullscreenButtonClick | ApplyButton applyButtonClick | RestoreButton restoreButtonClick | BackButton backButtonClick | BrightnessScroll brightnessScrollChange | SoundScroll soundScrollChange | MusicScroll musicScrollChange"]
+                    ]
+                }
+            ]
+        }
+    ]
+}
